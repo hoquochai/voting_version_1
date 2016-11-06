@@ -97,6 +97,14 @@ class LinkController extends Controller
         $isHideResult = false;
         $poll = $link->poll;
 
+        $requiredPassword = null;
+        $passwordSetting = $poll->settings->whereIn('key', [config('settings.setting.set_password')])->first();
+
+        if ($passwordSetting) {
+            $requiredPassword = $passwordSetting->value;
+        }
+
+
         if ($poll->settings) {
             foreach ($poll->settings as $setting) {
                 if ($setting->key == config('settings.setting.set_limit')) {
@@ -113,8 +121,6 @@ class LinkController extends Controller
         }
 
         if (! $link->link_admin) {
-
-
             $isRequiredEmail = $poll->settings->whereIn('key', [config('settings.setting.required_email')])->count() != config('settings.default_value');
             $isHideResult = $poll->settings->whereIn('key', [config('settings.setting.hide_result')])->count() != config('settings.default_value');
             $voteIds = $this->pollRepository->getVoteIds($poll->id);
@@ -198,6 +204,8 @@ class LinkController extends Controller
                     $tokenLinkUser = $link->token;
                 }
             }
+
+            $isRequiredEmail = $poll->settings->whereIn('key', [config('settings.setting.required_email')])->count() != config('settings.default_value');
 
             return view('user.poll.manage_poll', compact('poll', 'tokenLinkUser', 'tokenLinkAdmin', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted'));
         }
