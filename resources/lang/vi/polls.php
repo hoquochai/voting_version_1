@@ -92,6 +92,7 @@ return [
         'email_participant' => 'Nhập email người tham gia...',
         'comment' => 'Nhập nội dung bình luận...',
         'enter_name' => 'Nhập tên của bạn...',
+        'token_link' => 'Vui lòng nhập token...',
     ],
     'button' => [
         'search_poll' => 'TÌM KIẾM',
@@ -283,7 +284,7 @@ return [
     'administration' => 'Quản lý',
     'vote_empty' => 'Hiện tại không có bầu chọn nào',
     'confirm_delete_vote' => 'Bạn có muốn xóa bầu chọn này không?',
-    'email_exist' => 'Email này đã tồn tại trong hệ thống, bạn cần login để bàu chọn hoặc nhập một email khác',
+    'email_exist' => 'Email này đã tồn tại, bạn cần đăng nhập với email này hoặc nhập một email khác  ',
     'remove_vote_successfully' => 'Bạn đã xóa bầu chọn thành công',
     'vote_successfully' => 'Bạn đã bầu chọn thành công',
     'export_pdf' => 'Xuất file PDF',
@@ -297,4 +298,5 @@ return [
     'create_duplicate_poll' => 'Tạo poll từ poll này',
     'not_activity' => 'Không có hoạt động nào',
     'confirm_delete_all_participant' => 'Bạn có chắc chắn muốn xóa tất cả các bầu chọn của poll này không?',
+    'login_here' => ' Đăng nhập',
 ];

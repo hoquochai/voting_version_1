@@ -92,6 +92,7 @@ return [
         'email_participant' => 'Enter email of participant...',
         'comment' => 'Enter a comment...',
         'enter_name' => 'Enter your name...',
+        'token_link' => 'Please enter a token...',
     ],
     'button' => [
         'search_poll' => 'SEARCH NOW',
@@ -256,7 +257,7 @@ return [
     'administration' => 'Administration',
     'vote_empty' => 'Vote empty, You can vote this poll',
     'confirm_delete_vote' => 'Are you sure delete this vote',
-    'email_exist' => 'Email exist, You need to login to vote or chose another email',
+    'email_exist' => 'Email exist, You need to login to vote or chose another email  ',
     'remove_vote_successfully' => 'You deleted vote successfully',
     'vote_successfully' => 'You voted this poll successfully',
     'export_pdf' => 'Export poll to PDF',
@@ -267,6 +268,8 @@ return [
     'delete_all_participants_successfully' => 'Delete all participants successfully',
     'create_duplicate_poll' => 'Create duplicate poll',
     'enter_password' => 'Enter password to view this poll',
+    'incorrect_password' => 'Password incorrect',
     'not_activity' => 'Not activity',
     'confirm_delete_all_participant' => 'Are you sure delete all participant of this poll?',
+    'login_here' => ' Login here',
 ];

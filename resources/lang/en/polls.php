@@ -92,6 +92,7 @@ return [
         'email_participant' => 'Enter email of participant...',
         'comment' => 'Enter a comment...',
         'enter_name' => 'Enter your name...',
+        'token_link' => 'Please enter a token...',
     ],
     'button' => [
         'search_poll' => 'SEARCH NOW',
@@ -294,9 +295,10 @@ return [
     'link_invalid' => 'Link invalid',
     'edit_link_successfully' => 'Edit successfully',
     'delete_all_participants_successfully' => 'Delete all participants successfully',
-    'incorrect_password' => 'Password incorrect, Please enter another password to view this poll',
+    'incorrect_password' => 'Password incorrect',
     'enter_password' => 'Enter password to view this poll',
     'create_duplicate_poll' => 'Create duplicate poll',
     'not_activity' => 'Not activity',
     'confirm_delete_all_participant' => 'Are you sure delete all participant of this poll?',
+    'login_here' => ' Login here',
 ];

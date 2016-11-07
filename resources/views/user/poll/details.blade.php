@@ -9,6 +9,7 @@
                 <div class="hide-password" data-link-password="{{ url('user/set-password') }}" data-poll-id="{{ $poll->id }}" data-required-password="{{ $requiredPassword }}" data-message-required-password="{{ trans('polls.incorrect_password') }}"></div>
                 @if ($requiredPassword)
                     <div class="modal-dialog-password">
+                        @include('message')
                         <div class="modal-content-password">
                             <div class="modal-header-password">
                                 <center>
@@ -21,12 +22,11 @@
                                     <div class="form-group">
                                         <div class="col-md-8 col-md-offset-3">
                                             <label class="col-md-2 control-label" for="labelInput">{{ trans('label.password') }}</label>
+                                            <label class="label label-danger message-required-password message-validate"></label>
                                             <div class="col-md-6">
                                                 {{ Form::text('password', null, ['class' => 'form-control password']) }}
+                                                <p></p>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12 col-md-offset-4">
-                                            <p class="message-required-password message-validate"></p>
                                         </div>
                                     </div>
                                 </fieldset>

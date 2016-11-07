@@ -62,7 +62,7 @@ class VoteController extends Controller
             } else {
                 if ($inputs['input'] != $currentUser->email) {
                     if ($this->userRepository->checkEmailExist($inputs['input'])) {
-                        return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_exist'));
+                        return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_exist') . "<br><a href='" .  url('login') . "'>" . trans('polls.login_here') . '</a>');
                     }
 
                     $participantInformation['email'] = $inputs['input'];
@@ -120,7 +120,7 @@ class VoteController extends Controller
 
             if ($inputs['isRequiredEmail']) {
                 if ($this->userRepository->checkEmailExist($inputs['input'])) {
-                    return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_exist'));
+                    return redirect()->to($poll->getUserLink())->with('message', trans('polls.email_exist') . "<br><a href='" .  url('login') . "'>" . trans('polls.login_here') . '</a>');
                 }
 
                 $participantInformation['email'] = $inputs['input'];
