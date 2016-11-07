@@ -137,7 +137,7 @@
                                                 Form::text('chatwork_id', (auth()->user()) ? auth()->user()->chatwork_id : null, [
                                                     'class' => 'form-control',
                                                     'id' => 'chatwork',
-                                                    'placeholder' => trans('polchatwork_id s.placeholder.chatwork'),
+                                                    'placeholder' => trans('polls.placeholder.chatwork'),
                                                 ])
                                             }}
                                         </div>

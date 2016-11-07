@@ -8,7 +8,6 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    @yield('meta')
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
@@ -143,8 +142,6 @@
     {!! Html::script('js/multipleLanguage.js') !!}
 
     {!! Html::script('js/requiredPassword.js') !!}
-
-    <!-- {!! Html::script('js/admin/master.js') !!} -->
 
     {!! Html::script('js/layout/master.js') !!}
 
