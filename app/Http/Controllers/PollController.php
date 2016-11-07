@@ -98,7 +98,7 @@ class PollController extends Controller
      * @param  PollRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PollRequest $request)
     {
         $input = $request->only(
             'title', 'location', 'description', 'name', 'email', 'chatwork_id', 'type',

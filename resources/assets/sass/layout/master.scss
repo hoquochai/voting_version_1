@@ -1,10 +1,83 @@
+
+/*-------------------------------------------/
+/               LAYOUT.APP                  /
+/-------------------------------------------*/
+
 body {
   background: url("http://www.ibox-security.co.uk/wp-content/uploads/2013/06/Website-Design-Background-1.jpg") repeat;
+}
+
+.navbar-app {
+  border-radius: 0 !important;
+}
+
+.char-app {
+  font-size: 50px;
+  font-family: serif;
 }
 
 .create-poll {
   padding: 15px;
   border-radius: 10px;
+}
+
+.multiple-lang {
+  margin-top: 10px;
+}
+
+.content {
+  margin-top: 100px;
+}
+
+/*-------------------------------------------/
+/               AUTH.LOGIN                   /
+/-------------------------------------------*/
+.login {
+  margin-top: 150px;
+}
+
+.btn-login {
+  border-radius: 0 !important;
+  transition: all 1s;
+  -moz-transition: all 1s;
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+}
+
+.btn-login:hover {
+  font-size: 20px;
+}
+
+.btn-social-login {
+  margin-top: 10px;
+}
+
+.register-text {
+  float: right !important;
+}
+
+/*-------------------------------------------/
+/               AUTH.REGISTER                   /
+/-------------------------------------------*/
+.register {
+  margin-top: 150px;
+}
+
+.btn-register {
+  border-radius: 0 !important;
+  transition: all 1s;
+  -moz-transition: all 1s;
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+}
+
+.btn-register:hover {
+  font-size: 20px;
+}
+
+#preview-avatar {
+  height: 100px;
+  width: 200px;
 }
 
 .file {

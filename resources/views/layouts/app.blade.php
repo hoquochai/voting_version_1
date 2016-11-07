@@ -28,6 +28,12 @@
     <!-- Bootstrap datatable CSS -->
     {!! Html::style('bower/datatables.net-bs/css/dataTables.bootstrap.min.css') !!}
 
+    <!-- Animate -->
+    {!! Html::style('bower/animate.css/animate.min.css') !!}
+
+    <!-- Social button -->
+    {!! Html::style('bower/font-awesome/css/font-awesome.min.css') !!}
+    {!! Html::style('bower/bootstrap-social/bootstrap-social.css') !!}
 
     <!-- Scripts -->
     <script>
@@ -38,89 +44,77 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div class="container">
+        <nav class="navbar navbar-default navbar-app navbar-fixed-top">
+            <div class="container-fluid">
                 <div class="navbar-header">
-
-                    <!-- Collapsed Hamburger -->
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
-                        <span class="sr-only">Toggle Navigation</span>
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-
-                    <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/home') }}">
-                        <h3>{{ config('app.name', 'Laravel') }}</h3>
+                    <a class="navbar-brand" href="{{ asset("/") }}">
+                        <b class="char-app">P</b>OLL
                     </a>
                 </div>
-
-                <div class="collapse navbar-collapse" id="app-navbar-collapse">
-                    <!-- Left Side Of Navbar -->
+                <div class="collapse navbar-collapse" id="menu">
                     <ul class="nav navbar-nav">
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a>
-                            </li>
-                        </ul>
-                    </ul>
-                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ asset("/") }}">{{ trans('label.home') }}</a></li>
+                        <li><a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a></li>
                         @if (auth()->check())
-                            <ul class="nav navbar-nav">
-                                <li>
-                                    <a href="{{ URL::action('User\PollController@index') }}">
-                                        {{ trans('polls.poll_history') }}
-                                    </a>
-                                </li>
-                            </ul>
-                        @endif
-                    </ul>
-                    <!-- Right Side Of Navbar -->
-                    <ul class="nav navbar-nav navbar-right">
-                        <div data-route="{{ url('language') }}">
-                            {{ Form::select('lang', config('settings.language'),  Session::get('locale'), ['class' => 'form-control btn-multiple-language']) }}
-                        </div>
-                        <!-- Authentication Links -->
-                        @if (Auth::guest())
-                            <li><a href="{{ url('/login') }}">{{ trans('label.login') }}</a></li>
-                            <li><a href="{{ url('/register') }}">{{ trans('label.register') }}</a></li>
-                        @else
-                        <li>
-                            <a href="{{ URL::action('User\UsersController@index') }}">
-                                <span class="glyphicon glyphicon-user">
-                                    {{ auth()->user()->name }}
-                                </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="{{ url('/logout') }}"
-                                onclick="event.preventDefault();
-                                         document.getElementById('logout-form').submit();">
-                                <span class="glyphicon glyphicon-log-out">
-                                    {{ trans('label.logout') }}
-                                </span>
-                            </a>
-                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                {{ csrf_field() }}
-                            </form>
-                            </a>
-                        </li>
+                            <li>
+                                <a href="{{ URL::action('User\PollController@index') }}">{{ trans('polls.poll_history') }}</a>
                             </li>
                         @endif
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        @if (Auth::guest())
+                            <li>
+                                <a href="{{ url('/login') }}">
+                                    <span class="glyphicon glyphicon-log-in"></span> {{ trans('label.login') }}
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/register') }}">
+                                    <span class="glyphicon glyphicon-registration-mark"></span> {{ trans('label.register') }}
+                                </a>
+                            </li>
+                        @else
+                            <li>
+                                <a href="{{ URL::action('User\UsersController@index') }}">
+                                <span class="glyphicon glyphicon-user">
+                                    {{ str_limit(auth()->user()->name, 10) }}
+                                </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/logout') }}"
+                                   onclick="event.preventDefault();
+                                         document.getElementById('logout-form').submit();">
+                                    <span class="glyphicon glyphicon-log-out">
+                                        {{ trans('label.logout') }}
+                                    </span>
+                                </a>
+                                <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                                    {{ csrf_field() }}
+                                </form>
+                            </li>
+                        @endif
+                        <li>
+                            <div data-route="{{ url('language') }}" class="multiple-lang">
+                                {{ Form::select('lang', config('settings.language'),  Session::get('locale'), ['class' => 'form-control btn-multiple-language']) }}
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
         </nav>
-
-        @yield('content')
+        <div class="content">
+            @yield('content')
+        </div>
     </div>
 
-    <!-- Scripts -->
-    {!! Html::script('/js/app.js') !!}
-
     <!-- jQuery -->
-    {!! Html::script('/bower/jquery/dist/jquery.min.js') !!}
+    {!! Html::script('/bower/jQuery/dist/jquery.min.js') !!}
 
     <!-- Google api -->
     @if (Session::get('locale') == 'ja')
@@ -159,8 +153,8 @@
 
     {!! Html::script('js/layout/master.js') !!}
 
-    <!-- Bootstrap Core JavaScript -->
-    {!! Html::script('/bower/bootstrap/dist/js/bootstrap.min.js') !!}
+    <!-- Scripts -->
+    {!! Html::script('/js/app.js') !!}
 
     <!-- jQuery Datatable JavaScript -->
     {!! Html::script('/bower/datatables.net/js/jquery.dataTables.min.js') !!}

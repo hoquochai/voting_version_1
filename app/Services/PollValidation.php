@@ -53,6 +53,7 @@ class PollValidator extends Validator
                     $token = $value['link'];
 
                     if (! ($token && strlen($token) <= $lengthConfig['link'])) {
+
                          return false;
                      }
 
@@ -65,26 +66,20 @@ class PollValidator extends Validator
 
                 if ($setting == $settingConfig['set_limit']) {
                     $numberLimit = $value['limit'];
-                    dd('b' . $numberLimit && is_numeric($numberLimit));
                     if (! ($numberLimit
                         && is_numeric($numberLimit)
-                        && $numberLimit <= $lengthConfig['number_limit']
+                        && strlen($numberLimit) <= $lengthConfig['number_limit']
                     )) {
                         return false;
                     }
-
-
                 }
 
-                // if ($setting == $settingConfig['set_password']) {
-                //     $passwordOfPoll = $value['password'];
-
-                //     if (! ($passwordOfPoll && $passwordOfPoll <= $lengthConfig['password_poll'])) {
-                //         return false;
-                //     }
-
-
-                // }
+                 if ($setting == $settingConfig['set_password']) {
+                     $passwordOfPoll = $value['password'];
+                     if (! ($passwordOfPoll && strlen($passwordOfPoll) <= $lengthConfig['password_poll'])) {
+                         return false;
+                     }
+                 }
             }
         }
 
