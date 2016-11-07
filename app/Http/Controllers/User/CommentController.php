@@ -43,6 +43,7 @@ class CommentController extends Controller
 
             if (isset($inputs['user_id'])) {
                 $activity['user_id'] = $inputs['user_id'];
+                $activity['name'] = $inputs['name'];
             }
 
             $this->activityRepository->create($activity);

@@ -265,4 +265,5 @@ return [
     'link_invalid' => 'Link invalid',
     'edit_link_successfully' => 'Edit successfully',
     'delete_all_participants_successfully' => 'Delete all participants successfully',
+    'create_duplicate_poll' => 'Create duplicate poll',
 ];

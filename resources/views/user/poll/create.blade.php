@@ -6,9 +6,9 @@
     <div class="container">
         <div class="hide" data-poll="{{ $dataJson }}"
              data-route-link="{{ route('link.store') }}"
-             data-route-email="{{ route('email.store') }}"
              data-token="{{ csrf_token() }}"></div>
         <div class="row">
+        <div class="col-md-10 col-md-offset-1">
             <section>
                 <div class="wizard create-poll">
                     <div class="wizard-inner">
@@ -50,9 +50,9 @@
                     @include('layouts.message')
                     {{
                         Form::open([
-                            'route' => 'poll.store',
+                            'route' => 'user-poll.store',
                             'method' => 'POST',
-                            'id' => 'create-poll',
+                            'id' => 'form_create_poll',
                             'enctype' => 'multipart/form-data',
                             'role' => 'form',
                         ])
@@ -75,7 +75,7 @@
                                             {{
                                                 Form::text('title', null, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.title'),
+                                                    'id' => 'title',
                                                     'placeholder' => trans('polls.placeholder.title'),
                                                 ])
                                             }}
@@ -87,7 +87,7 @@
                                             {{
                                                 Form::text('location', null, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.location'),
+                                                    'id' => 'location',
                                                     'placeholder' => trans('polls.placeholder.location'),
                                                 ])
                                             }}
@@ -99,7 +99,7 @@
                                             {{
                                                 Form::textarea('description', null, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.description'),
+                                                    'id' => 'description',
                                                     'placeholder' => trans('polls.placeholder.description'),
                                                 ])
                                             }}
@@ -109,9 +109,9 @@
                                         <div class="form-group">
                                             {{ Form::label(trans('polls.label_for.full_name'), trans('polls.label.full_name')) }}
                                             {{
-                                                Form::text('name', null, [
+                                                Form::text('name', (auth()->user()) ? auth()->user()->name : null, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.full_name'),
+                                                    'id' => 'name',
                                                     'placeholder' => trans('polls.placeholder.full_name'),
                                                 ])
                                             }}
@@ -121,9 +121,9 @@
                                         <div class="form-group">
                                             {{ Form::label(trans('polls.label_for.email'), trans('polls.label.email')) }}
                                             {{
-                                                Form::text('email', null, [
+                                                Form::text('email', (auth()->user()) ? auth()->user()->email : null, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.email'),
+                                                    'id' => 'email',
                                                     'placeholder' => trans('polls.placeholder.email'),
                                                 ])
                                             }}
@@ -134,10 +134,10 @@
                                         <div class="form-group">
                                             {{ Form::label(trans('polls.label_for.chatwork'), trans('polls.label.chatwork')) }}
                                             {{
-                                                Form::text('chatwork_id', null, [
+                                                Form::text('chatwork_id', (auth()->user()) ? auth()->user()->chatwork_id : null, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.chatwork'),
-                                                    'placeholder' => trans('polls.placeholder.chatwork'),
+                                                    'id' => 'chatwork',
+                                                    'placeholder' => trans('polchatwork_id s.placeholder.chatwork'),
                                                 ])
                                             }}
                                         </div>
@@ -360,5 +360,6 @@
                 </div>
             </section>
         </div>
+    </div>
     </div>
 @endsection

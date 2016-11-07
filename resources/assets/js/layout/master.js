@@ -51,7 +51,7 @@ $(document).ready(function () {
 
     $(".finish").click(function () {
         if (validateParticipant()) {
-            $('#create-poll').submit();
+            $('#form_create_poll').submit();
         }
     });
     $(".prev-step").click(function (e) {
@@ -250,11 +250,6 @@ function validateInfo() {
                 "</div>");
         } else {
             $("#email").removeClass("error");
-            var dataEmailRoute = $('.hide').data("routeEmail");
-            var token = $('.hide').data("token");
-            if (checkEmail(dataEmailRoute, token).responseJSON.success) {
-                return false;
-            }
         }
 
         if (messageType != "") {
@@ -414,34 +409,6 @@ function validateParticipant() {
     return true;
 }
 
-function checkEmail(route, token) {
-    if (typeof dataCreatePoll !== "undefined") {
-        return $.ajax({
-            url: route,
-            type: 'post',
-            async: false,
-            dataType: 'json',
-            data: {
-                'email': $('#email').val(),
-                '_token': token,
-            },
-            success: function (data) {
-                if (data.success) {
-                    //email exitsts
-                    $("#email").addClass("error");
-                    $('.email-error').html("<div class='label label-danger'>"
-                        + dataCreatePoll.message.validate.email_exists
-                        + "</div>");
-                } else {
-                    $("#email").removeClass("error");
-                    $('.email-error').html("<div class='label label-success'>"
-                        + dataCreatePoll.message.validate.email_valid
-                        + "</div>");
-                }
-            }
-        });
-    }
-}
 
 //check token of link exist
 function checkLink(route, token) {

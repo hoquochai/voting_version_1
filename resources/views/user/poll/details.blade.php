@@ -42,16 +42,13 @@
                 @endif
                 <div class="panel-body details-poll">
                 @include('message')
-                    @if (auth()->check())
-                        <a href="{{ URL::action('User\ActivityController@show', $poll->id) }}">{{ trans('polls.view_history') }}</a>
-                    @endif
                     <h4> {{ $poll->title }} </h4>
                     {{ trans('polls.poll_initiate') }}
                     @include('user.poll.user_details_layouts', ['user' => $poll->user])
                     <p>
                         <i>
                             <span class="label label-primary glyphicon glyphicon-user poll-details">
-                                {{ $poll->countParticipants() }}
+                                {{ $mergedParticipantVotes->count() }}
                             </span>
                             <span class="label label-info glyphicon glyphicon-comment poll-details">
                                 <span class="comment-count">{{ $poll->countComments() }}</span>
@@ -72,6 +69,16 @@
                             {{ trans('polls.administration') }}
                         </a>
                     @endif
+                    @if (auth()->check())
+                        <a class="btn btn-primary btn-administration" href="{{ URL::action('User\ActivityController@show', $poll->id) }}">
+                            <span class="glyphicon glyphicon-star-empty"></span>
+                            {{ trans('polls.view_history') }}
+                        </a>
+                    @endif
+                   <!--  <a class="btn btn-primary btn-administration" href="{{ URL::action('PollController@edit', $poll->id) }}">
+                        <span class="glyphicon glyphicon-copy"></span>
+                            {{ trans('polls.create_duplicate_poll') }}
+                    </a> -->
                     @if (!$isHideResult || Gate::allows('administer', $poll))
                     <button type="button" class="btn btn-primary btn-model" data-toggle="modal" data-target="#myModal">
                         <span class="glyphicon glyphicon-eye-open"></span>
@@ -112,16 +119,13 @@
                                                                 <td>
                                                                     @if (isset($item->user_id))
                                                                         {{ Form::open(['route' => ['vote.destroy', $item->user->id], 'method' => 'delete']) }}
-                                                                        {{ Form::hidden('type', config('settings.type.user')) }}
                                                                         {{ $isRequiredEmail ? $item->user->email : $item->user->name }}
                                                                     @else
                                                                         {{ Form::open(['route' => ['vote.destroy', $item->participant->id], 'method' => 'delete']) }}
-                                                                        {{ Form::hidden('type', config('settings.type.participant')) }}
                                                                         {{ $isRequiredEmail ? $item->participant->email : $item->participant->name }}
                                                                     @endif
                                                                         @if (Gate::allows('administer', $poll))
                                                                             {{ Form::hidden('poll_id', $poll->id) }}
-                                                                            {{ Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs remove-vote', 'onclick' => 'return confirm("' . trans('polls.confirm_delete_vote') . '")']) }}
                                                                         @endif
                                                                         {{ Form::close() }}
                                                                 </td>
@@ -228,7 +232,7 @@
                             data-size="small" data-show-faces="true"
                             data-share="true">
                         </div>
-                        <h4> <span class="comment-count">{{ $poll->comments->count() ? $poll->comments->count() : config('settings.default_value') }} </span> {{ trans('polls.comments') }} </h4>
+                        <h4> <span class="comment-count">{{ $poll->countComments() }} </span> {{ trans('polls.comments') }} </h4>
                         <div class="col-md-12" data-label-show-comment = "{{ trans('polls.show_comments') }}" data-label-hide="{{ trans('polls.hide') }}">
                             <button class="btn btn-warning show" id="show-hide-list-comment">{{ trans('polls.hide') }}</button>
                         </div>

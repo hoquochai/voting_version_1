@@ -15,6 +15,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/logout', function()
+{
+    Auth::logout();
+    Session::flush();
+    return Redirect::to('/');
+});
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');
@@ -88,7 +95,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.','mid
     ]]);
 });
 
-Route::resource('poll', 'PollController');
+Route::resource('user-poll', 'PollController');
 
 /*
  * Route check token of link
@@ -97,12 +104,6 @@ Route::resource('link', 'LinkController', ['only' => [
     'store'
 ]]);
 
-/*
- * Route check email of creator
- */
-Route::resource('email', 'EmailController', ['only' => [
-    'store'
-]]);
 
 /*
  * Route change status of poll

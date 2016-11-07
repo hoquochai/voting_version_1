@@ -190,12 +190,19 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         $now = Carbon::now();
 
         try {
-            $userId = User::insertGetId([
-                'name' => $input['name'],
-                'email' => $input['email'],
-                'chatwork_id' => ($input['chatwork_id']) ? $input['chatwork_id'] : null,
-                'created_at' => $now,
-            ]);
+            $user = User::where('email', $input['email'])->first();
+
+            if ($user) {
+                $userId = $user->id;
+            } else {
+                $userId = User::insertGetId([
+                    'name' => $input['name'],
+                    'email' => $input['email'],
+                    'chatwork_id' => ($input['chatwork_id']) ? $input['chatwork_id'] : null,
+                    'created_at' => $now,
+                ]);
+            }
+
             $pollId = Poll::insertGetId([
                 'user_id' => $userId,
                 'title' => $input['title'],
@@ -250,6 +257,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return true;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
 
@@ -267,12 +275,14 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     {
         $imageNames = [];
 
-        foreach ($arrInputImage as $key => $image) {
-            do {
-                $imageNames['optionImage'][$key] = uniqid(rand(), true) . '.' . $image->getClientOriginalExtension();
-                $path = public_path() . config('settings.option.path_image') . $imageNames['optionImage'][$key];
-            } while (File::exists($path));
-        }
+        if ($arrInputImage) {
+            foreach ($arrInputImage as $key => $image) {
+                do {
+                    $imageNames['optionImage'][$key] = uniqid(rand(), true) . '.' . $image->getClientOriginalExtension();
+                    $path = public_path() . config('settings.option.path_image') . $imageNames['optionImage'][$key];
+                } while (File::exists($path));
+            }
+          }
 
         return $imageNames;
     }
@@ -304,11 +314,13 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             /*
              * upload new image
              */
-            $pathTo = public_path() . config('settings.option.path_image');
+            if ($images) {
+                $pathTo = public_path() . config('settings.option.path_image');
 
-            foreach ($images as $key => $image) {
-                $pathFrom = $pathTo . $imageNames['optionImage'][$key];
-                $image->move($pathTo, $pathFrom);
+                 foreach ($images as $key => $image) {
+                    $pathFrom = $pathTo . $imageNames['optionImage'][$key];
+                    $image->move($pathTo, $pathFrom);
+                }
             }
         } catch (Exception $ex) {
             throw new Exception(trans('polls.message.upload_image_fail'));
@@ -332,13 +344,15 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             $dataSettingInserted = [];
             $now = Carbon::now();
 
-            foreach ($settings as $setting) {
-                $dataSettingInserted[] = [
-                    'poll_id' => $pollId,
-                    'key' => $setting,
-                    'value' => $this->getValueOfSetting($setting, $value),
-                    'created_at' => $now,
-                ];
+            if ($settings) {
+                foreach ($settings as $setting) {
+                    $dataSettingInserted[] = [
+                        'poll_id' => $pollId,
+                        'key' => $setting,
+                        'value' => $this->getValueOfSetting($setting, $value),
+                        'created_at' => $now,
+                    ];
+                }
             }
 
             if ($dataSettingInserted) {
@@ -347,6 +361,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return true;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
 
@@ -374,7 +389,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         }
 
         if ($setting == $config['set_password']) {
-            return bcrypt($values['password']);
+            return $values['password'];
         }
 
         return null;
@@ -419,9 +434,9 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'participant' => $linkConfig . $participantLink,
                 'administration' => $linkConfig . $administrationLink,
             ];
-
             return $linkReturn;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
     }
@@ -452,7 +467,9 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function store($input)
     {
         try {
+
             DB::beginTransaction();
+
             $pollId = $this->addInfo($input);
 
             if (! $pollId || ! ($this->addOption($input, $pollId) && $this->addSetting($input, $pollId))) {
@@ -460,6 +477,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
                 return false;
             }
+
 
             $links =  $this->addLink($pollId, $input);
 
@@ -498,8 +516,13 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             $subject = trans('label.mail.subject');
             $this->sendEmail($email, $creatorView, $data, $subject);
             DB::commit();
+            $poll = Poll::with('user')->find($pollId);
+            $dataRtn = [
+                'poll' => $poll,
+                'link' => $links,
+            ];
 
-            return $links;
+            return $dataRtn;
         } catch (Exception $ex) {
             DB::rollback();
             return false;

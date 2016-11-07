@@ -16,6 +16,10 @@
 
     {!! Html::style('css/user.css') !!}
 
+    {!! Html::style('css/layout/mail_notification.css') !!}
+
+    {!! Html::style('css/layout/master.css') !!}
+
     <!-- Bootstrap CSS -->
     {!! Html::style('bower/bootstrap/dist/css/bootstrap.min.css') !!}
 
@@ -25,11 +29,6 @@
     <!-- Bootstrap datatable CSS -->
     {!! Html::style('bower/datatables.net-bs/css/dataTables.bootstrap.min.css') !!}
 
-    <!-- Bootstrap Tag Input css -->
-    <link href="{{ asset('bower/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet">
-
-    <!-- Master layout css -->
-    <link href="{{ asset('css/layout/master.css') }}" rel="stylesheet">
 
     <!-- Scripts -->
     <script>
@@ -53,7 +52,7 @@
                     </button>
 
                     <!-- Branding Image -->
-                    <a class="navbar-brand" href="{{ url('/') }}">
+                    <a class="navbar-brand" href="{{ url('/home') }}">
                         <h3>{{ config('app.name', 'Laravel') }}</h3>
                     </a>
                 </div>
@@ -61,7 +60,14 @@
                 <div class="collapse navbar-collapse" id="app-navbar-collapse">
                     <!-- Left Side Of Navbar -->
                     <ul class="nav navbar-nav">
-                        @if (auth()->check() && auth()->user()->role == config('roles.user'))
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a>
+                            </li>
+                        </ul>
+                    </ul>
+                    <ul class="nav navbar-nav">
+                        @if (auth()->check())
                             <ul class="nav navbar-nav">
                                 <li>
                                     <a href="{{ URL::action('User\PollController@index') }}">
@@ -117,6 +123,11 @@
     <!-- jQuery -->
     {!! Html::script('/bower/jquery/dist/jquery.min.js') !!}
 
+    <!-- Google api -->
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places">
+    </script>
+
     {!! Html::script('js/shareSocial.js') !!}
 
     {!! Html::script('js/comment.js') !!}
@@ -133,6 +144,10 @@
 
     {!! Html::script('js/requiredPassword.js') !!}
 
+    <!-- {!! Html::script('js/admin/master.js') !!} -->
+
+    {!! Html::script('js/layout/master.js') !!}
+
     <!-- Bootstrap Core JavaScript -->
     {!! Html::script('/bower/bootstrap/dist/js/bootstrap.min.js') !!}
 
@@ -141,14 +156,5 @@
 
     <!-- Bootstrap Datatable JavaScript -->
     {!! Html::script('/bower/datatables.net-bs/js/dataTables.bootstrap.min.js') !!}
-
-    <!-- Google api -->
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places"></script>
-
-    <!-- Bootstrap Tag Input js -->
-    <script src="{{ asset('bower/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}" type="text/javascript"></script>
-
-    <!-- Master layout js -->
-    <script src="{{ asset('js/layout/master.js') }}" type="text/javascript"></script>
 </body>
 </html>

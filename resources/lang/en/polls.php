@@ -169,10 +169,13 @@ return [
             'title' => 'Title',
             'status' => 'Status',
             'type' => 'Type',
+            'link' => 'Link',
         ],
         'tbody' => [
             'name' => 'Name: ',
             'email' => 'Email: ',
+            'link_participant' => 'Participant: ',
+            'link_administration' => 'Administration: ',
         ],
     ],
     'tooltip' => [
@@ -208,6 +211,17 @@ return [
             'link' => 'Link to vote:',
         ],
     ],
+
+      'result_create' => [
+         'head' => 'POLL - VOTING',
+         'thank' => 'Thank, ',
+         'create_success' => 'Your poll has been created',
+         'send_mail' => 'The following two links have been send to :email in one e-mail each.',
+         'participant_link' => 'Participation link',
+         'help_participant' => 'Send this link to anyone you wish to invite',
+         'link_admin' => 'Administration link',
+         'help_admin' => 'Access this link to change, close or delete this poll',
+     ],
 
 /*------------------------------------------------------------
 *                  USER - POLL
@@ -282,4 +296,5 @@ return [
     'delete_all_participants_successfully' => 'Delete all participants successfully',
     'incorrect_password' => 'Password incorrect, Please enter another password to view this poll',
     'enter_password' => 'Enter password to view this poll',
+    'create_duplicate_poll' => 'Create duplicate poll',
 ];

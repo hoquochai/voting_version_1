@@ -41,9 +41,29 @@ class ExportController extends Controller
         $votes = $this->voteRepository->getVoteWithOptionsByVoteId($voteIds);
         $participantVoteIds = $this->pollRepository->getParticipantVoteIds($poll->id);
         $participantVotes = $this->participantVoteRepository->getVoteWithOptionsByVoteId($participantVoteIds);
-        $combinedVotes = $votes->toBase()->merge($participantVotes->toBase());
+        $mergedParticipantVotes = $votes->toBase()->merge($participantVotes->toBase());
+        if ($mergedParticipantVotes->count()) {
+            foreach ($mergedParticipantVotes as $mergedParticipantVote) {
+                $createdAt[] = $mergedParticipantVote->first()->created_at;
+            }
+
+            $sortedParticipantVotes = collect($createdAt)->sort();
+            $resultParticipantVotes = collect();
+            foreach ($sortedParticipantVotes as $sortedParticipantVote) {
+                foreach ($mergedParticipantVotes as $mergedParticipantVote) {
+                    foreach ($mergedParticipantVote as $participantVote) {
+                        if ($participantVote->created_at == $sortedParticipantVote) {
+                            $resultParticipantVotes->push($mergedParticipantVote);
+                            break;
+                        }
+
+                    }
+                }
+            }
+            $mergedParticipantVotes = $resultParticipantVotes;
+        }
         $dataRender = [
-            'votes' => $combinedVotes,
+            'votes' => $mergedParticipantVotes,
             'poll' => $poll,
             'isRequiredEmail' => $isRequiredEmail,
             'numberOfVote' => config('settings.default_value'),

@@ -54,7 +54,7 @@ class Poll extends Model
 
     public function countComments()
     {
-        return $this->comments->count() ? $this->comments->count() : config('settings.default_value');
+        return $this->comments->count();
     }
 
     public function countParticipants()

@@ -96,9 +96,9 @@ return [
     ],
     'date_format' => 'h:i:s A d/m/Y',
     'language' => [
+        'vi' => 'Tiếng Việt',
         'en' => 'English',
-        'vi' => 'Việt Nam',
-        'ja' => 'Japanish',
+        'ja' => 'Japanese',
     ],
     'locale' => ['vi', 'en', 'ja'],
 ];

@@ -10,7 +10,11 @@
                     @include('errors.errors')
 
                     {{ Form::model($currentUser, ['method' => 'PATCH', 'route' => ['profile.update', $currentUser->id], 'class' => 'form-horizontal', 'role' => 'form', 'files' => true]) }}
-                        <img class="edit-profile" id="output" src="{{ asset($currentUser->getAvatarPath()) }}"/>
+                        <div class="form-group">
+                        <div class="col-md-12 col-md-offset-4">
+                            <img class="img-profile" id="output" src="{{ asset($currentUser->getAvatarPath()) }}"/>
+                        </div>
+                        </div>
 
                         <div class="form-group">
                             {{ Form::label('avatar', trans('label.avatar'), ['class' => 'col-md-4 control-label']) }}

@@ -101,4 +101,9 @@ class User extends Authenticatable
     {
         return $filters->apply($query);
     }
+
+    public function isAdmin()
+    {
+        return $this->role == 1;
+    }
 }

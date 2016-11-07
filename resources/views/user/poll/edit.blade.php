@@ -10,6 +10,7 @@
              data-route-email="{{ route('email.store') }}"
              data-token="{{ csrf_token() }}"></div>
         <div class="row">
+        <div class="col-md-10 col-md-offset-1">
             <section>
                 <div class="wizard create-poll">
                     <div class="wizard-inner">
@@ -59,7 +60,7 @@
                         <div class="tab-pane active" role="tabpanel" id="step1">
                             {{
                                 Form::open([
-                                    'route' => ['poll.update', $poll->id],
+                                    'route' => ['user-poll.store', $poll->id],
                                     'method' => 'PUT',
                                     'id' => 'create-poll',
                                     'enctype' => 'multipart/form-data',
@@ -91,7 +92,7 @@
                                             {{
                                                 Form::text('title', $poll->title, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.title'),
+                                                    'id' => 'title',
                                                     'placeholder' => trans('polls.placeholder.title'),
                                                 ])
                                             }}
@@ -103,7 +104,7 @@
                                             {{
                                                 Form::text('location', $poll->location, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.location'),
+                                                    'id' => 'location',
                                                     'placeholder' => trans('polls.placeholder.location'),
                                                 ])
                                             }}
@@ -115,7 +116,7 @@
                                             {{
                                                 Form::textarea('description', $poll->description, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.description'),
+                                                    'id' => 'description',
                                                     'placeholder' => trans('polls.placeholder.description'),
                                                 ])
                                             }}
@@ -127,7 +128,7 @@
                                             {{
                                                 Form::text('name', $poll->user->name, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.full_name'),
+                                                    'id' => 'name',
                                                     'placeholder' => trans('polls.placeholder.full_name'),
                                                 ])
                                             }}
@@ -139,7 +140,7 @@
                                             {{
                                                 Form::text('email', $poll->user->email, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.email'),
+                                                    'id' => 'email',
                                                     'placeholder' => trans('polls.placeholder.email'),
                                                 ])
                                             }}
@@ -152,7 +153,7 @@
                                             {{
                                                 Form::text('chatwork_id', $poll->user->chatwork_id, [
                                                     'class' => 'form-control',
-                                                    'id' => trans('polls.label_for.chatwork'),
+                                                    'id' => 'chatwork',
                                                     'placeholder' => trans('polls.placeholder.chatwork'),
                                                 ])
                                             }}
@@ -201,7 +202,7 @@
                         <div class="tab-pane" role="tabpanel" id="step2">
                             {{
                                 Form::open([
-                                    'route' => ['poll.update', $poll->id],
+                                    'route' => ['user-poll.update', $poll->id],
                                     'method' => 'PUT',
                                     'id' => 'create-poll',
                                     'enctype' => 'multipart/form-data',
@@ -293,7 +294,7 @@
                         <div class="tab-pane" role="tabpanel" id="step3">
                             {{
                                 Form::open([
-                                    'route' => ['poll.update', $poll->id],
+                                    'route' => ['user-poll.update', $poll->id],
                                     'method' => 'PUT',
                                     'id' => 'create-poll',
                                     'enctype' => 'multipart/form-data',
@@ -395,5 +396,6 @@
                 </div>
             </section>
         </div>
+    </div>
     </div>
 @endsection

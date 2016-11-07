@@ -35,7 +35,7 @@ class SocialAccountService
         ]);
         $user = $this->userRepository->getUserWithEmail($providerUser);
 
-        if (!$user) {
+        if (!$user || $user && $user->email == null) {
             $datas = [
                 'email' => $providerUser->getEmail(),
                 'name' => $providerUser->getName(),

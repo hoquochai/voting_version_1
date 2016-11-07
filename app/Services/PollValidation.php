@@ -52,37 +52,39 @@ class PollValidator extends Validator
                 if ($setting == $settingConfig['custom_link']) {
                     $token = $value['link'];
 
-                    if ($token && strlen($token) <= $lengthConfig['link']) {
-                        $link = Link::where('token', $token)->count();
+                    if (! ($token && strlen($token) <= $lengthConfig['link'])) {
+                         return false;
+                     }
 
-                        return (! $link);
+                    $link = Link::where('token', $token)->count();
+
+                    if ($link) {
+                        return false;
                     }
-
-                    return false;
                 }
 
                 if ($setting == $settingConfig['set_limit']) {
                     $numberLimit = $value['limit'];
-
-                    if ($numberLimit
+                    dd('b' . $numberLimit && is_numeric($numberLimit));
+                    if (! ($numberLimit
                         && is_numeric($numberLimit)
                         && $numberLimit <= $lengthConfig['number_limit']
-                    ) {
-                        return true;
+                    )) {
+                        return false;
                     }
 
-                    return false;
+
                 }
 
-                if ($setting == $settingConfig['set_password']) {
-                    $passwordOfPoll = $value['password'];
+                // if ($setting == $settingConfig['set_password']) {
+                //     $passwordOfPoll = $value['password'];
 
-                    if ($passwordOfPoll && $passwordOfPoll <= $lengthConfig['password_poll']) {
-                        return true;
-                    }
+                //     if (! ($passwordOfPoll && $passwordOfPoll <= $lengthConfig['password_poll'])) {
+                //         return false;
+                //     }
 
-                    return false;
-                }
+
+                // }
             }
         }
 

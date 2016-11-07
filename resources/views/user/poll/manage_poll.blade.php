@@ -43,6 +43,88 @@
                             <span class="glyphicon glyphicon-star-empty"></span>
                             {{ trans('polls.view_history') }}
                         </a>
+                         <button type="button" class="btn btn-primary btn-model btn-administration" data-toggle="modal" data-target="#myModal">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                        {{ trans('polls.show_vote_details') }}
+                        </button>
+                            <div class="modal fade" id="myModal" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                        @if ($mergedParticipantVotes->count())
+                                        <table class="table table-bordered">
+                                            <thead>
+                                            <th><center>{{ trans('polls.no') }}</center></th>
+                                            <th><center>{{ $isRequiredEmail ? trans('polls.email') : trans('polls.name')}}</center></th>
+                                            @foreach ($poll->options as $option)
+                                                <th>
+                                                    <center>
+                                                        <img class="img-option" src="{{ $option->showImage() }}">
+                                                        <br>
+                                                        {{ $option->name }}
+                                                    </center>
+                                                </th>
+                                            @endforeach
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($mergedParticipantVotes as $vote)
+                                                    <tr>
+                                                        <td><center>{{ ++$numberOfVote }}</center></td>
+                                                        @php
+                                                            $isShowVoteName = false;
+                                                        @endphp
+                                                        @foreach ($poll->options as $option)
+                                                            @php
+                                                                $isShowOptionUserVote = false;
+                                                            @endphp
+                                                            @foreach ($vote as $item)
+                                                                @if (! $isShowVoteName)
+                                                                    <td>
+                                                                        @if (isset($item->user_id))
+                                                                            {{ Form::open(['route' => ['vote.destroy', $item->user->id], 'method' => 'delete']) }}
+                                                                            {{ $isRequiredEmail ? $item->user->email : $item->user->name }}
+                                                                        @else
+                                                                            {{ Form::open(['route' => ['vote.destroy', $item->participant->id], 'method' => 'delete']) }}
+                                                                            {{ $isRequiredEmail ? $item->participant->email : $item->participant->name }}
+                                                                        @endif
+                                                                            @if (Gate::allows('administer', $poll))
+                                                                                {{ Form::hidden('poll_id', $poll->id) }}
+                                                                            @endif
+                                                                            {{ Form::close() }}
+                                                                    </td>
+                                                                    @php
+                                                                        $isShowVoteName = true;
+                                                                    @endphp
+                                                                @endif
+                                                                @if ($item->option_id == $option->id)
+                                                                    <td>
+                                                                        <center><label class="label label-default"><span class="glyphicon glyphicon-ok"> </span></label></center>
+                                                                    </td>
+                                                                    @php
+                                                                        $isShowOptionUserVote = true;
+                                                                    @endphp
+                                                                @endif
+                                                            @endforeach
+                                                            @if (!$isShowOptionUserVote)
+                                                                <td></td>
+                                                            @endif
+                                                        @endforeach
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        @else
+                                            <center>
+                                                <p>{{ trans('polls.vote_empty') }}</p>
+                                            </center>
+                                        @endif
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('polls.close') }}</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {{ Form::open(['route' => ['exportPDF', 'poll_id' => $poll->id]]) }}
                             {{
                                 Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_pdf'), [
@@ -95,72 +177,6 @@
                                 <label class="message-link-admin"></label>
                             </div>
                         </div>
-                        <div class="clearfix"></div>
-                        <hr>
-                        <table class="table table-bordered">
-                            <thead>
-                            <th><center>{{ trans('polls.no') }}</center></th>
-                            <th><center>{{ $isRequiredEmail ? trans('polls.email') : trans('polls.name')}}</center></th>
-                            @foreach ($poll->options as $option)
-                                <th>
-                                    <center>
-                                        <img class="img-option" src="{{ $option->showImage() }}">
-                                        <br>
-                                        {{ $option->name }}
-                                    </center>
-                                </th>
-                            @endforeach
-                            </thead>
-                            <tbody>
-                            @foreach ($mergedParticipantVotes as $vote)
-                                <tr>
-                                    <td><center>{{ ++$numberOfVote }}</center></td>
-                                    @php
-                                        $isShowVoteName = false;
-                                    @endphp
-                                    @foreach ($poll->options as $option)
-                                        @php
-                                            $isShowOptionUserVote = false;
-                                        @endphp
-                                        @foreach ($vote as $item)
-                                            @if (! $isShowVoteName)
-                                                <td>
-                                                    @if (isset($item->user_id))
-                                                        {{ Form::open(['route' => ['vote.destroy', $item->user->id], 'method' => 'delete']) }}
-                                                        {{ Form::hidden('type', config('settings.type.user')) }}
-                                                        {{ $isRequiredEmail ? $item->user->email : $item->user->name }}
-                                                    @else
-                                                        {{ Form::open(['route' => ['vote.destroy', $item->participant->id], 'method' => 'delete']) }}
-                                                        {{ Form::hidden('type', config('settings.type.participant')) }}
-                                                        {{ $isRequiredEmail ? $item->participant->email : $item->participant->name }}
-                                                    @endif
-                                                    @if (Gate::allows('administer', $poll))
-                                                        {{ Form::hidden('poll_id', $poll->id) }}
-                                                        {{ Form::button('<i class="glyphicon glyphicon-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs remove-vote', 'onclick' => 'return confirm("' . trans('polls.confirm_delete_vote') . '")']) }}
-                                                    @endif
-                                                    {{ Form::close() }}
-                                                </td>
-                                                @php
-                                                    $isShowVoteName = true;
-                                                @endphp
-                                            @endif
-                                            @if ($item->option_id == $option->id)
-                                                <td>
-                                                    <center><label class="label label-default"><span class="glyphicon glyphicon-ok"> </span></label></center>
-                                                </td>
-                                                @php
-                                                    $isShowOptionUserVote = true;
-                                                @endphp
-                                            @endif
-                                        @endforeach
-                                        @if (!$isShowOptionUserVote)
-                                            <td></td>
-                                        @endif
-                                    @endforeach
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
                     </div>
                 </div>
             </div>

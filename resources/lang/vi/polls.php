@@ -171,8 +171,10 @@ return [
             'type' => 'Loại',
         ],
         'tbody' => [
-            'name' => 'Name: ',
+            'name' => 'Tên: ',
             'email' => 'Email: ',
+             'link_administration' => 'Quản lý: ',
+            'link_participant' => 'Tham gia: ',
         ],
     ],
     'tooltip' => [
@@ -208,6 +210,16 @@ return [
             'link' => 'Link để vote: ',
         ],
     ],
+       'result_create' => [
+       'head' => 'POLL - VOTING',
+         'thank' => 'Cảm ơn, ',
+         'create_success' => 'Poll của bạn đã được tạo thành công',
+         'send_mail' => 'Dưới đây là 2 link được gởi đến email :email',
+        'participant_link' => 'Link để mời',
+        'help_participant' => 'Gởi link này đến bất kỳ ai bạn muốn mời họ tham gia bình chọn',
+         'link_admin' => 'Link quản lý',
+         'help_admin' => 'Truy cập vào link này để thay đổi, đóng hoặc xóa poll',
+     ],
 
 /*------------------------------------------------------------
 *                  USER - POLL
@@ -282,4 +294,5 @@ return [
     'delete_all_participants_successfully' => 'Xóa tất cả những người bầu chọn thành công',
     'incorrect_password' => 'Mật khẩu chưa chính xác',
     'enter_password' => 'Vui lòng nhập mật khẩu để xem poll này',
+    'create_duplicate_poll' => 'Tạo poll từ poll này',
 ];

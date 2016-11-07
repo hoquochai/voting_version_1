@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-bordered">
     <thead>
         <th>{{ trans('polls.subject') }}</th>
         <th>{{ trans('polls.participants') }}</th>
@@ -10,7 +10,11 @@
         <tr>
             <td>{{ $poll->title }}</td>
             <td>{{ $poll->countParticipants() }}</td>
-            <td>{{ $poll->activities->sortBy('id')->last()->created_at->diffForHumans() }}</td>
+            @if ($poll->activities->count())
+                <td>{{ $poll->activities->sortBy('id')->last()->created_at->diffForHumans() }}</td>
+            @else
+                <td></td>
+            @endif
             @if (Gate::allows('ownerPoll', $poll))
                 <td>
                     <a class="btn btn-success" href="{{ URL::action('User\PollController@edit', ['id' => $poll->id]) }}">
