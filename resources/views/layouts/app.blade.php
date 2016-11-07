@@ -28,6 +28,13 @@
     <!-- Bootstrap datatable CSS -->
     {!! Html::style('bower/datatables.net-bs/css/dataTables.bootstrap.min.css') !!}
 
+    <!-- Animate -->
+    {!! Html::style('bower/animate.css/animate.min.css') !!}
+
+    <!-- Social button -->
+    {!! Html::style('bower/font-awesome/css/font-awesome.min.css') !!}
+    {!! Html::style('bower/bootstrap-social/bootstrap-social.css') !!}
+
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
