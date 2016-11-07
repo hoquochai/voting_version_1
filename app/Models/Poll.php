@@ -125,4 +125,9 @@ class Poll extends Model
             ? trans('polls.label.poll_opening')
             : trans('polls.label.poll_closed'));
     }
+
+    public function isClosed()
+    {
+        return $this->status == trans('polls.label.poll_closed');
+    }
 }

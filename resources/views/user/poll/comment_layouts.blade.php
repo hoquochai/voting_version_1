@@ -1,7 +1,7 @@
 <div class="col-md-12" id="{{ $commentId }}">
     <br>
     <div class="col-md-1">
-        <img class="img-comment" src="{!! !auth()->check() ? asset(config('settings.image_default_path')) : auth()->user()->getAvatarPath() !!}">
+        <img class="img-comment" src="{!! $imageComment !!}">
     </div>
     <div class="col-md-11">
         <label data-comment-id="{{ $commentId }}" data-poll-id="{{ $poll->id }}">

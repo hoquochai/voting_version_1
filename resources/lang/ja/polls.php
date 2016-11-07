@@ -266,4 +266,7 @@ return [
     'edit_link_successfully' => 'Edit successfully',
     'delete_all_participants_successfully' => 'Delete all participants successfully',
     'create_duplicate_poll' => 'Create duplicate poll',
+    'enter_password' => 'Enter password to view this poll',
+    'not_activity' => 'Not activity',
+    'confirm_delete_all_participant' => 'Are you sure delete all participant of this poll?',
 ];

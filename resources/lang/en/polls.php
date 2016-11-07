@@ -297,4 +297,6 @@ return [
     'incorrect_password' => 'Password incorrect, Please enter another password to view this poll',
     'enter_password' => 'Enter password to view this poll',
     'create_duplicate_poll' => 'Create duplicate poll',
+    'not_activity' => 'Not activity',
+    'confirm_delete_all_participant' => 'Are you sure delete all participant of this poll?',
 ];

@@ -28,9 +28,11 @@ class PollController extends Controller
             $initiatedPolls = $this->pollRepository->getInitiatedPolls();
             $participatedPolls = $this->pollRepository->getParticipatedPolls($this->voteRepository);
             $closedPolls = $this->pollRepository->getClosedPolls();
+
+            return view('user.poll.list_polls', compact('initiatedPolls', 'participatedPolls', 'closedPolls'));
         }
 
-        return view('user.poll.list_polls', compact('initiatedPolls', 'participatedPolls', 'closedPolls'));
+        return view('home');
     }
 
     public function edit($id)

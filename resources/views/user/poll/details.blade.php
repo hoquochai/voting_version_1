@@ -1,10 +1,4 @@
 @extends('layouts.app')
-@section('meta')
-    <meta property="og:url" content="{{ $linkUser }}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" ontent="{{ $poll->title }}" />
-    <meta property="og:description" content="{{ $poll->description }}" />
-@endsection
 
 @section('content')
 <div class="container">
@@ -75,10 +69,10 @@
                             {{ trans('polls.view_history') }}
                         </a>
                     @endif
-                   <!--  <a class="btn btn-primary btn-administration" href="{{ URL::action('PollController@edit', $poll->id) }}">
+                    <a class="btn btn-primary btn-administration" href="{{ URL::action('PollController@edit', $poll->id) }}">
                         <span class="glyphicon glyphicon-copy"></span>
                             {{ trans('polls.create_duplicate_poll') }}
-                    </a> -->
+                    </a>
                     @if (!$isHideResult || Gate::allows('administer', $poll))
                     <button type="button" class="btn btn-primary btn-model" data-toggle="modal" data-target="#myModal">
                         <span class="glyphicon glyphicon-eye-open"></span>
@@ -226,12 +220,6 @@
                         {!! Form::close() !!}
                     </div>
                     <div class="col-md-12">
-                        <div class="fb-like social-share"
-                            data-href="{{ $linkUser }}"
-                            data-layout="standard" data-action="like"
-                            data-size="small" data-show-faces="true"
-                            data-share="true">
-                        </div>
                         <h4> <span class="comment-count">{{ $poll->countComments() }} </span> {{ trans('polls.comments') }} </h4>
                         <div class="col-md-12" data-label-show-comment = "{{ trans('polls.show_comments') }}" data-label-hide="{{ trans('polls.hide') }}">
                             <button class="btn btn-warning show" id="show-hide-list-comment">{{ trans('polls.hide') }}</button>
@@ -244,10 +232,10 @@
                                 <div class="col-md-12" id="{{ $comment->id }}">
                                     <br>
                                     <div class="col-md-1">
-                                        @if (!$comment->user_id)
-                                            <img class="img-comment" src="{{ $comment->showDefaultAvatar() }}">
-                                        @else
+                                        @if ($comment->name == $comment->user->name)
                                             <img class="img-comment" src="{{ $comment->user->getAvatarPath() }}">
+                                        @else
+                                            <img class="img-comment" src="{{ $comment->showDefaultAvatar() }}">
                                         @endif
                                     </div>
                                     <div class="col-md-11">
