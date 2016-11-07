@@ -86,7 +86,7 @@ class LinkController extends Controller
             return view('errors.show_errors')->with('message', trans('polls.poll_not_found'));
         }
 
-        if ($link->poll->status == trans('polls.label.poll_closed')) {
+        if ($link->poll->isClosed()) {
             return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
         }
 

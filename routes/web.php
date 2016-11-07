@@ -62,7 +62,10 @@ Route::post('exportExcel', [
     'uses' => 'User\ExportController@exportExcel'
 ]);
 
-Route::get('delete-all-participant', 'User\ParticipantController@deleteAllParticipant');
+Route::post('delete-all-participant', [
+    'as' => 'delete_all_participant',
+    'uses' => 'User\ParticipantController@deleteAllParticipant'
+]);
 
 Route::get('load-initiated-poll', 'User\LoadPollsController@loadInitiatedPolls');
 

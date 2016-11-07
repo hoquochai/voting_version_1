@@ -17,7 +17,7 @@
                 @if ($poll->activities->count())
                     <td>{{ $poll->activities->sortBy('id')->last()->created_at->diffForHumans() }}</td>
                 @else
-                    <td></td>
+                    <td>{{ trans('polls.not_activity') }}</td>
                 @endif
                 @if (Gate::allows('ownerPoll', $poll))
                     <td>

@@ -1,10 +1,4 @@
 @extends('layouts.app')
-@section('meta')
-    <meta property="og:url" content="{{ $tokenLinkUser }}" />
-    <meta property="og:type" content="article" />
-    <meta property="og:title" ontent="{{ $poll->title }}" />
-    <meta property="og:description" content="{{ $poll->description }}?" />
-@endsection
 
 @section('content')
 <div class="container">
@@ -29,10 +23,15 @@
                             }}
                         {{ Form::close() }}
                         @if ($poll->countParticipants())
-                            <a href="{{ URL::action('User\ParticipantController@deleteAllParticipant', ['poll_id' => $poll->id]) }}" class="btn btn-danger  btn-administration">
-                                <span class="glyphicon glyphicon-remove-sign"></span>
-                                {{ trans('polls.delete_all_participants') }}
-                            </a>
+                            {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id]]) !!}
+                                {{
+                                    Form::button('<span class="glyphicon glyphicon-remove-sign"></span>' . ' ' . trans('polls.delete_all_participants'), [
+                                        'type' => 'submit',
+                                        'class' => 'btn btn-danger btn-administration',
+                                        'onclick' => 'return confirm("' . trans('polls.confirm_delete_all_participant') . '")'
+                                    ])
+                                }}
+                            {{ Form::close() }}
                         @else
                             <a class="btn btn-danger btn-administration disable-link">
                                 <span class="glyphicon glyphicon-remove-sign"></span>

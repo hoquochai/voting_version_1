@@ -101,4 +101,5 @@ return [
         'ja' => 'Japanese',
     ],
     'locale' => ['vi', 'en', 'ja'],
+    'default_value' => 0,
 ];

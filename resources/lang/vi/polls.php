@@ -21,7 +21,7 @@ return [
         'location' => 'Vị trí',
         'type' => 'Kiểu*',
         'status' => 'Trạng thái*',
-        'single_choice' => 'Một cân trả lời',
+        'single_choice' => 'Một câu trả lời',
         'multiple_choice' => 'Nhiều câu trả lời',
         'opening' => 'Mở',
         'closed' => 'Đóng',
@@ -295,4 +295,6 @@ return [
     'incorrect_password' => 'Mật khẩu chưa chính xác',
     'enter_password' => 'Vui lòng nhập mật khẩu để xem poll này',
     'create_duplicate_poll' => 'Tạo poll từ poll này',
+    'not_activity' => 'Không có hoạt động nào',
+    'confirm_delete_all_participant' => 'Bạn có chắc chắn muốn xóa tất cả các bầu chọn của poll này không?',
 ];
