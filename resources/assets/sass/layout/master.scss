@@ -2,9 +2,26 @@ body {
   background: url("http://www.ibox-security.co.uk/wp-content/uploads/2013/06/Website-Design-Background-1.jpg") repeat;
 }
 
+.navbar-app {
+  border-radius: 0 !important;
+}
+
+.char-app {
+  font-size: 50px;
+  font-family: serif;
+}
+
 .create-poll {
   padding: 15px;
   border-radius: 10px;
+}
+
+.multiple-lang {
+  margin-top: 10px;
+}
+
+.content {
+  margin-top: 100px;
 }
 
 .file {

@@ -21,6 +21,9 @@
     "bootstrap": "^3.3.7",
     "bootstrap-toggle": "^2.2.2",
     "jquery.steps": "^1.1.0",
-    "bootstrap-tagsinput": "^0.8.0"
+    "bootstrap-tagsinput": "^0.8.0",
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12",
+    "jQuery": "^3.1.1"
   }
 }
