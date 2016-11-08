@@ -81,12 +81,8 @@ body {
 }
 
 /*-------------------------------------------/
-/               AUTH.REGISTER                /
+/               USER.POLL.DETAIL             /
 /-------------------------------------------*/
-.poll-count {
-  float: right;
-}
-
 .title {
   text-align: center;
 }
@@ -101,6 +97,35 @@ body {
 .panel-poll:hover {
   box-shadow: 2px 2px 2px black;
 }
+
+.selection-option {
+  position: fixed;
+}
+
+#vote-layout {
+  position: fixed;
+}
+
+.nav-pills>li>a {
+  border-radius: 0 !important;
+}
+
+.panel-content {
+  border-radius: 0 !important;
+}
+
+.img-option {
+  cursor: pointer;
+}
+
+#imageOfOptionPreview {
+  width: 1000px;
+  height:500px;
+}
+
+html { height: 100% }
+body { height: 100%; margin: 0; padding: 0 }
+#map_canvas { height: 100% }
 
 .file {
   display: none !important;

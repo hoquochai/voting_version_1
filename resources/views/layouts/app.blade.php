@@ -41,6 +41,21 @@
             'csrfToken' => csrf_token(),
         ]); ?>
     </script>
+
+    <!-- Google api -->
+    @if (Session::get('locale') == 'ja')
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=ja&region=JP">
+        </script>
+    @elseif(Session::get('locale') == 'vi')
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=vi&region=VI">
+        </script>
+    @else
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=en&region=EN">
+        </script>
+    @endif
 </head>
 <body>
     <div id="app">
@@ -58,35 +73,35 @@
                 </div>
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="{{ asset("/") }}">{{ trans('label.home') }}</a></li>
-                        <li><a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a></li>
+                        <li {!! Request::is('/') ? 'class="active"' : '' !!}><a href="{{ asset("/") }}">{{ trans('label.home') }}</a></li>
+                        <li {!! Request::is('user-poll/create') ? 'class="active"' : '' !!}><a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a></li>
                         @if (auth()->check())
-                            <li>
+                            <li {!! Request::is('user/poll') ? 'class="active"' : '' !!}>
                                 <a href="{{ URL::action('User\PollController@index') }}">{{ trans('polls.poll_history') }}</a>
                             </li>
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (Auth::guest())
-                            <li>
+                            <li {!! Request::is('login') ? 'class="active"' : '' !!}>
                                 <a href="{{ url('/login') }}">
                                     <span class="glyphicon glyphicon-log-in"></span> {{ trans('label.login') }}
                                 </a>
                             </li>
-                            <li>
+                            <li {!! Request::is('register') ? 'class="active"' : '' !!}>
                                 <a href="{{ url('/register') }}">
                                     <span class="glyphicon glyphicon-registration-mark"></span> {{ trans('label.register') }}
                                 </a>
                             </li>
                         @else
-                            <li>
+                            <li {!! Request::is('user/profile') ? 'class="active"' : '' !!}>
                                 <a href="{{ URL::action('User\UsersController@index') }}">
                                 <span class="glyphicon glyphicon-user">
                                     {{ str_limit(auth()->user()->name, 10) }}
                                 </span>
                                 </a>
                             </li>
-                            <li>
+                            <li {!! Request::is('/logout') ? 'class="active"' : '' !!}>
                                 <a href="{{ url('/logout') }}"
                                    onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">
@@ -116,20 +131,8 @@
     <!-- jQuery -->
     {!! Html::script('/bower/jQuery/dist/jquery.min.js') !!}
 
-    <!-- Google api -->
-    @if (Session::get('locale') == 'ja')
-        <script type="text/javascript"
-             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=ja&region=JP">
-        </script>
-    @elseif(Session::get('locale') == 'vi')
-        <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=vi&region=VI">
-        </script>
-    @else
-        <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=en&region=EN">
-        </script>
-   @endif
+    <!-- Bootstrap -->
+    {!! Html::script('/bower/bootstrap/dist/js/bootstrap.min.js') !!}
 
     {!! Html::script('js/shareSocial.js') !!}
 
@@ -157,5 +160,9 @@
 
     <!-- Bootstrap Datatable JavaScript -->
     {!! Html::script('/bower/datatables.net-bs/js/dataTables.bootstrap.min.js') !!}
+
+
+
+
 </body>
 </html>

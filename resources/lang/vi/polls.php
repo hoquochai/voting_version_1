@@ -241,8 +241,9 @@ return [
 
     'poll_details' => 'Chi tiết poll',
     'poll_initiate' => 'Poll được tạo bởi',
-    'where' => 'Địa điểm',
-    'vote' => 'Bầu chọn',
+    'where' => 'Địa điểm: ',
+    'description' => 'Không có mô tả nào cho Poll này.',
+    'location' => 'Không có địa điểm cho poll này',
     'comments' => 'Bình luận',
     'add_comment' => 'Thêm bình luận',
     'show_comments' => 'Xem các bình luận',

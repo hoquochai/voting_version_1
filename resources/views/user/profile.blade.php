@@ -38,9 +38,9 @@
                         </div>
 
                         <div class="form-group">
-                            {{ Form::label('gender', trans('label.gender'), ['class' => 'col-md-4 control-label']) }}
+                            {{ Form::label('gender', trans('label.label_gender'), ['class' => 'col-md-4 control-label']) }}
                             <div class="col-md-6">
-                                {{ Form::select('gender', config('settings.gender'), $currentUser->gender, ['id' => 'gender', 'class' => 'form-control']) }}
+                                {{ Form::select('gender', trans('label.gender'), $currentUser->gender, ['id' => 'gender', 'class' => 'form-control']) }}
                             </div>
                         </div>
 

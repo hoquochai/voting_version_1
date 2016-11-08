@@ -96,6 +96,26 @@ class LinkController extends Controller
         $isRequiredEmail = false;
         $isHideResult = false;
         $poll = $link->poll;
+        $totalVote = config('settings.default_value');
+
+        foreach ($poll->options as $option) {
+            $totalVote += $option->countVotes();
+        }
+
+        $optionRatePieChart = [];
+        $optionRateBarChart = [];
+
+        if ($totalVote) {
+            foreach ($poll->options as $option) {
+                $countOption = $option->countVotes();
+                $optionRatePieChart[$option->name] = (int) ($countOption * 100 / $totalVote);
+                if ($countOption > 0) {
+                    $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
+                }
+            }
+        }
+
+        $optionRateBarChart = json_encode($optionRateBarChart);
 
         $requiredPassword = null;
         $passwordSetting = $poll->settings->whereIn('key', [config('settings.setting.set_password')])->first();
@@ -166,7 +186,17 @@ class LinkController extends Controller
                 }
             }
 
-            return view('user.poll.details', compact('poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword'));
+            $optionCombobox = [];
+            $index = 0;
+            foreach ($poll->options as $option) {
+                $index += 1;
+                $optionCombobox[$option->id] = "option " . $index;
+            }
+
+            return view('user.poll.details', compact(
+                'optionCombobox', 'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',
+                'optionRatePieChart', 'optionRateBarChart'
+            ));
         } else {
             $poll = $link->poll;
 

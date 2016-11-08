@@ -43,5 +43,30 @@ $(document).ready(function(){
 });
 
 function voted(id) {
-    $('#' + id).addClass('animated pulse');
+    $('#' + id).removeClass('animated pulse').delay(2000).addClass('animated pulse');
 }
+
+function selectOption(option) {
+    console.log(option.value);
+    $('html, body').animate({
+        scrollTop: $('#option-' + option.value).offset().top - 100
+    }, 1000);
+}
+
+function goVoteInfor() {
+    $('html, body').animate({
+        scrollTop: $('#vote-info').offset().top - 100
+    }, 1000);
+}
+
+function goComment() {
+    $('html, body').animate({
+        scrollTop: $('#panel-comment').offset().top - 100
+    }, 1000);
+}
+
+function showModelImage(src) {
+    $('#imageOfOptionPreview').attr("src", src);
+    $('#modalImageOption').modal('show');
+}
+

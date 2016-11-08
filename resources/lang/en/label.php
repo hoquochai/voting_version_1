@@ -12,7 +12,7 @@ return [
     'avatar' => 'Avatar',
     'confirm_password' => 'Confirm password',
     'name' => 'Name',
-    'gender' => 'Gender',
+    'label_gender' => 'Gender',
     'male' => 'Male',
     'female' => 'Female',
     'profile' => 'Profile',
@@ -53,4 +53,9 @@ return [
         ],
     ],
     'paginations' => 'Showing :start to :finish of :numberOfRecords entry|Showing :start to :finish of :numberOfRecords entries',
+    'gender' => [
+            '0' => 'Female',
+            '1' => 'Male',
+            '2' => 'Other',
+    ],
 ];

@@ -243,8 +243,9 @@ return [
 
     'poll_details' => 'Poll Details',
     'poll_initiate' => 'Poll initiated by',
-    'where' => 'Where',
-    'vote' => 'Vote',
+    'description' => 'Haven\'t description for this poll',
+    'location' => 'Haven\'t location for this poll',
+    'where' => 'Where: ',
     'comments' => 'Comments',
     'add_comment' => 'Add a comment',
     'show_comments' => 'Show comments',

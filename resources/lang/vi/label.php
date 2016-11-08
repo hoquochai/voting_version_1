@@ -12,7 +12,7 @@ return [
     'avatar' => 'Ảnh đại diện',
     'confirm_password' => 'Nhập lại mật khẩu',
     'name' => 'Tên',
-    'gender' => 'Giới tính',
+    'label_gender' => 'Giới tính',
     'male' => 'Nam',
     'female' => 'Nữ',
     'profile' => 'Thông tin cá nhân',
@@ -53,4 +53,9 @@ return [
         ],
     ],
     'paginations' => 'Hiển thị :start đến :finish của :numberOfRecords mục|Đang hiển thị :start đến :finish of :numberOfRecords mục',
+    'gender' => [
+        '0' => 'Nữ',
+        '1' => 'Nam',
+        '2' => 'Giới tính khác',
+    ],
 ];
