@@ -121,19 +121,15 @@
         <script type="text/javascript"
              src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=ja&region=JP">
         </script>
+    @elseif(Session::get('locale') == 'vi')
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=vi&region=VI">
+        </script>
+    @else
+        <script type="text/javascript"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=en&region=EN">
+        </script>
    @endif
-
-    @if (Session::get('locale') == 'en')
-        <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=en&region=EN">
-        </script>
-    @endif
-
-    @if (Session::get('locale') == 'vi')
-        <script type="text/javascript"
-            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=vi&region=VI">
-        </script>
-    @endif
 
     {!! Html::script('js/shareSocial.js') !!}
 

@@ -33,7 +33,7 @@ body {
 /               AUTH.LOGIN                   /
 /-------------------------------------------*/
 .login {
-  margin-top: 150px;
+  margin-top: 100px;
 }
 
 .btn-login {
@@ -57,10 +57,10 @@ body {
 }
 
 /*-------------------------------------------/
-/               AUTH.REGISTER                   /
+/               AUTH.REGISTER                /
 /-------------------------------------------*/
 .register {
-  margin-top: 150px;
+  margin-top: 100px;
 }
 
 .btn-register {
@@ -78,6 +78,28 @@ body {
 #preview-avatar {
   height: 100px;
   width: 200px;
+}
+
+/*-------------------------------------------/
+/               AUTH.REGISTER                /
+/-------------------------------------------*/
+.poll-count {
+  float: right;
+}
+
+.title {
+  text-align: center;
+}
+
+.panel-poll {
+  transition: all 1s;
+  -moz-transition: all 1s;
+  -webkit-transition: all 1s;
+  -o-transition: all 1s;
+}
+
+.panel-poll:hover {
+  box-shadow: 2px 2px 2px black;
 }
 
 .file {

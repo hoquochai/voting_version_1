@@ -41,3 +41,7 @@ $(document).ready(function(){
         }
     });
 });
+
+function voted(id) {
+    $('#' + id).addClass('animated pulse');
+}
