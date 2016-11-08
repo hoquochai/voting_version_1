@@ -58,35 +58,35 @@
                 </div>
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="{{ asset("/") }}">{{ trans('label.home') }}</a></li>
-                        <li><a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a></li>
+                        <li {!! Request::is('/') ? 'class="active"' : '' !!}><a href="{{ asset("/") }}">{{ trans('label.home') }}</a></li>
+                        <li {!! Request::is('user-poll/create') ? 'class="active"' : '' !!}><a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a></li>
                         @if (auth()->check())
-                            <li>
+                            <li {!! Request::is('user/poll') ? 'class="active"' : '' !!}>
                                 <a href="{{ URL::action('User\PollController@index') }}">{{ trans('polls.poll_history') }}</a>
                             </li>
                         @endif
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
                         @if (Auth::guest())
-                            <li>
+                            <li {!! Request::is('login') ? 'class="active"' : '' !!}>
                                 <a href="{{ url('/login') }}">
                                     <span class="glyphicon glyphicon-log-in"></span> {{ trans('label.login') }}
                                 </a>
                             </li>
-                            <li>
+                            <li {!! Request::is('register') ? 'class="active"' : '' !!}>
                                 <a href="{{ url('/register') }}">
                                     <span class="glyphicon glyphicon-registration-mark"></span> {{ trans('label.register') }}
                                 </a>
                             </li>
                         @else
-                            <li>
+                            <li {!! Request::is('user/profile') ? 'class="active"' : '' !!}>
                                 <a href="{{ URL::action('User\UsersController@index') }}">
                                 <span class="glyphicon glyphicon-user">
                                     {{ str_limit(auth()->user()->name, 10) }}
                                 </span>
                                 </a>
                             </li>
-                            <li>
+                            <li {!! Request::is('/logout') ? 'class="active"' : '' !!}>
                                 <a href="{{ url('/logout') }}"
                                    onclick="event.preventDefault();
                                          document.getElementById('logout-form').submit();">

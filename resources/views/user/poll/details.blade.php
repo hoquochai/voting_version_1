@@ -37,8 +37,10 @@
                 <div class="panel-body details-poll">
                 @include('message')
                     <h4> {{ $poll->title }} </h4>
-                    {{ trans('polls.poll_initiate') }}
-                    @include('user.poll.user_details_layouts', ['user' => $poll->user])
+                    @if (isset($poll->user))
+                        {{ trans('polls.poll_initiate') }}
+                        @include('user.poll.user_details_layouts', ['user' => $poll->user])
+                    @endif
                     <p>
                         <i>
                             <span class="label label-primary glyphicon glyphicon-user poll-details">
@@ -273,6 +275,66 @@
                             {!! Form::close() !!}
                         </div>
                     </div>
+
+                        <!-- bar chart -->
+                        @if (collect($optionRateBarChart)->count())
+                            <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+                            <script type="text/javascript">
+                                google.load('visualization', '1', {'packages': ['columnchart']});
+                                google.setOnLoadCallback (createChart);
+
+                                function createChart() {
+                                    var dataTable = new google.visualization.DataTable();
+                                    dataTable.addColumn('string','Quarters 2009');
+                                    dataTable.addColumn('number', 'Earnings');
+
+                                    var optionRateBarChart = {!! $optionRateBarChart !!};
+                                    dataTable.addRows(optionRateBarChart);
+
+                                    var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
+
+                                    var options = {width: 300, height: 440, is3D: false};
+
+                                    chart.draw(dataTable, options);
+                                }
+                            </script>
+                            <div id="chart"></div>
+                        @endif
+
+
+
+                       <!-- pie chart for this poll -->
+                        @if (collect($optionRatePieChart)->count())
+                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                            <script>
+                                google.charts.load("current", {packages:["corechart"]});
+                                google.charts.setOnLoadCallback(drawChart);
+
+                                function drawChart() {
+                                var record={!! json_encode($optionRatePieChart) !!};
+                                console.log(record);
+
+                                // Create our data table.
+                                var data = new google.visualization.DataTable();
+                                data.addColumn('string', 'Source');
+                                data.addColumn('number', 'Total_Signup');
+
+                                for(var k in record){
+                                    var v = record[k];
+
+                                    data.addRow([k,v]);
+                                    console.log(v);
+                                }
+
+                                var options = {
+                                  is3D: true,
+                                };
+                                var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                                chart.draw(data, options);
+                                }
+                            </script>
+                                <div id="piechart_3d"></div>
+                        @endif
                 </div>
             </div>
         </div>

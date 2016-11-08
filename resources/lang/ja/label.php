@@ -51,4 +51,9 @@ return [
         ],
     ],
     'paginations' => 'Showing :start to :finish of :numberOfRecords entry|Showing :start to :finish of :numberOfRecords entries',
+    'gender' => [
+        '0' => 'Female',
+        '1' => 'Male',
+        '2' => 'Other',
+    ],
 ];

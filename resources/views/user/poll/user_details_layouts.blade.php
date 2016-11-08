@@ -5,6 +5,6 @@
         <br>
         {{ trans('label.name') }}: {{ $user->name }}
         <br>
-        {{ trans('label.gender') }}: {{ $user->showGender() }}
+        {{ trans('label.label_gender') }}: {{ $user->showGender() }}
     </div>
 </div>

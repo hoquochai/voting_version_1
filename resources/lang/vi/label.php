@@ -53,4 +53,9 @@ return [
         ],
     ],
     'paginations' => 'Hiển thị :start đến :finish của :numberOfRecords mục|Đang hiển thị :start đến :finish of :numberOfRecords mục',
+    'gender' => [
+        '0' => 'Nữ',
+        '1' => 'Nam',
+        '2' => 'Giới tính khác',
+    ],
 ];

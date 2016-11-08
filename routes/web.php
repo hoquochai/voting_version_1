@@ -79,6 +79,8 @@ Route::resource('language', 'User\LanguageController', [
     'only' => ['store']
 ]);
 
+Route::get('chartjs', ['as' => 'chart.piechart', 'uses' => 'User\ChartController@chartjs']);
+
 Route::get('/redirect/{provider}', 'SocialAuthController@redirectToProvider');
 Route::get('/callback/{provider}', 'SocialAuthController@handleProviderCallback');
 
