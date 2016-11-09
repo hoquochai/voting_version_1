@@ -15,33 +15,33 @@
                         <div class="connecting-line"></div>
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
-                                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-info-sign"></i>
-                            </span>
+                                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="{{ trans('polls.label.step_1') }}">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                    </span>
                                 </a>
                             </li>
 
                             <li role="presentation" class="disabled">
-                                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-option-horizontal"></i>
-                            </span>
+                                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="{{ trans('polls.label.step_2') }}">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-option-horizontal"></i>
+                                    </span>
                                 </a>
                             </li>
                             <li role="presentation" class="disabled">
-                                <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-cog"></i>
-                            </span>
+                                <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="{{ trans('polls.label.step_3') }}">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                    </span>
                                 </a>
                             </li>
 
                             <li role="presentation" class="disabled">
-                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-user"></i>
-                            </span>
+                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="{{ trans('polls.label.step_4') }}">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </span>
                                 </a>
                             </li>
                         </ul>
@@ -68,93 +68,116 @@
                                         <h3>{{ strtoupper(trans('polls.label.step_1')) }}</h3>
                                     </div>
                                     <div class="panel-body">
+                                        <div class="col-lg-12 alert alert-success">
 
-                                        <!-- TITLE -->
-                                        <div class="form-group">
-                                            {{ Form::label(trans('polls.label_for.title'), trans('polls.label.title')) }}
-                                            {{
-                                                Form::text('title', null, [
-                                                    'class' => 'form-control',
-                                                    'id' => 'title',
-                                                    'placeholder' => trans('polls.placeholder.title'),
-                                                ])
-                                            }}
+                                            <!-- TITLE -->
+                                            <div class="form-group">
+                                                {{ Form::label(trans('polls.label_for.title'), trans('polls.label.title')) }}
+                                                {{
+                                                    Form::text('title', null, [
+                                                        'class' => 'form-control',
+                                                        'id' => 'title',
+                                                        'placeholder' => trans('polls.placeholder.title'),
+                                                    ])
+                                                }}
+                                            </div>
+
+                                            <!-- TYPE -->
+                                            <div class="form-group" id="type">
+                                                {{ Form::label(trans('polls.label_for.type'), trans('polls.label.type')) }}
+                                                <label class="radio-inline">
+                                                    {{ Form::radio('type', config('settings.type_poll.single_choice')) }} {{ trans('polls.label.single_choice') }}
+                                                </label>
+                                                <label class="radio-inline">
+                                                    {{ Form::radio('type', config('settings.type_poll.multiple_choice')) }} {{ trans('polls.label.multiple_choice') }}
+                                                </label>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-lg-6">
+
+                                                    <!-- EMAIL -->
+                                                    <div class="form-group">
+                                                        {{ Form::label(trans('polls.label_for.email'), trans('polls.label.email')) }}
+                                                        {{
+                                                            Form::text('email', (auth()->user()) ? auth()->user()->email : null, [
+                                                                'class' => 'form-control',
+                                                                'id' => 'email',
+                                                                'placeholder' => trans('polls.placeholder.email'),
+                                                            ])
+                                                        }}
+                                                        <div class="email-error"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+
+                                                    <!-- NAME -->
+                                                    <div class="form-group">
+                                                        {{ Form::label(trans('polls.label_for.full_name'), trans('polls.label.full_name')) }}
+                                                        {{
+                                                            Form::text('name', (auth()->user()) ? auth()->user()->name : null, [
+                                                                'class' => 'form-control',
+                                                                'id' => 'name',
+                                                                'placeholder' => trans('polls.placeholder.full_name'),
+                                                            ])
+                                                        }}
+                                                        <div class="email-error"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        <div class="col-lg-12 alert alert-info">
 
-                                        <!-- LOCATION -->
-                                        <div class="form-group">
-                                            {{ Form::label(trans('polls.label_for.location'), trans('polls.label.location')) }}
-                                            {{
-                                                Form::text('location', null, [
-                                                    'class' => 'form-control',
-                                                    'id' => 'location',
-                                                    'placeholder' => trans('polls.placeholder.location'),
-                                                ])
-                                            }}
-                                        </div>
+                                            <!-- DATETIME PICKER -->
+                                            <div class="form-group">
+                                                {{ Form::label(trans('polls.label_for.time_close'), trans('polls.label.time_close')) }}
+                                                {{
+                                                    Form::text('closedTime', null, [
+                                                        'class' => 'form-control',
+                                                        'id' => 'datetimepicker1',
+                                                    ])
+                                                }}
+                                            </div>
 
-                                        <!-- DESCRIPTION -->
-                                        <div class="form-group">
-                                            {{ Form::label(trans('polls.label_for.description'), trans('polls.label.description')) }}
-                                            {{
-                                                Form::textarea('description', null, [
-                                                    'class' => 'form-control',
-                                                    'id' => 'description',
-                                                    'placeholder' => trans('polls.placeholder.description'),
-                                                ])
-                                            }}
-                                        </div>
+                                            <!-- DESCRIPTION -->
+                                            <div class="form-group">
+                                                {{ Form::label(trans('polls.label_for.description'), trans('polls.label.description')) }}
+                                                {{
+                                                    Form::textarea('description', null, [
+                                                        'class' => 'form-control',
+                                                        'id' => 'description',
+                                                        'placeholder' => trans('polls.placeholder.description'),
+                                                        'rows' => 2
+                                                    ])
+                                                }}
+                                            </div>
 
-                                        <!-- NAME -->
-                                        <div class="form-group">
-                                            {{ Form::label(trans('polls.label_for.full_name'), trans('polls.label.full_name')) }}
-                                            {{
-                                                Form::text('name', (auth()->user()) ? auth()->user()->name : null, [
-                                                    'class' => 'form-control',
-                                                    'id' => 'name',
-                                                    'placeholder' => trans('polls.placeholder.full_name'),
-                                                ])
-                                            }}
-                                        </div>
+                                            <!-- LOCATION -->
+                                            <div class="form-group">
+                                                {{ Form::label(trans('polls.label_for.location'), trans('polls.label.location')) }}
+                                                {{
+                                                    Form::text('location', null, [
+                                                        'class' => 'form-control',
+                                                        'id' => 'location',
+                                                        'placeholder' => trans('polls.placeholder.location'),
+                                                    ])
+                                                }}
+                                            </div>
 
-                                        <!-- EMAIL -->
-                                        <div class="form-group">
-                                            {{ Form::label(trans('polls.label_for.email'), trans('polls.label.email')) }}
-                                            {{
-                                                Form::text('email', (auth()->user()) ? auth()->user()->email : null, [
-                                                    'class' => 'form-control',
-                                                    'id' => 'email',
-                                                    'placeholder' => trans('polls.placeholder.email'),
-                                                ])
-                                            }}
-                                            <div class="email-error"></div>
-                                        </div>
-
-                                        <!-- CHATWORK -->
-                                        <div class="form-group">
-                                            {{ Form::label(trans('polls.label_for.chatwork'), trans('polls.label.chatwork')) }}
-                                            {{
-                                                Form::text('chatwork_id', (auth()->user()) ? auth()->user()->chatwork_id : null, [
-                                                    'class' => 'form-control',
-                                                    'id' => 'chatwork',
-                                                    'placeholder' => trans('polls.placeholder.chatwork'),
-                                                ])
-                                            }}
-                                        </div>
-
-                                        <!-- TYPE -->
-                                        <div class="form-group" id="type">
-                                            {{ Form::label(trans('polls.label_for.type'), trans('polls.label.type')) }}
-                                            <label class="radio-inline">
-                                                {{ Form::radio('type', config('settings.type_poll.single_choice')) }} {{ trans('polls.label.single_choice') }}
-                                            </label>
-                                            <label class="radio-inline">
-                                                {{ Form::radio('type', config('settings.type_poll.multiple_choice')) }} {{ trans('polls.label.multiple_choice') }}
-                                            </label>
+                                            <!-- CHATWORK -->
+                                            <div class="form-group">
+                                                {{ Form::label(trans('polls.label_for.chatwork'), trans('polls.label.chatwork')) }}
+                                                {{
+                                                    Form::text('chatwork_id', (auth()->user()) ? auth()->user()->chatwork_id : null, [
+                                                        'class' => 'form-control',
+                                                        'id' => 'chatwork',
+                                                        'placeholder' => trans('polls.placeholder.chatwork'),
+                                                    ])
+                                                }}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-
                                 <ul class="list-inline pull-right">
                                     <li>
                                         {{
@@ -284,12 +307,18 @@
                                                             trans('polls.label.setting.set_password')
                                                         )
                                                     }}
-                                                    {{
-                                                        Form::password('value[password]', [
-                                                            'class' => 'form-control',
-                                                            'id' => 'password',
-                                                        ])
-                                                    }}
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon">
+                                                            <input type="checkbox" id="checkboxShowPassword">
+                                                        </span>
+                                                        <span class="input-group-addon">{{ trans('polls.label.setting.show_password') }}</span>
+                                                        {{
+                                                            Form::password('value[password]', [
+                                                                'class' => 'form-control',
+                                                                'id' => 'password',
+                                                            ])
+                                                        }}
+                                                    </div>
                                                 </div>
                                             @else
                                                 @continue
@@ -319,18 +348,9 @@
                                         <h3>{{ strtoupper(trans('polls.label.step_4')) }}</h3>
                                     </div>
                                     <div class="panel-body">
-                                        <div class="form-group">
-                                            <label class="radio-inline">
-                                                {{ Form::radio('participant', config('settings.participant.invite_all'), true, ['id' => 'participant']) }}
-                                                {{ trans('polls.label.invite_all') }}
-                                            </label>
-                                            <label class="radio-inline">
-                                                {{ Form::radio('participant', config('settings.participant.invite_people'), null, ['id' => 'participant']) }}
-                                                {{ trans('polls.label.invite_people') }}
-                                            </label>
-                                        </div>
                                         <div class="form-group" id="email-participant">
                                             {{ Form::label(trans('polls.label_for.invite'), trans('polls.label.invite')) }}
+                                            <br>
                                             {{
                                                 Form::text('member', null, [
                                                     'id' => 'member',

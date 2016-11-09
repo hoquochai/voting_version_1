@@ -104,7 +104,7 @@ class PollController extends Controller
             'title', 'location', 'description', 'name', 'email', 'chatwork_id', 'type',
             'optionText', 'optionImage',
             'setting', 'value',
-            'participant', 'member'
+            'member'
         );
         $data = $this->pollRepository->store($input);
 

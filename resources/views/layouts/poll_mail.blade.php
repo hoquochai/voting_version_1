@@ -57,6 +57,9 @@
                 <div class="panel-body">
                     <p>{!! trans('polls.mail.introduction') !!} </p>
                     <h3>{{ trans('polls.mail.participant.link') }} <a href="{{ $link }}" target="_blank">{{ $link }}</a></h3>
+                    @if ($password)
+                        <h4>{{ trans('polls.label.setting.password_poll') }} {{ $password }}</h4>
+                    @endif
                     @if ($administration)
                         <a href="{{ $linkAdmin }}">
                             <button class="btn-admin"><h3>{{ trans('polls.button.administration') }}</h3></button>

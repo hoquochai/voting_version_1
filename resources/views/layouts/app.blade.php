@@ -35,6 +35,12 @@
     {!! Html::style('bower/font-awesome/css/font-awesome.min.css') !!}
     {!! Html::style('bower/bootstrap-social/bootstrap-social.css') !!}
 
+    <!-- Bootstrap Tag Input css -->
+    <link href="{{ asset('bower/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet">
+
+    <!-- Datetime picker -->
+    <link href="{{ asset('bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+
     <!-- Scripts -->
     <script>
         window.Laravel = <?php echo json_encode([
@@ -129,10 +135,10 @@
     </div>
 
     <!-- jQuery -->
-    {!! Html::script('/bower/jQuery/dist/jquery.min.js') !!}
+    {!! Html::script('bower/jquery/dist/jquery.min.js') !!}
 
     <!-- Bootstrap -->
-    {!! Html::script('/bower/bootstrap/dist/js/bootstrap.min.js') !!}
+    {!! Html::script('bower/bootstrap/dist/js/bootstrap.min.js') !!}
 
     {!! Html::script('js/shareSocial.js') !!}
 
@@ -161,8 +167,12 @@
     <!-- Bootstrap Datatable JavaScript -->
     {!! Html::script('/bower/datatables.net-bs/js/dataTables.bootstrap.min.js') !!}
 
+    <!-- Tag Input -->
+    {!! Html::script('/bower/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') !!}
 
-
+    <!-- Datetime picker -->
+    <script src="{{ asset('bower/moment/min/moment.min.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 
 </body>
 </html>

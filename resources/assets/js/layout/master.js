@@ -373,37 +373,25 @@ function validateParticipant() {
     $("#validateParticipant").html("");
 
     if (typeof dataCreatePoll !== "undefined") {
-        if (participant == dataCreatePoll.message.config.invite_people) {
-            var members = $("#member").val();
-            members = members.split(",");
+        var members = $("#member").val();
+        members = members.split(",");
 
-            if (members.length > 0) {
-                for (var index = 0; index < members.length; index++) {
-                    var messageParticipant = validateInput(members[index], dataCreatePoll.message.length.email, "email", "participant");
+        if (members.length > 0) {
+            for (var index = 0; index < members.length; index++) {
+                var messageParticipant = validateInput(members[index], dataCreatePoll.message.length.email, "email", "participant");
 
-                    if (messageParticipant != "") {
+                if (messageParticipant != "") {
 
-                        //custom link
-                        $("#email-participant").after("<div id='validateParticipant'>" +
-                            "<p><span class='label label-danger'>" + messageParticipant + "</span><p><br>" +
-                            "</div>");
+                    //custom link
+                    $("#email-participant").after("<div id='validateParticipant'>" +
+                        "<p><span class='label label-danger'>" + messageParticipant + "</span><p><br>" +
+                        "</div>");
 
-                        return false;
-                    }
+                    return false;
                 }
-
-                return true;
             }
 
-            //custom link
-            $("#email-participant").after("<div id='validateParticipant'>" +
-                "<p><span class='label label-danger'>" + dataCreatePoll.message.validate.participant_empty + "</span><p><br>" +
-                "</div>");
-
-            return false;
         }
-
-        return true;
     }
 
     return true;
@@ -435,3 +423,46 @@ function checkLink(route, token) {
         });
     }
 }
+
+/*
+show password
+ */
+//Place this plugin snippet into another file in your applicationb
+(function ($) {
+    $.toggleShowPassword = function (options) {
+        var settings = $.extend({
+            field: "#password",
+            control: "#toggle_show_password",
+        }, options);
+
+        var control = $(settings.control);
+        var field = $(settings.field)
+
+        control.bind('click', function () {
+            if (control.is(':checked')) {
+                field.attr('type', 'text');
+            } else {
+                field.attr('type', 'password');
+            }
+        })
+    };
+}(jQuery));
+
+//Here how to call above plugin from everywhere in your application document body
+$.toggleShowPassword({
+    field: '#password',
+    control: '#checkboxShowPassword'
+});
+
+
+//Auto close message
+$(".alert-dismissable").fadeTo(2000, 500).slideUp(2000, function(){
+    $(".alert-dismissable").alert('close');
+});
+
+//Datetime picker
+$(function () {
+    $('#datetimepicker1').datetimepicker({
+        format: 'DD-MM-YYYY HH:mm',
+    });
+});

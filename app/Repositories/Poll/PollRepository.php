@@ -490,18 +490,16 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             /*
              * send mail participant
              */
-            $participant = $input['participant'];
-
-            if ($participant == config('settings.participant.invite_people')) {
-                $members = explode(",", $input['member']);
-                $view = config('settings.view.poll_mail');
-                $data = [
-                    'link' => $links['participant'],
-                    'administration' => false,
-                ];
-                $subject = trans('label.mail.subject');
-                $this->sendEmail($members, $view, $data, $subject);
-            }
+            $password = in_array(config('settings.setting.set_password'), $input['setting']) ? $input['value']['password'] : false;
+            $members = explode(",", $input['member']);
+            $view = config('settings.view.poll_mail');
+            $data = [
+                'link' => $links['participant'],
+                'administration' => false,
+                'password' => $password,
+            ];
+            $subject = trans('label.mail.subject');
+            $this->sendEmail($members, $view, $data, $subject);
 
             /*
              * send mail creator
@@ -512,6 +510,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'link' => $links['participant'],
                 'administration' => true,
                 'linkAdmin' => $links['administration'],
+                'password' => $password,
             ];
             $subject = trans('label.mail.subject');
             $this->sendEmail($email, $creatorView, $data, $subject);
