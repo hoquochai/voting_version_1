@@ -102,42 +102,74 @@
                                         <div class="panel-body">
                                             <div class="col-lg-12">
                                                 <div class="col-lg-4">
-                                                    <a href="{{ URL::action('User\ActivityController@show', $poll->id) }}" class="btn btn-warning btn-block btn-administration">
-                                                        <span class="fa fa-history"></span>
-                                                        {{ trans('polls.view_history') }}
-                                                    </a>
-                                                </div>
-                                                <div class="col-lg-4">
-                                                    @if ($poll->countParticipants())
-                                                        {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id]]) !!}
+                                                    <div class="row activity-poll">
+                                                        <a href="{{ URL::action('User\ActivityController@show', $poll->id) }}" class="btn btn-default btn-block btn-administration">
+                                                            <span class="fa fa-history"></span>
+                                                            {{ trans('polls.view_history') }}
+                                                        </a>
+                                                    </div>
+                                                    <div class="row activity-poll">
+                                                        <button class="btn btn-default btn btn-block btn-administration">Edit poll</button>
+                                                    </div>
+                                                    <div class="row activity-poll">
+                                                        <button class="btn btn-default btn btn-block btn-administration">Duplication</button>
+                                                    </div>
+                                                    <div class="row activity-poll">
+                                                        {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
                                                         {{
-                                                            Form::button('<span class="fa fa-trash-o"></span>' . ' ' . trans('polls.delete_all_participants'), [
+                                                            Form::button('<span class="fa fa-times-circle"></span>' . ' ' . trans('polls.close_poll'), [
                                                                 'type' => 'submit',
-                                                                'class' => 'btn btn-danger btn-block btn-administration',
-                                                                'onclick' => 'return confirm("' . trans('polls.confirm_delete_all_participant') . '")'
+                                                                'class' => 'btn btn-default btn-block btn-administration',
+                                                                'onclick' => 'return confirm("' . trans('polls.confirm_close_poll') . '")'
                                                             ])
                                                         }}
                                                         {{ Form::close() }}
-                                                    @else
-                                                        <a class="btn btn-danger btn-administration btn-block disable-link">
-                                                            <span class="fa fa-trash-o"></span>
-                                                            {{ trans('polls.delete_all_participants') }}
-                                                        </a>
-                                                    @endif
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-4">
-                                                    {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
-                                                    {{
-                                                        Form::button('<span class="fa fa-times-circle"></span>' . ' ' . trans('polls.close_poll'), [
-                                                            'type' => 'submit',
-                                                            'class' => 'btn btn-primary btn-block btn-administration',
-                                                            'onclick' => 'return confirm("' . trans('polls.confirm_close_poll') . '")'
-                                                        ])
-                                                    }}
-                                                    {{ Form::close() }}
+                                                    <div class="row activity-poll">
+                                                        @if ($poll->countParticipants())
+                                                            {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id]]) !!}
+                                                            {{
+                                                                Form::button('<span class="fa fa-trash-o"></span>' . ' ' . trans('polls.delete_all_participants'), [
+                                                                    'type' => 'submit',
+                                                                    'class' => 'btn btn-default btn-block btn-administration',
+                                                                    'onclick' => 'return confirm("' . trans('polls.confirm_delete_all_participant') . '")'
+                                                                ])
+                                                            }}
+                                                            {{ Form::close() }}
+                                                        @else
+                                                            <a class="btn btn-default btn-administration btn-block disable-link">
+                                                                <span class="fa fa-trash-o"></span>
+                                                                {{ trans('polls.delete_all_participants') }}
+                                                            </a>
+                                                        @endif
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="row activity-poll">
+                                                        {{ Form::open(['route' => ['exportPDF', 'poll_id' => $poll->id]]) }}
+                                                        {{
+                                                            Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_pdf'), [
+                                                                'type' => 'submit',
+                                                                'class' => 'btn btn-default btn-block btn-administration'
+                                                            ])
+                                                        }}
+                                                        {{ Form::close() }}
+                                                    </div>
+                                                    <div class="row activity-poll">
+                                                        {{ Form::open(['route' => ['exportExcel', 'poll_id' => $poll->id]]) }}
+                                                        {{
+                                                            Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_excel'), [
+                                                                'type' => 'submit',
+                                                                'class' => 'btn btn-default btn-block btn-administration'
+                                                            ])
+                                                        }}
+                                                        {{ Form::close() }}
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <br><hr>
+
                                             <div class="col-lg-12 well">
                                                 <div class="col-lg-2">
                                                     <a class="btn-link-user">

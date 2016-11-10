@@ -129,6 +129,7 @@ li {
 
 .btn-administration {
     border-radius: 0 !important;
+
 }
 
 .lastest-poll-message {
@@ -173,4 +174,8 @@ li {
 .scroll-result {
     max-height: calc(100vh - 212px);
     overflow-y: auto;
+}
+
+.details-poll {
+    display: none;
 }
