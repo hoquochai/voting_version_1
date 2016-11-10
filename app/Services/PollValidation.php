@@ -6,6 +6,7 @@ use App\Models\Link;
 use Illuminate\Support\Facades\Validator;
 use Request;
 use Carbon\Carbon;
+use App\Models\User;
 
 class PollValidator extends Validator
 {
@@ -94,5 +95,10 @@ class PollValidator extends Validator
         }
 
         return true;
+    }
+
+    public function register($attribute, $value, $parameters, $validator)
+    {
+        return User::where('email', $value)->where('is_register', false)->count() == config('settings.default_value');
     }
 }

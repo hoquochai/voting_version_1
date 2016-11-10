@@ -495,18 +495,23 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             /*
              * send mail participant
              */
-            $password = ($input['setting'] && in_array(config('settings.setting.set_password'), $input['setting'])) ? $input['value']['password'] : false;
-            dd($password);
-            $members = explode(",", $input['member']);
-            $view = config('settings.view.poll_mail');
-            $data = [
-                'link' => $links['participant'],
-                'administration' => false,
-                'password' => $password,
-            ];
-            $subject = trans('label.mail.subject');
-            $this->sendEmail($members, $view, $data, $subject);
+            $password = false;
 
+            if (count($input['setting'])) {
+                $password = (in_array(config('settings.setting.set_password'), $input['setting'])) ? $input['value']['password'] : false;
+            }
+
+            if ($input['member']) {
+                $members = explode(",", $input['member']);
+                $view = config('settings.view.poll_mail');
+                $data = [
+                    'link' => $links['participant'],
+                    'administration' => false,
+                    'password' => $password,
+                ];
+                $subject = trans('label.mail.subject');
+                $this->sendEmail($members, $view, $data, $subject);
+            }
             /*
              * send mail creator
              */
@@ -516,7 +521,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'link' => $links['participant'],
                 'administration' => true,
                 'linkAdmin' => $links['administration'],
-                'password' => $password,
+                'password' => false,
             ];
             $subject = trans('label.mail.subject');
             $this->sendEmail($email, $creatorView, $data, $subject);

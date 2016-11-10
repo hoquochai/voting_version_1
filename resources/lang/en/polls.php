@@ -236,6 +236,7 @@ return [
     'no' => 'No',
     'poll_history' => 'Poll History',
     'show_vote_details' => 'Show vote details',
+    'activity_poll' => 'Show activity of poll',
     'next' => 'Next',
     'optional' => 'optional',
     'one_answer' => 'One answer',

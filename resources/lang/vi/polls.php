@@ -234,6 +234,7 @@ return [
     'no' => 'Số thứ tự',
     'poll_history' => 'Lịch sử poll',
     'show_vote_details' => 'Xem chi tiết bầu chọn',
+    'activity_poll' => 'Hoạt động của poll',
     'next' => 'Tiếp',
     'optional' => 'Không bắt buộc',
     'one_answer' => 'Một câu trả lời',
