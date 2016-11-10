@@ -209,7 +209,7 @@ function validateInfo() {
         var messageName = validateInput($('#name').val(), dataCreatePoll.message.length.name, "text", "name");
         var messageEmail = validateInput($('#email').val(), dataCreatePoll.message.length.email, "email", "email");
         var messageType = validateRadioAndCheckbox($("input[name=type]:checked").val(), "type");
-        
+
         //reset message
         $('#validateTitle').html("");
         $('#validateDescription').html("");

@@ -128,8 +128,7 @@ li {
 }
 
 .btn-administration {
-    float: right;
-    margin-left: 20px;
+    border-radius: 0 !important;
 }
 
 .lastest-poll-message {

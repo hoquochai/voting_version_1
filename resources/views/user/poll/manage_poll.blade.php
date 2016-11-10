@@ -137,38 +137,33 @@
                                                     {{ Form::close() }}
                                                 </div>
                                             </div>
-                                            <hr>
-
-
-                                            <div class="col-lg-12">
-
-                                            </div>
-                                            <div class="col-md-12">
-                                                <div class="col-md-2">
+                                            <br><hr>
+                                            <div class="col-lg-12 well">
+                                                <div class="col-lg-2">
                                                     <a class="btn-link-user">
                                                         <i>{{ trans('polls.participation_link') }}</i>
                                                         <span class="glyphicon glyphicon-arrow-right "></span>
                                                     </a>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-lg-7">
                                                     {{ Form::text('participation_link', $tokenLinkUser, ['class' => 'form-control token-user', 'placeholder' => trans('polls.placeholder.token_link')]) }}
                                                 </div>
-                                                <div class="col-md-7" data-token-link-user="{{ $tokenLinkUser }}">
+                                                <div class="col-lg-3" data-token-link-user="{{ $tokenLinkUser }}">
                                                     {{ Form::button(trans('polls.edit_link_user'), ['class' => 'btn btn-success edit-link-user']) }}
                                                     <label class="label label-default message-link-user"></label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-12">
-                                                <div class="col-md-2">
+                                            <div class="col-lg-12 well">
+                                                <div class="col-lg-2">
                                                     <a class="btn-link-admin">
                                                         <i>{{ trans('polls.administer_link') }}</i>
                                                         <span class="glyphicon glyphicon-arrow-right btn-link-admin"></span>
                                                     </a>
                                                 </div>
-                                                <div class="col-md-3">
+                                                <div class="col-lg-7">
                                                     {{ Form::text('administer_link', $tokenLinkAdmin, ['class' => 'form-control token-admin', 'placeholder' => trans('polls.placeholder.token_link')]) }}
                                                 </div>
-                                                <div class="col-md-7" data-token-link-admin="{{ $tokenLinkAdmin }}">
+                                                <div class="col-lg-3" data-token-link-admin="{{ $tokenLinkAdmin }}">
                                                     {{ Form::button(trans('polls.edit_link_admin'), ['class' => 'btn btn-success edit-link-admin']) }}
                                                     <label class="label label-default  message-link-admin"></label>
                                                 </div>
