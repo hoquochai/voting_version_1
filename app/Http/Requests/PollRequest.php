@@ -30,6 +30,7 @@ class PollRequest extends FormRequest
             'title' => 'required|max:' . $config['title'],
             'description' => 'max:' . $config['description'],
             'type' => 'required',
+            'closingTime' => 'info',
             'optionText' => 'option:optionImage',
             'value' => 'setting:setting',
             'member' => 'participant:participant',

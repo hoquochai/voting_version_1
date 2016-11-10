@@ -177,9 +177,9 @@ function validateInput(text, length, type, name) {
     var regexEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
     if (typeof dataCreatePoll !== "undefined") {
-        if (text == "") {
+        if (text == "" && name != "participant") {
             message = dataCreatePoll.message.validate.required + name;
-        } else if (text.length > length) {
+        } else if (text.length > length && name != "participant") {
             message = dataCreatePoll.message.validate.max + length + dataCreatePoll.message.validate.character;
         } else if (type == "email" && ! regexEmail.test(text)) {
             message = dataCreatePoll.message.validate.email;
@@ -201,6 +201,7 @@ function validateRadioAndCheckbox(value, name) {
 
     return message;
 }
+
 
 function validateInfo() {
     if (typeof dataCreatePoll !== "undefined") {
@@ -369,32 +370,33 @@ function validateSetting() {
 }
 
 function validateParticipant() {
-    var participant = $("input[name='participant']:checked").val();
     $("#validateParticipant").html("");
+    var messageParticipant = "";
 
     if (typeof dataCreatePoll !== "undefined") {
         var members = $("#member").val();
+        if (members == "") {
+            return true;
+        }
         members = members.split(",");
 
-        if (members.length > 0) {
-            for (var index = 0; index < members.length; index++) {
-                var messageParticipant = validateInput(members[index], dataCreatePoll.message.length.email, "email", "participant");
 
-                if (messageParticipant != "") {
+        for (var index = 0; index < members.length; index++) {
+            messageParticipant = validateInput(members[index], dataCreatePoll.message.length.email, "email", "participant");
+            if (messageParticipant != "") {
 
-                    //custom link
-                    $("#email-participant").after("<div id='validateParticipant'>" +
-                        "<p><span class='label label-danger'>" + messageParticipant + "</span><p><br>" +
-                        "</div>");
+                //custom link
+                $("#email-participant").after("<div id='validateParticipant'>" +
+                    "<p><span class='label label-danger'>" + messageParticipant + "</span><p><br>" +
+                    "</div>");
 
-                    return false;
-                }
+                return false;
             }
-
         }
+
+        return true;
     }
 
-    return true;
 }
 
 

@@ -92,8 +92,8 @@ li {
 }
 
 .img-option {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
 }
 
 .dropbtn {
@@ -165,4 +165,13 @@ li {
     width: 900px;
     height: 500px;
     //float: right;
+}
+
+.message-validation {
+    color: red;
+}
+
+.scroll-result {
+    max-height: calc(100vh - 212px);
+    overflow-y: auto;
 }

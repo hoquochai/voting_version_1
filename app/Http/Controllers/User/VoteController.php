@@ -46,6 +46,14 @@ class VoteController extends Controller
         $poll = $this->pollRepository->findPollById($inputs['poll_id']);
         $now = Carbon::now();
 
+        //check time close poll
+        if (Carbon::now()->format('d/m/Y h:i') > Carbon::parse($poll->date_close)->format('d/m/Y h:i')) {
+            $poll->status = false;
+            $poll->save();
+
+            return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
+        }
+
         if (auth()->check()) {
             $currentUser = auth()->user();
             $participantInformation = [

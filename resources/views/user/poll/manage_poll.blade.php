@@ -12,6 +12,46 @@
                              data-edit-link-success="{{ trans('polls.edit_link_successfully') }}"
                              data-link="{{ url('link') }}">
                         </div>
+                        <div class="col-lg-12">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Collapsible Group 1</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse1" class="panel-collapse collapse in">
+                                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">Collapsible Group 2</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse2" class="panel-collapse collapse">
+                                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">Collapsible Group 3</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapse3" class="panel-collapse collapse">
+                                        <div class="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                                            sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                                            quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12">
                             {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
                             {{
@@ -49,7 +89,7 @@
                             <div class="modal fade" id="myModal" role="dialog">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
-                                        <div class="modal-body">
+                                        <div class="modal-body scroll-result">
                                             @if ($mergedParticipantVotes->count())
                                                 <table class="table table-bordered">
                                                     <thead>
@@ -60,7 +100,7 @@
                                                             <center>
                                                                 <img class="img-option" src="{{ $option->showImage() }}">
                                                                 <br>
-                                                                {{ $option->name }}
+                                                                {{ str_limit($option->name, 15)}}
                                                             </center>
                                                         </th>
                                                     @endforeach

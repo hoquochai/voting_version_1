@@ -94,7 +94,7 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
-
+    'info' => 'Thời gian đóng poll phải lớn hơn thời gian hiện tại',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

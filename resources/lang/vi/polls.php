@@ -300,4 +300,10 @@ return [
     'not_activity' => 'Không có hoạt động nào',
     'confirm_delete_all_participant' => 'Bạn có chắc chắn muốn xóa tất cả các bầu chọn của poll này không?',
     'login_here' => ' Đăng nhập',
+    'option' => [
+        'name_vote' => 'Tên option',
+        'rate_vote' => 'Tỉ lệ phần trăm',
+        'count_vote' => 'Số lượng bầu chọn',
+    ],
+    'hide_result_message' => 'Poll này đã ẩn kết quả bầu chọn.',
 ];

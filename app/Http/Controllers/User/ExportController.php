@@ -35,6 +35,25 @@ class ExportController extends Controller
     public function getDataRender($pollId)
     {
         $poll = $this->pollRepository->find($pollId);
+        $totalVote = config('settings.default_value');
+
+        foreach ($poll->options as $option) {
+            $totalVote += $option->countVotes();
+        }
+
+        $optionRate = [];
+
+        if ($totalVote) {
+            foreach ($poll->options as $option) {
+                $countOption = $option->countVotes();
+                $optionRate[] = [
+                    'name' => $option->name,
+                    'count' => $countOption,
+                    'rate' => (int) ($countOption * 100 / $totalVote)
+                ];
+            }
+        }
+
         $isRequiredEmail = Setting::where('poll_id', $pollId)->where('key', config('settings.setting.required_email'))->count() != config('settings.default_value');
 
         $voteIds = $this->pollRepository->getVoteIds($poll->id);
@@ -67,6 +86,7 @@ class ExportController extends Controller
             'poll' => $poll,
             'isRequiredEmail' => $isRequiredEmail,
             'numberOfVote' => config('settings.default_value'),
+            'optionRate' => $optionRate,
         ];
 
         return $dataRender;
@@ -77,7 +97,7 @@ class ExportController extends Controller
         $inputs = $request->only('poll_id');
         $html = view('user.poll.details_layouts', $this->getDataRender($inputs['poll_id']));
 
-        return PDF::load($html)->download();
+        return PDF::load($html)->filename(trans('polls.vote') . '.pdf')->download();
     }
 
     public function exportExcel(Request $request)
@@ -85,7 +105,7 @@ class ExportController extends Controller
         $inputs = $request->only('poll_id');
         Excel::create(trans('polls.vote'), function($excel) use ($inputs) {
             $excel->sheet(trans('polls.vote_page'), function($sheet) use ($inputs){
-                $sheet->loadView('user.poll.details_layouts', $this->getDataRender($inputs['poll_id']));
+                $sheet->loadView('user.poll.details_layouts_excel', $this->getDataRender($inputs['poll_id']));
             });
         })->store('xls', storage_path('exports'));
         $voteExcelFilePath = storage_path('exports') . '/' . trans('polls.vote') . '.xls';

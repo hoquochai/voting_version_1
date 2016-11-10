@@ -9,6 +9,7 @@ use App\Repositories\Link\LinkRepositoryInterface;
 use App\Repositories\Poll\PollRepositoryInterface;
 use App\Repositories\Vote\VoteRepositoryInterface;
 use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
+use Carbon\Carbon;
 
 class LinkController extends Controller
 {
@@ -98,6 +99,14 @@ class LinkController extends Controller
         $poll = $link->poll;
         $totalVote = config('settings.default_value');
 
+        //check time close poll
+        if (Carbon::now()->format('d/m/Y h:i') > Carbon::parse($poll->date_close)->format('d/m/Y h:i')) {
+            $poll->status = false;
+            $poll->save();
+
+            return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
+        }
+
         foreach ($poll->options as $option) {
             $totalVote += $option->countVotes();
         }
@@ -134,13 +143,22 @@ class LinkController extends Controller
                 $isRequiredEmail = ($setting->key == config('settings.setting.required_email'));
                 $isHideResult = ($setting->key == config('settings.setting.hide_result'));
             }
-
-            if ($voteLimit && $poll->countParticipants() >= $voteLimit) {
-                return view('errors.show_errors')->with('message', trans('polls.message_poll_limit'));
-            }
         }
 
         if (! $link->link_admin) {
+
+            if ($poll->settings) {
+                foreach ($poll->settings as $setting) {
+                    if ($setting->key == config('settings.setting.set_limit')) {
+                        $voteLimit = $setting->value;
+                    }
+                }
+
+                if ($voteLimit && $poll->countParticipants() >= $voteLimit) {
+                    return view('errors.show_errors')->with('message', trans('polls.message_poll_limit'));
+                }
+            }
+
             $isRequiredEmail = $poll->settings->whereIn('key', [config('settings.setting.required_email')])->count() != config('settings.default_value');
             $isHideResult = $poll->settings->whereIn('key', [config('settings.setting.hide_result')])->count() != config('settings.default_value');
             $voteIds = $this->pollRepository->getVoteIds($poll->id);

@@ -101,7 +101,7 @@ class PollController extends Controller
     public function store(PollRequest $request)
     {
         $input = $request->only(
-            'title', 'location', 'description', 'name', 'email', 'chatwork_id', 'type',
+            'title', 'location', 'description', 'name', 'email', 'chatwork_id', 'type', 'closingTime',
             'optionText', 'optionImage',
             'setting', 'value',
             'member'

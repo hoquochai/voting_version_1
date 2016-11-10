@@ -19,6 +19,7 @@ return [
     'edit' => 'Chỉnh sửa',
     'home' => 'Trang chủ',
     'admin_page' => 'TRANG CHỦ ADMIN',
+    'errors' => 'Lỗi',
 
     /**
      * MASTER ADMIN

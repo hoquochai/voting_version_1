@@ -137,7 +137,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <label class="message-validate"></label>
+                                                        <label class="message-validation"></label>
                                                     </div>
                                                 </div>
                                             @endif
@@ -172,7 +172,7 @@
                                                             <div class="col-md-12" id="{{ $comment->id }}">
                                                                 <br>
                                                                 <div class="col-md-1">
-                                                                    @if ($comment->name == $comment->user->name)
+                                                                    @if (isset($comment->user) && ($comment->name == $comment->user->name))
                                                                         <img class="img-comment" src="{{ $comment->user->getAvatarPath() }}">
                                                                     @else
                                                                         <img class="img-comment" src="{{ $comment->showDefaultAvatar() }}">
@@ -330,7 +330,7 @@
                                             <div class="modal fade" id="myModal" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
-                                                        <div class="modal-body">
+                                                        <div class="modal-body scroll-result">
                                                             @if ($mergedParticipantVotes->count())
                                                                 <table class="table table-bordered">
                                                                     <thead>
@@ -404,6 +404,10 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            @else
+                                            <div class="col-lg-10 col-lg-offset-1 alert alert-danger">
+                                                {{ trans('polls.hide_result_message') }}
                                             </div>
                                         @endif
                                     </div>

@@ -18,7 +18,7 @@ $(document).ready(function(){
         } else {
             divChangeAmount = $(this).parent();
             var message = divChangeAmount.data('messageName');
-            $('.message-validate').html(message);
+            $('.message-validation').html(message);
         }
     });
 
@@ -32,12 +32,12 @@ $(document).ready(function(){
             } else {
                 divChangeAmount = $(this).parent();
                 var message = divChangeAmount.data('messageValidateEmail');
-                $('.message-validate').html(message);
+                $('.message-validation').html(message);
             }
         } else {
             divChangeAmount = $(this).parent();
             var message = divChangeAmount.data('messageEmail');
-            $('.message-validate').html(message);
+            $('.message-validation').html(message);
         }
     });
 });

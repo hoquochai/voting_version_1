@@ -19,6 +19,7 @@ return [
     'edit' => 'Edit',
     'home' => 'Home',
     'admin_page' => 'ADMIN PAGE',
+    'errors' => 'Error',
 
     /**
      * MASTER ADMIN

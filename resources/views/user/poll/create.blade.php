@@ -132,7 +132,7 @@
                                             <div class="form-group">
                                                 {{ Form::label(trans('polls.label_for.time_close'), trans('polls.label.time_close')) }}
                                                 {{
-                                                    Form::text('closedTime', null, [
+                                                    Form::text('closingTime', null, [
                                                         'class' => 'form-control',
                                                         'id' => 'datetimepicker1',
                                                     ])

@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Link;
 use Illuminate\Support\Facades\Validator;
 use Request;
+use Carbon\Carbon;
 
 class PollValidator extends Validator
 {
@@ -81,6 +82,15 @@ class PollValidator extends Validator
                      }
                  }
             }
+        }
+
+        return true;
+    }
+
+    public function information($attribute, $value, $parameters, $validator)
+    {
+        if ($value) {
+            return Carbon::now()->format('d/m/Y h:i') < Carbon::parse($value)->format('d/m/Y h:i');
         }
 
         return true;

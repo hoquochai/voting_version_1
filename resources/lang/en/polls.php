@@ -302,4 +302,10 @@ return [
     'not_activity' => 'Not activity',
     'confirm_delete_all_participant' => 'Are you sure delete all participant of this poll?',
     'login_here' => ' Login here',
+    'option' => [
+        'name_vote' => 'Name option',
+        'rate_vote' => 'Rate vote',
+        'count_vote' => 'Count vote',
+    ],
+    'hide_result_message' => 'Poll is setting hide result. You can\'t view result of this poll',
 ];

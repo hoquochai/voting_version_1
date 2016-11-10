@@ -200,6 +200,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                     'email' => $input['email'],
                     'chatwork_id' => ($input['chatwork_id']) ? $input['chatwork_id'] : null,
                     'created_at' => $now,
+                    'is_register' => config('settings.user.create_poll'),
                 ]);
             }
 
@@ -210,10 +211,12 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'location' => ($input['location']) ? $input['location'] : null,
                 'multiple' => $input['type'],
                 'created_at' => $now,
+                'date_close' => ($input['closingTime']) ? $input['closingTime'] : null,
             ]);
 
             return $pollId;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
     }
@@ -323,6 +326,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 }
             }
         } catch (Exception $ex) {
+            dd($ex);
             throw new Exception(trans('polls.message.upload_image_fail'));
         }
     }
@@ -460,6 +464,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 $message->to($email)->subject($subject);
             });
         } catch (Exception $ex) {
+            dd($ex);
             throw new Exception(trans('polls.message.send_mail_fail'));
         }
     }
@@ -483,14 +488,15 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             if (! $links) {
                 DB::rollback();
-
+                dd("error");
                 return false;
             }
 
             /*
              * send mail participant
              */
-            $password = in_array(config('settings.setting.set_password'), $input['setting']) ? $input['value']['password'] : false;
+            $password = ($input['setting'] && in_array(config('settings.setting.set_password'), $input['setting'])) ? $input['value']['password'] : false;
+            dd($password);
             $members = explode(",", $input['member']);
             $view = config('settings.view.poll_mail');
             $data = [
@@ -524,6 +530,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             return $dataRtn;
         } catch (Exception $ex) {
             DB::rollback();
+            dd($ex);
             return false;
         }
     }

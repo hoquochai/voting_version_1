@@ -31,6 +31,10 @@ return [
         'edit_vote' => '6',
     ],
     'image_default_path' => 'uploads/avatar/default.jpg',
+    'user' => [
+        'register' => 1,
+        'create_poll' => 0,
+    ],
 
     /**-------------------------------
      * Poll config

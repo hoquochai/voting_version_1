@@ -17,6 +17,7 @@ return [
     'profile' => 'Profile',
     'edit' => 'Edit',
     'home' => 'Home',
+    'errors' => 'Error',
 
     /**
      * MASTER ADMIN

@@ -94,7 +94,7 @@ return [
     | specify a specific custom language line for a given attribute rule.
     |
     */
-
+    'info' => 'Time invalid',
     'custom' => [
         'attribute-name' => [
             'rule-name' => 'custom-message',

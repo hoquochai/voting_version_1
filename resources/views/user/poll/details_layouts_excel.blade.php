@@ -1,11 +1,6 @@
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <style>
-        body{
-            font-family: "DejaVu Sans", monospace;
-        }
-    </style>
 </head>
 <body>
     <h4> {{ $poll->title }} </h4>
@@ -31,7 +26,6 @@
     <table class="table table-bordered">
     <thead>
     <tr>
-        <th><center>{{ trans('polls.no') }}</center></th>
         <th><center>{{ $isRequiredEmail ? trans('polls.email') : trans('polls.name')}}</center></th>
         @foreach ($poll->options as $option)
             <th>
@@ -45,7 +39,6 @@
     <tbody>
         @foreach ($votes as $vote)
         <tr>
-            <td><center>{{ ++$numberOfVote }}</center></td>
             @php
                 $isShowVoteName = false;
             @endphp
@@ -89,19 +82,14 @@
     <table class="table table-bordered">
     <thead>
     <tr>
-        <th>{{ trans('polls.no') }}</th>
         <th>{{ trans('polls.option.name_vote') }}</th>
         <th>{{ trans('polls.option.count_vote') }}</th>
         <th>{{ trans('polls.option.rate_vote') }}</th>
     </tr>
     </thead>
     <tbody>
-        @php
-            $countOption = 0;
-        @endphp
         @foreach ($optionRate as $option)
             <tr>
-                <td><center>{{ ++$countOption }}</center></td>
                 <td><center>{{ $option['name'] }}</center></td>
                 <td><center>{{ $option['count'] }}</center></td>
                 <td>
