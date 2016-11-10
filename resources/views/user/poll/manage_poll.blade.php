@@ -100,36 +100,49 @@
                                     </div>
                                     <div id="collapse2" class="panel-collapse collapse">
                                         <div class="panel-body">
-                                            {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
-                                            {{
-                                                Form::button('<span class="glyphicon glyphicon-remove-sign"></span>' . ' ' . trans('polls.close_poll'), [
-                                                    'type' => 'submit',
-                                                    'class' => 'btn btn-danger btn-administration',
-                                                    'onclick' => 'return confirm("' . trans('polls.confirm_close_poll') . '")'
-                                                ])
-                                            }}
-                                            {{ Form::close() }}
-                                            @if ($poll->countParticipants())
-                                                {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id]]) !!}
-                                                {{
-                                                    Form::button('<span class="glyphicon glyphicon-remove-sign"></span>' . ' ' . trans('polls.delete_all_participants'), [
-                                                        'type' => 'submit',
-                                                        'class' => 'btn btn-danger btn-administration',
-                                                        'onclick' => 'return confirm("' . trans('polls.confirm_delete_all_participant') . '")'
-                                                    ])
-                                                }}
-                                                {{ Form::close() }}
-                                            @else
-                                                <a class="btn btn-danger btn-administration disable-link">
-                                                    <span class="glyphicon glyphicon-remove-sign"></span>
-                                                    {{ trans('polls.delete_all_participants') }}
-                                                </a>
-                                            @endif
-                                            <a href="{{ URL::action('User\ActivityController@show', $poll->id) }}" class="btn btn-primary  btn-administration">
-                                                <span class="glyphicon glyphicon-star-empty"></span>
-                                                {{ trans('polls.view_history') }}
-                                            </a>
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-4">
+                                                    <a href="{{ URL::action('User\ActivityController@show', $poll->id) }}" class="btn btn-warning btn-block btn-administration">
+                                                        <span class="fa fa-history"></span>
+                                                        {{ trans('polls.view_history') }}
+                                                    </a>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    @if ($poll->countParticipants())
+                                                        {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id]]) !!}
+                                                        {{
+                                                            Form::button('<span class="fa fa-trash-o"></span>' . ' ' . trans('polls.delete_all_participants'), [
+                                                                'type' => 'submit',
+                                                                'class' => 'btn btn-danger btn-block btn-administration',
+                                                                'onclick' => 'return confirm("' . trans('polls.confirm_delete_all_participant') . '")'
+                                                            ])
+                                                        }}
+                                                        {{ Form::close() }}
+                                                    @else
+                                                        <a class="btn btn-danger btn-administration btn-block disable-link">
+                                                            <span class="fa fa-trash-o"></span>
+                                                            {{ trans('polls.delete_all_participants') }}
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
+                                                    {{
+                                                        Form::button('<span class="fa fa-times-circle"></span>' . ' ' . trans('polls.close_poll'), [
+                                                            'type' => 'submit',
+                                                            'class' => 'btn btn-primary btn-block btn-administration',
+                                                            'onclick' => 'return confirm("' . trans('polls.confirm_close_poll') . '")'
+                                                        ])
+                                                    }}
+                                                    {{ Form::close() }}
+                                                </div>
+                                            </div>
+                                            <hr>
 
+
+                                            <div class="col-lg-12">
+
+                                            </div>
                                             <div class="col-md-12">
                                                 <div class="col-md-2">
                                                     <a class="btn-link-user">
@@ -160,6 +173,138 @@
                                                     <label class="label label-default  message-link-admin"></label>
                                                 </div>
                                             </div>
+
+                                            <div class="col-lg-12">
+                                                {{
+                                                    Form::open([
+                                                        'route' => ['user-poll.store', $poll->id],
+                                                        'method' => 'PUT',
+                                                        'id' => 'create-poll',
+                                                        'enctype' => 'multipart/form-data',
+                                                        'role' => 'form',
+                                                    ])
+                                                }}
+                                                <div class="panel panel-default">
+                                                    <div class="panel-heading">
+                                                        <h3>{{ strtoupper(trans('polls.label.step_1')) }}</h3>
+                                                    </div>
+                                                    <div class="panel-body">
+
+                                                        <!-- STATUS -->
+                                                        <div class="form-group" id="type">
+                                                            {{ Form::label(trans('polls.label_for.status'), trans('polls.label.status')) }}
+                                                            <label class="radio-inline">
+                                                                {{ Form::radio('status', config('settings.status.open'), ($poll->status == trans('polls.label.poll_opening')) ? true : null) }}
+                                                                {{ trans('polls.label.opening') }}
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                {{ Form::radio('status', config('settings.status.close'), ($poll->status == trans('polls.label.poll_closed')) ? true : null) }}
+                                                                {{ trans('polls.label.closed') }}
+                                                            </label>
+                                                        </div>
+
+                                                        <!-- TITLE -->
+                                                        <div class="form-group">
+                                                            {{ Form::label(trans('polls.label_for.title'), trans('polls.label.title')) }}
+                                                            {{
+                                                                Form::text('title', $poll->title, [
+                                                                    'class' => 'form-control',
+                                                                    'id' => 'title',
+                                                                    'placeholder' => trans('polls.placeholder.title'),
+                                                                ])
+                                                            }}
+                                                        </div>
+
+                                                        <!-- LOCATION -->
+                                                        <div class="form-group">
+                                                            {{ Form::label(trans('polls.label_for.location'), trans('polls.label.location')) }}
+                                                            {{
+                                                                Form::text('location', $poll->location, [
+                                                                    'class' => 'form-control',
+                                                                    'id' => 'location',
+                                                                    'placeholder' => trans('polls.placeholder.location'),
+                                                                ])
+                                                            }}
+                                                        </div>
+
+                                                        <!-- DESCRIPTION -->
+                                                        <div class="form-group">
+                                                            {{ Form::label(trans('polls.label_for.description'), trans('polls.label.description')) }}
+                                                            {{
+                                                                Form::textarea('description', $poll->description, [
+                                                                    'class' => 'form-control',
+                                                                    'id' => 'description',
+                                                                    'placeholder' => trans('polls.placeholder.description'),
+                                                                ])
+                                                            }}
+                                                        </div>
+
+                                                        <!-- NAME -->
+                                                        <div class="form-group">
+                                                            {{ Form::label(trans('polls.label_for.full_name'), trans('polls.label.full_name')) }}
+                                                            {{
+                                                                Form::text('name', $poll->user->name, [
+                                                                    'class' => 'form-control',
+                                                                    'id' => 'name',
+                                                                    'placeholder' => trans('polls.placeholder.full_name'),
+                                                                ])
+                                                            }}
+                                                        </div>
+
+                                                        <!-- EMAIL -->
+                                                        <div class="form-group">
+                                                            {{ Form::label(trans('polls.label_for.email'), trans('polls.label.email')) }}
+                                                            {{
+                                                                Form::text('email', $poll->user->email, [
+                                                                    'class' => 'form-control',
+                                                                    'id' => 'email',
+                                                                    'placeholder' => trans('polls.placeholder.email'),
+                                                                ])
+                                                            }}
+                                                            <div class="email-error"></div>
+                                                        </div>
+
+                                                        <!-- CHATWORK -->
+                                                        <div class="form-group">
+                                                            {{ Form::label(trans('polls.label_for.chatwork'), trans('polls.label.chatwork')) }}
+                                                            {{
+                                                                Form::text('chatwork_id', $poll->user->chatwork_id, [
+                                                                    'class' => 'form-control',
+                                                                    'id' => 'chatwork',
+                                                                    'placeholder' => trans('polls.placeholder.chatwork'),
+                                                                ])
+                                                            }}
+                                                        </div>
+
+                                                        <!-- TYPE -->
+                                                        <div class="form-group" id="type">
+                                                            {{ Form::label(trans('polls.label_for.type'), trans('polls.label.type')) }}
+                                                            <label class="radio-inline">
+                                                                {{ Form::radio('type', config('settings.type.single_choice'), ($poll->multiple == trans('polls.label.single_choice')) ? true : null) }}
+                                                                {{ trans('polls.label.single_choice') }}
+                                                            </label>
+                                                            <label class="radio-inline">
+                                                                {{ Form::radio('type', config('settings.type.multiple_choice'), ($poll->multiple == trans('polls.label.multiple_choice')) ? true : null) }}
+                                                                {{ trans('polls.label.multiple_choice') }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <ul class="list-inline pull-right">
+                                                    <li>
+                                                        {{
+                                                            Form::submit(trans('polls.button.save_info'), [
+                                                                'class' => 'btn btn-success',
+                                                                'name' => 'btn_edit',
+                                                            ])
+                                                        }}
+
+                                                    </li>
+                                                </ul>
+                                                {{ Form::close() }}
+                                            </div>
+
 
                                         </div>
                                     </div>
@@ -194,93 +339,6 @@
                                 </div>
                             </div>
                         </div>
-                        {{--<div class="col-md-12">--}}
-
-                            {{--<button type="button" class="btn btn-primary btn-model btn-administration" data-toggle="modal" data-target="#myModal">--}}
-                                {{--<span class="glyphicon glyphicon-eye-open"></span>--}}
-                                {{--{{ trans('polls.show_vote_details') }}--}}
-                            {{--</button>--}}
-                            {{--<div class="modal fade" id="myModal" role="dialog">--}}
-                                {{--<div class="modal-dialog">--}}
-                                    {{--<div class="modal-content">--}}
-                                        {{--<div class="modal-body scroll-result">--}}
-                                            {{--@if ($mergedParticipantVotes->count())--}}
-                                                {{--<table class="table table-bordered">--}}
-                                                    {{--<thead>--}}
-                                                    {{--<th><center>{{ trans('polls.no') }}</center></th>--}}
-                                                    {{--<th><center>{{ $isRequiredEmail ? trans('polls.email') : trans('polls.name')}}</center></th>--}}
-                                                    {{--@foreach ($poll->options as $option)--}}
-                                                        {{--<th>--}}
-                                                            {{--<center>--}}
-                                                                {{--<img class="img-option" src="{{ $option->showImage() }}">--}}
-                                                                {{--<br>--}}
-                                                                {{--{{ str_limit($option->name, 15)}}--}}
-                                                            {{--</center>--}}
-                                                        {{--</th>--}}
-                                                    {{--@endforeach--}}
-                                                    {{--</thead>--}}
-                                                    {{--<tbody>--}}
-                                                    {{--@foreach ($mergedParticipantVotes as $vote)--}}
-                                                        {{--<tr>--}}
-                                                            {{--<td><center>{{ ++$numberOfVote }}</center></td>--}}
-                                                            {{--@php--}}
-                                                                {{--$isShowVoteName = false;--}}
-                                                            {{--@endphp--}}
-                                                            {{--@foreach ($poll->options as $option)--}}
-                                                                {{--@php--}}
-                                                                    {{--$isShowOptionUserVote = false;--}}
-                                                                {{--@endphp--}}
-                                                                {{--@foreach ($vote as $item)--}}
-                                                                    {{--@if (! $isShowVoteName)--}}
-                                                                        {{--<td>--}}
-                                                                            {{--@if (isset($item->user_id))--}}
-                                                                                {{--{{ Form::open(['route' => ['vote.destroy', $item->user->id], 'method' => 'delete']) }}--}}
-                                                                                {{--{{ $isRequiredEmail ? $item->user->email : $item->user->name }}--}}
-                                                                            {{--@else--}}
-                                                                                {{--{{ Form::open(['route' => ['vote.destroy', $item->participant->id], 'method' => 'delete']) }}--}}
-                                                                                {{--{{ $isRequiredEmail ? $item->participant->email : $item->participant->name }}--}}
-                                                                            {{--@endif--}}
-                                                                            {{--@if (Gate::allows('administer', $poll))--}}
-                                                                                {{--{{ Form::hidden('poll_id', $poll->id) }}--}}
-                                                                            {{--@endif--}}
-                                                                            {{--{{ Form::close() }}--}}
-                                                                        {{--</td>--}}
-                                                                        {{--@php--}}
-                                                                            {{--$isShowVoteName = true;--}}
-                                                                        {{--@endphp--}}
-                                                                    {{--@endif--}}
-                                                                    {{--@if ($item->option_id == $option->id)--}}
-                                                                        {{--<td>--}}
-                                                                            {{--<center><label class="label label-default"><span class="glyphicon glyphicon-ok"> </span></label></center>--}}
-                                                                        {{--</td>--}}
-                                                                        {{--@php--}}
-                                                                            {{--$isShowOptionUserVote = true;--}}
-                                                                        {{--@endphp--}}
-                                                                    {{--@endif--}}
-                                                                {{--@endforeach--}}
-                                                                {{--@if (!$isShowOptionUserVote)--}}
-                                                                    {{--<td></td>--}}
-                                                                {{--@endif--}}
-                                                            {{--@endforeach--}}
-                                                        {{--</tr>--}}
-                                                    {{--@endforeach--}}
-                                                    {{--</tbody>--}}
-                                                {{--</table>--}}
-                                            {{--@else--}}
-                                                {{--<center>--}}
-                                                    {{--<p>{{ trans('polls.vote_empty') }}</p>--}}
-                                                {{--</center>--}}
-                                            {{--@endif--}}
-                                        {{--</div>--}}
-                                        {{--<div class="modal-footer">--}}
-                                            {{--<button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('polls.close') }}</button>--}}
-                                        {{--</div>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
-
-
-                        {{--</div>--}}
                     </div>
                 </div>
             </div>

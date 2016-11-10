@@ -42,6 +42,7 @@ class VoteController extends Controller
 
     public function store(Request $request)
     {
+        dd($request->ip());
         $inputs = $request->only('option', 'input', 'poll_id', 'isRequiredEmail');
         $poll = $this->pollRepository->findPollById($inputs['poll_id']);
         $now = Carbon::now();
