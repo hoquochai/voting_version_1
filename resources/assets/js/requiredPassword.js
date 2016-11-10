@@ -3,9 +3,9 @@ $(document).ready(function(){
     var requiredPassword = $('.hide-password').data('requiredPassword');
 
     if (requiredPassword != '') {
-        $('.details-poll').hide();
+        $(".details-poll").css('display', 'none');
     } else {
-        $('.details-poll').show();
+        $(".details-poll").css('display', 'block');
     }
 
     $('.password').keyup(function(e) {

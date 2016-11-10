@@ -146,7 +146,10 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    {{ Form::text('participation_link', $tokenLinkUser, ['class' => 'form-control token-user', 'placeholder' => trans('polls.placeholder.token_link')]) }}
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon" id="basic-addon3">{{ url('/') . config('settings.email.link_vote') }}</span>
+                                                        {{ Form::text('participation_link', $tokenLinkUser, ['class' => 'form-control token-user', 'placeholder' => trans('polls.placeholder.token_link')]) }}
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-3" data-token-link-user="{{ $tokenLinkUser }}">
                                                     {{ Form::button(trans('polls.edit_link_user'), ['class' => 'btn btn-success edit-link-user']) }}
@@ -161,145 +164,16 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-lg-7">
-                                                    {{ Form::text('administer_link', $tokenLinkAdmin, ['class' => 'form-control token-admin', 'placeholder' => trans('polls.placeholder.token_link')]) }}
+                                                    <div class="input-group">
+                                                        <span class="input-group-addon" id="basic-addon3">{{ url('/') . config('settings.email.link_vote') }}</span>
+                                                        {{ Form::text('administer_link', $tokenLinkAdmin, ['class' => 'form-control token-admin', 'placeholder' => trans('polls.placeholder.token_link')]) }}
+                                                    </div>
                                                 </div>
                                                 <div class="col-lg-3" data-token-link-admin="{{ $tokenLinkAdmin }}">
                                                     {{ Form::button(trans('polls.edit_link_admin'), ['class' => 'btn btn-success edit-link-admin']) }}
                                                     <label class="label label-default  message-link-admin"></label>
                                                 </div>
                                             </div>
-
-                                            <div class="col-lg-12">
-                                                {{
-                                                    Form::open([
-                                                        'route' => ['user-poll.store', $poll->id],
-                                                        'method' => 'PUT',
-                                                        'id' => 'create-poll',
-                                                        'enctype' => 'multipart/form-data',
-                                                        'role' => 'form',
-                                                    ])
-                                                }}
-                                                <div class="panel panel-default">
-                                                    <div class="panel-heading">
-                                                        <h3>{{ strtoupper(trans('polls.label.step_1')) }}</h3>
-                                                    </div>
-                                                    <div class="panel-body">
-
-                                                        <!-- STATUS -->
-                                                        <div class="form-group" id="type">
-                                                            {{ Form::label(trans('polls.label_for.status'), trans('polls.label.status')) }}
-                                                            <label class="radio-inline">
-                                                                {{ Form::radio('status', config('settings.status.open'), ($poll->status == trans('polls.label.poll_opening')) ? true : null) }}
-                                                                {{ trans('polls.label.opening') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                {{ Form::radio('status', config('settings.status.close'), ($poll->status == trans('polls.label.poll_closed')) ? true : null) }}
-                                                                {{ trans('polls.label.closed') }}
-                                                            </label>
-                                                        </div>
-
-                                                        <!-- TITLE -->
-                                                        <div class="form-group">
-                                                            {{ Form::label(trans('polls.label_for.title'), trans('polls.label.title')) }}
-                                                            {{
-                                                                Form::text('title', $poll->title, [
-                                                                    'class' => 'form-control',
-                                                                    'id' => 'title',
-                                                                    'placeholder' => trans('polls.placeholder.title'),
-                                                                ])
-                                                            }}
-                                                        </div>
-
-                                                        <!-- LOCATION -->
-                                                        <div class="form-group">
-                                                            {{ Form::label(trans('polls.label_for.location'), trans('polls.label.location')) }}
-                                                            {{
-                                                                Form::text('location', $poll->location, [
-                                                                    'class' => 'form-control',
-                                                                    'id' => 'location',
-                                                                    'placeholder' => trans('polls.placeholder.location'),
-                                                                ])
-                                                            }}
-                                                        </div>
-
-                                                        <!-- DESCRIPTION -->
-                                                        <div class="form-group">
-                                                            {{ Form::label(trans('polls.label_for.description'), trans('polls.label.description')) }}
-                                                            {{
-                                                                Form::textarea('description', $poll->description, [
-                                                                    'class' => 'form-control',
-                                                                    'id' => 'description',
-                                                                    'placeholder' => trans('polls.placeholder.description'),
-                                                                ])
-                                                            }}
-                                                        </div>
-
-                                                        <!-- NAME -->
-                                                        <div class="form-group">
-                                                            {{ Form::label(trans('polls.label_for.full_name'), trans('polls.label.full_name')) }}
-                                                            {{
-                                                                Form::text('name', $poll->user->name, [
-                                                                    'class' => 'form-control',
-                                                                    'id' => 'name',
-                                                                    'placeholder' => trans('polls.placeholder.full_name'),
-                                                                ])
-                                                            }}
-                                                        </div>
-
-                                                        <!-- EMAIL -->
-                                                        <div class="form-group">
-                                                            {{ Form::label(trans('polls.label_for.email'), trans('polls.label.email')) }}
-                                                            {{
-                                                                Form::text('email', $poll->user->email, [
-                                                                    'class' => 'form-control',
-                                                                    'id' => 'email',
-                                                                    'placeholder' => trans('polls.placeholder.email'),
-                                                                ])
-                                                            }}
-                                                            <div class="email-error"></div>
-                                                        </div>
-
-                                                        <!-- CHATWORK -->
-                                                        <div class="form-group">
-                                                            {{ Form::label(trans('polls.label_for.chatwork'), trans('polls.label.chatwork')) }}
-                                                            {{
-                                                                Form::text('chatwork_id', $poll->user->chatwork_id, [
-                                                                    'class' => 'form-control',
-                                                                    'id' => 'chatwork',
-                                                                    'placeholder' => trans('polls.placeholder.chatwork'),
-                                                                ])
-                                                            }}
-                                                        </div>
-
-                                                        <!-- TYPE -->
-                                                        <div class="form-group" id="type">
-                                                            {{ Form::label(trans('polls.label_for.type'), trans('polls.label.type')) }}
-                                                            <label class="radio-inline">
-                                                                {{ Form::radio('type', config('settings.type.single_choice'), ($poll->multiple == trans('polls.label.single_choice')) ? true : null) }}
-                                                                {{ trans('polls.label.single_choice') }}
-                                                            </label>
-                                                            <label class="radio-inline">
-                                                                {{ Form::radio('type', config('settings.type.multiple_choice'), ($poll->multiple == trans('polls.label.multiple_choice')) ? true : null) }}
-                                                                {{ trans('polls.label.multiple_choice') }}
-                                                            </label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <ul class="list-inline pull-right">
-                                                    <li>
-                                                        {{
-                                                            Form::submit(trans('polls.button.save_info'), [
-                                                                'class' => 'btn btn-success',
-                                                                'name' => 'btn_edit',
-                                                            ])
-                                                        }}
-
-                                                    </li>
-                                                </ul>
-                                                {{ Form::close() }}
-                                            </div>
-
 
                                         </div>
                                     </div>
