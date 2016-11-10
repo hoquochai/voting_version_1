@@ -42,7 +42,19 @@ class VoteController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->ip());
+        //get MAC address
+        $client  = @$_SERVER['HTTP_CLIENT_IP'];
+        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote  = $_SERVER['REMOTE_ADDR'];
+
+        if(filter_var($client, FILTER_VALIDATE_IP)){
+            $ip = $client;
+        }elseif(filter_var($forward, FILTER_VALIDATE_IP)){
+            $ip = $forward;
+        }else{
+            $ip = $remote;
+        }
+
         $inputs = $request->only('option', 'input', 'poll_id', 'isRequiredEmail');
         $poll = $this->pollRepository->findPollById($inputs['poll_id']);
         $now = Carbon::now();
@@ -124,7 +136,7 @@ class VoteController extends Controller
             }
         } else {
             $participantInformation = [
-                'ip_address' => $request->ip(),
+                'ip_address' => $ip,
             ];
 
             if ($inputs['isRequiredEmail']) {

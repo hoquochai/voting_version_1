@@ -81,6 +81,7 @@ class LinkController extends Controller
      */
     public function show($token, Request $request)
     {
+        //get MAC address
         $client  = @$_SERVER['HTTP_CLIENT_IP'];
         $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
         $remote  = $_SERVER['REMOTE_ADDR'];
@@ -93,8 +94,6 @@ class LinkController extends Controller
             $ip = $remote;
         }
 
-        dd($ip);
-        
         $link = $this->linkRepository->getPollByToken($token);
 
         if (! $link) {
@@ -210,7 +209,7 @@ class LinkController extends Controller
             } else {
                 foreach ($participantVotes as $participantVote) {
                     foreach($participantVote as $item) {
-                        if (isset($item->participant) && $item->participant->ip_address == $request->ip()) {
+                        if (isset($item->participant) && $item->participant->ip_address == $ip) {
                             $isParticipantVoted = true;
                             break;
                         }
