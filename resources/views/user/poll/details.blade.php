@@ -245,88 +245,84 @@
                                                 {{ trans('polls.administration') }}
                                             </a>
                                         @endif
-                                        @if (auth()->check())
-                                            <a class="btn btn-primary btn-administration" href="{{ URL::action('User\ActivityController@show', $poll->id) }}">
-                                                <span class="glyphicon glyphicon-star-empty"></span>
-                                                {{ trans('polls.view_history') }}
-                                            </a>
-                                            <a class="btn btn-primary btn-administration" href="{{ URL::action('PollController@edit', $poll->id) }}">
-                                                <span class="glyphicon glyphicon-copy"></span>
-                                                {{ trans('polls.create_duplicate_poll') }}
-                                            </a>
-                                        @endif
+                                        {{--@if (auth()->check())--}}
+                                            {{--<a class="btn btn-primary btn-administration" href="{{ URL::action('User\ActivityController@show', $poll->id) }}">--}}
+                                                {{--<span class="glyphicon glyphicon-star-empty"></span>--}}
+                                                {{--{{ trans('polls.view_history') }}--}}
+                                            {{--</a>--}}
+                                            {{--<a class="btn btn-primary btn-administration" href="{{ URL::action('PollController@edit', $poll->id) }}">--}}
+                                                {{--<span class="glyphicon glyphicon-copy"></span>--}}
+                                                {{--{{ trans('polls.create_duplicate_poll') }}--}}
+                                            {{--</a>--}}
+                                        {{--@endif--}}
                                     </div>
                                     <div id="menu2" class="tab-pane fade">
                                         @if (!$isHideResult || Gate::allows('administer', $poll))
-                                            <div class="container">
-                                                    <!-- bar chart -->
-                                                    @if (collect($optionRateBarChart)->count())
-                                                        <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-                                                        <script type="text/javascript">
-                                                            google.load('visualization', '1', {'packages': ['columnchart']});
-                                                            google.setOnLoadCallback (createChart);
-
-                                                            function createChart() {
-                                                                var dataTable = new google.visualization.DataTable();
-                                                                dataTable.addColumn('string','Quarters 2009');
-                                                                dataTable.addColumn('number', 'Earnings');
-                                                                var optionRateBarChart = {!! $optionRateBarChart !!};
-
-                                                                dataTable.addRows(optionRateBarChart);
-                                                                var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
-                                                                var optionCharts = {
-                                                                    width: 1000, height: 500, is3D: true
-                                                                };
-                                                                chart.draw(dataTable, optionCharts);
-                                                            }
-                                                        </script>
-                                                        <div id="chart"></div>
-                                                    @endif
-                                            </div>
-
-
-
-                                            <div class="container">
-                                                    <!-- pie chart for this poll -->
-                                                    @if (collect($optionRatePieChart)->count())
-                                                        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-                                                        <script>
-                                                            google.charts.load("current", {packages:["corechart"]});
-                                                            google.charts.setOnLoadCallback(drawChart);
-
-                                                            function drawChart() {
-                                                                var record={!! json_encode($optionRatePieChart) !!};
-
-                                                                // Create our data table.
-                                                                var data = new google.visualization.DataTable();
-                                                                data.addColumn('string', 'Source');
-                                                                data.addColumn('number', 'Total_Signup');
-
-                                                                for(var k in record){
-                                                                    var v = record[k];
-
-                                                                    data.addRow([k,v]);
-                                                                    console.log(v);
-                                                                }
-
-                                                                var optionPies = {
-                                                                    width: 1000,
-                                                                    height: 500,
-                                                                    is3D: true,
-                                                                };
-                                                                var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
-                                                                chart.draw(data, optionPies);
-                                                            }
-                                                        </script>
-                                                        <div id="piechart_3d"></div>
-                                                    @endif
-                                            </div>
-                                            
-                                            
                                             <button type="button" class="btn btn-primary btn-model" data-toggle="modal" data-target="#myModal">
                                                 <span class="glyphicon glyphicon-eye-open"></span>
                                                 {{ trans('polls.show_vote_details') }}
                                             </button>
+                                            <div class="container">
+                                                <!-- bar chart -->
+                                                @if (collect($optionRateBarChart)->count())
+                                                    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+                                                    <script type="text/javascript">
+                                                        google.load('visualization', '1', {'packages': ['columnchart']});
+                                                        google.setOnLoadCallback (createChart);
+
+                                                        function createChart() {
+                                                            var dataTable = new google.visualization.DataTable();
+                                                            dataTable.addColumn('string','Quarters 2009');
+                                                            dataTable.addColumn('number', 'Earnings');
+                                                            var optionRateBarChart = {!! $optionRateBarChart !!};
+
+                                                            dataTable.addRows(optionRateBarChart);
+                                                            var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
+                                                            var optionCharts = {
+                                                                width: 1000, height: 500, is3D: true
+                                                            };
+                                                            chart.draw(dataTable, optionCharts);
+                                                        }
+                                                    </script>
+                                                    <div id="chart"></div>
+                                                @endif
+                                            </div>
+                                            <div class="container">
+
+                                                <!-- pie chart for this poll -->
+                                                @if (collect($optionRatePieChart)->count())
+                                                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                                    <script>
+                                                        google.charts.load("current", {packages:["corechart"]});
+                                                        google.charts.setOnLoadCallback(drawChart);
+
+                                                        function drawChart() {
+                                                            var record={!! json_encode($optionRatePieChart) !!};
+
+                                                            // Create our data table.
+                                                            var data = new google.visualization.DataTable();
+                                                            data.addColumn('string', 'Source');
+                                                            data.addColumn('number', 'Total_Signup');
+
+                                                            for(var k in record){
+                                                                var v = record[k];
+
+                                                                data.addRow([k,v]);
+                                                                console.log(v);
+                                                            }
+
+                                                            var optionPies = {
+                                                                width: 1000,
+                                                                height: 500,
+                                                                is3D: true,
+                                                            };
+                                                            var chart = new google.visualization.PieChart(document.getElementById('piechart_3d'));
+                                                            chart.draw(data, optionPies);
+                                                        }
+                                                    </script>
+                                                    <div id="piechart_3d"></div>
+                                                @endif
+                                            </div>
                                             <div class="modal fade" id="myModal" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">

@@ -61,6 +61,18 @@
                                 {{ Form::button('<i class="fa fa-btn fa-user"></i> ' . trans('label.register'), ['type' => 'submit', 'class' => 'btn btn-success btn-block btn-register']) }}
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a class="btn btn-link" href="{{ url('/login') }}">
+                                    {{ trans('label.login') }}
+                                </a>
+                            </div>
+                            <div class="col-md-6">
+                                <a class="btn btn-link register-text" href="{{ url('/password/reset') }}">
+                                    {{ trans('label.forgot_password') }}
+                                </a>
+                            </div>
+                        </div>
                     {{ Form::close() }}
                 </div>
             </div>

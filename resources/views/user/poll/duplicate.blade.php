@@ -9,81 +9,68 @@
              data-route-link="{{ route('link.store') }}"
              data-token="{{ csrf_token() }}"></div>
         <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            <section>
-                <div class="wizard create-poll">
-                    <div class="wizard-inner">
-                        <div class="connecting-line"></div>
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active">
-                                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
+            <div class="col-md-10 col-md-offset-1">
+                <section>
+                    <div class="wizard create-poll">
+                        <div class="wizard-inner">
+                            <div class="connecting-line"></div>
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active">
+                                    <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
                             <span class="round-tab">
                                 <i class="glyphicon glyphicon-info-sign"></i>
                             </span>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
 
-                            <li role="presentation" class="disabled">
-                                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
+                                <li role="presentation" class="disabled">
+                                    <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
                             <span class="round-tab">
                                 <i class="glyphicon glyphicon-option-horizontal"></i>
                             </span>
-                                </a>
-                            </li>
-                            <li role="presentation" class="disabled">
-                                <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
+                                    </a>
+                                </li>
+                                <li role="presentation" class="disabled">
+                                    <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
                             <span class="round-tab">
                                 <i class="glyphicon glyphicon-cog"></i>
                             </span>
-                                </a>
-                            </li>
+                                    </a>
+                                </li>
 
-                            <li role="presentation" class="disabled">
-                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
+                                <li role="presentation" class="disabled">
+                                    <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
                             <span class="round-tab">
                                 <i class="glyphicon glyphicon-user"></i>
                             </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    @include('layouts.error')
-                    @include('layouts.message')
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        @include('layouts.error')
+                        @include('layouts.message')
 
-                    <div class="tab-content">
+                        <div class="tab-content">
 
-                        <!---------------------------------------------------/
-                        /             INFORMATION                           /
-                        /---------------------------------------------------->
+                            <!---------------------------------------------------/
+                            /             INFORMATION                           /
+                            /---------------------------------------------------->
 
-                        <div class="tab-pane active" role="tabpanel" id="step1">
-                            {{
-                                Form::open([
-                                    'route' => ['user-poll.store', $poll->id],
-                                    'method' => 'PUT',
-                                    'id' => 'create-poll',
-                                    'enctype' => 'multipart/form-data',
-                                    'role' => 'form',
-                                ])
-                            }}
+                            <div class="tab-pane active" role="tabpanel" id="step1">
+                                {{
+                                    Form::open([
+                                        'route' => ['user-poll.store', $poll->id],
+                                        'method' => 'PUT',
+                                        'id' => 'create-poll',
+                                        'enctype' => 'multipart/form-data',
+                                        'role' => 'form',
+                                    ])
+                                }}
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3>{{ strtoupper(trans('polls.label.step_1')) }}</h3>
                                     </div>
                                     <div class="panel-body">
-
-                                        <!-- STATUS -->
-                                        <div class="form-group" id="type">
-                                            {{ Form::label(trans('polls.label_for.status'), trans('polls.label.status')) }}
-                                            <label class="radio-inline">
-                                                {{ Form::radio('status', config('settings.status.open'), ($poll->status == trans('polls.label.poll_opening')) ? true : null) }}
-                                                {{ trans('polls.label.opening') }}
-                                            </label>
-                                            <label class="radio-inline">
-                                                {{ Form::radio('status', config('settings.status.close'), ($poll->status == trans('polls.label.poll_closed')) ? true : null) }}
-                                                {{ trans('polls.label.closed') }}
-                                            </label>
-                                        </div>
 
                                         <!-- TITLE -->
                                         <div class="form-group">
@@ -176,13 +163,6 @@
                                 <ul class="list-inline pull-right">
                                     <li>
                                         {{
-                                            Form::submit(trans('polls.button.save_info'), [
-                                                'class' => 'btn btn-success',
-                                                'name' => 'btn_edit',
-                                            ])
-                                        }}
-
-                                        {{
                                             Form::button(trans('polls.button.continue'), [
                                                 'class' => 'btn btn-primary next-step',
                                                 'value' => 'info',
@@ -190,24 +170,14 @@
                                         }}
                                     </li>
                                 </ul>
-                            {{ Form::close() }}
-                        </div>
+                            </div>
 
 
-                        <!---------------------------------------------------/
-                        /                   OPTION                           /
-                        /---------------------------------------------------->
+                            <!---------------------------------------------------/
+                            /                   OPTION                           /
+                            /---------------------------------------------------->
 
-                        <div class="tab-pane" role="tabpanel" id="step2">
-                            {{
-                                Form::open([
-                                    'route' => ['user-poll.update', $poll->id],
-                                    'method' => 'PUT',
-                                    'id' => 'create-poll',
-                                    'enctype' => 'multipart/form-data',
-                                    'role' => 'form',
-                                ])
-                            }}
+                            <div class="tab-pane" role="tabpanel" id="step2">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3>{{ strtoupper(trans('polls.label.step_2')) }}</h3>
@@ -271,12 +241,6 @@
                                     <li>{{ Form::button(trans('polls.button.previous'), ['class' => 'btn btn-default prev-step']) }}</li>
                                     <li>
                                         {{
-                                            Form::submit(trans('polls.button.save_option'), [
-                                                'class' => 'btn btn-success',
-                                                'name' => 'btn_edit',
-                                            ])
-                                        }}
-                                        {{
                                             Form::button(trans('polls.button.continue'), [
                                                 'class' => 'btn btn-primary next-step',
                                                 'value' => 'option',
@@ -284,22 +248,12 @@
                                         }}
                                     </li>
                                 </ul>
-                            {{ Form::close() }}
-                        </div>
+                            </div>
 
-                        <!---------------------------------------------------/
-                        /                   SETTING                          /
-                        /---------------------------------------------------->
-                        <div class="tab-pane" role="tabpanel" id="step3">
-                            {{
-                                Form::open([
-                                    'route' => ['user-poll.update', $poll->id],
-                                    'method' => 'PUT',
-                                    'id' => 'create-poll',
-                                    'enctype' => 'multipart/form-data',
-                                    'role' => 'form',
-                                ])
-                            }}
+                            <!---------------------------------------------------/
+                            /                   SETTING                          /
+                            /---------------------------------------------------->
+                            <div class="tab-pane" role="tabpanel" id="step3">
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3>{{ strtoupper(trans('polls.label.step_3')) }}</h3>
@@ -381,20 +335,20 @@
                                     <li>{{ Form::button(trans('polls.button.previous'), ['class' => 'btn btn-default prev-step']) }}</li>
                                     <li>
                                         {{
-                                            Form::submit(trans('polls.button.save_setting'), [
+                                            Form::submit(trans('polls.button.finish'), [
                                                 'class' => 'btn btn-success',
                                                 'name' => 'btn_edit',
                                             ])
                                         }}
                                     </li>
                                 </ul>
-                            {{ Form::close() }}
+                                {{ Form::close() }}
+                            </div>
+                            <div class="clearfix"></div>
                         </div>
-                        <div class="clearfix"></div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </div>
         </div>
-    </div>
     </div>
 @endsection

@@ -468,3 +468,15 @@ $(function () {
         format: 'DD-MM-YYYY HH:mm',
     });
 });
+
+function showOptionDetail() {
+    $('#option-detail').slideToggle();
+}
+
+function showSettingDetail() {
+    $('#setting-detail').slideToggle();
+}
+
+function confirmDelete(message) {
+    return confirm(message);
+}

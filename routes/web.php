@@ -98,6 +98,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.','mid
 });
 
 Route::resource('user-poll', 'PollController');
+Route::resource('duplicate', 'DuplicateController');
 
 /*
  * Route check token of link

@@ -268,7 +268,35 @@ class LinkController extends Controller
 
             $isRequiredEmail = $poll->settings->whereIn('key', [config('settings.setting.required_email')])->count() != config('settings.default_value');
 
-            return view('user.poll.manage_poll', compact('poll', 'tokenLinkUser', 'tokenLinkAdmin', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted'));
+            //setting lists
+            $settingDetail = [];
+            if (count($poll->settings)) {
+                $settingTrans = trans('polls.label.setting');
+                $settingConfig = config('settings.setting');
+
+                foreach ($poll->settings as $pollSetting) {
+                    $key = $pollSetting->key;
+                    $value = null;
+
+                    if ($key == $settingConfig['custom_link'] ||
+                        $key == $settingConfig['set_limit'] ||
+                        $key == $settingConfig['set_password']) {
+                        $value = $pollSetting->value;
+                    }
+
+                    $settingDetail[] = [
+                        'text' => $settingTrans[array_search($pollSetting->key, $settingConfig)],
+                        'value' => $value,
+                    ];
+                }
+            }
+
+            return view('user.poll.manage_poll', compact(
+                'poll', 'tokenLinkUser', 'tokenLinkAdmin',
+                'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote',
+                'linkUser', 'mergedParticipantVotes', 'isParticipantVoted',
+                'settingDetail'
+            ));
         }
     }
 
