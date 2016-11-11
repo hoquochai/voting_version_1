@@ -24,7 +24,7 @@ $(document).ready(function(){
                 'poll_id': pollId,
             },
             success: function(data){
-                if (data.success) {
+                if (data.success && data.password == $('.password').val()) {
                     $(".details-poll").css('display', 'block');
                     $('.modal-dialog-password').empty();
                     $('.message-required-password').html('');

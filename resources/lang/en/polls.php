@@ -110,6 +110,7 @@ return [
         'previous' => 'Previous',
         'finish' => 'Finish',
         'administration' => 'ADMINISTRATION',
+        'edit_back' => 'Back',
     ],
     'message' => [
         'create_success' => 'Create poll SUCCESS',
@@ -132,6 +133,10 @@ return [
         'delete_poll_success' => 'Delete poll SUCCESS',
         'email_exists' => 'Email exist in system. Please enter a new email or login into system',
         'email_valid' => 'Email valid. You can use this email',
+        'no_setting' => 'Haven\'t any setting with this poll.',
+        'no_poll_create' => 'User don\'t create poll',
+        'no_poll_participant' => 'User don\'t participate poll',
+        'no_poll_close' => 'User don\'t close poll',
     ],
     'validation' => [
         'name' => [
@@ -171,6 +176,7 @@ return [
             'status' => 'Status',
             'type' => 'Type',
             'link' => 'Link',
+            'created_at' => 'Created at',
         ],
         'tbody' => [
             'name' => 'Name: ',
@@ -181,15 +187,19 @@ return [
     ],
     'tooltip' => [
         'edit' => 'Edit this poll',
+        'duplicate' => 'Create duplicate',
+        'delete_comment' => 'Delete all comment of this poll',
         'delete' => 'Delete this poll',
         'show' => 'View detail this poll',
         'open' => 'Open this poll',
         'close' => 'Close this poll',
     ],
     'nav_tab_edit' => [
-        'infor' => 'INFORMATION',
+        'info' => 'INFORMATION',
         'option' => 'OPTION',
         'setting' => 'SETTING',
+        'voting' => 'VOTING',
+        'result' => 'RESULT',
     ],
     'validate_client' => [
         'required' => 'Please enter ',
@@ -236,6 +246,7 @@ return [
     'no' => 'No',
     'poll_history' => 'Poll History',
     'show_vote_details' => 'Show vote details',
+    'poll_info' => 'Poll information',
     'activity_poll' => 'Show activity of poll',
     'next' => 'Next',
     'optional' => 'optional',

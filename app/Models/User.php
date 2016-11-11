@@ -84,6 +84,7 @@ class User extends Authenticatable
 
     public function showGender()
     {
+
         $trans = trans('user.label.gender');
         $config = config('settings.gender_constant');
         $data = $trans['other'];
@@ -94,6 +95,10 @@ class User extends Authenticatable
 
         if ($this->gender == $config['female']) {
             $data = $trans['female'];
+        }
+
+        if ($this->gender == $config['']) {
+            $data = $trans[''];
         }
 
         return $data;

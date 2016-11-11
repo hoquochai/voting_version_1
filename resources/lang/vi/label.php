@@ -41,6 +41,7 @@ return [
         'link_vote' => 'Link bầu chọn vote:',
         'link_admin' => 'Link quản lý vote:',
         'subject' => 'Bầu chọn',
+        'edit_link' => 'Bạn đã chỉnh sửa link thành công, Link mới chỉnh sửa: ',
         'edit_poll' => [
             'head' => 'Bầu chọn',
             'summary' => 'Poll được thay đổi bởi admin!',
@@ -55,6 +56,7 @@ return [
     ],
     'paginations' => 'Hiển thị :start đến :finish của :numberOfRecords mục|Đang hiển thị :start đến :finish of :numberOfRecords mục',
     'gender' => [
+        '' => '',
         '0' => 'Nữ',
         '1' => 'Nam',
         '2' => 'Giới tính khác',

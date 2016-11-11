@@ -16,17 +16,17 @@
                     <ul class="nav nav-pills">
                         <li class="active">
                             <a data-toggle="pill" href="#home">
-                                    {{ trans('polls.polls_initiated') }}
+                                {{ trans('polls.polls_initiated') }}
                             </a>
                         </li>
                         <li>
                             <a data-toggle="pill" href="#menu1">
-                                    {{ trans('polls.polls_participated_in') }}
+                                {{ trans('polls.polls_participated_in') }}
                             </a>
                         </li>
                         <li>
                             <a data-toggle="pill" href="#menu2">
-                                    {{ trans('polls.polls_closed') }}
+                                {{ trans('polls.polls_closed') }}
                             </a>
                         </li>
                     </ul>
@@ -45,15 +45,13 @@
                                                 @include('user.poll.list_polls_layouts', ['polls' => $initiatedPolls])
                                             @else
                                                 <div class="alert alert-info">
-                                                    Chua tao poll nao
+                                                    {{ trans('polls.message.no_poll_create') }}
                                                 </div>
                                             @endif
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
-
                         </div>
                         <div id="menu1" class="tab-pane fade">
                             <div class="well">
@@ -66,7 +64,7 @@
                                         @include('user.poll.list_polls_layouts', ['polls' => $participatedPolls])
                                     @else
                                         <div class="alert alert-info">
-                                            Chua tham gia poll nao
+                                            {{ trans('polls.message.no_poll_participant') }}
                                         </div>
                                     @endif
                                 </div>
@@ -84,7 +82,7 @@
                                         @include('user.poll.list_opened_polls_layouts', ['polls' => $closedPolls])
                                     @else
                                         <div class="alert alert-info">
-                                            Chua dong poll nao
+                                            {{ trans('polls.message.no_poll_close') }}
                                         </div>
                                     @endif
                                 </div>

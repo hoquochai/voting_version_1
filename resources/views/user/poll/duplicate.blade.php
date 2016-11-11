@@ -50,6 +50,15 @@
                         @include('layouts.error')
                         @include('layouts.message')
 
+                        {{
+                            Form::open([
+                                'route' => 'duplicate.store',
+                                'method' => 'POST',
+                                'id' => 'form_create_poll',
+                                'enctype' => 'multipart/form-data',
+                                'role' => 'form',
+                            ])
+                        }}
                         <div class="tab-content">
 
                             <!---------------------------------------------------/
@@ -57,15 +66,7 @@
                             /---------------------------------------------------->
 
                             <div class="tab-pane active" role="tabpanel" id="step1">
-                                {{
-                                    Form::open([
-                                        'route' => ['user-poll.store', $poll->id],
-                                        'method' => 'PUT',
-                                        'id' => 'create-poll',
-                                        'enctype' => 'multipart/form-data',
-                                        'role' => 'form',
-                                    ])
-                                }}
+
                                 <div class="panel panel-default">
                                     <div class="panel-heading">
                                         <h3>{{ strtoupper(trans('polls.label.step_1')) }}</h3>
@@ -149,11 +150,11 @@
                                         <div class="form-group" id="type">
                                             {{ Form::label(trans('polls.label_for.type'), trans('polls.label.type')) }}
                                             <label class="radio-inline">
-                                                {{ Form::radio('type', config('settings.type.single_choice'), ($poll->multiple == trans('polls.label.single_choice')) ? true : null) }}
+                                                {{ Form::radio('type', config('settings.type_poll.single_choice'), ($poll->multiple == trans('polls.label.single_choice')) ? true : null) }}
                                                 {{ trans('polls.label.single_choice') }}
                                             </label>
                                             <label class="radio-inline">
-                                                {{ Form::radio('type', config('settings.type.multiple_choice'), ($poll->multiple == trans('polls.label.multiple_choice')) ? true : null) }}
+                                                {{ Form::radio('type', config('settings.type_poll.multiple_choice'), ($poll->multiple == trans('polls.label.multiple_choice')) ? true : null) }}
                                                 {{ trans('polls.label.multiple_choice') }}
                                             </label>
                                         </div>
@@ -186,27 +187,36 @@
                                         <!-- OLD OPTION -->
                                         <div class="old-option">
                                             @foreach($poll->options as $option)
-                                                <div id="{{ $option->id }}">
-                                                    <div class="form-group">
-                                                        {{ Form::text('option['. $option->id .']', $option->name, ['class' => 'form-control']) }}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="row clearfix">
-                                                            <div class="col-lg-3">
-                                                                <img src="{{ asset(config('settings.option.path_image') . $option->image) }}" class="image-option">
+                                                <div id="{{ $option->id }}" class="well">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">
+                                                            Option {{ $loop->index + 1 }}
+                                                            <button type="button" class="btn btn-danger btn-delete-option-duplicate" onclick="removeOpion('{{ $option->id }}', 'edit')">
+                                                                <span class="fa fa-trash"></span> {{ trans('polls.button.remove') }}
+                                                            </button>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                {{ Form::text('optionText['. $option->id .']', $option->name, ['class' => 'form-control']) }}
                                                             </div>
-                                                            <div class="col-lg-3">
-                                                                <img id="preview_{{ $option->id }}" src="#" class="preview-image" />
+                                                            <div class="form-group">
+                                                                <div class="col-lg-3">
+                                                                    <img src="{{ asset($option->showImage()) }}" class="image-option">
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <img id="preview_{{ $option->id }}" src="#" class="preview-image" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{
+                                                                    Form::file('optionImage['. $option->id .']', [
+                                                                        'onchange' => 'readURL(this, "preview_' . $option->id . '")',
+                                                                        'class' => 'form-control',
+                                                                    ])
+                                                                }}
                                                             </div>
                                                         </div>
-                                                        <div class="row clearfix">
-                                                            {{ Form::file('image['. $option->id .']', ['onchange' => 'readURL(this, "preview_' . $option->id . '")']) }}
-                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <button type="button" class="btn btn-danger" onclick="removeOpion('{{ $option->id }}', 'edit')">{{ trans('polls.button.remove') }}</button>
-                                                    </div>
-                                                    <hr>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -263,7 +273,11 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        {{ Form::checkbox('setting[]', $key, empty($setting[$key]) ? null : true, ['onchange' => 'settingAdvance(' . $key . ')']) }}
+                                                        {{
+                                                            Form::checkbox('setting[]', $key, array_key_exists($key, $setting) ? true : null, [
+                                                                'onchange' => 'settingAdvance(' . $key . ')',
+                                                            ])
+                                                        }}
                                                     </span>
                                                     {{ Form::text('setting_text', $value, ['disabled' => true, 'class' => 'form-control']) }}
                                                 </div>
@@ -272,12 +286,6 @@
                                             <!-- SETTING: CUSTOM LINK -->
                                             @if ($key == config('settings.setting.custom_link'))
                                                 <div class="form-group {{ empty($setting[$key]) ? "setting-advance" : "" }}" id="new-link">
-                                                    {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.custom_link'),
-                                                            trans('polls.label.setting.custom_link')
-                                                        )
-                                                    }}
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
                                                             {{ Form::text('url', url('/') . config('settings.email.link_vote'), ['disable' => true]) }}
@@ -286,6 +294,7 @@
                                                             Form::text('value[link]', empty($setting[$key]) ? str_random(config('settings.length_poll.link')) : $setting[$key], [
                                                                 'class' => 'form-control',
                                                                 'id' => 'link',
+                                                                'placeholder' => trans('polls.label.setting.custom_link'),
                                                             ])
                                                         }}
                                                         <div class="link-error"></div>
@@ -296,15 +305,13 @@
                                             @elseif ($key == config('settings.setting.set_limit'))
                                                 <div class="form-group {{ empty($setting[$key]) ? "setting-advance" : "" }}" id="set-limit">
                                                     {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.set_limit'),
-                                                            trans('polls.label.setting.set_limit')
-                                                        )
-                                                    }}
-                                                    {{
-                                                        Form::text('value[limit]', empty($setting[$key]) ? null : $setting[$key], [
+                                                        Form::number('value[limit]', empty($setting[$key]) ? null : $setting[$key], [
                                                             'class' => 'form-control',
                                                             'id' => 'limit',
+                                                            'placeholder' => trans('polls.label.setting.set_limit'),
+                                                            'min' => 1,
+                                                            'max' => 99,
+                                                            'oninput' => "validity.valid||(value='1');",
                                                         ])
                                                     }}
                                                 </div>
@@ -313,15 +320,10 @@
                                             @elseif ($key == config('settings.setting.set_password'))
                                                 <div class="form-group {{ empty($setting[$key]) ? "setting-advance" : "" }}" id="set-password">
                                                     {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.set_password'),
-                                                            trans('polls.label.setting.set_password')
-                                                        )
-                                                    }}
-                                                    {{
-                                                        Form::password('value[password]', [
+                                                        Form::text('value[password]', empty($setting[$key]) ? null : $setting[$key], [
                                                             'class' => 'form-control',
                                                             'id' => 'password',
+                                                            'placeholder' => trans('polls.label.setting.set_password'),
                                                         ])
                                                     }}
                                                 </div>
@@ -335,17 +337,53 @@
                                     <li>{{ Form::button(trans('polls.button.previous'), ['class' => 'btn btn-default prev-step']) }}</li>
                                     <li>
                                         {{
-                                            Form::submit(trans('polls.button.finish'), [
-                                                'class' => 'btn btn-success',
-                                                'name' => 'btn_edit',
+                                            Form::button(trans('polls.button.continue'), [
+                                                'class' => 'btn btn-primary next-step',
+                                                'value' => 'setting',
                                             ])
                                         }}
                                     </li>
                                 </ul>
-                                {{ Form::close() }}
+                            </div>
+
+                            <!---------------------------------------------------/
+                            /                   PARTICIPANT                      /
+                            /---------------------------------------------------->
+                            <div class="tab-pane" role="tabpanel" id="complete">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <h3>{{ strtoupper(trans('polls.label.step_4')) }}</h3>
+                                    </div>
+                                    <div class="panel-body">
+                                        <div class="form-group" id="email-participant">
+                                            {{ Form::label(trans('polls.label_for.invite'), trans('polls.label.invite')) }}
+                                            <br>
+                                            {{
+                                                Form::text('member', null, [
+                                                    'id' => 'member',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => trans('polls.placeholder.email_participant'),
+                                                    'data-role' => 'tagsinput',
+                                                ])
+                                            }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-inline pull-right">
+                                    <li>{{ Form::button(trans('polls.button.previous'), ['class' => 'btn btn-default prev-step']) }}</li>
+                                    <li>
+                                        {{
+                                            Form::button(trans('polls.button.finish'), [
+                                                'class' => 'btn btn-primary finish',
+                                                'value' => 'btn_participant',
+                                            ])
+                                        }}
+                                    </li>
+                                </ul>
                             </div>
                             <div class="clearfix"></div>
                         </div>
+                        {{ Form::close() }}
                     </div>
                 </section>
             </div>

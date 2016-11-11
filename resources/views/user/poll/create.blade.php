@@ -9,6 +9,12 @@
              data-token="{{ csrf_token() }}"></div>
         <div class="row">
         <div class="col-md-10 col-md-offset-1">
+            @if (Session::has('messages'))
+                <div class="alert alert-success animated fadeInUp alert-dismissable">
+                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                    {!! Session::get('messages') !!}
+                </div>
+            @endif
             <section>
                 <div class="wizard create-poll">
                     <div class="wizard-inner">
@@ -261,12 +267,6 @@
                                             <!-- SETTING: CUSTOM LINK -->
                                             @if ($key == config('settings.setting.custom_link'))
                                                 <div class="form-group {{ is_null($dataView['oldInput']) ? "setting-advance" : "" }}" id="new-link">
-                                                    {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.custom_link'),
-                                                            trans('polls.label.setting.custom_link')
-                                                        )
-                                                    }}
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
                                                             {{ Form::text('url', url('/') . config('settings.email.link_vote'), ['disable' => true]) }}
@@ -275,6 +275,7 @@
                                                             Form::text('value[link]', str_random(config('settings.length_poll.link')), [
                                                                 'class' => 'form-control',
                                                                 'id' => 'link',
+                                                                'placeholder' => trans('polls.label.setting.custom_link'),
                                                             ])
                                                         }}
                                                         <div class="link-error"></div>
@@ -285,15 +286,13 @@
                                             @elseif ($key == config('settings.setting.set_limit'))
                                                 <div class="form-group {{ is_null($dataView['oldInput']) ? "setting-advance" : "" }}" id="set-limit">
                                                     {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.set_limit'),
-                                                            trans('polls.label.setting.set_limit')
-                                                        )
-                                                    }}
-                                                    {{
-                                                        Form::text('value[limit]', null, [
+                                                        Form::number('value[limit]', null, [
                                                             'class' => 'form-control',
                                                             'id' => 'limit',
+                                                            'min' => 1,
+                                                            'max' => 99,
+                                                            'placeholder' => trans('polls.label.setting.set_limit'),
+                                                            'oninput' => "validity.valid||(value='1');",
                                                         ])
                                                     }}
                                                 </div>
@@ -301,12 +300,6 @@
                                             <!-- SETTING: SET PASSWORD -->
                                             @elseif ($key == config('settings.setting.set_password'))
                                                 <div class="form-group {{ is_null($dataView['oldInput']) ? "setting-advance" : "" }}" id="set-password">
-                                                    {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.set_password'),
-                                                            trans('polls.label.setting.set_password')
-                                                        )
-                                                    }}
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
                                                             <input type="checkbox" id="checkboxShowPassword">
@@ -316,6 +309,7 @@
                                                             Form::password('value[password]', [
                                                                 'class' => 'form-control',
                                                                 'id' => 'password',
+                                                                'placeholder' => trans('polls.label.setting.set_password'),
                                                             ])
                                                         }}
                                                     </div>

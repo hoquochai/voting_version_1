@@ -110,6 +110,7 @@ return [
         'previous' => 'Trước',
         'finish' => 'Kết thúc',
         'administration' => 'QUẢN LÝ POLL',
+        'edit_back' => 'Quay lại',
     ],
     'message' => [
         'create_success' => 'Tạo Poll THÀNH CÔNG',
@@ -132,6 +133,10 @@ return [
         'delete_poll_success' => 'Xóa poll THÀNH CÔNG',
         'email_exists' => 'Địa chỉ email đã tồn tại trong hệ thống, vui lòng chọn địa chỉ email khác hoặc đăng nhập',
         'email_valid' => 'Địa chỉ email hợp lệ, bạn có thể sử dụng email này',
+        'no_setting' => 'Không có bất kỳ cài đặt nào được thiết lập cho poll này',
+        'no_poll_create' => 'Bạn chưa tạo poll nào.',
+        'no_poll_participant' => 'Bạn chưa tham gia poll nào.',
+        'no_poll_close' => 'Bạn chưa đóng poll nào.',
     ],
     'validation' => [
         'name' => [
@@ -170,6 +175,8 @@ return [
             'title' => 'Tiêu đề',
             'status' => 'Trạng thái',
             'type' => 'Loại',
+            'link' => 'Liên kết',
+            'created_at' => 'Ngày tạo',
         ],
         'tbody' => [
             'name' => 'Tên: ',
@@ -180,15 +187,19 @@ return [
     ],
     'tooltip' => [
         'edit' => 'Chỉnh sửa poll này',
+        'duplicate' => 'Tạo bản sao của poll',
+        'delete_comment' => 'Xóa tất cả bình luận',
         'delete' => 'Xóa poll này',
         'show' => 'Xem chi tiết poll này',
         'open' => 'Mở poll này',
         'close' => 'Đóng poll này',
     ],
     'nav_tab_edit' => [
-        'infor' => 'THÔNG TIN',
+        'info' => 'THÔNG TIN',
         'option' => 'TÙY CHỌN',
         'setting' => 'CÀI ĐẶT',
+        'voting' => 'BÌNH CHỌN',
+        'result' => 'KẾT QUẢ',
     ],
     'validate_client' => [
         'required' => 'Vui lòng nhập ',
@@ -234,6 +245,7 @@ return [
     'no' => 'Số thứ tự',
     'poll_history' => 'Lịch sử poll',
     'show_vote_details' => 'Xem chi tiết bầu chọn',
+    'poll_info' => 'Thông tin của poll',
     'activity_poll' => 'Hoạt động của poll',
     'next' => 'Tiếp',
     'optional' => 'Không bắt buộc',

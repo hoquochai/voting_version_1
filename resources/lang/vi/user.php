@@ -25,6 +25,7 @@ return [
             'male' => 'Nam',
             'female' => 'Nữ',
             'other' => 'Khác',
+            '' => null,
         ],
         'avatar' => 'Hình đại diện',
         'password' => 'Mật khẩu',
@@ -87,4 +88,5 @@ return [
             'max' => 'Giá trị phải nhỏ hơn hoặc bằng ' . config('common.length_user.password') . ' ký tự',
         ],
     ],
+    'update_profile_successfully' => 'Bạn đã cập nhật thông tin cá nhân thành công',
 ];

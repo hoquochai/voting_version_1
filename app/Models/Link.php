@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Poll;
+use Mail;
 
 class Link extends Model
 {
@@ -38,8 +39,16 @@ class Link extends Model
 
         if ($tokenInput != $this->token) {
             $this->token = $tokenInput;
-            $this->save();
             $result['success'] = true;
+            $emails = $this->poll->user->email;
+
+            Mail::send('layouts.edit_link_mail', [
+                'link' => url('/link') . '/' . $tokenInput,
+            ], function ($message) use ($emails) {
+                $message->to($emails)->subject(trans('label.mail.subject'));
+            });
+
+            $this->save();
 
             return response()->json($result);
         }

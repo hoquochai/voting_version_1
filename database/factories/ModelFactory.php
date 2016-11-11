@@ -85,7 +85,7 @@ $factory->define(App\Models\Setting::class, function (Faker\Generator $faker) {
 
     return [
         'poll_id' => $faker->randomElement($pollIds ?: $pollIds = App\Models\Poll::pluck('id')->toArray()),
-        'key' => $faker->numberBetween(0, 3),
+        'key' => $faker->numberBetween(1, 6),
         'value' => $faker->numberBetween(0, 50),
     ];
 });

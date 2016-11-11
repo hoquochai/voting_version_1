@@ -4,6 +4,7 @@ return [
     'login' => 'Login',
     'logout' => 'Logout',
     'register' => 'Register',
+    'create_poll' => 'Create poll',
     'forgot_password' => 'Forgot Your Password?',
     'remember' => 'Remember me',
     'email' => 'Email',
@@ -17,6 +18,7 @@ return [
     'profile' => 'Profile',
     'edit' => 'Edit',
     'home' => 'Home',
+    'admin_page' => 'ADMIN PAGE',
     'errors' => 'Error',
 
     /**
@@ -38,6 +40,7 @@ return [
         'head' => 'POLL - VOTING',
         'link_vote' => 'Link to vote:',
         'link_admin' => 'Link manager vote:',
+        'edit_link' => 'You edited link of poll successfully, New link: ',
         'subject' => 'Voting',
         'edit_poll' => [
             'head' => 'Voting - Change',
@@ -53,6 +56,7 @@ return [
     ],
     'paginations' => 'Showing :start to :finish of :numberOfRecords entry|Showing :start to :finish of :numberOfRecords entries',
     'gender' => [
+        '' => '',
         '0' => 'Female',
         '1' => 'Male',
         '2' => 'Other',

@@ -25,6 +25,7 @@ return [
             'male' => 'Male',
             'female' => 'Female',
             'other' => 'Other',
+            '' => null,
         ],
         'avatar' => 'Avatar',
         'password' => 'Password',
@@ -87,4 +88,5 @@ return [
             'max' => 'Please enter a value less than or equal to ' . config('common.length_user.password'),
         ],
     ],
+    'update_profile_successfully' => 'You updated profile successfully',
 ];

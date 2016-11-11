@@ -102,9 +102,10 @@
                         @else
                             <li {!! Request::is('user/profile') ? 'class="active"' : '' !!}>
                                 <a href="{{ URL::action('User\UsersController@index') }}">
-                                <span class="glyphicon glyphicon-user">
-                                    {{ str_limit(auth()->user()->name, 10) }}
-                                </span>
+                                    <span>
+                                        <img class="img-circle img-profile-header" src="{{ auth()->user()->getAvatarPath() }}">
+                                        {{ str_limit(auth()->user()->name, 10) }}
+                                    </span>
                                 </a>
                             </li>
                             <li {!! Request::is('/logout') ? 'class="active"' : '' !!}>

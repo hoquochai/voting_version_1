@@ -9,6 +9,8 @@ google.maps.event.addDomListener(window, 'load', function () {
  * get data from server
  */
 var dataCreatePoll = $('.hide').data("poll");
+var dataAction = $('.hide').data("action");
+var dataSettingEdit = $('.hide').data("settingEdit");
 
 /**--------------------------------------------------------------
 -                         USER CREATE POLL                      -
@@ -71,6 +73,16 @@ $(document).ready(function () {
                 $('#email-participant').show('slow');
             }
         });
+    }
+
+    if (typeof dataSettingEdit !== "undefined") {
+        if (dataCreatePoll.message.setting.link in dataSettingEdit) {
+            $("#new-link").show();
+        } else if (dataCreatePoll.message.setting.limit in dataSettingEdit) {
+            $("#set-limit").show();
+        } else if (dataCreatePoll.message.setting.password in dataSettingEdit) {
+            $("#set-password").show();
+        }
     }
 });
 
@@ -282,12 +294,21 @@ function validateOption() {
         var isOption = false;
         $('#validateOption').html("");
 
+        if (typeof dataAction !== "undefined") {
+            if (dataAction == "edit") {
+                if ($('.old-option').text().trim() !== "") {
+                    return true;
+                }
+            }
+        }
+
         if (optionLists.length == 0 && imageLists.length == 0) {
             $('.option').after("<div id='validateOption'>" +
                 "<span class='label label-danger'>" + dataCreatePoll.message.validate.option_empty + "</span>" +
                 "</div>");
             return false;
         }
+
         optionLists.each(function () {
             if ($(this).val() != "") {
                 isOption = true;
@@ -458,9 +479,7 @@ $.toggleShowPassword({
 
 
 //Auto close message
-$(".alert-dismissable").fadeTo(2000, 500).slideUp(2000, function(){
-    $(".alert-dismissable").alert('close');
-});
+$(".alert-dismissable").delay(3000).fadeOut(100);
 
 //Datetime picker
 $(function () {
@@ -468,3 +487,15 @@ $(function () {
         format: 'DD-MM-YYYY HH:mm',
     });
 });
+
+function showOptionDetail() {
+    $('#option-detail').slideToggle();
+}
+
+function showSettingDetail() {
+    $('#setting-detail').slideToggle();
+}
+
+function confirmDelete(message) {
+    return confirm(message);
+}

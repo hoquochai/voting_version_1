@@ -135,6 +135,10 @@ body {
   height: 100px;
 }
 
+.btn-delete-option-duplicate {
+  float: right;
+}
+
 .file {
   display: none !important;
 }
@@ -142,7 +146,6 @@ body {
 .preview-image {
   display: none;
   height: 100px;
-  margin-top: 20px;
   width:100px;
 }
 

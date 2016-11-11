@@ -128,7 +128,15 @@ body {
 /-------------------------------------------*/
 .activity-poll {
   margin-top: 10px;
-  margin-top: 10px;
+}
+
+.image-option {
+  width: 100px;
+  height: 100px;
+}
+
+.btn-delete-option-duplicate {
+  float: right;
 }
 
 .file {
@@ -137,9 +145,8 @@ body {
 
 .preview-image {
   display: none;
-  height: 200px;
-  margin-top: 20px;
-  width: 200px;
+  height: 100px;
+  width:100px;
 }
 
 .email-participant {

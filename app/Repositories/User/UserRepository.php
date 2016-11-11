@@ -46,6 +46,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             $fileName =  config('settings.avatar_default');
         }
 
+        if ($data['gender'] == '') {
+            $data['gender'] = null;
+        }
+
         $user = [
             'name' => $data['name'],
             'email' => $data['email'],
@@ -73,6 +77,10 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
                 $inputs['password'] = bcrypt($inputs['password']);
             } else {
                 unset($inputs['password']);
+            }
+
+            if ($inputs['gender'] == '') {
+                $inputs['gender'] = null;
             }
 
             $oldImage = $currentUser->avatar;

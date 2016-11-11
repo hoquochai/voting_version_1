@@ -37,9 +37,9 @@
             <div class="panel-body details-poll">
                 <div class="container">
                     <ul class="nav nav-pills">
-                        <li class="active"><a data-toggle="tab" href="#home">VOTING</a></li>
-                        <li><a data-toggle="tab" href="#menu1">INFORMATION</a></li>
-                        <li><a data-toggle="tab" href="#menu2">RESULT</a></li>
+                        <li class="active"><a data-toggle="tab" href="#home">{{ trans('polls.nav_tab_edit.voting') }}</a></li>
+                        <li><a data-toggle="tab" href="#menu1">{{ trans('polls.nav_tab_edit.info') }}</a></li>
+                        <li><a data-toggle="tab" href="#menu2">{{ trans('polls.nav_tab_edit.result') }}</a></li>
                     </ul>
                 </div>
                 <div class="panel panel-primary panel-content">
@@ -57,9 +57,11 @@
                                         @include('message')
                                         <div class="col-md-2">
                                             @if (auth()->check() && ! $isUserVoted || ! auth()->check() && ! $isParticipantVoted)
-                                                <div class="form-group selection-option">
-                                                    {{ Form::select('selection_option_combobox', $optionCombobox, null, ['class' => 'form-control', 'onChange' => 'selectOption(this)']) }}
-                                                </div>
+                                                @if (count($optionCombobox) > 3)
+                                                    <div class="form-group selection-option">
+                                                        {{ Form::select('selection_option_combobox', $optionCombobox, null, ['class' => 'form-control', 'onChange' => 'selectOption(this)']) }}
+                                                    </div>
+                                                @endif
                                             @endif
                                         </div>
                                         <div class="col-md-8">
@@ -145,10 +147,12 @@
                                         </div>
                                         <div class="col-lg-2">
                                             @if (auth()->check() && ! $isUserVoted || ! auth()->check() && ! $isParticipantVoted)
-                                                <div id="vote-layout">
-                                                    <button class="btn btn-primary" onclick="goVoteInfor()"><span class="glyphicon glyphicon-stats"></span></button>
-                                                    <button class="btn btn-primary" onclick="goComment()"><span class="glyphicon glyphicon-comment"></span></button>
-                                                </div>
+                                                @if (count($optionCombobox) > 3)
+                                                    <div id="vote-layout">
+                                                        <button class="btn btn-primary" onclick="goVoteInfor()"><span class="glyphicon glyphicon-stats"></span></button>
+                                                        <button class="btn btn-primary" onclick="goComment()"><span class="glyphicon glyphicon-comment"></span></button>
+                                                    </div>
+                                                @endif
                                             @endif
                                         </div>
 
@@ -193,7 +197,7 @@
                                                         @endforeach
                                                     </div>
 
-                                                    <div class="col-md-12 comment" data-label-add-comment = "{{ trans('polls.add_comment') }}" data-label-hide="{{ trans('polls.hide') }}">
+                                                    <div class="col-lg-12 comment" data-label-add-comment = "{{ trans('polls.add_comment') }}" data-label-hide="{{ trans('polls.hide') }}">
                                                         <button class="btn btn-warning show" id="add-comment">{{ trans('polls.hide') }}</button>
                                                         {!! Form::open(['route' => 'comment.store', 'class' => 'form-horizontal', 'id' => 'form-comment']) !!}
                                                         <div class="col-md-4 comment">
@@ -240,29 +244,25 @@
 
                                         </div>
                                         @if (Gate::allows('administer', $poll))
-                                            <a class="btn btn-primary btn-administration" href="{{ $poll->getAdminLink() }}">
-                                                <span class="glyphicon glyphicon-cog"></span>
-                                                {{ trans('polls.administration') }}
-                                            </a>
+                                            <div class="col-lg-12">
+                                                <div class="col-lg-4 col-lg-offset-4">
+                                                    <a class="btn btn-primary btn-administration btn-block" href="{{ $poll->getAdminLink() }}">
+                                                        <span class="glyphicon glyphicon-cog"></span>
+                                                        {{ trans('polls.administration') }}
+                                                    </a>
+                                                </div>
+                                            </div>
                                         @endif
-                                        {{--@if (auth()->check())--}}
-                                            {{--<a class="btn btn-primary btn-administration" href="{{ URL::action('User\ActivityController@show', $poll->id) }}">--}}
-                                                {{--<span class="glyphicon glyphicon-star-empty"></span>--}}
-                                                {{--{{ trans('polls.view_history') }}--}}
-                                            {{--</a>--}}
-                                            {{--<a class="btn btn-primary btn-administration" href="{{ URL::action('PollController@edit', $poll->id) }}">--}}
-                                                {{--<span class="glyphicon glyphicon-copy"></span>--}}
-                                                {{--{{ trans('polls.create_duplicate_poll') }}--}}
-                                            {{--</a>--}}
-                                        {{--@endif--}}
                                     </div>
                                     <div id="menu2" class="tab-pane fade">
                                         @if (!$isHideResult || Gate::allows('administer', $poll))
-                                            <button type="button" class="btn btn-primary btn-model" data-toggle="modal" data-target="#myModal">
-                                                <span class="glyphicon glyphicon-eye-open"></span>
-                                                {{ trans('polls.show_vote_details') }}
-                                            </button>
-                                            <div class="container">
+                                            <div class="col-lg-12">
+                                                <button type="button" class="btn btn-primary btn-model" data-toggle="modal" data-target="#myModal">
+                                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                                    {{ trans('polls.show_vote_details') }}
+                                                </button>
+                                            </div>
+                                            <div class="col-lg-12">
                                                 <!-- bar chart -->
                                                 @if (collect($optionRateBarChart)->count())
                                                     <script type="text/javascript" src="http://www.google.com/jsapi"></script>
@@ -287,7 +287,7 @@
                                                     <div id="chart"></div>
                                                 @endif
                                             </div>
-                                            <div class="container">
+                                            <div class="col-lg-12">
 
                                                 <!-- pie chart for this poll -->
                                                 @if (collect($optionRatePieChart)->count())
@@ -308,7 +308,6 @@
                                                                 var v = record[k];
 
                                                                 data.addRow([k,v]);
-                                                                console.log(v);
                                                             }
 
                                                             var optionPies = {

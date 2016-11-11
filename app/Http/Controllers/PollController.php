@@ -153,7 +153,7 @@ class PollController extends Controller
                     'limit' => config('settings.length_poll.number_limit'),
                     'password' => config('settings.length_poll.password_poll'),
                 ],
-                'confirm_delete_option' => trans('polls.message.confirm_delete'),
+                'confirm_delete_option' => trans('polls.message.confirm_delete_option'),
                 'config' => [
                     'invite_all' => config('settings.participant.invite_all'),
                     'invite_people' => config('settings.participant.invite_people'),
@@ -223,12 +223,12 @@ class PollController extends Controller
             $message = $this->pollRepository->editPollOption($input, $id);
         } elseif ($button == trans('polls.button.save_setting')) {
             $input = $request->only(
-                'setting', 'value', 'participant'
+                'setting', 'value'
             );
             $message = $this->pollRepository->editPollSetting($input, $id);
         }
 
-        return redirect()->route('poll.edit', $id)->with('message', $message);
+        return redirect()->route('user-poll.edit', $id)->with('message', $message);
     }
 
     /**

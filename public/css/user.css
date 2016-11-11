@@ -179,3 +179,21 @@ li {
 .details-poll {
     display: none;
 }
+
+#option-detail {
+    display: none;
+}
+
+#setting-detail {
+    display: none;
+}
+
+.all-poll-user {
+    border-radius: 0 !important;
+    float: right;
+}
+
+.img-profile-header {
+    width: 20px;
+    height: 20px;
+}

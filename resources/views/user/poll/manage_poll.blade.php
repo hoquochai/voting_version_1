@@ -15,26 +15,28 @@
                         <div class="col-lg-12">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading" data-toggle="collapse" data-target="#collapse1" data-parent="#accordion">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">Poll information</a>
+                                           {{ trans('polls.poll_info') }}
                                         </h4>
                                     </div>
                                     <div id="collapse1" class="panel-collapse collapse in">
                                         <div class="panel-body">
                                             <div class="well well-lg">
-                                                <h4>Title: {{ $poll->title }}</h4>
-                                                <h4>User create: {{ $poll->user->name }} - {{ $poll->user->email }}</h4>
-                                                <h4>Create at: {{ $poll->created_at }}</h4>
+                                                <h4>{{ trans('polls.table.thead.title') . " : " . $poll->title }}</h4>
+                                                <h4>{{ trans('polls.table.thead.creator') . " : " . $poll->user->name . "-" . $poll->user->email }}</h4>
+                                                <h4>{{ trans('polls.table.thead.created_at') . " : " . $poll->created_at }}</h4>
                                             </div>
                                             <div class="col-lg-12">
                                                 <div class="col-lg-6">
-                                                    <button class="btn btn-warning btn-block" id="show-option-detail" onclick="showOptionDetail()">OPTION</button>
+                                                    <button class="btn btn-warning btn-block" id="show-option-detail" onclick="showOptionDetail()">
+                                                        {{ trans('polls.nav_tab_edit.option') }}
+                                                    </button>
                                                     <div class="well" id="option-detail">
                                                         @foreach ($poll->options as $option)
                                                             <div class="panel panel-default">
                                                                 <div class="panel-heading">
-                                                                    {{ str_limit($option->name, 15) }}
+                                                                    {{ $option->name }}
                                                                 </div>
                                                                 <div class="panel-body">
                                                                     <img src="{{ $option->showImage() }}" class="img-option">
@@ -44,7 +46,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-5 col-lg-offset-1">
-                                                    <button class="btn btn-success btn-block" onclick="showSettingDetail()">SETTING</button>
+                                                    <button class="btn btn-success btn-block" onclick="showSettingDetail()">
+                                                        {{ trans('polls.nav_tab_edit.setting') }}
+                                                    </button>
                                                     <div class="well" id="setting-detail">
                                                         @if (count($settingDetail))
                                                             @foreach ($settingDetail as $setting)
@@ -58,7 +62,7 @@
                                                             @endforeach
                                                         @else
                                                             <div class="alert alert-info">
-                                                                Haven't any setting with this poll.
+                                                                {{ trans('polls.message.no_setting') }}
                                                             </div>
                                                         @endif
                                                     </div>
@@ -68,12 +72,12 @@
                                     </div>
                                 </div>
                                 <div class="panel panel-primary">
-                                    <div class="panel-heading">
+                                    <div class="panel-heading" data-toggle="collapse" data-target="#collapse2" data-parent="#accordion">
                                         <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">{{ trans('polls.show_vote_details') }}</a>
+                                            {{ trans('polls.show_vote_details') }}
                                         </h4>
                                     </div>
-                                    <div id="collapse2" class="panel-collapse collapse">
+                                    <div id="collapse2" class="panel-collapse collapse scroll-result">
                                         <div class="panel-body">
                                             @if ($mergedParticipantVotes->count())
                                                 <table class="table table-bordered">
@@ -147,8 +151,8 @@
                                 </div>
                                 <div class="panel panel-primary">
                                     <div class="panel-heading">
-                                        <h4 class="panel-title">
-                                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">{{ trans('polls.activity_poll') }}</a>
+                                        <h4 class="panel-title" data-toggle="collapse" data-target="#collapse3" data-parent="#accordion">
+                                            {{ trans('polls.activity_poll') }}
                                         </h4>
                                     </div>
                                     <div id="collapse3" class="panel-collapse collapse">
@@ -198,15 +202,13 @@
                                                         </a>
                                                     </div>
                                                     <div class="row activity-poll">
-                                                        <button class="btn btn-default btn btn-block btn-administration">
-                                                            <span class="fa fa-pencil"></span> Edit poll
-                                                        </button>
+                                                        <a href="{{ route('user-poll.edit', $poll->id) }}" class="btn btn-default btn btn-block btn-administration">
+                                                            <span class="fa fa-pencil"></span> {{ trans('polls.tooltip.edit') }}
+                                                        </a>
                                                     </div>
                                                     <div class="row activity-poll">
-                                                        <a href="{{ route('duplicate.show', $poll->id) }}">
-                                                            <button class="btn btn-default btn btn-block btn-administration">
-                                                                <span class="fa fa-files-o"></span> Duplication
-                                                            </button>
+                                                        <a href="{{ route('duplicate.show', $poll->id) }}" class="btn btn-default btn btn-block btn-administration">
+                                                            <span class="fa fa-files-o"></span> {{ trans('polls.tooltip.duplicate') }}
                                                         </a>
                                                     </div>
                                                     <div class="row activity-poll">
@@ -242,12 +244,12 @@
                                                     </div>
                                                     <div class="row activity-poll">
                                                         <button class="btn btn-default btn-block">
-                                                            <span class="fa fa-comments"></span> Delete all comments
+                                                            <span class="fa fa-comments"></span> {{ trans('polls.tooltip.delete_comment') }}
                                                         </button>
                                                     </div>
                                                     <div class="row activity-poll">
                                                         <button class="btn btn-default btn-block">
-                                                            <span class="fa fa-bar-chart"></span> Delete this poll
+                                                            <span class="fa fa-bar-chart"></span> {{ trans('polls.tooltip.delete') }}
                                                         </button>
                                                     </div>
                                                 </div>

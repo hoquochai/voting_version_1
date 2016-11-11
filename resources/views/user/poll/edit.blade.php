@@ -6,6 +6,7 @@
     <div class="container">
         <div class="hide" data-poll="{{ $dataJson }}"
              data-action="edit"
+             data-setting-edit="{{ json_encode($setting) }}"
              data-route-link="{{ route('link.store') }}"
              data-token="{{ csrf_token() }}"></div>
         <div class="row">
@@ -17,39 +18,37 @@
                         <ul class="nav nav-tabs" role="tablist">
                             <li role="presentation" class="active">
                                 <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="Step 1">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-info-sign"></i>
-                            </span>
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-info-sign"></i>
+                                    </span>
                                 </a>
                             </li>
 
                             <li role="presentation" class="disabled">
                                 <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="Step 2">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-option-horizontal"></i>
-                            </span>
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-option-horizontal"></i>
+                                    </span>
                                 </a>
                             </li>
                             <li role="presentation" class="disabled">
                                 <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="Step 3">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-cog"></i>
-                            </span>
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-cog"></i>
+                                    </span>
                                 </a>
                             </li>
-
                             <li role="presentation" class="disabled">
-                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="Complete">
-                            <span class="round-tab">
-                                <i class="glyphicon glyphicon-user"></i>
-                            </span>
+                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="{{ trans('polls.label.step_4') }}">
+                                    <span class="round-tab">
+                                        <i class="glyphicon glyphicon-user"></i>
+                                    </span>
                                 </a>
                             </li>
                         </ul>
                     </div>
                     @include('layouts.error')
                     @include('layouts.message')
-
                     <div class="tab-content">
 
                         <!---------------------------------------------------/
@@ -59,7 +58,7 @@
                         <div class="tab-pane active" role="tabpanel" id="step1">
                             {{
                                 Form::open([
-                                    'route' => ['user-poll.store', $poll->id],
+                                    'route' => ['user-poll.update', $poll->id],
                                     'method' => 'PUT',
                                     'id' => 'create-poll',
                                     'enctype' => 'multipart/form-data',
@@ -162,11 +161,11 @@
                                         <div class="form-group" id="type">
                                             {{ Form::label(trans('polls.label_for.type'), trans('polls.label.type')) }}
                                             <label class="radio-inline">
-                                                {{ Form::radio('type', config('settings.type.single_choice'), ($poll->multiple == trans('polls.label.single_choice')) ? true : null) }}
+                                                {{ Form::radio('type', config('settings.type_poll.single_choice'), ($poll->multiple == trans('polls.label.single_choice')) ? true : null) }}
                                                 {{ trans('polls.label.single_choice') }}
                                             </label>
                                             <label class="radio-inline">
-                                                {{ Form::radio('type', config('settings.type.multiple_choice'), ($poll->multiple == trans('polls.label.multiple_choice')) ? true : null) }}
+                                                {{ Form::radio('type', config('settings.type_poll.multiple_choice'), ($poll->multiple == trans('polls.label.multiple_choice')) ? true : null) }}
                                                 {{ trans('polls.label.multiple_choice') }}
                                             </label>
                                         </div>
@@ -188,6 +187,9 @@
                                                 'value' => 'info',
                                             ])
                                         }}
+                                        <a href="{{ $poll->getAdminLink() }}" class="btn btn-default">
+                                            {{ trans('polls.button.edit_back') }}
+                                        </a>
                                     </li>
                                 </ul>
                             {{ Form::close() }}
@@ -216,27 +218,36 @@
                                         <!-- OLD OPTION -->
                                         <div class="old-option">
                                             @foreach($poll->options as $option)
-                                                <div id="{{ $option->id }}">
-                                                    <div class="form-group">
-                                                        {{ Form::text('option['. $option->id .']', $option->name, ['class' => 'form-control']) }}
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <div class="row clearfix">
-                                                            <div class="col-lg-3">
-                                                                <img src="{{ asset(config('settings.option.path_image') . $option->image) }}" class="image-option">
+                                                <div id="{{ $option->id }}" class="well">
+                                                    <div class="panel panel-success">
+                                                        <div class="panel-heading">
+                                                            Option {{ $loop->index + 1 }}
+                                                            <button type="button" class="btn btn-danger btn-delete-option-duplicate" onclick="removeOpion('{{ $option->id }}', 'edit')">
+                                                                <span class="fa fa-trash"></span> {{ trans('polls.button.remove') }}
+                                                            </button>
+                                                        </div>
+                                                        <div class="panel-body">
+                                                            <div class="form-group">
+                                                                {{ Form::text('option['. $option->id .']', $option->name, ['class' => 'form-control']) }}
                                                             </div>
-                                                            <div class="col-lg-3">
-                                                                <img id="preview_{{ $option->id }}" src="#" class="preview-image" />
+                                                            <div class="form-group">
+                                                                <div class="col-lg-3">
+                                                                    <img src="{{ asset($option->showImage()) }}" class="image-option">
+                                                                </div>
+                                                                <div class="col-lg-3">
+                                                                    <img id="preview_{{ $option->id }}" src="#" class="preview-image" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                {{
+                                                                    Form::file('image['. $option->id .']', [
+                                                                        'onchange' => 'readURL(this, "preview_' . $option->id . '")',
+                                                                        'class' => 'form-control',
+                                                                    ])
+                                                                }}
                                                             </div>
                                                         </div>
-                                                        <div class="row clearfix">
-                                                            {{ Form::file('image['. $option->id .']', ['onchange' => 'readURL(this, "preview_' . $option->id . '")']) }}
-                                                        </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <button type="button" class="btn btn-danger" onclick="removeOpion('{{ $option->id }}', 'edit')">{{ trans('polls.button.remove') }}</button>
-                                                    </div>
-                                                    <hr>
                                                 </div>
                                             @endforeach
                                         </div>
@@ -282,6 +293,9 @@
                                                 'value' => 'option',
                                             ])
                                         }}
+                                        <a href="{{ $poll->getAdminLink() }}" class="btn btn-default">
+                                            {{ trans('polls.button.edit_back') }}
+                                        </a>
                                     </li>
                                 </ul>
                             {{ Form::close() }}
@@ -309,7 +323,11 @@
                                             <div class="form-group">
                                                 <div class="input-group">
                                                     <span class="input-group-addon">
-                                                        {{ Form::checkbox('setting[]', $key, empty($setting[$key]) ? null : true, ['onchange' => 'settingAdvance(' . $key . ')']) }}
+                                                        {{
+                                                            Form::checkbox('setting[]', $key, array_key_exists($key, $setting) ? true : null, [
+                                                                'onchange' => 'settingAdvance(' . $key . ')',
+                                                            ])
+                                                        }}
                                                     </span>
                                                     {{ Form::text('setting_text', $value, ['disabled' => true, 'class' => 'form-control']) }}
                                                 </div>
@@ -318,12 +336,6 @@
                                             <!-- SETTING: CUSTOM LINK -->
                                             @if ($key == config('settings.setting.custom_link'))
                                                 <div class="form-group {{ empty($setting[$key]) ? "setting-advance" : "" }}" id="new-link">
-                                                    {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.custom_link'),
-                                                            trans('polls.label.setting.custom_link')
-                                                        )
-                                                    }}
                                                     <div class="input-group">
                                                         <span class="input-group-addon">
                                                             {{ Form::text('url', url('/') . config('settings.email.link_vote'), ['disable' => true]) }}
@@ -332,6 +344,7 @@
                                                             Form::text('value[link]', empty($setting[$key]) ? str_random(config('settings.length_poll.link')) : $setting[$key], [
                                                                 'class' => 'form-control',
                                                                 'id' => 'link',
+                                                                'placeholder' => trans('polls.label.setting.custom_link'),
                                                             ])
                                                         }}
                                                         <div class="link-error"></div>
@@ -342,15 +355,13 @@
                                             @elseif ($key == config('settings.setting.set_limit'))
                                                 <div class="form-group {{ empty($setting[$key]) ? "setting-advance" : "" }}" id="set-limit">
                                                     {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.set_limit'),
-                                                            trans('polls.label.setting.set_limit')
-                                                        )
-                                                    }}
-                                                    {{
-                                                        Form::text('value[limit]', empty($setting[$key]) ? null : $setting[$key], [
+                                                        Form::number('value[limit]', empty($setting[$key]) ? null : $setting[$key], [
                                                             'class' => 'form-control',
                                                             'id' => 'limit',
+                                                            'min' => 1,
+                                                            'max' => 99,
+                                                            'placeholder' => trans('polls.label.setting.set_limit'),
+                                                            'oninput' => "validity.valid||(value='1');",
                                                         ])
                                                     }}
                                                 </div>
@@ -359,15 +370,10 @@
                                             @elseif ($key == config('settings.setting.set_password'))
                                                 <div class="form-group {{ empty($setting[$key]) ? "setting-advance" : "" }}" id="set-password">
                                                     {{
-                                                        Form::label(
-                                                            trans('polls.label_for.setting.set_password'),
-                                                            trans('polls.label.setting.set_password')
-                                                        )
-                                                    }}
-                                                    {{
-                                                        Form::password('value[password]', [
+                                                        Form::text('value[password]', empty($setting[$key]) ? null : $setting[$key], [
                                                             'class' => 'form-control',
                                                             'id' => 'password',
+                                                            'placeholder' => trans('polls.label.setting.set_password'),
                                                         ])
                                                     }}
                                                 </div>
@@ -386,6 +392,9 @@
                                                 'name' => 'btn_edit',
                                             ])
                                         }}
+                                        <a href="{{ $poll->getAdminLink() }}" class="btn btn-default">
+                                            {{ trans('polls.button.edit_back') }}
+                                        </a>
                                     </li>
                                 </ul>
                             {{ Form::close() }}

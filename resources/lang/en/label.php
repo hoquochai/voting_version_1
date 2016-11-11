@@ -41,6 +41,7 @@ return [
         'link_vote' => 'Link to vote:',
         'link_admin' => 'Link manager vote:',
         'subject' => 'Voting',
+        'edit_link' => 'You edited link of poll successfully, New link: ',
         'edit_poll' => [
             'head' => 'Voting - Change',
             'summary' => 'Poll of you changed by admin!',
@@ -55,8 +56,9 @@ return [
     ],
     'paginations' => 'Showing :start to :finish of :numberOfRecords entry|Showing :start to :finish of :numberOfRecords entries',
     'gender' => [
-            '0' => 'Female',
-            '1' => 'Male',
-            '2' => 'Other',
+        '' => '',
+        '0' => 'Female',
+        '1' => 'Male',
+        '2' => 'Other',
     ],
 ];

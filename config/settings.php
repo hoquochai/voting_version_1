@@ -18,6 +18,7 @@ return [
         '2' => 'Other',
     ],
     'gender_constant' => [
+        '' => 3,
         'male' => 1,
         'female' => 0,
         'other' => 2,

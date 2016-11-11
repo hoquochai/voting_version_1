@@ -24,12 +24,12 @@ $(document).ready(function(){
                 'poll_id': pollId,
             },
             success: function(data){
-                if (data.success) {
-                    $('.details-poll').show();
+                if (data.success && data.password == $('.password').val()) {
+                    $(".details-poll").css('display', 'block');
                     $('.modal-dialog-password').empty();
-                     $('.message-required-password').html('');
+                    $('.message-required-password').html('');
                 } else {
-                    $('.details-poll').hide();
+                    $(".details-poll").css('display', 'none');
                     $('.modal-dialog-password').show();
                     $('.message-required-password').html(messageRequiredPassword);
                 }

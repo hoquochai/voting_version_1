@@ -30,7 +30,10 @@ class SetPasswordController extends Controller
             $password = Setting::where('poll_id', $inputs['poll_id'])->where('key', config('settings.setting.set_password'))->first()->value;
 
             if ($password && $password == $inputs['password']) {
-                return response()->json(['success' => true]);
+                return response()->json([
+                    'success' => true,
+                    'password' => $inputs['password'],
+                ]);
             }
         }
 

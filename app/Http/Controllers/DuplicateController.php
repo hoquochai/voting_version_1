@@ -2,11 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PollRequest;
 use App\Models\Poll;
+use App\Repositories\Poll\PollRepositoryInterface;
 use Illuminate\Http\Request;
 
 class DuplicateController extends Controller
 {
+    private $pollRepository;
+
+    public function __construct(PollRepositoryInterface $pollRepository)
+    {
+        $this->pollRepository = $pollRepository;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -30,12 +39,29 @@ class DuplicateController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PollRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PollRequest $request)
     {
-        //
+        $input = $request->only(
+            'title', 'location', 'description', 'name', 'email', 'chatwork_id', 'type', 'closingTime',
+            'optionText', 'optionImage',
+            'setting', 'value',
+            'member'
+        );
+        $data = $this->pollRepository->store($input);
+
+        if ($data) {
+
+            $poll = $data['poll'];
+            $link = $data['link'];
+            return view('user.poll.result_create_poll', compact('poll', 'link'));
+        } else {
+            $message = trans('polls.message.create_fail');
+
+            return redirect()->route('user-poll.create')->with('message', $message);
+        }
     }
 
     /**
@@ -60,7 +86,7 @@ class DuplicateController extends Controller
                     'limit' => config('settings.length_poll.number_limit'),
                     'password' => config('settings.length_poll.password_poll'),
                 ],
-                'confirm_delete_option' => trans('polls.message.confirm_delete'),
+                'confirm_delete_option' => trans('polls.message.confirm_delete_option'),
                 'config' => [
                     'invite_all' => config('settings.participant.invite_all'),
                     'invite_people' => config('settings.participant.invite_people'),

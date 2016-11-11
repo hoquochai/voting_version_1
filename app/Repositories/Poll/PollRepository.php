@@ -216,7 +216,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return $pollId;
         } catch (Exception $ex) {
-            dd($ex);
             return false;
         }
     }
@@ -260,7 +259,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return true;
         } catch (Exception $ex) {
-            dd($ex);
             return false;
         }
 
@@ -326,7 +324,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 }
             }
         } catch (Exception $ex) {
-            dd($ex);
             throw new Exception(trans('polls.message.upload_image_fail'));
         }
     }
@@ -365,7 +362,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return true;
         } catch (Exception $ex) {
-            dd($ex);
             return false;
         }
 
@@ -440,7 +436,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             ];
             return $linkReturn;
         } catch (Exception $ex) {
-            dd($ex);
             return false;
         }
     }
@@ -464,7 +459,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 $message->to($email)->subject($subject);
             });
         } catch (Exception $ex) {
-            dd($ex);
             throw new Exception(trans('polls.message.send_mail_fail'));
         }
     }
@@ -488,7 +482,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             if (! $links) {
                 DB::rollback();
-                dd("error");
+
                 return false;
             }
 
@@ -535,7 +529,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             return $dataRtn;
         } catch (Exception $ex) {
             DB::rollback();
-            dd($ex);
             return false;
         }
     }
@@ -572,6 +565,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                         $old[] = [
                             $key => $this->getStatus($poll->status, false),
                         ];
+
                         $poll->status = $value;
                     }
                 } elseif ($key == 'type') {
@@ -688,7 +682,15 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             if ($input['optionImage']) {
                 foreach ($input['optionImage'] as $key => $image) {
-                    $nameOptionImage['optionImage'][$key] = uniqid(rand(), true) . '.' . $image->getClientOriginalExtension();
+                    $path = public_path() . config('settings.option.path_image');
+                    $pathFileOption = '';
+
+                    do {
+                        //upload file
+                        $fileOption =  uniqid(rand(), true) . '.' . $image->getClientOriginalExtension();
+                        $pathFileOption = $path . $fileOption;
+                        $nameOptionImage['optionImage'][$key] = $fileOption;
+                    } while (File::exists($pathFileOption));
                 }
             }
 
@@ -733,14 +735,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
                     try {
                         $path = public_path() . config('settings.option.path_image');
-                        $pathFileOption = '';
-
-                        do {
-                            //upload file
-                            $fileOption =  uniqid(rand(), true) . '.' . $nameOptionImage['optionImage'][$key];
-                            $pathFileOption = $path . $fileOption;
-                        } while (File::exists($pathFileOption));
-
+                        $pathFileOption = $path . $nameOptionImage['optionImage'][$key];;
                         $optionImage->move($path, $pathFileOption);
                     } catch (Exception $ex) {
                         throw new Exception(trans('polls.message.upload_image_fail'));
@@ -839,110 +834,63 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
              *              SETTING
              *-----------------------------------*/
             // remove setting
-            foreach ($poll->settings as $setting) {
-                if (! in_array($setting->key, $input['setting'])) {
-                    Setting::find($setting->id)->delete();
-                }
-            }
-
-            // add setting
-            $oldSetting = $poll->settings->pluck('value', 'key')->toArray();
-            $newData = [];
-
-            foreach ($input['setting'] as $inputName => $setting) {
-                $value = null;
-
-                if (isset($input['value'][$inputName]) && $input['value'][$inputName]) {
-                    $value = $input['value'][$inputName];
-
-                    if ($setting == config('settings.setting.set_password')) {
-                        $value = bcrypt($input['value'][$inputName]);
+            if (is_null($input['setting'])) {
+                Setting::where('poll_id', $id)->delete();
+            } else {
+                foreach ($poll->settings as $setting) {
+                    if (! in_array($setting->key, $input['setting'])) {
+                        Setting::find($setting->id)->delete();
                     }
                 }
 
-                if (empty($oldSetting[$setting])) {
-                    $newData[] = [
-                        'poll_id' => $id,
-                        'key' => $setting,
-                        'value' => $value,
-                        'created_at' => $now,
-                    ];
+                // add setting
+                $oldSetting = $poll->settings->pluck('value', 'key')->toArray();
+                $newData = [];
+                $settingConfig = config('settings.setting');
+
+                foreach ($input['setting'] as $setting) {
+                    $value = null;
+
+                    if ($setting == $settingConfig['custom_link']) {
+                        $value = $input['value']['link'];
+                    } elseif ($setting == $settingConfig['set_limit']) {
+                        $value = $input['value']['limit'];
+                    } elseif ($setting == $settingConfig['set_password']) {
+                        $value = $input['value']['password'];
+                    }
+
+                    if (! array_key_exists($setting, $oldSetting)) {
+                        $newData[] = [
+                            'poll_id' => $id,
+                            'key' => $setting,
+                            'value' => $value,
+                            'created_at' => $now,
+                        ];
+                    }
                 }
-            }
 
-            if ($newData) {
-                Setting::insert($newData);
-            }
-
-            // edit value of setting
-            $settingId = $poll->settings->pluck('id', 'key')->toArray();
-            foreach ($input['setting'] as $name => $key) {
-                if (empty($input['value'][$name])) {
-                    continue;
+                if ($newData) {
+                    Setting::insert($newData);
                 }
 
-                $value = ($key == config('settings.setting.set_password')) ? bcrypt($input['value'][$name]) : $input['value'][$name];
+                // edit value of setting
+                $settingId = $poll->settings->pluck('id', 'key')->toArray();
+                foreach ($input['setting'] as $name => $key) {
+                    if (empty($input['value'][$name])) {
+                        continue;
+                    }
 
-                if ($oldSetting[$key] != $input['value'][$name]) {
-                    Setting::find($settingId[$key])->update([
-                        'value' => $value
-                    ]);
+                    $value = ($key == config('settings.setting.set_password')) ? bcrypt($input['value'][$name]) : $input['value'][$name];
+
+                    if ($oldSetting[$key] != $input['value'][$name]) {
+                        Setting::find($settingId[$key])->update([
+                            'value' => $value
+                        ]);
+                    }
                 }
             }
 
             DB::commit();
-
-            /* ---------------------------------
-             *              PARTICIPANT
-             *-----------------------------------*/
-            if ($input['participant']) {
-                $participants = explode(',', $input['participant']);
-                $emails = [];
-
-                foreach ($participants as $participant) {
-                    if (filter_var($participant, FILTER_VALIDATE_EMAIL)) {
-                        $emails[] = $participant;
-                    }
-                }
-
-                if ($emails) {
-                    $settingToken = Setting::where([
-                        'poll_id' => $id,
-                        'key' => config('settings.setting.custom_link')
-                    ])->first();
-
-                    if ($settingToken) {
-                        $token = $settingToken->value;
-                    } else {
-                        $pollToken = Link::where([
-                            'poll_id'=> $id,
-                            'link_admin'=> config('settings.link_poll.vote'),
-                        ])->first();
-
-                        if ($pollToken) {
-                            $token = $pollToken->token;
-                        } else {
-                            $token = str_random(16);
-                            Link::firstOrCreate([
-                                'poll_id' => $id,
-                                'token' => $token,
-                                'link_admin' => config('settings.link_poll.vote'),
-                            ]);
-                        }
-                    }
-
-                    $linkMail = url("/") . config('settings.email.link_vote') . $token;
-
-                    //send mail for member
-                    Mail::send('layouts.participant-mail', [
-                        'link' => $linkMail,
-                    ], function ($message) use ($emails) {
-                        $message->to($emails)->subject(trans('label.mail.subject'));
-                    });
-                }
-
-            }
-
             $message = trans('polls.message.update_setting_success');
         } catch (Exception $ex) {
             DB::rollBack();
@@ -1018,7 +966,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
         if ($isKey) {
             //return result status key: 0, 1
-            if ($status =  $trans['poll_opening'] || $status == $trans['poll_opening']) {
+            if ($status ==  $trans['opening'] || $status == $trans['poll_opening']) {
                 return $config['open'];
             }
 
@@ -1027,10 +975,10 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
         //return result type text: closed, opening
         if ($status == $trans['poll_opening'] || $status == $config['open']) {
-            return $trans['open'];
+            return $trans['opening'];
         }
 
-        return $trans['close'];
+        return $trans['closed'];
     }
 
     public function getType($type, $isKey)
