@@ -1,3 +1,4 @@
+
 //autoload location
 google.maps.event.addDomListener(window, 'load', function () {
     var places = new google.maps.places.Autocomplete(document.getElementById('location'));
@@ -8,7 +9,7 @@ google.maps.event.addDomListener(window, 'load', function () {
 /*
  * get data from server
  */
-var dataCreatePoll = $('.hide').data("poll");
+var pollData = $('.hide').data("poll");
 var dataAction = $('.hide').data("action");
 var dataSettingEdit = $('.hide').data("settingEdit");
 
@@ -63,24 +64,24 @@ $(document).ready(function () {
 
     });
 
-    if (typeof dataCreatePoll !== "undefined") {
+    if (typeof pollData !== "undefined") {
         $('input[type=radio][name=participant]').change(function () {
-            if (this.value == dataCreatePoll.message.config.invite_all) {
+            if (this.value == pollData.message.config.invite_all) {
                 $("#validateParticipant").html("");
                 $('#email-participant').hide('slow');
             }
-            else if (this.value == dataCreatePoll.message.config.invite_people) {
+            else if (this.value == pollData.message.config.invite_people) {
                 $('#email-participant').show('slow');
             }
         });
     }
 
     if (typeof dataSettingEdit !== "undefined") {
-        if (dataCreatePoll.message.setting.link in dataSettingEdit) {
+        if (pollData.message.setting.link in dataSettingEdit) {
             $("#new-link").show();
-        } else if (dataCreatePoll.message.setting.limit in dataSettingEdit) {
+        } else if (pollData.message.setting.limit in dataSettingEdit) {
             $("#set-limit").show();
-        } else if (dataCreatePoll.message.setting.password in dataSettingEdit) {
+        } else if (pollData.message.setting.password in dataSettingEdit) {
             $("#set-password").show();
         }
     }
@@ -94,13 +95,13 @@ function prevTab(elem) {
 }
 
 $(window).on('load', function() {
-    if (typeof dataCreatePoll !== "undefined") {
-        var oldInput = dataCreatePoll.oldInput;
-        var viewOption = dataCreatePoll.view.option;
-        var number = dataCreatePoll.message.numberOfOptions;
+    if (typeof pollData !== "undefined") {
+        var oldInput = pollData.oldInput;
+        var viewOption = pollData.view.option;
+        var number = pollData.config.length.option;
         createOption(viewOption, number, oldInput);
 
-        if (oldInput && oldInput.participant == dataCreatePoll.message.config.invite_people) {
+        if (oldInput) {
             $('#email-participant').show();
         }
     }
@@ -147,8 +148,8 @@ function readURL(input, idShow) {
 
 //remove option
 function removeOpion(idOption, action) {
-    if (typeof dataCreatePoll !== "undefined" && typeof action !== "undefined") {
-        if (confirmDelete(dataCreatePoll.message.confirm_delete_option)) {
+    if (typeof pollData !== "undefined" && typeof action !== "undefined") {
+        if (confirmDelete(pollData.message.confirm_delete_option)) {
             $("#" + idOption).remove();
         }
     } else {
@@ -172,12 +173,12 @@ var rand = function() {
 
 //show advance setting: custom link, set limit, set password
 function settingAdvance(key) {
-    if (typeof dataCreatePoll !== "undefined") {
-        if (key == dataCreatePoll.message.setting.link) {
+    if (typeof pollData !== "undefined") {
+        if (key == pollData.message.setting.link) {
             $("#new-link").slideToggle();
-        } else if (key == dataCreatePoll.message.setting.limit) {
+        } else if (key == pollData.message.setting.limit) {
             $("#set-limit").slideToggle();
-        } else if (key == dataCreatePoll.message.setting.password) {
+        } else if (key == pollData.message.setting.password) {
             $("#set-password").slideToggle();
         }
     }
@@ -188,15 +189,15 @@ function validateInput(text, length, type, name) {
     var message = "";
     var regexEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
-    if (typeof dataCreatePoll !== "undefined") {
+    if (typeof pollData !== "undefined") {
         if (text == "" && name != "participant") {
-            message = dataCreatePoll.message.validate.required + name;
+            message = pollData.message.validate.required + name;
         } else if (text.length > length && name != "participant") {
-            message = dataCreatePoll.message.validate.max + length + dataCreatePoll.message.validate.character;
+            message = pollData.message.validate.max + length + pollData.message.validate.character;
         } else if (type == "email" && ! regexEmail.test(text)) {
-            message = dataCreatePoll.message.validate.email;
+            message = pollData.message.validate.email;
         } else if (type === "number" && ! Number.isInteger(text) && ! (text > 0)) {
-            message = dataCreatePoll.message.validate.number;
+            message = pollData.message.validate.number;
         }
     }
 
@@ -207,8 +208,8 @@ function validateInput(text, length, type, name) {
 function validateRadioAndCheckbox(value, name) {
     var message = "";
 
-    if (typeof dataCreatePoll !== "undefined" && (typeof value === "undefined" || value == "")) {
-        message = dataCreatePoll.message.validate.choose + name;
+    if (typeof pollData !== "undefined" && (typeof value === "undefined" || value == "")) {
+        message = pollData.message.validate.choose + name;
     }
 
     return message;
@@ -216,10 +217,10 @@ function validateRadioAndCheckbox(value, name) {
 
 
 function validateInfo() {
-    if (typeof dataCreatePoll !== "undefined") {
-        var messageTitle = validateInput($('#title').val(), dataCreatePoll.message.length.title, "text", "title");
-        var messageName = validateInput($('#name').val(), dataCreatePoll.message.length.name, "text", "name");
-        var messageEmail = validateInput($('#email').val(), dataCreatePoll.message.length.email, "email", "email");
+    if (typeof pollData !== "undefined") {
+        var messageTitle = validateInput($('#title').val(), pollData.message.length.title, "text", "title");
+        var messageName = validateInput($('#name').val(), pollData.message.length.name, "text", "name");
+        var messageEmail = validateInput($('#email').val(), pollData.message.length.email, "email", "email");
         var messageType = validateRadioAndCheckbox($("input[name=type]:checked").val(), "type");
 
         //reset message
@@ -238,10 +239,10 @@ function validateInfo() {
             $("#title").removeClass("error");
         }
 
-        if ($('#description').val().length > dataCreatePoll.message.length.description) {
+        if ($('#description').val().length > pollData.message.length.description) {
             $("#description").addClass("error");
             $("#description").after("<div id='validateDescription'>" +
-                "<span class='label label-danger'>" + dataCreatePoll.message.validate.max + dataCreatePoll.message.length.description
+                "<span class='label label-danger'>" + pollData.message.validate.max + pollData.message.length.description
                 + "</span></div>");
         } else {
             $("#description").removeClass("error");
@@ -277,7 +278,7 @@ function validateInfo() {
             && messageName == ""
             && messageEmail == ""
             && messageType == ""
-            && $('#description').val().length < dataCreatePoll.message.length.description) {
+            && $('#description').val().length < pollData.message.length.description) {
             return true;
         }
 
@@ -288,7 +289,7 @@ function validateInfo() {
 }
 
 function validateOption() {
-    if (typeof dataCreatePoll !== "undefined") {
+    if (typeof pollData !== "undefined") {
         var optionLists = $('input[name^="optionText"]');
         var imageLists = $('input[name^="optionImage"]');
         var isOption = false;
@@ -304,7 +305,7 @@ function validateOption() {
 
         if (optionLists.length == 0 && imageLists.length == 0) {
             $('.option').after("<div id='validateOption'>" +
-                "<span class='label label-danger'>" + dataCreatePoll.message.validate.option_empty + "</span>" +
+                "<span class='label label-danger'>" + pollData.message.validate.option_empty + "</span>" +
                 "</div>");
             return false;
         }
@@ -323,7 +324,7 @@ function validateOption() {
 
         if (!isOption) {
             $('.option').after("<div id='validateOption'>" +
-                "<span class='label label-danger'>" + dataCreatePoll.message.validate.option_required + "</span>" +
+                "<span class='label label-danger'>" + pollData.message.validate.option_required + "</span>" +
                 "</div>");
             return false;
         }
@@ -340,10 +341,10 @@ function validateSetting() {
     $('#validatePassword').html("");
     var isValid = true;
 
-    if (typeof dataCreatePoll !== "undefined") {
+    if (typeof pollData !== "undefined") {
         $('input[name^="setting"]:checked').each(function () {
-            if ($(this).val() == dataCreatePoll.message.setting.link) {
-                var messageLink = validateInput($('#link').val(), dataCreatePoll.message.length.link, "text", "link");
+            if ($(this).val() == pollData.message.setting.link) {
+                var messageLink = validateInput($('#link').val(), pollData.message.length.link, "text", "link");
 
                 if (messageLink != "") {
                     isValid = false;
@@ -361,8 +362,8 @@ function validateSetting() {
                 }
             }
 
-            if ($(this).val() == dataCreatePoll.message.setting.limit) {
-                var messageLimit = validateInput($('#limit').val(), dataCreatePoll.message.length.limit, "number", "limit");
+            if ($(this).val() == pollData.message.setting.limit) {
+                var messageLimit = validateInput($('#limit').val(), pollData.message.length.limit, "number", "limit");
 
                 if (messageLimit != "") {
                     isValid = false;
@@ -372,8 +373,8 @@ function validateSetting() {
                 }
             }
 
-            if ($(this).val() == dataCreatePoll.message.setting.password) {
-                var messagePassword = validateInput($('#password').val(), dataCreatePoll.message.length.password, "text", "password");
+            if ($(this).val() == pollData.message.setting.password) {
+                var messagePassword = validateInput($('#password').val(), pollData.message.length.password, "text", "password");
 
                 if (messagePassword != "") {
                     //custom link
@@ -394,7 +395,7 @@ function validateParticipant() {
     $("#validateParticipant").html("");
     var messageParticipant = "";
 
-    if (typeof dataCreatePoll !== "undefined") {
+    if (typeof pollData !== "undefined") {
         var members = $("#member").val();
         if (members == "") {
             return true;
@@ -403,7 +404,7 @@ function validateParticipant() {
 
 
         for (var index = 0; index < members.length; index++) {
-            messageParticipant = validateInput(members[index], dataCreatePoll.message.length.email, "email", "participant");
+            messageParticipant = validateInput(members[index], pollData.message.length.email, "email", "participant");
             if (messageParticipant != "") {
 
                 //custom link
@@ -423,7 +424,7 @@ function validateParticipant() {
 
 //check token of link exist
 function checkLink(route, token) {
-    if (typeof dataCreatePoll !== "undefined") {
+    if (typeof pollData !== "undefined") {
         return $.ajax({
             url: route,
             type: 'post',
@@ -483,8 +484,8 @@ $(".alert-dismissable").delay(3000).fadeOut(100);
 
 //Datetime picker
 $(function () {
-    $('#datetimepicker1').datetimepicker({
-        format: 'DD-MM-YYYY HH:mm',
+    $('#time_close_poll').datetimepicker({
+        format: 'DD-MM-YYYY HH:mm'
     });
 });
 
@@ -499,3 +500,80 @@ function showSettingDetail() {
 function confirmDelete(message) {
     return confirm(message);
 }
+
+//add method validate option
+jQuery.validator.addMethod("option", function(value, element) {
+    console.log(value);
+    console.log(element);
+    return (this.length > 0);
+}, "Please specify the correct domain for your documents");
+
+$(document).ready(function() {
+    $("[name='setting\\[\\]']").bootstrapSwitch();
+    $('[data-toggle="tooltip"]').tooltip();
+    var $validator = $("#form_create_poll").validate({
+        rules: {
+            email: {
+                required: true,
+                maxlength: pollData.config.length.email,
+                email: true
+            },
+            name: {
+                required: true,
+                maxlength: pollData.config.length.name
+            },
+            title: {
+                required: true,
+                maxlength: pollData.config.length.title
+            },
+            'optionText[]': {
+                // option: true,
+                required: true,
+            }
+        },
+        messages: {
+            email: {
+                required: pollData.message.required,
+                maxlength: pollData.message.max + pollData.config.length.email,
+                email: pollData.message.email
+            },
+            name: {
+                required: pollData.message.required,
+                maxlength: pollData.message.max + pollData.config.length.name
+            },
+            title: {
+                required: pollData.message.required,
+                maxlength: pollData.message.max +pollData.config.length.title
+            }
+        },
+        highlight: function(element) {
+            $(element).closest('.form-group').addClass('has-error');
+        },
+        unhighlight: function(element) {
+            $(element).closest('.form-group').removeClass('has-error');
+        },
+        errorElement: 'span',
+        errorClass: 'help-block',
+        errorPlacement: function(error, element) {
+            if(element.parent('.input-group').length) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+
+    $('#create_poll_wizard').bootstrapWizard({
+        'tabClass': 'nav nav-pills',
+        onNext: function(tab, navigation, index) {
+            var $valid = $("#form_create_poll").valid();
+            if(!$valid) {
+                $validator.focusInvalid();
+                return false;
+            }
+        },
+        onTabClick: function(tab, navigation, index) {
+            return false;
+        }
+    });
+});

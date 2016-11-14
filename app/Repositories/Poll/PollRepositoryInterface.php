@@ -4,6 +4,7 @@ namespace App\Repositories\Poll;
 
 interface PollRepositoryInterface
 {
+    public function getDataPollSystem();
     /*
      * Create a poll
      */

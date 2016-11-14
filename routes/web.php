@@ -114,3 +114,7 @@ Route::resource('link', 'LinkController', ['only' => [
 Route::resource('status', 'StatusController', ['only' => [
     'store'
 ]]);
+
+Route::get("home", function () {
+   return view('manager_poll_exam');
+});

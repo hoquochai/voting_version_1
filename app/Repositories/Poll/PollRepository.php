@@ -173,9 +173,46 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         return $voteIds;
     }
 
-/*------------------------------------------------------------
- *                  [ADMIN] - POLL
- *------------------------------------------------------------*/
+
+    public function getDataPollSystem()
+    {
+        $settingText = trans('polls.label.setting');
+
+        //get data to send javascript file
+        $jsonData = json_encode([
+            'message' => trans('polls.message_client'),
+            'config' => [
+                'length' => config('settings.length_poll'),
+                'setting' => config('settings.setting'),
+            ],
+            'view' => [
+                'option' => view('layouts.poll_option')->render(),
+                'email' => view('layouts.poll_email')->render(),
+            ],
+            'oldInput' => session("_old_input"),
+        ]);
+
+        //get data to send view file
+        $viewData = [
+            'types' => array_combine(config('settings.type_poll'), [
+                trans('polls.label.single_choice'),
+                trans('polls.label.multiple_choice')
+            ]),
+            'settings' => array_combine(config('settings.setting'), [
+                $settingText['required_email'],
+                $settingText['hide_result'],
+                $settingText['custom_link'],
+                $settingText['set_limit'],
+                $settingText['set_password'],
+            ]),
+        ];
+
+        return compact('jsonData', 'viewData');
+    }
+
+    /*------------------------------------------------------------
+     *                  [ADMIN] - POLL
+     *------------------------------------------------------------*/
 
     /**
      *

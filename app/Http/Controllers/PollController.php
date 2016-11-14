@@ -33,63 +33,9 @@ class PollController extends Controller
      */
     public function create()
     {
-        $settingConfig = config('settings.setting');
-        $settingTrans = trans('polls.label.setting');
-        $dataJson = json_encode([
-            'message' => [
-                'numberOfOptions' => config('settings.length_poll.option'),
-                'length' => [
-                    'title' => config('settings.length_poll.title'),
-                    'description' => config('settings.length_poll.description'),
-                    'name' => config('settings.length_poll.name'),
-                    'email' => config('settings.length_poll.email'),
-                    'link' => config('settings.length_poll.link'),
-                    'limit' => config('settings.length_poll.number_limit'),
-                    'password' => config('settings.length_poll.password_poll'),
-                ],
-                'config' => [
-                    'invite_all' => config('settings.participant.invite_all'),
-                    'invite_people' => config('settings.participant.invite_people'),
-                ],
-                'setting' => [
-                    'link' => $settingConfig['custom_link'],
-                    'limit' => $settingConfig['set_limit'],
-                    'password' => $settingConfig['set_password'],
-                ],
-                'validate' => [
-                    'required' => trans('polls.validate_client.required'),
-                    'max' => trans('polls.validate_client.max'),
-                    'email' => trans('polls.validate_client.email'),
-                    'number' => trans('polls.validate_client.number'),
-                    'choose' => trans('polls.validate_client.choose'),
-                    'option_empty' => trans('polls.validate_client.option_empty'),
-                    'option_required' => trans('polls.validate_client.option_required'),
-                    'participant_empty' => trans('polls.validate_client.participant_empty'),
-                    'character' => trans('polls.validate_client.character'),
-                    'email_exists' => trans('polls.message.email_exists'),
-                    'email_valid' => trans('polls.message.email_valid'),
-                    'link_exists' => trans('polls.message.link_exists'),
-                    'link_valid' => trans('polls.message.link_valid'),
-                ],
-            ],
-            'view' => [
-                'option' => view('layouts.poll_option')->render(),
-                'email' => view('layouts.poll_email')->render(),
-            ],
-            'oldInput' => session("_old_input"),
-        ]);
+        $data = $this->pollRepository->getDataPollSystem();
 
-        $dataView = [
-            'setting' => [
-                $settingConfig['required_email'] => $settingTrans['required_email'],
-                $settingConfig['hide_result'] => $settingTrans['hide_result'],
-                $settingConfig['custom_link'] => $settingTrans['custom_link'],
-                $settingConfig['set_limit'] => $settingTrans['set_limit'],
-                $settingConfig['set_password'] => $settingTrans['set_password'],
-            ],
-            'oldInput' => session("_old_input"),
-        ];
-        return view('user.poll.create', compact('dataJson', 'dataView'));
+        return view('user.poll.create', compact('data'));
     }
 
     /**

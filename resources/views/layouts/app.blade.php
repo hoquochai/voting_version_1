@@ -15,9 +15,9 @@
 
     {!! Html::style('css/user.css') !!}
 
-    {!! Html::style('css/layout/mail_notification.css') !!}
-
     {!! Html::style('css/layout/master.css') !!}
+
+{{--    {!! Html::style('css/layout/mail_notification.css') !!}--}}
 
     <!-- Bootstrap CSS -->
     {!! Html::style('bower/bootstrap/dist/css/bootstrap.min.css') !!}
@@ -38,6 +38,9 @@
     <!-- Bootstrap Tag Input css -->
     <link href="{{ asset('bower/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}" rel="stylesheet">
 
+    <!-- Bootstrap Switch css -->
+    <link href="{{ asset('bower/bootstrap-switch/dist/css/bootstrap2/bootstrap-switch.min.css') }}" rel="stylesheet">
+
     <!-- Datetime picker -->
     <link href="{{ asset('bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
 
@@ -51,21 +54,23 @@
     <!-- Google api -->
     @if (Session::get('locale') == 'ja')
         <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=ja&region=JP">
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&libraries=places&language=ja">
         </script>
     @elseif(Session::get('locale') == 'vi')
         <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=vi&region=VI">
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&libraries=places&language=vi">
         </script>
     @else
         <script type="text/javascript"
-                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&sensor=false&libraries=places&language=en&region=EN">
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCzfBLqeROyZ1xGhOWb_oG7zmdYcCQdaI8&v=3.exp&libraries=places&language=en">
         </script>
     @endif
+
+
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-default navbar-app navbar-fixed-top">
+        <nav class="navbar navbar-inverse navbar-app navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
@@ -137,9 +142,13 @@
 
     <!-- jQuery -->
     {!! Html::script('bower/jquery/dist/jquery.min.js') !!}
+    {!! Html::script('bower/jquery-validation/dist/jquery.validate.min.js') !!}
 
     <!-- Bootstrap -->
     {!! Html::script('bower/bootstrap/dist/js/bootstrap.min.js') !!}
+
+    <!-- Scripts -->
+    {{--{!! Html::script('/js/app.js') !!}--}}
 
     {!! Html::script('js/shareSocial.js') !!}
 
@@ -159,8 +168,7 @@
 
     {!! Html::script('js/layout/master.js') !!}
 
-    <!-- Scripts -->
-    {!! Html::script('/js/app.js') !!}
+
 
     <!-- jQuery Datatable JavaScript -->
     {!! Html::script('/bower/datatables.net/js/jquery.dataTables.min.js') !!}
@@ -174,6 +182,12 @@
     <!-- Datetime picker -->
     <script src="{{ asset('bower/moment/min/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
+
+    <!-- winzard -->
+    {!! Html::script('bower/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') !!}
+
+    <!-- Bootstrap switch -->
+    {!! Html::script('bower/bootstrap-switch/dist/js/bootstrap-switch.min.js') !!}
 
 </body>
 </html>

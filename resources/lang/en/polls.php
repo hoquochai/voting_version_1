@@ -84,6 +84,7 @@ return [
         'chatwork' => 'Enter your chatwork id... ',
         'title' => 'Enter poll title... ',
         'description' => 'Enter description title... ',
+        'time_close' => 'Set time to close poll',
         'location' => 'Enter a location... ',
         'number_add' => 'Number...',
         'number_limit' => 'Number limit...',
@@ -201,16 +202,15 @@ return [
         'voting' => 'VOTING',
         'result' => 'RESULT',
     ],
-    'validate_client' => [
-        'required' => 'Please enter ',
-        'max' => 'Please enter a value less than or equal to ',
+    'message_client' => [
+        'required' => 'This field is required',
+        'max' => 'Maximum number of characters is ',
         'email' => 'Email invalid!',
         'number' => 'Value must is number!',
         'choose' => 'Please choose ',
         'option_empty' => 'You must add a new option',
         'option_required' => 'You must enter content of option',
         'participant_empty' => 'You must add a email',
-        'character' => ' characters',
     ],
     'mail' => [
         'label' => [

@@ -3,377 +3,53 @@
     {{ trans('polls.title') }}
 @endsection
 @section('content')
-    <div class="container">
-        <div class="hide" data-poll="{{ $dataJson }}"
+    <div class="col-lg-12">
+        <div class="hide"
+             data-poll="{{ $data['jsonData'] }}"
              data-route-link="{{ route('link.store') }}"
-             data-token="{{ csrf_token() }}"></div>
-        <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-            @if (Session::has('messages'))
-                <div class="alert alert-success animated fadeInUp alert-dismissable">
-                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                    {!! Session::get('messages') !!}
-                </div>
-            @endif
-            <section>
-                <div class="wizard create-poll">
-                    <div class="wizard-inner">
-                        <div class="connecting-line"></div>
-                        <ul class="nav nav-tabs" role="tablist">
-                            <li role="presentation" class="active">
-                                <a href="#step1" data-toggle="tab" aria-controls="step1" role="tab" title="{{ trans('polls.label.step_1') }}">
-                                    <span class="round-tab">
-                                        <i class="glyphicon glyphicon-info-sign"></i>
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li role="presentation" class="disabled">
-                                <a href="#step2" data-toggle="tab" aria-controls="step2" role="tab" title="{{ trans('polls.label.step_2') }}">
-                                    <span class="round-tab">
-                                        <i class="glyphicon glyphicon-option-horizontal"></i>
-                                    </span>
-                                </a>
-                            </li>
-                            <li role="presentation" class="disabled">
-                                <a href="#step3" data-toggle="tab" aria-controls="step3" role="tab" title="{{ trans('polls.label.step_3') }}">
-                                    <span class="round-tab">
-                                        <i class="glyphicon glyphicon-cog"></i>
-                                    </span>
-                                </a>
-                            </li>
-
-                            <li role="presentation" class="disabled">
-                                <a href="#complete" data-toggle="tab" aria-controls="complete" role="tab" title="{{ trans('polls.label.step_4') }}">
-                                    <span class="round-tab">
-                                        <i class="glyphicon glyphicon-user"></i>
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    @include('layouts.error')
-                    @include('layouts.message')
-                    {{
-                        Form::open([
-                            'route' => 'user-poll.store',
-                            'method' => 'POST',
-                            'id' => 'form_create_poll',
-                            'enctype' => 'multipart/form-data',
-                            'role' => 'form',
-                        ])
-                    }}
-                        <div class="tab-content">
-
-                            <!---------------------------------------------------/
-                            /             INFORMATION                           /
-                            /---------------------------------------------------->
-                            <div class="tab-pane active" role="tabpanel" id="step1">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3>{{ strtoupper(trans('polls.label.step_1')) }}</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="col-lg-12 alert alert-success">
-
-                                            <!-- TITLE -->
-                                            <div class="form-group">
-                                                {{ Form::label(trans('polls.label_for.title'), trans('polls.label.title')) }}
-                                                {{
-                                                    Form::text('title', null, [
-                                                        'class' => 'form-control',
-                                                        'id' => 'title',
-                                                        'placeholder' => trans('polls.placeholder.title'),
-                                                    ])
-                                                }}
-                                            </div>
-
-                                            <!-- TYPE -->
-                                            <div class="form-group" id="type">
-                                                {{ Form::label(trans('polls.label_for.type'), trans('polls.label.type')) }}
-                                                <label class="radio-inline">
-                                                    {{ Form::radio('type', config('settings.type_poll.single_choice')) }} {{ trans('polls.label.single_choice') }}
-                                                </label>
-                                                <label class="radio-inline">
-                                                    {{ Form::radio('type', config('settings.type_poll.multiple_choice')) }} {{ trans('polls.label.multiple_choice') }}
-                                                </label>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="col-lg-6">
-
-                                                    <!-- EMAIL -->
-                                                    <div class="form-group">
-                                                        {{ Form::label(trans('polls.label_for.email'), trans('polls.label.email')) }}
-                                                        {{
-                                                            Form::text('email', (auth()->user()) ? auth()->user()->email : null, [
-                                                                'class' => 'form-control',
-                                                                'id' => 'email',
-                                                                'placeholder' => trans('polls.placeholder.email'),
-                                                            ])
-                                                        }}
-                                                        <div class="email-error"></div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6">
-
-                                                    <!-- NAME -->
-                                                    <div class="form-group">
-                                                        {{ Form::label(trans('polls.label_for.full_name'), trans('polls.label.full_name')) }}
-                                                        {{
-                                                            Form::text('name', (auth()->user()) ? auth()->user()->name : null, [
-                                                                'class' => 'form-control',
-                                                                'id' => 'name',
-                                                                'placeholder' => trans('polls.placeholder.full_name'),
-                                                            ])
-                                                        }}
-                                                        <div class="email-error"></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-12 alert alert-info">
-
-                                            <!-- DATETIME PICKER -->
-                                            <div class="form-group">
-                                                {{ Form::label(trans('polls.label_for.time_close'), trans('polls.label.time_close')) }}
-                                                {{
-                                                    Form::text('closingTime', null, [
-                                                        'class' => 'form-control',
-                                                        'id' => 'datetimepicker1',
-                                                    ])
-                                                }}
-                                            </div>
-
-                                            <!-- DESCRIPTION -->
-                                            <div class="form-group">
-                                                {{ Form::label(trans('polls.label_for.description'), trans('polls.label.description')) }}
-                                                {{
-                                                    Form::textarea('description', null, [
-                                                        'class' => 'form-control',
-                                                        'id' => 'description',
-                                                        'placeholder' => trans('polls.placeholder.description'),
-                                                        'rows' => 2
-                                                    ])
-                                                }}
-                                            </div>
-
-                                            <!-- LOCATION -->
-                                            <div class="form-group">
-                                                {{ Form::label(trans('polls.label_for.location'), trans('polls.label.location')) }}
-                                                {{
-                                                    Form::text('location', null, [
-                                                        'class' => 'form-control',
-                                                        'id' => 'location',
-                                                        'placeholder' => trans('polls.placeholder.location'),
-                                                    ])
-                                                }}
-                                            </div>
-
-                                            <!-- CHATWORK -->
-                                            <div class="form-group">
-                                                {{ Form::label(trans('polls.label_for.chatwork'), trans('polls.label.chatwork')) }}
-                                                {{
-                                                    Form::text('chatwork_id', (auth()->user()) ? auth()->user()->chatwork_id : null, [
-                                                        'class' => 'form-control',
-                                                        'id' => 'chatwork',
-                                                        'placeholder' => trans('polls.placeholder.chatwork'),
-                                                    ])
-                                                }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="list-inline pull-right">
-                                    <li>
-                                        {{
-                                            Form::button(trans('polls.button.continue'), [
-                                                'class' => 'btn btn-primary next-step',
-                                                'value' => 'info',
-                                            ])
-                                        }}
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <!---------------------------------------------------/
-                            /                   OPTION                           /
-                            /---------------------------------------------------->
-                            <div class="tab-pane" role="tabpanel" id="step2">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3>{{ strtoupper(trans('polls.label.step_2')) }}</h3>
-                                    </div>
-                                    <div class="panel-body option">
-                                        <!-- OPTION LISTS -->
-                                        <div class="poll-option"></div>
-
-                                        <!-- BUTTON ADD OPTION -->
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="form-line">
-                                                    {{
-                                                        Form::text('number', config('settings.length_poll.number_option'), [
-                                                            'class' => 'form-control',
-                                                            'placeholder' => trans('polls.placeholder.number_add'),
-                                                            'id' => 'number',
-                                                        ])
-                                                    }}
-                                                </div>
-                                                <span class="input-group-btn">
-                                                    {{
-                                                        Form::button('<span class="glyphicon glyphicon-plus"></span>', [
-                                                            'class' => 'btn btn-default',
-                                                            'onclick' => 'addOption(' . $dataJson . ')'
-                                                        ])
-                                                    }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="list-inline pull-right">
-                                    <li>{{ Form::button(trans('polls.button.previous'), ['class' => 'btn btn-default prev-step']) }}</li>
-                                    <li>
-                                        {{
-                                            Form::button(trans('polls.button.continue'), [
-                                                'class' => 'btn btn-primary next-step',
-                                                'value' => 'option',
-                                            ])
-                                        }}
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <!---------------------------------------------------/
-                            /                   SETTING                          /
-                            /---------------------------------------------------->
-                            <div class="tab-pane" role="tabpanel" id="step3">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3>{{ strtoupper(trans('polls.label.step_3')) }}</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        @foreach ($dataView['setting'] as $key => $value)
-                                            <div class="form-group">
-                                                <div class="input-group">
-                                                    <span class="input-group-addon">
-                                                        {{ Form::checkbox('setting[]', $key, null, ['onchange' => 'settingAdvance(' . $key . ')']) }}
-                                                    </span>
-                                                    {{ Form::text('setting_text', $value, ['disabled' => true, 'class' => 'form-control']) }}
-                                                </div>
-                                            </div>
-
-                                            <!-- SETTING: CUSTOM LINK -->
-                                            @if ($key == config('settings.setting.custom_link'))
-                                                <div class="form-group {{ is_null($dataView['oldInput']) ? "setting-advance" : "" }}" id="new-link">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">
-                                                            {{ Form::text('url', url('/') . config('settings.email.link_vote'), ['disable' => true]) }}
-                                                        </span>
-                                                        {{
-                                                            Form::text('value[link]', str_random(config('settings.length_poll.link')), [
-                                                                'class' => 'form-control',
-                                                                'id' => 'link',
-                                                                'placeholder' => trans('polls.label.setting.custom_link'),
-                                                            ])
-                                                        }}
-                                                        <div class="link-error"></div>
-                                                    </div>
-                                                </div>
-
-                                            <!-- SETTING: SET LIMIT -->
-                                            @elseif ($key == config('settings.setting.set_limit'))
-                                                <div class="form-group {{ is_null($dataView['oldInput']) ? "setting-advance" : "" }}" id="set-limit">
-                                                    {{
-                                                        Form::number('value[limit]', null, [
-                                                            'class' => 'form-control',
-                                                            'id' => 'limit',
-                                                            'min' => 1,
-                                                            'max' => 99,
-                                                            'placeholder' => trans('polls.label.setting.set_limit'),
-                                                            'oninput' => "validity.valid||(value='1');",
-                                                        ])
-                                                    }}
-                                                </div>
-
-                                            <!-- SETTING: SET PASSWORD -->
-                                            @elseif ($key == config('settings.setting.set_password'))
-                                                <div class="form-group {{ is_null($dataView['oldInput']) ? "setting-advance" : "" }}" id="set-password">
-                                                    <div class="input-group">
-                                                        <span class="input-group-addon">
-                                                            <input type="checkbox" id="checkboxShowPassword">
-                                                        </span>
-                                                        <span class="input-group-addon">{{ trans('polls.label.setting.show_password') }}</span>
-                                                        {{
-                                                            Form::password('value[password]', [
-                                                                'class' => 'form-control',
-                                                                'id' => 'password',
-                                                                'placeholder' => trans('polls.label.setting.set_password'),
-                                                            ])
-                                                        }}
-                                                    </div>
-                                                </div>
-                                            @else
-                                                @continue
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                                <ul class="list-inline pull-right">
-                                    <li>{{ Form::button(trans('polls.button.previous'), ['class' => 'btn btn-default prev-step']) }}</li>
-                                    <li>
-                                        {{
-                                            Form::button(trans('polls.button.continue'), [
-                                                'class' => 'btn btn-primary next-step',
-                                                'value' => 'setting',
-                                            ])
-                                        }}
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <!---------------------------------------------------/
-                            /                   PARTICIPANT                      /
-                            /---------------------------------------------------->
-                            <div class="tab-pane" role="tabpanel" id="complete">
-                                <div class="panel panel-default">
-                                    <div class="panel-heading">
-                                        <h3>{{ strtoupper(trans('polls.label.step_4')) }}</h3>
-                                    </div>
-                                    <div class="panel-body">
-                                        <div class="form-group" id="email-participant">
-                                            {{ Form::label(trans('polls.label_for.invite'), trans('polls.label.invite')) }}
-                                            <br>
-                                            {{
-                                                Form::text('member', null, [
-                                                    'id' => 'member',
-                                                    'class' => 'form-control',
-                                                    'placeholder' => trans('polls.placeholder.email_participant'),
-                                                    'data-role' => 'tagsinput',
-                                                ])
-                                            }}
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="list-inline pull-right">
-                                    <li>{{ Form::button(trans('polls.button.previous'), ['class' => 'btn btn-default prev-step']) }}</li>
-                                    <li>
-                                        {{
-                                            Form::button(trans('polls.button.finish'), [
-                                                'class' => 'btn btn-primary finish',
-                                                'value' => 'btn_participant',
-                                            ])
-                                        }}
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
-                    {{ Form::close() }}
-                </div>
-            </section>
+             data-token="{{ csrf_token() }}">
         </div>
-    </div>
+        {{
+           Form::open([
+               'route' => 'user-poll.store',
+               'method' => 'POST',
+               'id' => 'form_create_poll',
+               'enctype' => 'multipart/form-data',
+               'role' => 'form',
+           ])
+        }}
+            <div id="create_poll_wizard" class="col-lg-6 col-lg-offset-3 well wrap-poll">
+                <div class="navbar panel">
+                    <div class="navbar-inner">
+                        <div class="col-lg-10 col-lg-offset-1 panel-heading">
+                            <ul>
+                                <li><a href="#info" data-toggle="tab">{{ trans('polls.label.step_1') }}</a></li>
+                                <li><a href="#option" data-toggle="tab">{{ trans('polls.label.step_2') }}</a></li>
+                                <li><a href="#setting" data-toggle="tab">{{ trans('polls.label.step_3') }}</a></li>
+                                <li><a href="#participant" data-toggle="tab">{{ trans('polls.label.step_4') }}</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane" id="info">
+                        @include('layouts.poll_info')
+                    </div>
+                    <div class="tab-pane" id="option">
+                        @include('layouts.poll_options')
+                    </div>
+                    <div class="tab-pane" id="setting">
+                        @include('layouts.poll_setting')
+                    </div>
+                    <div class="tab-pane" id="participant">
+                        @include('layouts.poll_participant')
+                    </div>
+                    <ul class="pager wizard">
+                        <li class="previous"><a href="#" class="btn-change-step btn btn-primary">Previous</a></li>
+                        <li class="next"><a href="#" class="btn-change-step btn btn-primary">Next</a></li>
+                    </ul>
+                </div>
+            </div>
+        {{ Form::close() }}
     </div>
 @endsection

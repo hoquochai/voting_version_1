@@ -1,10 +1,8 @@
 <div class="form-group" id="idOption">
-    <div class="input-group">
-        <div class="form-line">
-            <input type="file" class="file" name="optionImage[idOption]" onchange="readURL(this, 'preview-idOption')">
-            <input type="text" name="optionText[idOption]" id="content-option-idOption" class="form-control"
-                   placeholder="{{ trans('polls.placeholder.option') }}">
-        </div>
+    <div class="input-group" id="option-poll">
+        <input type="file" class="file" name="optionImage[idOption]" onchange="readURL(this, 'preview-idOption')">
+        <input type="text" name="optionText[]" class="form-control"
+               placeholder="{{ trans('polls.placeholder.option') }}">
         <span class="input-group-btn">
             <button class="btn btn-success" type="button" onclick="showOptionImage('idOption')">
                 <span class="glyphicon glyphicon-picture"></span>

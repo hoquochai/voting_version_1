@@ -4,7 +4,7 @@
 /-------------------------------------------*/
 
 body {
-  background: url("http://www.ibox-security.co.uk/wp-content/uploads/2013/06/Website-Design-Background-1.jpg") repeat;
+  background: darkcyan !important;
 }
 
 .navbar-app {
@@ -144,13 +144,10 @@ body {
 }
 
 .preview-image {
+  margin-top: 10px;
   display: none;
   height: 100px;
   width:100px;
-}
-
-.email-participant {
-  display: none;
 }
 
 .setting-advance {
@@ -302,3 +299,33 @@ span.round-tab:hover {
     left: 35%;
   }
 }
+
+.required::after {
+  content: '(*)';
+  color: red;
+  position: absolute;
+}
+
+.wrap-poll {
+  min-height: 400px !important;
+}
+
+.bootstrap-tagsinput {
+  min-height: 100px;
+  min-width: 100%;
+}
+
+.wizard {
+  background: none !important;
+}
+
+.btn-change-step {
+  color: white !important;
+}
+
+.btn-change-step:hover, .btn-change-step:focus {
+  background-position: 0 !important;
+}
+
+
+
