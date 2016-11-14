@@ -89,4 +89,9 @@ return [
         ],
     ],
     'update_profile_successfully' => 'Bạn đã cập nhật thông tin cá nhân thành công',
+    'register_account_successfully' => 'Bạn đã kích hoạt tài khoản thành công',
+    'register_account_fail' => 'Kích hoạt tài khoản thất bại',
+    'register_account' => 'Bạn đã đăng ký tài khoản thành công, Vui lòng check mail để kích hoạt tài khoản',
+    'account_unactive' => 'Vui lòng mở mail và kích hoạt tài khoản này',
+    'login_successfully' => 'Đăng nhập thành công',
 ];

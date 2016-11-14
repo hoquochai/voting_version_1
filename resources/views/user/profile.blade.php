@@ -19,7 +19,7 @@
                         <div class="form-group">
                             {{ Form::label('avatar', trans('label.avatar'), ['class' => 'col-md-4 control-label']) }}
                             <div class="col-md-6">
-                                {{ Form::file('avatar') }}
+                                {{ Form::file('avatar', ['onchange' => 'loadFile(event)']) }}
                             </div>
                         </div>
 

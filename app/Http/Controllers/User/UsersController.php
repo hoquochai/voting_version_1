@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Repositories\User\UserRepositoryInterface;
+use App\Http\Requests\RegisterRequest;
 
 class UsersController extends Controller
 {
@@ -24,6 +25,13 @@ class UsersController extends Controller
         $currentUser = auth()->user();
 
         return view('user.profile', compact('currentUser'));
+    }
+
+    public function store(RegisterRequest $request)
+    {
+        $inputs = $request->only('name', 'email', 'password', 'avatar', 'gender');
+
+        return $this->userRepository->register($inputs);
     }
 
     /**

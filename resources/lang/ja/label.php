@@ -42,6 +42,10 @@ return [
         'link_admin' => 'Link manager vote:',
         'edit_link' => 'You edited link of poll successfully, New link: ',
         'subject' => 'Voting',
+        'open_poll' => 'Admin of poll reopened poll',
+        'close_poll' => 'Admin closed poll',
+        'delete_all_participant' => 'Admin of poll deleted all participant',
+        'register_active_mail' => 'You register successfully. Please click on link to active account. Link here: ',
         'edit_poll' => [
             'head' => 'Voting - Change',
             'summary' => 'Poll of you changed by admin!',

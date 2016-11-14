@@ -13,7 +13,8 @@
         "guzzlehttp/guzzle": "~4.0",
         "vsmoraes/laravel-pdf": "^1.0",
         "maatwebsite/excel": "~2.0.0",
-        "fzaninotto/faker": "~1.4"
+        "fzaninotto/faker": "~1.4",
+        "mercuryseries/flashy": "^1.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

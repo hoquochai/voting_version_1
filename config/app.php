@@ -184,6 +184,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
         App\Providers\ValidationServiceProvider::class,
+        MercurySeries\Flashy\FlashyServiceProvider::class,
 
     ],
 
@@ -238,6 +239,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
         'PDF' => Vsmoraes\Pdf\PdfFacade::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Flashy' => MercurySeries\Flashy\Flashy::class,
 
     ],
 

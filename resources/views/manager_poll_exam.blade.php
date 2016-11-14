@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="rootwizard" class="col-lg-6 col-lg-offset-3 well wrap-poll">
+    <div id="create_poll_wizard" class="col-lg-6 col-lg-offset-3 well wrap-poll">
         <div class="navbar panel">
             <div class="navbar-inner">
                 <div class="col-lg-10 col-lg-offset-1 panel-heading">
@@ -22,7 +22,7 @@
                     <a href="#" style="float: right">Link vote
                     </a>
                 </h4>
-                @include('layouts.poll_info')
+{{--                @include('layouts.poll_info')--}}
             </div>
             <div class="tab-pane" id="tab2">
                 <div class="row">

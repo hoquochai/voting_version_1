@@ -3,7 +3,7 @@
     <div class="col-lg-6">
         <div class="form-group">
             <div class="input-group required">
-                <span class="input-group-addon" id="email">
+                <span class="input-group-addon">
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </span>
                 {{
@@ -14,13 +14,16 @@
                     ])
                 }}
             </div>
+            <div class="form-group">
+                <div class="error_email"></div>
+            </div>
         </div>
     </div>
 <!-- NAME -->
     <div class="col-lg-6">
         <div class="form-group">
             <div class="input-group required">
-                <span class="input-group-addon" id="name">
+                <span class="input-group-addon">
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </span>
                 {{
@@ -39,7 +42,7 @@
     <div class="col-lg-8">
         <div class="form-group">
             <div class="input-group required">
-                <span class="input-group-addon" id="title">
+                <span class="input-group-addon">
                     <i class="fa fa-tag" aria-hidden="true"></i>
                 </span>
                 {{
@@ -74,17 +77,19 @@
 <div class="row">
 <!-- TIME CLOSE -->
     <div class="col-lg-6">
-        <div class="input-group">
+        <div class="form-group">
+            <div class="input-group">
             <span class="input-group-addon">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
             </span>
-            {{
-                Form::text('closingTime', null, [
-                    'class' => 'form-control',
-                    'id' => 'time_close_poll',
-                    'placeholder' => trans('polls.placeholder.time_close')
-                ])
-            }}
+                {{
+                    Form::text('closingTime', null, [
+                        'class' => 'form-control',
+                        'id' => 'time_close_poll',
+                        'placeholder' => trans('polls.placeholder.time_close')
+                    ])
+                }}
+            </div>
         </div>
     </div>
 <!-- LOCATION -->

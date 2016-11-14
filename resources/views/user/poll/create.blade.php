@@ -6,7 +6,8 @@
     <div class="col-lg-12">
         <div class="hide"
              data-poll="{{ $data['jsonData'] }}"
-             data-route-link="{{ route('link.store') }}"
+             data-route-email="{{ url('/check-email') }}"
+             data-route-link="{{ route('link-poll.store') }}"
              data-token="{{ csrf_token() }}">
         </div>
         {{
@@ -47,6 +48,7 @@
                     <ul class="pager wizard">
                         <li class="previous"><a href="#" class="btn-change-step btn btn-primary">Previous</a></li>
                         <li class="next"><a href="#" class="btn-change-step btn btn-primary">Next</a></li>
+                        <li class="finish"><a href="javascript:;" class="btn btn-primary">Finish</a></li>
                     </ul>
                 </div>
             </div>

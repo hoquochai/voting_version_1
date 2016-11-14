@@ -11,7 +11,26 @@
 |
 */
 
+Route::post('user-register', [
+    'as' => 'user-register',
+    'uses' => 'User\UsersController@store'
+]);
+
+Route::post('user-login', [
+    'as' => 'user-login',
+    'uses' => 'User\LoginController@store'
+]);
+
+Route::post('link/{token?}', [
+    'as' => 'link',
+    'uses' => 'LinkController@index'
+]);
+
+Route::get('link/verification/{tokenRegister?}', 'LinkController@index');
+
 Route::get('/', 'PollController@create');
+
+Route::post('check-email', 'CheckEmailController@store');
 
 Route::get('/logout', function()
 {
@@ -103,7 +122,7 @@ Route::resource('duplicate', 'DuplicateController');
 /*
  * Route check token of link
  */
-Route::resource('link', 'LinkController', ['only' => [
+Route::resource('link-poll', 'LinkController', ['only' => [
     'store'
 ]]);
 

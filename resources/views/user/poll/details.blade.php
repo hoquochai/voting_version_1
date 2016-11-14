@@ -44,7 +44,10 @@
                 </div>
                 <div class="panel panel-primary panel-content">
                     <div class="panel-heading">
-                        <h4 class="title">{{ $poll->title }}</h4>
+                        <h4 class="title">{{ $poll->title }} {!! $poll->showStatus() !!} </h4>
+                        @if ($isLimit)
+                            Poll limit
+                        @endif
                     </div>
                     <div class="panel-body">
                             <div class="row">
@@ -65,7 +68,7 @@
                                             @endif
                                         </div>
                                         <div class="col-md-8">
-                                            {!! Form::open(['route' => 'vote.store']) !!}
+                                            {!! Form::open(['route' => 'vote.store','id' => 'form-vote']) !!}
                                             @foreach ($poll->options as $option)
                                                 <div class="panel panel-default panel-poll" id="{{ $option->id }}">
                                                     <div class="panel-body">
@@ -74,7 +77,7 @@
                                                                 <span class="badge">{{ $loop->index + 1 }}</span>
                                                             </div>
                                                             <div class="col-md-1">
-                                                                @if (auth()->check() && ! $isUserVoted || ! auth()->check() && ! $isParticipantVoted)
+                                                                @if ((auth()->check() && ! $isUserVoted || !auth()->check() && ! $isParticipantVoted) && ! $isLimit && ! $poll->isClosed())
                                                                     <center>
                                                                         @if ($poll->multiple == trans('polls.label.multiple_choice'))
                                                                             {!! Form::checkbox('option[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
@@ -114,7 +117,7 @@
                                                 </div>
                                             </div>
                                             <hr>
-                                            @if (auth()->check() && ! $isUserVoted || !auth()->check() && ! $isParticipantVoted)
+                                            @if ((auth()->check() && ! $isUserVoted || !auth()->check() && ! $isParticipantVoted) && ! $isLimit && ! $poll->isClosed())
                                                 <div class="col-md-10" id="vote-info">
                                                     {!! Form::hidden('poll_id', $poll->id) !!}
                                                     {!! Form::hidden('isRequiredEmail', $isRequiredEmail) !!}
@@ -129,7 +132,7 @@
                                                         <div class="col-md-10">
                                                             {!! Form::email('input', auth()->check() ? auth()->user()->email : null, ['class' => 'form-control input', 'placeholder' => trans('polls.placeholder.email')]) !!}
                                                         </div>
-                                                        <div class="col-md-2" data-message-email="{{ trans('polls.message_email') }}" data-message-validate-email="{{ trans('polls.message_validate_email') }}">
+                                                        <div class="col-md-2" data-message-email="{{ trans('polls.message_email') }}" data-url="{{ url('/check-email') }}" data-message-exist-email="{{ trans('polls.message_exist_email') }}" data-message-validate-email="{{ trans('polls.message_validate_email') }}">
                                                             {{ Form::button(trans('polls.vote'), ['class' => 'btn btn-success btn-vote-email', !$isUserVoted ? 'disabled' : '']) }}
                                                         </div>
                                                     @endif

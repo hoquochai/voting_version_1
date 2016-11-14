@@ -212,15 +212,17 @@
                                                         </a>
                                                     </div>
                                                     <div class="row activity-poll">
-                                                        {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
-                                                        {{
-                                                            Form::button('<span class="fa fa-times-circle"></span>' . ' ' . trans('polls.close_poll'), [
-                                                                'type' => 'submit',
-                                                                'class' => 'btn btn-default btn-block btn-administration',
-                                                                'onclick' => 'return confirm("' . trans('polls.confirm_close_poll') . '")'
-                                                            ])
-                                                        }}
-                                                        {{ Form::close() }}
+                                                        @if (! $poll->isClosed())
+                                                            {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
+                                                            {{
+                                                                Form::button('<span class="fa fa-times-circle"></span>' . ' ' . trans('polls.close_poll'), [
+                                                                    'type' => 'submit',
+                                                                    'class' => 'btn btn-default btn-block btn-administration',
+                                                                    'onclick' => 'return confirm("' . trans('polls.confirm_close_poll') . '")'
+                                                                ])
+                                                            }}
+                                                            {{ Form::close() }}
+                                                        @endif
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-4 col-lg-offset-1">
@@ -235,11 +237,6 @@
                                                                 ])
                                                             }}
                                                             {{ Form::close() }}
-                                                        @else
-                                                            <a class="btn btn-default btn-administration btn-block disable-link">
-                                                                <span class="fa fa-trash-o"></span>
-                                                                {{ trans('polls.delete_all_participants') }}
-                                                            </a>
                                                         @endif
                                                     </div>
                                                     <div class="row activity-poll">

@@ -59,26 +59,50 @@ class Poll extends Model
 
     public function countParticipants()
     {
-        if (!$this->options) {
-            return config('settings.default_value');
-        }
+        $count = config('settings.default_value');
+        $options = $this->options;
+        $voteIds = [];
 
-        $listVotes = collect();
-        foreach($this->options as $option) {
-            $votes = $option->votes->pluck('user_id')->unique();
+        if ($options) {
+            foreach ($options as $option) {
+                $votes = $option->votes;
 
-            if (!$votes->isEmpty()) {
-                $listVotes->push($votes);
-            }
-
-            $participantVotes = $option->participantVotes->pluck('participant_id')->unique();
-
-            if (!$participantVotes->isEmpty()) {
-                $listVotes->push($participantVotes);
+                if ($votes) {
+                    foreach ($votes as $vote) {
+                        $voteIds[] = $vote->id;
+                    }
+                }
             }
         }
 
-        return $listVotes->unique()->count();
+        $votes = Vote::whereIn('id', $voteIds)->with('user', 'option')->get()->groupBy('user_id');
+        $options = $this->options;
+        $participantVoteIds = [];
+
+        if ($options) {
+            foreach ($options as $option) {
+                $participantVotes = $option->participantVotes;
+
+                if ($participantVotes) {
+                    foreach ($participantVotes as $participantVote) {
+                        $participantVoteIds[] = $participantVote->id;
+                    }
+                }
+            }
+        }
+
+        $participantVotes = ParticipantVote::whereIn('id', $participantVoteIds)->with('participant', 'option')->get()->groupBy('participant_id');
+        $mergedParticipantVotes = $votes->toBase()->merge($participantVotes->toBase());
+
+        if ($mergedParticipantVotes->count()) {
+            foreach ($mergedParticipantVotes as $mergedParticipantVote) {
+                $createdAt[] = $mergedParticipantVote->first()->created_at;
+            }
+
+            $count = collect($createdAt)->count();
+        }
+
+        return $count;
     }
 
     public function scopeFilter($query, QueryFilter $filters)
@@ -129,5 +153,14 @@ class Poll extends Model
     public function isClosed()
     {
         return $this->status == trans('polls.label.poll_closed');
+    }
+
+    public function showStatus()
+    {
+        if ($this->status == trans('polls.label.poll_opening')) {
+            return "<label class='label label-success'>" . trans('polls.label.poll_opening') . '</label>';
+        } elseif ($this->status == trans('polls.label.poll_closed')) {
+            return "<label class='label label-danger'>" . trans('polls.label.poll_closed') . '</label>';
+        }
     }
 }

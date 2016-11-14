@@ -29,7 +29,7 @@
                     </div>
                     <hr>
                     @include('errors.errors')
-                    {{ Form::open(['url' => '/login', 'class' => 'form-horizontal']) }}
+                    {{ Form::open(['route' => 'user-login', 'class' => 'form-horizontal']) }}
                         <div class="form-group">
                             {{ Form::label('email', trans('label.email'), ['class' => 'col-md-3 control-label']) }}
                             <div class="col-md-9">

@@ -8,7 +8,7 @@
                 <div class="panel-heading">{{ trans('label.register') }}</div>
                 <div class="panel-body">
                     @include('errors.errors')
-                    {{ Form::open(['url' => '/register', 'class' => 'form-horizontal', 'files' => true]) }}
+                    {{ Form::open(['route' => 'user-register', 'class' => 'form-horizontal', 'files' => true]) }}
 
                         <div class="form-group">
                             {{ Form::label('avatar', trans('label.avatar'), ['class' => 'col-md-4 control-label']) }}

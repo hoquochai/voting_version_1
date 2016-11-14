@@ -7,6 +7,8 @@ use App\Http\Requests\PollEditRequest;
 use App\Http\Requests\PollRequest;
 use App\Repositories\Poll\PollRepositoryInterface;
 use Illuminate\Http\Request;
+use Mail;
+use Flashy;
 
 class PollController extends Controller
 {
@@ -190,6 +192,23 @@ class PollController extends Controller
         if (! $poll) {
             return view('errors.show_errors')->with('message', trans('polls.close_poll_fail'));
         }
+
+        $emails = $poll->user->email;
+
+        if ($emails) {
+            Mail::queue('layouts.close_poll_mail', [
+                'link' => $poll->getAdminLink(),
+            ], function ($message) use ($emails) {
+                $message->to($emails)->subject(trans('label.mail.subject'));
+            });
+
+            if (count(Mail::failures()) == config('settings.default_value')) {
+                $poll->status = false;
+                $poll->save();
+            }
+        }
+
+        Flashy::message(trans('polls.flashy_message'), 'https://mail.google.com/mail');
 
         $poll->status = false;
         $poll->save();

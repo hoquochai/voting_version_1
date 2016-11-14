@@ -31,6 +31,8 @@ class User extends Authenticatable
         'gender',
         'avatar',
         'role',
+        'is_active',
+        'token_verification',
     ];
 
     /**

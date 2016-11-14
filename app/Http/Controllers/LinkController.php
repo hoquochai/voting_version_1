@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Repositories\Link\LinkRepositoryInterface;
@@ -10,6 +11,7 @@ use App\Repositories\Poll\PollRepositoryInterface;
 use App\Repositories\Vote\VoteRepositoryInterface;
 use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class LinkController extends Controller
 {
@@ -35,9 +37,22 @@ class LinkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($tokenRegister)
     {
-        //
+        $user = User::where('token_verification', $tokenRegister)->first();
+        if ($user) {
+            $user->is_active = true;
+            $user->token_verification = '';
+            $user->save();
+
+            if (! Auth::login($user)) {
+                return redirect()->to(url('/'))->withMessages(trans('user.register_account_successfully'));
+            } else {
+                return redirect()->to(url('/'))->withMessages(trans('user.register_account_fail'));
+            }
+        } else {
+            return view('errors.show_errors')->with('message', trans('polls.link_not_found'));
+        }
     }
 
     /**
@@ -58,19 +73,14 @@ class LinkController extends Controller
      */
     public function store(Request $request)
     {
-        $token = $request->value;
+        $token = $request->token;
         $links = Link::where('token', $token)->get();
 
-        if (! $links->count()) {
-            return [
-                'success' => false,
-            ];
+        if ($links->count()) {
+            return response()->json(['success' => true]);
         }
 
-        return [
-            'success' => true,
-            'link' => $links,
-        ];
+        return response()->json(['success' => false]);
     }
 
     /**
@@ -100,14 +110,11 @@ class LinkController extends Controller
             return view('errors.show_errors')->with('message', trans('polls.poll_not_found'));
         }
 
-        if ($link->poll->isClosed()) {
-            return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
-        }
-
         $linkUser = url('link') . '/' . $link->token;
         $numberOfVote = config('settings.default_value');
         $voteLimit = null;
         $isRequiredEmail = false;
+        $isLimit = false;
         $isHideResult = false;
         $poll = $link->poll;
         $totalVote = config('settings.default_value');
@@ -160,16 +167,12 @@ class LinkController extends Controller
 
         if (! $link->link_admin) {
 
-            if ($poll->settings) {
-                foreach ($poll->settings as $setting) {
-                    if ($setting->key == config('settings.setting.set_limit')) {
-                        $voteLimit = $setting->value;
-                    }
-                }
+            if ($voteLimit && $poll->countParticipants() >= $voteLimit) {
+                $isLimit = true;
+            }
 
-                if ($voteLimit && $poll->countParticipants() >= $voteLimit) {
-                    return view('errors.show_errors')->with('message', trans('polls.message_poll_limit'));
-                }
+            if ($link->poll->isClosed()) {
+                return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
             }
 
             $isRequiredEmail = $poll->settings->whereIn('key', [config('settings.setting.required_email')])->count() != config('settings.default_value');
@@ -226,7 +229,7 @@ class LinkController extends Controller
 
             return view('user.poll.details', compact(
                 'optionCombobox', 'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',
-                'optionRatePieChart', 'optionRateBarChart'
+                'optionRatePieChart', 'optionRateBarChart', 'isLimit'
             ));
         } else {
             $poll = $link->poll;

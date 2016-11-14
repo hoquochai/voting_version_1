@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
+use Flashy;
+use Mail;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -38,6 +40,17 @@ class ParticipantController extends Controller
         $inputs = $request->only('poll_id');
         $poll = $this->pollRepository->find($inputs['poll_id']);
         $this->participantRepository->deleteAllParticipants($inputs['poll_id'], $this->participantVoteRepository, $this->voteRepository);
+        $emails = $poll->user->email;
+
+        if ($emails) {
+            Mail::queue('layouts.delete_all_participant_mail', [
+                'link' => $poll->getAdminLink(),
+            ], function ($message) use ($emails) {
+                $message->to($emails)->subject(trans('label.mail.subject'));
+            });
+        }
+
+        Flashy::message(trans('polls.flashy_message'), 'https://mail.google.com/mail');
         $activity = [
             'poll_id' => $inputs['poll_id'],
             'type' => config('settings.activity.all_participants_deleted'),

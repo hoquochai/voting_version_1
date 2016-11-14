@@ -20,6 +20,8 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
         'avatar' => 'default.jpg',
         'gender' => $faker->numberBetween(0, 2),
         'role' => 0,
+        'token_verification' => '',
+        'is_active' => 1,
     ];
 });
 

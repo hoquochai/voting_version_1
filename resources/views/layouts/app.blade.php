@@ -137,6 +137,8 @@
         </nav>
         <div class="content">
             @yield('content')
+            <script src="//code.jquery.com/jquery.js"></script>
+            @include('flashy::message')
         </div>
     </div>
 
@@ -146,6 +148,9 @@
 
     <!-- Bootstrap -->
     {!! Html::script('bower/bootstrap/dist/js/bootstrap.min.js') !!}
+
+    <!-- winzard -->
+    {!! Html::script('bower/twitter-bootstrap-wizard/jquery.bootstrap.wizard.js') !!}
 
     <!-- Scripts -->
     {{--{!! Html::script('/js/app.js') !!}--}}
@@ -183,8 +188,7 @@
     <script src="{{ asset('bower/moment/min/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
 
-    <!-- winzard -->
-    {!! Html::script('bower/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js') !!}
+
 
     <!-- Bootstrap switch -->
     {!! Html::script('bower/bootstrap-switch/dist/js/bootstrap-switch.min.js') !!}

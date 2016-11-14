@@ -42,11 +42,27 @@ class Link extends Model
             $result['success'] = true;
             $emails = $this->poll->user->email;
 
-            Mail::send('layouts.edit_link_mail', [
-                'link' => url('/link') . '/' . $tokenInput,
-            ], function ($message) use ($emails) {
-                $message->to($emails)->subject(trans('label.mail.subject'));
-            });
+            try {
+                Mail::queue('layouts.edit_link_mail', [
+                    'link' => url('/link') . '/' . $tokenInput,
+                ], function ($message) use ($emails) {
+                    $message->to($emails)->subject(trans('label.mail.subject'));
+                });
+
+                if (count(Mail::failures()) > config('settings.default_value')) {
+                    return response()->json([
+                        'success' => false,
+                        'is_exist' => false,
+                        'is_email_not_exist' => true,
+                    ]);
+                }
+            } catch(Exception $ex) {
+                return response()->json([
+                    'success' => false,
+                    'is_exist' => false,
+                    'is_email_not_exist' => true,
+                ]);
+            }
 
             $this->save();
 

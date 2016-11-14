@@ -201,7 +201,7 @@ return [
         'voting' => 'VOTING',
         'result' => 'RESULT',
     ],
-    'validate_client' => [
+    'message_client' => [
         'required' => 'Please enter ',
         'max' => 'Please enter a value less than or equal to ',
         'email' => 'Email invalid!',
@@ -211,6 +211,8 @@ return [
         'option_required' => 'You must enter content of option',
         'participant_empty' => 'You must add a email',
         'character' => ' characters',
+        'email_exist' => 'Email address does not exist. Please try again!',
+        'time_close_poll' => 'Time close poll must be larger current time',
     ],
     'mail' => [
         'label' => [
@@ -320,4 +322,11 @@ return [
         'count_vote' => 'Count vote',
     ],
     'hide_result_message' => 'Poll is setting hide result. You can\'t view result of this poll',
+    'flashy_message' => 'Mail sent, Please check email',
+    'message_exist_email' => 'Email not exist',
+    'link_vote' => 'Link Vote',
+    'link_admin' => 'Link Admin',
+    'email_not_exist' => 'Email to create poll not exist',
+    'register_with_mail_not_exist' => 'Register fail, Email register not exist',
+    'link_not_found' => 'Sorry, Link not found',
 ];

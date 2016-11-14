@@ -15,6 +15,8 @@ use Input;
 use App\Repositories\BaseRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use DB;
+use Mail;
+use Flashy;
 
 class UserRepository extends BaseRepository implements UserRepositoryInterface
 {
@@ -57,15 +59,30 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             'avatar' => $fileName,
             'gender' => $data['gender'],
             'password' => $data['password'],
+            'is_active' => false,
+            'token_verification' => str_random(20),
         ];
-
         $createUser = User::create($user);
+
+        //check email exist
+        $emails = $data['email'];
+        try {
+            Mail::queue('layouts.register_mail', [
+                'link' => url('/link/verification') . '/' . $user['token_verification'],
+            ], function ($message) use ($emails) {
+                $message->to($emails)->subject(trans('label.mail.subject'));
+            });
+        } catch(Exception $ex) {
+            return view('errors.show_errors')->with('message', trans('polls.register_with_mail_not_exist'));
+        }
+
+        Flashy::message(trans('user.register_account'), '#');
 
         if (!$createUser) {
             throw new Exception('message.create_error');
         }
 
-        return $createUser;
+        return redirect()->to(url('/'))->withMessages(trans('user.register_account'));
     }
 
     public function update($inputs, $id)

@@ -6,6 +6,12 @@ google.maps.event.addDomListener(window, 'load', function () {
 
     });
 });
+
+var loadFile = function(event) {
+    var output = document.getElementById('output');
+    output.src = URL.createObjectURL(event.target.files[0]);
+};
+
 /*
  * get data from server
  */
@@ -17,74 +23,13 @@ var dataSettingEdit = $('.hide').data("settingEdit");
 -                         USER CREATE POLL                      -
  ---------------------------------------------------------------*/
 $(document).ready(function () {
-    //Initialize tooltips
-    $('.nav-tabs > li a[title]').tooltip();
-
-    //Wizard
-    $('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
-
-        var $target = $(e.target);
-
-        if ($target.parent().hasClass('disabled')) {
-            return false;
-        }
-    });
-
-    $(".next-step").click(function (e) {
-        var isNext = false;
-
-        if ($(this).val() == "info" && validateInfo()) {
-            isNext = true;
-        }
-
-        if ($(this).val() == "option" && validateOption()) {
-            isNext = true;
-        }
-
-        if ($(this).val() == "setting" && validateSetting()) {
-            isNext = true;
-        }
-
-        if (isNext) {
-            var $active = $('.wizard .nav-tabs li.active');
-            $active.next().removeClass('disabled');
-            nextTab($active);
-        }
-    });
 
     $(".finish").click(function () {
+        console.log("finish");
         if (validateParticipant()) {
             $('#form_create_poll').submit();
         }
     });
-    $(".prev-step").click(function (e) {
-
-        var $active = $('.wizard .nav-tabs li.active');
-        prevTab($active);
-
-    });
-
-    if (typeof pollData !== "undefined") {
-        $('input[type=radio][name=participant]').change(function () {
-            if (this.value == pollData.message.config.invite_all) {
-                $("#validateParticipant").html("");
-                $('#email-participant').hide('slow');
-            }
-            else if (this.value == pollData.message.config.invite_people) {
-                $('#email-participant').show('slow');
-            }
-        });
-    }
-
-    if (typeof dataSettingEdit !== "undefined") {
-        if (pollData.message.setting.link in dataSettingEdit) {
-            $("#new-link").show();
-        } else if (pollData.message.setting.limit in dataSettingEdit) {
-            $("#set-limit").show();
-        } else if (pollData.message.setting.password in dataSettingEdit) {
-            $("#set-password").show();
-        }
-    }
 });
 
 function nextTab(elem) {
@@ -173,251 +118,78 @@ var rand = function() {
 
 //show advance setting: custom link, set limit, set password
 function settingAdvance(key) {
-    if (typeof pollData !== "undefined") {
-        if (key == pollData.message.setting.link) {
-            $("#new-link").slideToggle();
-        } else if (key == pollData.message.setting.limit) {
-            $("#set-limit").slideToggle();
-        } else if (key == pollData.message.setting.password) {
-            $("#set-password").slideToggle();
-        }
+    if (key == pollData.config.setting.custom_link) {
+        $("#setting-link").slideToggle();
+    } else if (key == pollData.config.setting.set_limit) {
+        $("#setting-limit").slideToggle();
+    } else if (key == pollData.config.setting.set_password) {
+        $("#setting-password").slideToggle();
     }
 }
 
-//Validate input
-function validateInput(text, length, type, name) {
-    var message = "";
-    var regexEmail = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i;
 
-    if (typeof pollData !== "undefined") {
-        if (text == "" && name != "participant") {
-            message = pollData.message.validate.required + name;
-        } else if (text.length > length && name != "participant") {
-            message = pollData.message.validate.max + length + pollData.message.validate.character;
-        } else if (type == "email" && ! regexEmail.test(text)) {
-            message = pollData.message.validate.email;
-        } else if (type === "number" && ! Number.isInteger(text) && ! (text > 0)) {
-            message = pollData.message.validate.number;
+function validateOption() {
+    var optionLists = $('input[name^="optionText"]');
+    var imageLists = $('input[name^="optionImage"]');
+    var isOption = false;
+    $('#validateOption').html("");
+
+    if (typeof dataAction !== "undefined") {
+        if (dataAction == "edit") {
+            if ($('.old-option').text().trim() !== "") {
+                return true;
+            }
         }
     }
 
-    return message;
-}
-
-//validate radiobutton of checkbox
-function validateRadioAndCheckbox(value, name) {
-    var message = "";
-
-    if (typeof pollData !== "undefined" && (typeof value === "undefined" || value == "")) {
-        message = pollData.message.validate.choose + name;
+    if (optionLists.length == 0 && imageLists.length == 0) {
+        $('.error_option').closest('.form-group').addClass('has-error');
+        $('.error_option').html('<span id="title-error" class="help-block">' + pollData.message.option_empty + '</span>');
+        return false;
     }
 
-    return message;
-}
-
-
-function validateInfo() {
-    if (typeof pollData !== "undefined") {
-        var messageTitle = validateInput($('#title').val(), pollData.message.length.title, "text", "title");
-        var messageName = validateInput($('#name').val(), pollData.message.length.name, "text", "name");
-        var messageEmail = validateInput($('#email').val(), pollData.message.length.email, "email", "email");
-        var messageType = validateRadioAndCheckbox($("input[name=type]:checked").val(), "type");
-
-        //reset message
-        $('#validateTitle').html("");
-        $('#validateDescription').html("");
-        $('#validateName').html("");
-        $('#validateEmail').html("");
-        $('#validateType').html("");
-
-        if (messageTitle != "") {
-            $("#title").addClass("error");
-            $("#title").after("<div id='validateTitle'>" +
-                "<span class='label label-danger'>" + messageTitle + "</span>" +
-                "</div>");
+    optionLists.each(function (key) {
+        if ($(this).val() != "") {
+            isOption = true;
         } else {
-            $("#title").removeClass("error");
+            imageLists.each(function () {
+                if ($(this).val() != "") {
+                    isOption = true;
+                }
+            });
         }
+    });
 
-        if ($('#description').val().length > pollData.message.length.description) {
-            $("#description").addClass("error");
-            $("#description").after("<div id='validateDescription'>" +
-                "<span class='label label-danger'>" + pollData.message.validate.max + pollData.message.length.description
-                + "</span></div>");
-        } else {
-            $("#description").removeClass("error");
-        }
-
-        if (messageName != "") {
-            $("#name").addClass("error");
-            $("#name").after("<div id='validateName'>" +
-                "<span class='label label-danger'>" + messageName + "</span>" +
-                "</div>");
-        } else {
-            $("#name").removeClass("error");
-        }
-
-        if (messageEmail != "") {
-            $("#email").addClass("error");
-            $("#email").after("<div id='validateEmail'>" +
-                "<span class='label label-danger'>" + messageEmail + "</span>" +
-                "</div>");
-        } else {
-            $("#email").removeClass("error");
-        }
-
-        if (messageType != "") {
-            $("#type").after("<div id='validateType'>" +
-                "<span class='label label-danger'>" + messageType + "</span>" +
-                "</div>");
-        } else {
-            $("#type").removeClass("error");
-        }
-
-        if (messageTitle == ""
-            && messageName == ""
-            && messageEmail == ""
-            && messageType == ""
-            && $('#description').val().length < pollData.message.length.description) {
-            return true;
-        }
-
+    if (!isOption) {
+        $('.error_option').closest('.form-group').addClass('has-error');
+        $('.error_option').html('<span id="title-error" class="help-block">' + pollData.message.option_required + '</span>');
         return false;
     }
 
     return true;
 }
 
-function validateOption() {
-    if (typeof pollData !== "undefined") {
-        var optionLists = $('input[name^="optionText"]');
-        var imageLists = $('input[name^="optionImage"]');
-        var isOption = false;
-        $('#validateOption').html("");
-
-        if (typeof dataAction !== "undefined") {
-            if (dataAction == "edit") {
-                if ($('.old-option').text().trim() !== "") {
-                    return true;
-                }
-            }
-        }
-
-        if (optionLists.length == 0 && imageLists.length == 0) {
-            $('.option').after("<div id='validateOption'>" +
-                "<span class='label label-danger'>" + pollData.message.validate.option_empty + "</span>" +
-                "</div>");
-            return false;
-        }
-
-        optionLists.each(function () {
-            if ($(this).val() != "") {
-                isOption = true;
-            } else {
-                imageLists.each(function () {
-                    if ($(this).val() != "") {
-                        isOption = true;
-                    }
-                });
-            }
-        });
-
-        if (!isOption) {
-            $('.option').after("<div id='validateOption'>" +
-                "<span class='label label-danger'>" + pollData.message.validate.option_required + "</span>" +
-                "</div>");
-            return false;
-        }
-
-        return true;
-    }
-
-    return true;
-}
-
-function validateSetting() {
-    $('#validateLink').html("");
-    $('#validateLimit').html("");
-    $('#validatePassword').html("");
-    var isValid = true;
-
-    if (typeof pollData !== "undefined") {
-        $('input[name^="setting"]:checked').each(function () {
-            if ($(this).val() == pollData.message.setting.link) {
-                var messageLink = validateInput($('#link').val(), pollData.message.length.link, "text", "link");
-
-                if (messageLink != "") {
-                    isValid = false;
-
-                    //custom link
-                    $("#new-link").after("<div id='validateLink'>" +
-                        "<p><span class='label label-danger'>" + messageLink + "</span></p><br>" +
-                        "</div>");
-                } else {
-                    var dataLinkRoute = $('.hide').data("routeLink");
-                    var token = $('.hide').data("token");
-                    if (checkLink(dataLinkRoute, token).responseJSON.success) {
-                        isValid = false;
-                    }
-                }
-            }
-
-            if ($(this).val() == pollData.message.setting.limit) {
-                var messageLimit = validateInput($('#limit').val(), pollData.message.length.limit, "number", "limit");
-
-                if (messageLimit != "") {
-                    isValid = false;
-                    $("#set-limit").after("<div id='validateLimit'>" +
-                        "<p><span class='label label-danger'> " + messageLimit + "</span><p><br>" +
-                        "</div>");
-                }
-            }
-
-            if ($(this).val() == pollData.message.setting.password) {
-                var messagePassword = validateInput($('#password').val(), pollData.message.length.password, "text", "password");
-
-                if (messagePassword != "") {
-                    //custom link
-                    isValid = false;
-                    $("#set-password").after("<div id='validatePassword'>" +
-                        "<p><span class='label label-danger'>" + messagePassword + "</span><p><br>" +
-                        "</div>");
-                }
-            }
-
-        });
-    }
-
-    return isValid;
-}
-
 function validateParticipant() {
-    $("#validateParticipant").html("");
-    var messageParticipant = "";
+    var members = $("#member").val();
+    console.log(members);
 
-    if (typeof pollData !== "undefined") {
-        var members = $("#member").val();
-        if (members == "") {
-            return true;
-        }
-        members = members.split(",");
-
-
-        for (var index = 0; index < members.length; index++) {
-            messageParticipant = validateInput(members[index], pollData.message.length.email, "email", "participant");
-            if (messageParticipant != "") {
-
-                //custom link
-                $("#email-participant").after("<div id='validateParticipant'>" +
-                    "<p><span class='label label-danger'>" + messageParticipant + "</span><p><br>" +
-                    "</div>");
-
-                return false;
-            }
-        }
-
+    if (members == "") {
+        $('.error_participant').closest('.form-group').removeClass('has-error');
         return true;
     }
+
+    members = members.split(",");
+
+    for (var index = 0; index < members.length; index++) {
+        if (! validateEmail(members[index])) {
+            $('.error_participant').closest('.form-group').addClass('has-error');
+            $('.error_participant').html('<span id="title-error" class="help-block">' + pollData.message.email + '</span>');
+            return false;
+        }
+    }
+
+    $('.error_participant').closest('.form-group').removeClass('has-error');
+    return true;
 
 }
 
@@ -448,37 +220,6 @@ function checkLink(route, token) {
     }
 }
 
-/*
-show password
- */
-//Place this plugin snippet into another file in your applicationb
-(function ($) {
-    $.toggleShowPassword = function (options) {
-        var settings = $.extend({
-            field: "#password",
-            control: "#toggle_show_password",
-        }, options);
-
-        var control = $(settings.control);
-        var field = $(settings.field)
-
-        control.bind('click', function () {
-            if (control.is(':checked')) {
-                field.attr('type', 'text');
-            } else {
-                field.attr('type', 'password');
-            }
-        })
-    };
-}(jQuery));
-
-//Here how to call above plugin from everywhere in your application document body
-$.toggleShowPassword({
-    field: '#password',
-    control: '#checkboxShowPassword'
-});
-
-
 //Auto close message
 $(".alert-dismissable").delay(3000).fadeOut(100);
 
@@ -501,22 +242,81 @@ function confirmDelete(message) {
     return confirm(message);
 }
 
-//add method validate option
-jQuery.validator.addMethod("option", function(value, element) {
-    console.log(value);
-    console.log(element);
-    return (this.length > 0);
-}, "Please specify the correct domain for your documents");
+//validate email
+function validateEmailExistsDatabase() {
+    return $.ajax({
+        url: $('.hide').data("routeEmail"),
+        type: 'post',
+        async: false,
+        dataType: 'json',
+        data: {
+            'email': $('#email').val(),
+            '_token': $('.hide').data("token")
+        },
+        success: function (data) {
+
+        }
+    });
+}
+
+/* jQuery Validate Emails with Regex */
+function validateEmail(email) {
+    var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    return $.trim(email).match(pattern) ? true : false;
+}
+
+//validate link
+function validateLink() {
+    return $.ajax({
+        url: $('.hide').data("routeLink"),
+        type: 'post',
+        async: false,
+        dataType: 'json',
+        data: {
+            'token': $('#link').val(),
+            '_token': $('.hide').data("token")
+        },
+        success: function (data) {
+
+        }
+    });
+}
+
+//add method validate time
+jQuery.validator.addMethod("time", function(value, element) {
+    if (value) {
+        var currentDate = new Date();
+        var current = moment(currentDate.toISOString()).format('DD-MM-YYYY HH:mm');
+        var timeClosedPoll = $('#time_close_poll').val();
+
+        return (current < timeClosedPoll)
+    }
+
+    return true;
+}, pollData.message.time_close_poll);
+
+//add method check mail exists
+jQuery.validator.addMethod("exist", function(value, element) {
+    return validateEmailExistsDatabase().responseJSON.success;
+}, pollData.message.email_exist);
+
 
 $(document).ready(function() {
-    $("[name='setting\\[\\]']").bootstrapSwitch();
+    $.each(pollData.config.setting, function (index, value) {
+        $("[name='setting\\[" + value + "\\]']").bootstrapSwitch({
+            'onText' : pollData.message.on,
+            'offText' : pollData.message.off
+        });
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
     var $validator = $("#form_create_poll").validate({
         rules: {
             email: {
                 required: true,
                 maxlength: pollData.config.length.email,
-                email: true
+                email: true,
+                // exist: true,
             },
             name: {
                 required: true,
@@ -526,16 +326,19 @@ $(document).ready(function() {
                 required: true,
                 maxlength: pollData.config.length.title
             },
-            'optionText[]': {
-                // option: true,
-                required: true,
+            closingTime: {
+                time:true
+            },
+            member: {
+                participant:true
             }
         },
         messages: {
             email: {
                 required: pollData.message.required,
                 maxlength: pollData.message.max + pollData.config.length.email,
-                email: pollData.message.email
+                email: pollData.message.email,
+                exist: pollData.message.email_exist
             },
             name: {
                 required: pollData.message.required,
@@ -544,6 +347,9 @@ $(document).ready(function() {
             title: {
                 required: pollData.message.required,
                 maxlength: pollData.message.max +pollData.config.length.title
+            },
+            closingTime: {
+                time: pollData.message.time_close_poll
             }
         },
         highlight: function(element) {
@@ -563,13 +369,40 @@ $(document).ready(function() {
         }
     });
 
+
     $('#create_poll_wizard').bootstrapWizard({
         'tabClass': 'nav nav-pills',
         onNext: function(tab, navigation, index) {
-            var $valid = $("#form_create_poll").valid();
-            if(!$valid) {
+
+            //get index of tab current
+            var wizard = $('#create_poll_wizard').bootstrapWizard('currentIndex');
+
+            //get validation of form
+            var valid = $("#form_create_poll").valid();
+
+            //check if form valid, it will be return TRUE
+            if(! valid) {
                 $validator.focusInvalid();
                 return false;
+            }
+
+            //check option of poll
+            if (wizard == 1) {
+                return validateOption();
+            } else if (wizard == 2) {
+                var isValid = true;
+
+                $('input[name^="setting"]:checked').each(function () {
+                    if ($(this).val() == pollData.config.setting.custom_link) {
+                        isValid = checkLink();
+                    } else if ($(this).val() == pollData.config.setting.set_limit) {
+                        isValid = checkLimit();
+                    } else if ($(this).val() == pollData.config.setting.set_password) {
+                        isValid = checkPassword();
+                    }
+                });
+
+                return isValid;
             }
         },
         onTabClick: function(tab, navigation, index) {
@@ -577,3 +410,83 @@ $(document).ready(function() {
         }
     });
 });
+
+/*
+ show password
+ */
+function showAndHidePassword() {
+    if($('#password').attr("type") == "password"){
+        $('#password').attr("type", "text");
+    } else {
+        $('#password').attr("type", "password");
+    }
+}
+
+/*
+validate link of poll
+ */
+function checkLink() {
+    var token = $('#link').val();
+
+    if (token == "") {
+        $('#link').closest('.form-group').addClass('has-error');
+        $('.error_link').closest('.form-group').addClass('has-error');
+        $('.error_link').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+        return false;
+    }
+
+    if (validateLink().responseJSON.success) {
+        $('#link').closest('.form-group').addClass('has-error');
+        $('.error_link').closest('.form-group').addClass('has-error');
+        $('.error_link').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
+        return false;
+    }
+
+    $('#link').closest('.form-group').removeClass('has-error');
+    $('.error_link').closest('.form-group').removeClass('has-error');
+    $('.error_link').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
+    return true;
+}
+
+/*
+validate limit of poll
+ */
+function checkLimit() {
+    var limit = $('#limit').val();
+
+    if (limit == "") {
+        $('#limit').closest('.form-group').addClass('has-error');
+        $('.error_limit').closest('.form-group').addClass('has-error');
+        $('.error_limit').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+        return false;
+    }
+
+    if (! Number.isInteger(limit) && ! (limit > 0)) {
+        $('#limit').closest('.form-group').addClass('has-error');
+        $('.error_limit').closest('.form-group').addClass('has-error');
+        $('.error_limit').html('<span id="title-error" class="help-block">' + pollData.message.number + '</span>');
+        return false;
+    }
+
+    $('#link').closest('.form-group').removeClass('has-error');
+    $('.error_link').closest('.form-group').removeClass('has-error');
+    return true;
+}
+
+/*
+ validate password of poll
+ */
+function checkPassword() {
+    var password = $('#password').val();
+
+    if (password == "") {
+        $('#password').closest('.form-group').addClass('has-error');
+        $('.error_password').closest('.form-group').addClass('has-error');
+        $('.error_password').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+        return false;
+    }
+
+    $('#password').closest('.form-group').removeClass('has-error');
+    $('.error_password').closest('.form-group').removeClass('has-error');
+    return true;
+}

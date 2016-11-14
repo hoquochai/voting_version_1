@@ -42,6 +42,10 @@ return [
         'link_admin' => 'Link quản lý vote:',
         'subject' => 'Bầu chọn',
         'edit_link' => 'Bạn đã chỉnh sửa link thành công, Link mới chỉnh sửa: ',
+        'open_poll' => 'Quản trị poll đã mở lại poll',
+        'close_poll' => 'Poll đã được đóng',
+        'delete_all_participant' => 'Quản trị poll này đã xóa tất cả các bầu chọn của poll',
+        'register_active_mail' => 'Bạn đã đăng ký thành công, hãy kích vào đường dẫn sau để kích hoạt tài khoản.',
         'edit_poll' => [
             'head' => 'Bầu chọn',
             'summary' => 'Poll được thay đổi bởi admin!',

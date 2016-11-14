@@ -1,5 +1,8 @@
-<input type="text" name="optionText[]" class="form-control"
-       placeholder="{{ trans('polls.placeholder.option') }}" style="display: none">
+<!-- ERROR OPTION -->
+<div class="form-group">
+    <div class="error_option"></div>
+</div>
+
 <!-- OPTION LISTS -->
 <div class="poll-option"></div>
 
@@ -16,12 +19,13 @@
             }}
         </div>
         <span class="input-group-btn">
-                                                    {{
-                                                        Form::button('<span class="glyphicon glyphicon-plus"></span>', [
-                                                            'class' => 'btn btn-default',
-                                                            'onclick' => 'addOption(' . $data['jsonData'] . ')'
-                                                        ])
-                                                    }}
-                                                </span>
+            {{
+                Form::button('<span class="glyphicon glyphicon-plus"></span>', [
+                    'class' => 'btn btn-default',
+                    'onclick' => 'addOption(' . $data['jsonData'] . ')'
+                ])
+            }}
+        </span>
     </div>
 </div>
+

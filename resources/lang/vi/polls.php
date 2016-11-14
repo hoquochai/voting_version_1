@@ -202,7 +202,7 @@ return [
         'voting' => 'BÌNH CHỌN',
         'result' => 'KẾT QUẢ',
     ],
-    'validate_client' => [
+    'message_client' => [
         'required' => 'Vui lòng nhập ',
         'max' => 'Vui lòng nhập giá trị nhỏ hơn hoặc bằng ',
         'email' => 'Địa chỉ email chưa chính xác!',
@@ -212,6 +212,12 @@ return [
         'option_required' => 'Bạn phải nhập nội dung của tùy chọn',
         'participant_empty' => 'Bạn phải thêm một địa chỉ email',
         'character' => ' kí tự',
+        'email_exist' => 'Địa chỉ email không tồn tại, vui lòng thử lại!',
+        'time_close_poll' => 'Thời gian đóng poll phải lớn hơn thời gian hiện tại',
+        'on' => 'BẬT',
+        'off' => 'TẮT',
+        'link_exists' => 'Đường dẫn này đã tồn tại trong hệ thống, vui lòng thử lại!',
+        'link_valid' => 'Đường dẫn hợp lệ, bạn có thể dùng đường dẫn này',
     ],
     'mail' => [
         'label' => [
@@ -320,4 +326,11 @@ return [
         'count_vote' => 'Số lượng bầu chọn',
     ],
     'hide_result_message' => 'Poll này đã ẩn kết quả bầu chọn.',
+    'flashy_message' => 'Mail đã gửi, Vui lòng kiểm tra mail',
+    'message_exist_email' => 'Địa chỉ email này không tồn tại',
+    'link_vote' => 'Link bầu chọn',
+    'link_admin' => 'Link quản lý',
+    'email_not_exist' => 'Email tạo poll này không tồn tại',
+    'register_with_mail_not_exist' => 'Đăng ký không thành công, Địa chỉ email đăng ký không tồn tại',
+    'link_not_found' => 'Xin lỗi, Không tìm thấy đường dẫn này',
 ];

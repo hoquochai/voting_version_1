@@ -41,8 +41,7 @@ return [
             'set_password' => 'Set password',
             'show_password' => 'Show password',
             'password_poll' => 'Password of poll: ',
-            'on' => 'ON',
-            'off' => 'OFF',
+
         ],
         'step_4' => 'Participant',
         'invite' => 'If you want send mail to participants, let enter email into below textbox!',
@@ -206,11 +205,17 @@ return [
         'required' => 'This field is required',
         'max' => 'Maximum number of characters is ',
         'email' => 'Email invalid!',
+        'link_exists' => 'Link is exists in system. Please try again!',
+        'link_valid' => 'Link valid, you can use this link',
         'number' => 'Value must is number!',
         'choose' => 'Please choose ',
         'option_empty' => 'You must add a new option',
-        'option_required' => 'You must enter content of option',
+        'option_required' => 'You must enter content of a option',
         'participant_empty' => 'You must add a email',
+        'email_exist' => 'Email address does not exist. Please try again!',
+        'time_close_poll' => 'Time close poll must be larger current time',
+        'on' => 'ON',
+        'off' => 'OFF',
     ],
     'mail' => [
         'label' => [
@@ -223,16 +228,16 @@ return [
         ],
     ],
 
-      'result_create' => [
-         'head' => 'POLL - VOTING',
-         'thank' => 'Thank, ',
-         'create_success' => 'Your poll has been created',
-         'send_mail' => 'The following two links have been send to :email in one e-mail each.',
-         'participant_link' => 'Participation link',
-         'help_participant' => 'Send this link to anyone you wish to invite',
-         'link_admin' => 'Administration link',
-         'help_admin' => 'Access this link to change, close or delete this poll',
-     ],
+    'result_create' => [
+        'head' => 'POLL - VOTING',
+        'thank' => 'Thank, ',
+        'create_success' => 'Your poll has been created',
+        'send_mail' => 'The following two links have been send to :email in one e-mail each.',
+        'participant_link' => 'Participation link',
+        'help_participant' => 'Send this link to anyone you wish to invite',
+        'link_admin' => 'Administration link',
+        'help_admin' => 'Access this link to change, close or delete this poll',
+    ],
 
 /*------------------------------------------------------------
 *                  USER - POLL
@@ -320,4 +325,11 @@ return [
         'count_vote' => 'Count vote',
     ],
     'hide_result_message' => 'Poll is setting hide result. You can\'t view result of this poll',
+    'flashy_message' => 'Mail sent, Please check email',
+    'message_exist_email' => 'Email not exist',
+    'link_vote' => 'Link Vote',
+    'link_admin' => 'Link Admin',
+    'email_not_exist' => 'Email to create poll not exist',
+    'register_with_mail_not_exist' => 'Register fail, Email register not exist',
+    'link_not_found' => 'Sorry, Link not found',
 ];

@@ -13,6 +13,8 @@ use App\Repositories\Poll\PollRepositoryInterface;
 use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
 use App\Repositories\Participant\ParticipantRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
+use Mail;
+use App\Models\Option;
 
 class VoteController extends Controller
 {
@@ -172,6 +174,41 @@ class VoteController extends Controller
                 throw $e;
             }
         }
+
+
+        $totalVote = config('settings.default_value');
+        foreach ($poll->options as $option) {
+            $totalVote += $option->countVotes();
+        }
+
+        $optionRate = [];
+
+        if ($totalVote) {
+            foreach ($poll->options as $option) {
+                $countOption = $option->countVotes();
+                $optionRateItem['rate'] = (int) ($countOption * 100 / $totalVote);
+                $optionRateItem['count'] = $countOption;
+                $optionRateItem['name'] = $option->name;
+                $optionRate[] = $optionRateItem;
+            }
+        }
+
+        $emails = $poll->user->email;
+        $optionName = '';
+        foreach ($inputs['option'] as $option) {
+            $optionName .= Option::find($option)->name . ',';
+        }
+
+        $optionName = substr($optionName, 0, strlen($optionName) - 1);
+        Mail::queue('layouts.vote_mail', [
+            'optionName' => $optionName,
+            'title' => $inputs['input'],
+            'linkUser' => $poll->getUserLink(),
+            'linkAdmin' => $poll->getAdminLink(),
+            'optionRate' => $optionRate,
+        ], function ($message) use ($emails) {
+            $message->to($emails)->subject(trans('label.mail.subject'));
+        });
 
         return redirect()->to($poll->getUserLink())->with('message', trans('polls.vote_successfully'));
     }

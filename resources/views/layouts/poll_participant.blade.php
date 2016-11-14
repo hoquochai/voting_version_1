@@ -7,7 +7,9 @@
             'class' => 'form-control',
             'placeholder' => trans('polls.placeholder.email_participant'),
             'data-role' => 'tagsinput',
+            'onkeyup' => 'validateParticipant()',
         ])
     }}
+    <div class="error_participant"></div>
 </div>
 
