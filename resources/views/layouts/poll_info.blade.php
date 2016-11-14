@@ -7,7 +7,7 @@
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </span>
                 {{
-                    Form::text('email', (auth()->user()) ? auth()->user()->email : null, [
+                    Form::text('email', (isset($poll) && $poll) ? $poll->user->email : (auth()->user() ? auth()->user()->email : null), [
                         'class' => 'form-control',
                         'id' => 'email',
                         'placeholder' => trans('polls.placeholder.email'),
@@ -27,7 +27,7 @@
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </span>
                 {{
-                    Form::text('name', (auth()->user()) ? auth()->user()->name : null, [
+                    Form::text('name', (isset($poll) && $poll) ? $poll->user->name :  (auth()->user() ? auth()->user()->name : null), [
                         'class' => 'form-control',
                         'id' => 'name',
                         'placeholder' => trans('polls.placeholder.full_name'),
@@ -46,7 +46,7 @@
                     <i class="fa fa-tag" aria-hidden="true"></i>
                 </span>
                 {{
-                    Form::text('title', null, [
+                    Form::text('title', (isset($poll) && $poll) ? $poll->title : null, [
                         'class' => 'form-control',
                         'id' => 'title',
                         'placeholder' => trans('polls.placeholder.title'),
@@ -66,7 +66,7 @@
 <!-- DESCRIPTION -->
 <div class="form-group">
     {{
-        Form::textarea('description', null, [
+        Form::textarea('description', (isset($poll) && $poll) ? $poll->description : null, [
             'class' => 'form-control',
             'id' => 'description',
             'placeholder' => trans('polls.placeholder.description'),
@@ -83,7 +83,7 @@
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
             </span>
                 {{
-                    Form::text('closingTime', null, [
+                    Form::text('closingTime', (isset($poll) && $poll) ? $poll->date_close : null, [
                         'class' => 'form-control',
                         'id' => 'time_close_poll',
                         'placeholder' => trans('polls.placeholder.time_close')
@@ -99,7 +99,7 @@
                 <i class="fa fa-map-marker" aria-hidden="true"></i>
             </span>
             {{
-                Form::text('location', null, [
+                Form::text('location', (isset($poll) && $poll) ? $poll->location : null, [
                     'class' => 'form-control',
                     'id' => 'location',
                     'placeholder' => trans('polls.placeholder.location'),

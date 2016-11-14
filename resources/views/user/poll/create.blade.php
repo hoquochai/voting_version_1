@@ -32,6 +32,8 @@
                         </div>
                     </div>
                 </div>
+                @include('layouts.error')
+                @include('layouts.message')
                 <div class="tab-content">
                     <div class="tab-pane" id="info">
                         @include('layouts.poll_info')
@@ -48,7 +50,7 @@
                     <ul class="pager wizard">
                         <li class="previous"><a href="#" class="btn-change-step btn btn-primary">Previous</a></li>
                         <li class="next"><a href="#" class="btn-change-step btn btn-primary">Next</a></li>
-                        <li class="finish"><a href="javascript:;" class="btn btn-primary">Finish</a></li>
+                        <li class="finish"><a href="#" class="btn btn-change-step btn-primary btn-finish">Finish</a></li>
                     </ul>
                 </div>
             </div>

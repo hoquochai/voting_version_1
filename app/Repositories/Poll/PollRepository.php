@@ -253,6 +253,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return $pollId;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
     }
@@ -296,6 +297,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return true;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
 
@@ -361,6 +363,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 }
             }
         } catch (Exception $ex) {
+            dd($ex);
             throw new Exception(trans('polls.message.upload_image_fail'));
         }
     }
@@ -399,6 +402,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
             return true;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
 
@@ -473,6 +477,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             ];
             return $linkReturn;
         } catch (Exception $ex) {
+            dd($ex);
             return false;
         }
     }
@@ -496,6 +501,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 $message->to($email)->subject($subject);
             });
         } catch (Exception $ex) {
+            dd($ex);
             throw new Exception(trans('polls.message.send_mail_fail'));
         }
     }
@@ -566,6 +572,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             return $dataRtn;
         } catch (Exception $ex) {
             DB::rollback();
+            dd($ex);
             return false;
         }
     }
