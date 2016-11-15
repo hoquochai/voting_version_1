@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
+use App\Models\ParticipantVote;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Repositories\Link\LinkRepositoryInterface;
@@ -220,16 +222,30 @@ class LinkController extends Controller
                 }
             }
 
-            $optionCombobox = [];
-            $index = 0;
+            //get result with table type
+            $dataTableResult = [];
             foreach ($poll->options as $option) {
-                $index += 1;
-                $optionCombobox[$option->id] = "option " . $index;
+                //Count number of vote
+                $countUserVoteOption = Vote::where('option_id', $option->id)->count();
+                $countParticipantVoteOption = ParticipantVote::where('option_id', $option->id)->count();
+
+                //Get vote last
+                $voteLast = Vote::where('option_id', $option->id)->get()->last();
+                $participantLast = ParticipantVote::where('option_id', $option->id)->get()->last();
+                $userVoteLast = ($voteLast) ? $voteLast->created_at : '';
+                $participantVoteLast = ($participantLast) ? $participantLast->created_at : '';
+
+                $dataTableResult[] = [
+                    'name' => $option->name,
+                    'image' => $option->showImage(),
+                    'numberOfVote' => $countUserVoteOption + $countParticipantVoteOption,
+                    'lastVoteDate' => (strcmp($userVoteLast, $participantVoteLast) < 0) ? $participantVoteLast : $userVoteLast,
+                ];
             }
 
             return view('user.poll.details', compact(
-                'optionCombobox', 'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',
-                'optionRatePieChart', 'optionRateBarChart', 'isLimit'
+                'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',
+                'optionRatePieChart', 'optionRateBarChart', 'isLimit', 'dataTableResult'
             ));
         } else {
             $poll = $link->poll;
@@ -294,11 +310,14 @@ class LinkController extends Controller
                 }
             }
 
+            //get data contain config or message return view and js
+            $data = $this->pollRepository->getDataPollSystem();
+
             return view('user.poll.manage_poll', compact(
                 'poll', 'tokenLinkUser', 'tokenLinkAdmin',
                 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote',
                 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted',
-                'settingDetail'
+                'settingDetail', 'data'
             ));
         }
     }

@@ -85,7 +85,6 @@
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="nav navbar-nav">
                         <li {!! Request::is('/') ? 'class="active"' : '' !!}><a href="{{ asset("/") }}">{{ trans('label.home') }}</a></li>
-                        <li {!! Request::is('user-poll/create') ? 'class="active"' : '' !!}><a href="{{ route('user-poll.create') }}">{{ trans('label.create_poll') }}</a></li>
                         @if (auth()->check())
                             <li {!! Request::is('user/poll') ? 'class="active"' : '' !!}>
                                 <a href="{{ URL::action('User\PollController@index') }}">{{ trans('polls.poll_history') }}</a>
@@ -173,8 +172,6 @@
 
     {!! Html::script('js/layout/master.js') !!}
 
-
-
     <!-- jQuery Datatable JavaScript -->
     {!! Html::script('/bower/datatables.net/js/jquery.dataTables.min.js') !!}
 
@@ -187,8 +184,6 @@
     <!-- Datetime picker -->
     <script src="{{ asset('bower/moment/min/moment.min.js') }}" type="text/javascript"></script>
     <script src="{{ asset('bower/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}" type="text/javascript"></script>
-
-
 
     <!-- Bootstrap switch -->
     {!! Html::script('bower/bootstrap-switch/dist/js/bootstrap-switch.min.js') !!}

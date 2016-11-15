@@ -1,11 +1,13 @@
-
 //autoload location
-google.maps.event.addDomListener(window, 'load', function () {
-    var places = new google.maps.places.Autocomplete(document.getElementById('location'));
-    google.maps.event.addListener(places, 'place_changed', function () {
+if (document.getElementById('location') != null) {
+    google.maps.event.addDomListener(window, 'load', function () {
+        var places = new google.maps.places.Autocomplete(document.getElementById('location'));
+        google.maps.event.addListener(places, 'place_changed', function () {
 
+        });
     });
-});
+}
+
 
 var loadFile = function(event) {
     var output = document.getElementById('output');
@@ -241,7 +243,8 @@ function confirmDelete(message) {
 }
 
 //validate email
-function validateEmailExistsDatabase() {
+function validateEmailExists() {
+
     return $.ajax({
         url: $('.hide').data("routeEmail"),
         type: 'post',
@@ -252,9 +255,14 @@ function validateEmailExistsDatabase() {
             '_token': $('.hide').data("token")
         },
         success: function (data) {
-
+            if (! data.success) {
+                $('#email').closest('.form-group').addClass('has-error');
+                $('.error_email').closest('.form-group').addClass('has-error');
+                $('.error_email').html('<span id="title-error" class="help-block">' + pollData.message.email_exist + '</span>');
+            }
         }
     });
+
 }
 
 /* jQuery Validate Emails with Regex */
@@ -281,131 +289,138 @@ function validateLink() {
 }
 
 //add method validate time
-jQuery.validator.addMethod("time", function(value, element) {
-    if (value) {
-        var currentDate = new Date();
-        var current = moment(currentDate.toISOString()).format('DD-MM-YYYY HH:mm');
-        var timeClosedPoll = $('#time_close_poll').val();
+if (typeof pollData !== "undefined") {
+    jQuery.validator.addMethod("time", function(value, element) {
+        if (value) {
+            var currentDate = new Date();
+            var current = moment(currentDate.toISOString()).format('DD-MM-YYYY HH:mm');
+            var timeClosedPoll = $('#time_close_poll').val();
 
-        return (current < timeClosedPoll)
-    }
+            return (current < timeClosedPoll)
+        }
 
-    return true;
-}, pollData.message.time_close_poll);
-
-//add method check mail exists
-jQuery.validator.addMethod("exist", function(value, element) {
-    return validateEmailExistsDatabase().responseJSON.success;
-}, pollData.message.email_exist);
+        return true;
+    }, pollData.message.time_close_poll);
+}
 
 
 $(document).ready(function() {
-    $.each(pollData.config.setting, function (index, value) {
-        $("[name='setting\\[" + value + "\\]']").bootstrapSwitch({
-            'onText' : pollData.message.on,
-            'offText' : pollData.message.off
+    if (typeof pollData !== "undefined") {
+        $.each(pollData.config.setting, function (index, value) {
+            $("[name='setting\\[" + value + "\\]']").bootstrapSwitch({
+                'onText' : pollData.message.on,
+                'offText' : pollData.message.off
+            });
         });
-    });
 
-    $('[data-toggle="tooltip"]').tooltip();
-    var $validator = $("#form_create_poll").validate({
-        rules: {
-            email: {
-                required: true,
-                maxlength: pollData.config.length.email,
-                email: true,
-                // exist: true,
+        $('[data-toggle="tooltip"]').tooltip();
+        var $validator = $("#form_create_poll").validate({
+            rules: {
+                email: {
+                    required: true,
+                    maxlength: pollData.config.length.email,
+                    email: true,
+                },
+                name: {
+                    required: true,
+                    maxlength: pollData.config.length.name
+                },
+                title: {
+                    required: true,
+                    maxlength: pollData.config.length.title
+                },
+                closingTime: {
+                    time:true
+                },
+                member: {
+                    participant:true
+                }
             },
-            name: {
-                required: true,
-                maxlength: pollData.config.length.name
+            messages: {
+                email: {
+                    required: pollData.message.required,
+                    maxlength: pollData.message.max + pollData.config.length.email,
+                    email: pollData.message.email,
+                    // exist: pollData.message.email_exist
+                },
+                name: {
+                    required: pollData.message.required,
+                    maxlength: pollData.message.max + pollData.config.length.name
+                },
+                title: {
+                    required: pollData.message.required,
+                    maxlength: pollData.message.max +pollData.config.length.title
+                },
+                closingTime: {
+                    time: pollData.message.time_close_poll
+                }
             },
-            title: {
-                required: true,
-                maxlength: pollData.config.length.title
+            highlight: function(element) {
+                $(element).closest('.form-group').addClass('has-error');
             },
-            closingTime: {
-                time:true
+            unhighlight: function(element) {
+                $(element).closest('.form-group').removeClass('has-error');
             },
-            member: {
-                participant:true
+            errorElement: 'span',
+            errorClass: 'help-block',
+            errorPlacement: function(error, element) {
+                if(element.parent('.input-group').length) {
+                    error.insertAfter(element.parent());
+                } else {
+                    error.insertAfter(element);
+                }
             }
-        },
-        messages: {
-            email: {
-                required: pollData.message.required,
-                maxlength: pollData.message.max + pollData.config.length.email,
-                email: pollData.message.email,
-                exist: pollData.message.email_exist
+        });
+
+
+        $('#create_poll_wizard').bootstrapWizard({
+            'tabClass': 'nav nav-pills',
+            onNext: function(tab, navigation, index) {
+
+                //get index of tab current
+                var wizard = $('#create_poll_wizard').bootstrapWizard('currentIndex');
+
+                //get validation of form
+                var valid = $("#form_create_poll").valid();
+
+                //check if form valid, it will be return TRUE
+                if(! valid) {
+                    $validator.focusInvalid();
+                    return false;
+                }
+
+                //check option of poll
+                if (wizard == 0) {
+                    return validateEmailExists().responseJSON.success;
+                } else if (wizard == 1) {
+                    return validateOption();
+                } else if (wizard == 2) {
+                    var isValid = true;
+
+                    $('input[name^="setting"]:checked').each(function () {
+                        if ($(this).val() == pollData.config.setting.custom_link) {
+                            isValid = checkLink();
+                        } else if ($(this).val() == pollData.config.setting.set_limit) {
+                            isValid = checkLimit();
+                        } else if ($(this).val() == pollData.config.setting.set_password) {
+                            isValid = checkPassword();
+                        }
+                    });
+
+                    return isValid;
+                }
             },
-            name: {
-                required: pollData.message.required,
-                maxlength: pollData.message.max + pollData.config.length.name
-            },
-            title: {
-                required: pollData.message.required,
-                maxlength: pollData.message.max +pollData.config.length.title
-            },
-            closingTime: {
-                time: pollData.message.time_close_poll
-            }
-        },
-        highlight: function(element) {
-            $(element).closest('.form-group').addClass('has-error');
-        },
-        unhighlight: function(element) {
-            $(element).closest('.form-group').removeClass('has-error');
-        },
-        errorElement: 'span',
-        errorClass: 'help-block',
-        errorPlacement: function(error, element) {
-            if(element.parent('.input-group').length) {
-                error.insertAfter(element.parent());
-            } else {
-                error.insertAfter(element);
-            }
-        }
-    });
-
-
-    $('#create_poll_wizard').bootstrapWizard({
-        'tabClass': 'nav nav-pills',
-        onNext: function(tab, navigation, index) {
-
-            //get index of tab current
-            var wizard = $('#create_poll_wizard').bootstrapWizard('currentIndex');
-
-            //get validation of form
-            var valid = $("#form_create_poll").valid();
-
-            //check if form valid, it will be return TRUE
-            if(! valid) {
-                $validator.focusInvalid();
+            onTabClick: function(tab, navigation, index) {
                 return false;
             }
+        });
+    }
 
-            //check option of poll
-            if (wizard == 1) {
-                return validateOption();
-            } else if (wizard == 2) {
-                var isValid = true;
-
-                $('input[name^="setting"]:checked').each(function () {
-                    if ($(this).val() == pollData.config.setting.custom_link) {
-                        isValid = checkLink();
-                    } else if ($(this).val() == pollData.config.setting.set_limit) {
-                        isValid = checkLimit();
-                    } else if ($(this).val() == pollData.config.setting.set_password) {
-                        isValid = checkPassword();
-                    }
-                });
-
-                return isValid;
-            }
-        },
-        onTabClick: function(tab, navigation, index) {
-            return false;
-        }
+    $('#voting_wizard').bootstrapWizard({
+        'tabClass': 'nav nav-pills'
+    });
+    $('#manager_poll_wizard').bootstrapWizard({
+        'tabClass': 'nav nav-pills'
     });
 });
 
@@ -487,4 +502,19 @@ function checkPassword() {
     $('#password').closest('.form-group').removeClass('has-error');
     $('.error_password').closest('.form-group').removeClass('has-error');
     return true;
+}
+
+/*
+show modal preview option image in view details
+ */
+function showModelImage(image) {
+    $('#imageOfOptionPreview').attr("src", image);
+    $('#modalImageOption').modal('show');
+}
+
+/*
+show panel body of poll option horizontal in view details
+ */
+function showPanelImage(id) {
+    $('#option_' + id).toggle('slow');
 }

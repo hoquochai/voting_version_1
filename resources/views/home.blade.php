@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <div id="create_poll_wizard" class="col-lg-6 col-lg-offset-3 well wrap-poll">
+    <div id="voting_wizard" class="col-lg-6 col-lg-offset-3 well wrap-poll">
         <div class="navbar panel">
             <div class="navbar-inner">
                 <div class="col-lg-8 col-lg-offset-2 panel-heading">
