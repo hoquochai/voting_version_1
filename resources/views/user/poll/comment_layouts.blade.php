@@ -1,9 +1,9 @@
 <div class="col-md-12" id="{{ $commentId }}">
     <br>
-    <div class="col-md-1">
-        <img class="img-comment" src="{!! $imageComment !!}">
+    <div class="col-md-2 col-lg-3">
+        <img class="img-comment img-circle" src="{!! $imageComment !!}">
     </div>
-    <div class="col-md-11">
+    <div class="col-md-10 col-lg-9">
         <label data-comment-id="{{ $commentId }}" data-poll-id="{{ $poll->id }}">
             <label class="user-comment">{{ $name }}</label>
             {{ $createdAt }}

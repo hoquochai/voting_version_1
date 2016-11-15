@@ -100,7 +100,6 @@ Route::resource('language', 'User\LanguageController', [
 
 Route::get('/redirect/{provider}', 'SocialAuthController@redirectToProvider');
 Route::get('/callback/{provider}', 'SocialAuthController@handleProviderCallback');
-Route::get('chartjs', ['as' => 'chart.piechart', 'uses' => 'User\ChartController@chartjs']);
 
 /*
  /--------------------------------------------------------------------
@@ -134,6 +133,6 @@ Route::resource('status', 'StatusController', ['only' => [
     'store'
 ]]);
 
-Route::get("home", function () {
-   return view('manager_poll_exam');
+Route::get('test-email', function () {
+    return view('layouts.poll_mail');
 });

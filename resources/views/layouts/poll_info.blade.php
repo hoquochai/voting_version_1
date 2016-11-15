@@ -1,6 +1,16 @@
+@if (isset($page) && $page == "edit")
+    {{
+       Form::open([
+           'route' => ['user-poll.update', $poll->id],
+           'method' => 'PUT',
+           'id' => 'form_update_poll',
+           'role' => 'form',
+       ])
+    }}
+@endif
 <div class="row">
 <!-- EMAIL -->
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="form-group">
             <div class="input-group required">
                 <span class="input-group-addon">
@@ -11,6 +21,7 @@
                         'class' => 'form-control',
                         'id' => 'email',
                         'placeholder' => trans('polls.placeholder.email'),
+                        'onblur' => 'checkMailExitsDatabase()',
                     ])
                 }}
             </div>
@@ -20,7 +31,7 @@
         </div>
     </div>
 <!-- NAME -->
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="form-group">
             <div class="input-group required">
                 <span class="input-group-addon">
@@ -108,3 +119,7 @@
         </div>
     </div>
 </div>
+@if (isset($page) && $page == "edit")
+    <input type="submit" class="btn btn-success" name="btn_edit" value="{{ trans('polls.button.save_info') }}">
+    {{ Form::close() }}
+@endif

@@ -334,3 +334,7 @@ span.round-tab:hover {
 .btn-finish {
   float: right;
 }
+
+#title-warning {
+  color: orange;
+}

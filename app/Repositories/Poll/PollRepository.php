@@ -225,6 +225,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function addInfo($input)
     {
         $now = Carbon::now();
+        $tokenActive = '';
 
         try {
             $user = User::where('email', $input['email'])->first();
@@ -232,12 +233,14 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             if ($user) {
                 $userId = $user->id;
             } else {
+                $tokenActive = str_random(20);
                 $userId = User::insertGetId([
                     'name' => $input['name'],
                     'email' => $input['email'],
                     'chatwork_id' => ($input['chatwork_id']) ? $input['chatwork_id'] : null,
                     'created_at' => $now,
                     'is_register' => config('settings.user.create_poll'),
+                    'token_verification' => $tokenActive,
                 ]);
             }
 
@@ -251,7 +254,10 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'date_close' => ($input['closingTime']) ? $input['closingTime'] : null,
             ]);
 
-            return $pollId;
+            return [
+                'id' => $pollId,
+                'token' => $tokenActive,
+            ];
         } catch (Exception $ex) {
             dd($ex);
             return false;
@@ -497,11 +503,10 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function sendEmail($email, $view, $viewData, $subject)
     {
         try {
-            Mail::send($view, $viewData, function ($message) use ($email, $subject) {
+            Mail::queue($view, $viewData, function ($message) use ($email, $subject) {
                 $message->to($email)->subject($subject);
             });
         } catch (Exception $ex) {
-            dd($ex);
             throw new Exception(trans('polls.message.send_mail_fail'));
         }
     }
@@ -511,8 +516,8 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         try {
 
             DB::beginTransaction();
-
-            $pollId = $this->addInfo($input);
+            $data = $this->addInfo($input);
+            $pollId = $data['id'];
 
             if (! $pollId || ! ($this->addOption($input, $pollId) && $this->addSetting($input, $pollId))) {
                 DB::rollback();
@@ -529,6 +534,12 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 return false;
             }
 
+            $poll = Poll::with('user')->find($pollId);
+            $dataRtn = [
+                'poll' => $poll,
+                'link' => $links,
+            ];
+
             /*
              * send mail participant
              */
@@ -537,37 +548,34 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             if (count($input['setting'])) {
                 $password = (in_array(config('settings.setting.set_password'), $input['setting'])) ? $input['value']['password'] : false;
             }
-
-            if ($input['member']) {
-                $members = explode(",", $input['member']);
-                $view = config('settings.view.poll_mail');
-                $data = [
-                    'link' => $links['participant'],
-                    'administration' => false,
-                    'password' => $password,
-                ];
-                $subject = trans('label.mail.subject');
-                $this->sendEmail($members, $view, $data, $subject);
-            }
+//
+//            if ($input['member']) {
+//                $members = explode(",", $input['member']);
+//                $view = config('settings.view.poll_mail');
+//                $data = [
+//                    'link' => $links['participant'],
+//                    'administration' => false,
+//                    'password' => $password,
+//                ];
+//                $subject = trans('label.mail.subject');
+//                $this->sendEmail($members, $view, $data, $subject);
+//            }
             /*
              * send mail creator
              */
             $creatorView = config('settings.view.poll_mail');
             $email = $input['email'];
             $data = [
-                'link' => $links['participant'],
-                'administration' => true,
+                'linkVote' => $links['participant'],
                 'linkAdmin' => $links['administration'],
-                'password' => false,
+                'poll' => $poll,
+                'password' => $password,
+                'activeLink' => ($data['token']) ? url('/link/verification') . '/' . $data['token'] : '',
             ];
             $subject = trans('label.mail.subject');
             $this->sendEmail($email, $creatorView, $data, $subject);
             DB::commit();
-            $poll = Poll::with('user')->find($pollId);
-            $dataRtn = [
-                'poll' => $poll,
-                'link' => $links,
-            ];
+
 
             return $dataRtn;
         } catch (Exception $ex) {
@@ -1037,6 +1045,126 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
 
         //return result type text: multiple, single
         return ($type == $config['multiple_choice'] ? $trans['multiple_choice']: $trans['single_choice']);
+    }
+
+    /*
+     * get vote first of poll
+     */
+    public function getTimeFirstVote($poll) {
+        $now = Carbon::now();
+        $timeFirstVotePoll = $now;
+
+        foreach ($poll->options as $option) {
+            $voteFirst = Vote::where('option_id', $option->id)->orderBy('created_at', 'asc')->get()->first();
+            $participantFirst = ParticipantVote::where('option_id', $option->id)->orderBy('created_at', 'asc')->get()->first();
+            $userVoteFirst = ($voteFirst) ? $voteFirst->created_at : $timeFirstVotePoll;
+            $participantVoteFirst = ($participantFirst) ? $participantFirst->created_at : $timeFirstVotePoll;
+            $timeFirstVoteOption = (strcmp($userVoteFirst, $participantVoteFirst) < 0) ? $userVoteFirst : $participantVoteFirst;
+            $timeFirstVotePoll = ($timeFirstVoteOption < $timeFirstVotePoll) ? $timeFirstVoteOption: $timeFirstVotePoll;
+        }
+        return ($timeFirstVotePoll == $now) ? '' : $timeFirstVotePoll;
+    }
+
+    /*
+    * get vote last of poll
+    */
+    public function getTimeLastVote($poll)
+    {
+        $timeLastVotePoll = $poll->created_at;
+
+        foreach ($poll->options as $option) {
+            $voteLast = Vote::where('option_id', $option->id)->orderBy('created_at', 'desc')->get()->first();
+            $participantLast = ParticipantVote::where('option_id', $option->id)->orderBy('created_at', 'desc')->get()->first();
+            $userVoteLast = ($voteLast) ? $voteLast->created_at : $timeLastVotePoll;
+            $participantVoteLast = ($participantLast) ? $participantLast->created_at : $timeLastVotePoll;
+            $timeLastVoteOption = (strcmp($userVoteLast, $participantVoteLast) < 0) ? $participantVoteLast : $userVoteLast;
+            $timeLastVotePoll = ($timeLastVoteOption > $timeLastVotePoll) ? $timeLastVoteOption: $timeLastVotePoll;
+        }
+
+        return ($timeLastVotePoll == $poll->created_at) ? '' : $timeLastVotePoll;
+    }
+
+    /*
+     * get total vote of poll
+     */
+    public function getTotalVotePoll($poll)
+    {
+        $voteTotal = 0;
+
+        foreach ($poll->options as $option) {
+            $voteTotal += $option->countVotes();
+        }
+
+        return $voteTotal;
+    }
+
+    /*
+     * get option have number vote largest
+     */
+    public function getOptionLargestVote($poll)
+    {
+        $numberOfLargestVote = 0;
+        $optionLargestVote = null;
+
+        foreach ($poll->options as $option) {
+            if ($option->countVotes() > $numberOfLargestVote) {
+                $numberOfLargestVote = $option->countVotes();
+                $optionLargestVote = $option;
+            }
+        }
+
+        return [
+            'number' => $numberOfLargestVote,
+            'option' => $optionLargestVote,
+        ];
+    }
+
+    /*
+    * get option have number vote least
+    */
+    public function getOptionLeastVote($poll)
+    {
+        $numberOfLeastVote = $this->getTotalVotePoll($poll);
+        $optionLeastVote = null;
+
+        foreach ($poll->options as $option) {
+            if ($option->countVotes() < $numberOfLeastVote) {
+                $numberOfLeastVote = $option->countVotes();
+                $optionLeastVote = $option;
+            }
+        }
+
+        return [
+            'number' => $numberOfLeastVote,
+            'option' => $optionLeastVote,
+        ];
+    }
+
+    /*
+     * get option return table
+     */
+    public function getDataTableResult($poll, $isRequiredEmail)
+    {
+        $dataTableResult = [];
+
+        foreach ($poll->options as $option) {
+
+            //Get vote last of option
+            $voteLast = Vote::where('option_id', $option->id)->get()->last();
+            $participantLast = ParticipantVote::where('option_id', $option->id)->get()->last();
+            $userVoteLast = ($voteLast) ? $voteLast->created_at : '';
+            $participantVoteLast = ($participantLast) ? $participantLast->created_at : '';
+
+            $dataTableResult[] = [
+                'name' => $option->name,
+                'image' => $option->showImage(),
+                'numberOfVote' => $option->countVotes(),
+                'lastVoteDate' => (strcmp($userVoteLast, $participantVoteLast) < 0) ? $participantVoteLast : $userVoteLast,
+                'vote' => $option->getListOwnerVoted($isRequiredEmail),
+            ];
+        }
+
+        return $dataTableResult;
     }
 
 }

@@ -13,15 +13,16 @@ return [
     ],
     'label' => [
         'step_1' => 'Poll Information',
-        'full_name' => 'Full-name*',
-        'email' => 'E-Mail Address*',
+        'full_name' => 'Full-name',
+        'email' => 'E-Mail Address',
         'chatwork' => 'Chatwork ID',
-        'title' => 'Title*',
+        'title' => 'Title',
         'description' => 'Description',
         'location' => 'Location',
         'time_close' => 'Timer closed',
-        'type' => 'Type*',
-        'status' => 'Status*',
+        'created_at' => 'Created at',
+        'type' => 'Type',
+        'status' => 'Status',
         'single_choice' => 'Single choice',
         'multiple_choice' => 'Multiple choice',
         'opening' => 'Opening',
@@ -47,6 +48,7 @@ return [
         'invite' => 'If you want send mail to participants, let enter email into below textbox!',
         'search' => 'Search poll information...',
         'search_all' => 'All',
+        'no_data' => 'No data',
     ],
     'label_for' => [
         'full_name' => 'name',
@@ -216,6 +218,7 @@ return [
         'time_close_poll' => 'Time close poll must be larger current time',
         'on' => 'ON',
         'off' => 'OFF',
+        'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email exists in database, you should be login to create poll.',
     ],
     'mail' => [
         'label' => [
@@ -332,4 +335,8 @@ return [
     'email_not_exist' => 'Email to create poll not exist',
     'register_with_mail_not_exist' => 'Register fail, Email register not exist',
     'link_not_found' => 'Sorry, Link not found',
+    'date_last_vote' => 'Date laste vote',
+    'number_vote' => 'Number of vote',
+    'email_voted' => 'This email voted, Please chose another email to vote',
+    'check' => 'Check',
 ];

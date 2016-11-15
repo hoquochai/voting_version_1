@@ -518,3 +518,27 @@ show panel body of poll option horizontal in view details
 function showPanelImage(id) {
     $('#option_' + id).toggle('slow');
 }
+
+/*
+check if mail exist, get name
+ */
+function checkMailExitsDatabase() {
+    $.ajax({
+        url: $('.hide').data("routeEmail"),
+        type: 'post',
+        data: {
+            'email': $('#email').val(),
+            'action': 'check_exists',
+            '_token': $('.hide').data("token")
+        },
+        success: function (data) {
+            if (data.success) {
+                $('#email').closest('.form-group').removeClass('has-error');
+                $('.error_email').closest('.form-group').removeClass('has-error');
+                $('.error_email').html('<span id="title-warning" class="help-block">' + pollData.message.email_exist_database + '</span>');
+                $('#name').val(data.name);
+                $('#name').prop('readonly', true);
+            }
+        }
+    });
+}

@@ -27,6 +27,6 @@ class HomeController extends Controller
             return redirect()->route('admin.user.index');
         }
 
-        return view('home');
+        return redirect()->route('user-poll.create');
     }
 }

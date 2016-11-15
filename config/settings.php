@@ -85,6 +85,7 @@ return [
     'search_all' => 3,
     'view' => [
         'poll_mail' => 'layouts.poll_mail',
+        'participant_mail' => 'layouts.participant_mail.blade',
     ],
     'type' => [
         'user' => 'user',

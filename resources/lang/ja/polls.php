@@ -48,6 +48,7 @@ return [
         'invite' => 'If you want send mail to participants, let enter email into below textbox!',
         'search' => 'Search poll information...',
         'search_all' => 'All',
+        'no_data' => 'No data',
     ],
     'label_for' => [
         'full_name' => 'name',
@@ -329,4 +330,8 @@ return [
     'email_not_exist' => 'Email to create poll not exist',
     'register_with_mail_not_exist' => 'Register fail, Email register not exist',
     'link_not_found' => 'Sorry, Link not found',
+    'date_last_vote' => 'Date laste vote',
+    'number_vote' => 'Number of vote',
+    'email_voted' => 'This email voted, Please chose another email to vote',
+    'check' => 'Check',
 ];

@@ -33,6 +33,7 @@ class SocialAccountService
             'provider_user_id' => $providerUser->getId(),
             'provider' => $providerName,
         ]);
+
         $user = $this->userRepository->getUserWithEmail($providerUser);
 
         if (!$user || $user && $user->email == null) {

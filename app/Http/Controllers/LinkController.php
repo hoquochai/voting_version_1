@@ -14,6 +14,7 @@ use App\Repositories\Vote\VoteRepositoryInterface;
 use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Session;
 
 class LinkController extends Controller
 {
@@ -147,14 +148,8 @@ class LinkController extends Controller
         }
 
         $optionRateBarChart = json_encode($optionRateBarChart);
-
         $requiredPassword = null;
         $passwordSetting = $poll->settings->whereIn('key', [config('settings.setting.set_password')])->first();
-
-        if ($passwordSetting) {
-            $requiredPassword = $passwordSetting->value;
-        }
-
 
         if ($poll->settings) {
             foreach ($poll->settings as $setting) {
@@ -168,14 +163,28 @@ class LinkController extends Controller
         }
 
         if (! $link->link_admin) {
+            if ($link->poll->isClosed()) {
+                return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
+            }
 
             if ($voteLimit && $poll->countParticipants() >= $voteLimit) {
                 $isLimit = true;
             }
 
-            if ($link->poll->isClosed()) {
-                return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
+            if(! Session::has('isInputPassword')) {
+                if ($passwordSetting) {
+                    $requiredPassword = $passwordSetting->value;
+
+                    return view('user.poll.input_password', compact('poll', 'requiredPassword', 'token'));
+                }
+            } elseif (! Session::get('isInputPassword')) {
+                $requiredPassword = $passwordSetting->value;
+                Session::forget('isInputPassword');
+
+                return view('user.poll.input_password', compact('poll', 'requiredPassword', 'token'))->withErrors(trans('polls.incorrect_password'));
             }
+
+            Session::forget('isInputPassword');
 
             $isRequiredEmail = $poll->settings->whereIn('key', [config('settings.setting.required_email')])->count() != config('settings.default_value');
             $isHideResult = $poll->settings->whereIn('key', [config('settings.setting.hide_result')])->count() != config('settings.default_value');
@@ -222,26 +231,7 @@ class LinkController extends Controller
                 }
             }
 
-            //get result with table type
-            $dataTableResult = [];
-            foreach ($poll->options as $option) {
-                //Count number of vote
-                $countUserVoteOption = Vote::where('option_id', $option->id)->count();
-                $countParticipantVoteOption = ParticipantVote::where('option_id', $option->id)->count();
-
-                //Get vote last
-                $voteLast = Vote::where('option_id', $option->id)->get()->last();
-                $participantLast = ParticipantVote::where('option_id', $option->id)->get()->last();
-                $userVoteLast = ($voteLast) ? $voteLast->created_at : '';
-                $participantVoteLast = ($participantLast) ? $participantLast->created_at : '';
-
-                $dataTableResult[] = [
-                    'name' => $option->name,
-                    'image' => $option->showImage(),
-                    'numberOfVote' => $countUserVoteOption + $countParticipantVoteOption,
-                    'lastVoteDate' => (strcmp($userVoteLast, $participantVoteLast) < 0) ? $participantVoteLast : $userVoteLast,
-                ];
-            }
+            $dataTableResult = $this->pollRepository->getDataTableResult($poll, $isRequiredEmail);
 
             return view('user.poll.details', compact(
                 'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',
@@ -312,12 +302,44 @@ class LinkController extends Controller
 
             //get data contain config or message return view and js
             $data = $this->pollRepository->getDataPollSystem();
+            $page = 'edit';
+
+            //statistic
+            $statistic = [
+                'total' => $this->pollRepository->getTotalVotePoll($poll),
+                'firstTime' => $this->pollRepository->getTimeFirstVote($poll),
+                'lastTime' => $this->pollRepository->getTimeLastVote($poll),
+                'largestVote' => $this->pollRepository->getOptionLargestVote($poll),
+                'leastVote' => $this->pollRepository->getOptionLeastVote($poll),
+            ];
+
+            //table result
+            $dataTableResult = $this->pollRepository->getDataTableResult($poll, $isRequiredEmail);
+
+            foreach ($poll->options as $option) {
+                $totalVote += $option->countVotes();
+            }
+
+            $optionRatePieChart = [];
+            $optionRateBarChart = [];
+
+            if ($totalVote) {
+                foreach ($poll->options as $option) {
+                    $countOption = $option->countVotes();
+                    $optionRatePieChart[$option->name] = (int) ($countOption * 100 / $totalVote);
+                    if ($countOption > 0) {
+                        $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
+                    }
+                }
+            }
+
+            $optionRateBarChart = json_encode($optionRateBarChart);
 
             return view('user.poll.manage_poll', compact(
                 'poll', 'tokenLinkUser', 'tokenLinkAdmin',
                 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote',
                 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted',
-                'settingDetail', 'data'
+                'settingDetail', 'data', 'page', 'statistic', 'dataTableResult', 'optionRateBarChart', 'optionRatePieChart'
             ));
         }
     }

@@ -158,25 +158,42 @@ class PollController extends Controller
     public function update(Request $request, $id)
     {
         $button = $request->btn_edit;
+        $poll = Poll::with('options')->findOrFail($id);
+        $isVote = false;
 
-        if ($button == trans('polls.button.save_info')) {
-            $input = $request->only(
-                'status', 'name', 'email', 'chatwork_id', 'title', 'location', 'description', 'type'
-            );
-            $message = $this->pollRepository->editInfor($input, $id);
-        } elseif ($button == trans('polls.button.save_option')) {
-            $input = $request->only(
-                'option', 'image', 'optionImage', 'optionText'
-            );
-            $message = $this->pollRepository->editPollOption($input, $id);
-        } elseif ($button == trans('polls.button.save_setting')) {
-            $input = $request->only(
-                'setting', 'value'
-            );
-            $message = $this->pollRepository->editPollSetting($input, $id);
+        /*
+         * check if poll have vote will can not edit
+         */
+        foreach ($poll->options as $option) {
+            if ($option->countVotes()) {
+                $isVote = true;
+                break;
+            }
         }
 
-        return redirect()->route('user-poll.edit', $id)->with('message', $message);
+        if ($isVote) {
+            $message = "Poll is voted. You can't edit it.";
+        } else {
+            if ($button == trans('polls.button.save_info')) {
+                $input = $request->only(
+                    'name', 'email', 'chatwork_id', 'title', 'location', 'description', 'type'
+                );
+
+                $message = $this->pollRepository->editInfor($input, $id);
+            } elseif ($button == trans('polls.button.save_option')) {
+                $input = $request->only(
+                    'option', 'image', 'optionImage', 'optionText'
+                );
+                $message = $this->pollRepository->editPollOption($input, $id);
+            } elseif ($button == trans('polls.button.save_setting')) {
+                $input = $request->only(
+                    'setting', 'value'
+                );
+                $message = $this->pollRepository->editPollSetting($input, $id);
+            }
+        }
+
+        return redirect()->to($poll->getAdminLink())->with('message', $message);
     }
 
     /**

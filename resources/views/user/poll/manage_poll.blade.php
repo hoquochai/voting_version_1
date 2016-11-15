@@ -2,10 +2,10 @@
 
 @section('content')
     <div class="row">
-        <div id="manager_poll_wizard" class="col-lg-6 col-lg-offset-3 well wrap-poll">
+        <div id="manager_poll_wizard" class="col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
-                    <div class="col-lg-10 col-lg-offset-1 panel-heading">
+                    <div class="col-md-10 col-md-offset-1 col-lg-12 panel-heading">
                         <ul>
                             <li><a href="#info" data-toggle="tab">{{ trans('polls.poll_info') }}</a></li>
                             <li><a href="#vote_detail" data-toggle="tab">{{ trans('polls.show_vote_details') }}</a></li>
@@ -15,10 +15,11 @@
                 </div>
             </div>
             <div class="tab-content">
+                @include('layouts.message')
                 <div class="tab-pane" id="info">
                     <h4>
                         {!! $poll->status !!}
-                        <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" style="float: right">Link vote
+                        <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" target="_blank" style="float: right">Link vote
                         </a>
                     </h4>
                     @include('layouts.poll_info')
@@ -54,13 +55,22 @@
                                             STATISTIC
                                         </div>
                                         <div class="panel-body">
-                                            <h4>Tong luot binh chon <span class="badge">15</span></h4>
-                                            <h4>Thoi gian binh chon dau tien <span class="label label-default">11-10-2016 11:10</span></h4>
-                                            <h4>Thoi gian binh chon cuoi cung <span class="label label-default">11-11-2016 11:10</span></h4>
+                                            <h4>Tong luot binh chon <span class="badge">{{ $statistic['total'] }}</span></h4>
+                                            <h4>Thoi gian binh chon dau tien <span class="label label-default">{{ $statistic['firstTime'] }}</span></h4>
+                                            <h4>Thoi gian binh chon cuoi cung <span class="label label-default">{{ $statistic['lastTime'] }}</span></h4>
                                             <h4>Option co luot vote cao nhat
-                                                <button type="button" class="btn btn-primary">Option 1 <span class="badge">7</span></button>
+                                                @if (! empty($statistic['largestVote']['option']))
+                                                    <button type="button" class="btn btn-primary">{{ $statistic['largestVote']['option']->name }}
+                                                        <span class="badge">{{ $statistic['largestVote']['number'] }}</span>
+                                                    </button>
+                                                @endif
                                             </h4>
-                                            <h4>Option co luot vote thap nhat <button type="button" class="btn btn-primary">Option 2 <span class="badge">5</span></button>
+                                            <h4>Option co luot vote thap nhat
+                                                @if (! empty($statistic['leastVote']['option']))
+                                                    <button type="button" class="btn btn-primary">{{ $statistic['leastVote']['option']->name }}
+                                                        <span class="badge">{{ $statistic['leastVote']['number'] }}</span>
+                                                    </button>
+                                                @endif
                                             </h4>
                                         </div>
                                     </div>
@@ -69,82 +79,120 @@
                                     <div class="panel panel-default animated fadeInRight">
                                         <div class="panel-heading">
                                             TABLLE RESULT
-                                            <button type="button" class="btn btn-danger" style="float: right; font-size: 10px">
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal" style="float: right; font-size: 10px">
                                                 <i class="fa fa-list" aria-hidden="true"></i>
                                             </button>
                                         </div>
                                         <div class="panel-body">
                                             <table class="table table-hover table-responsive">
                                                 <thead>
-                                                <tr>
-                                                    <th>STT</th>
-                                                    <th>Option</th>
-                                                    <th>Vote</th>
-                                                    <th>Date laste vote</th>
-                                                    <th>Detail</th>
-                                                </tr>
+                                                    <tr>
+                                                        <th>{{ trans('polls.no') }}</th>
+                                                        <th>{{ trans('polls.label.option') }}</th>
+                                                        <th>{{ trans('polls.number_vote') }}</th>
+                                                        <th>{{ trans('polls.date_last_vote') }}</th>
+                                                        <th>{{ trans('polls.poll_details') }}</th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
-                                                <tr>
-                                                    <td>
-                                                        1
-                                                    </td>
-                                                    <td>
-                                                        <p style="word-wrap: break-word; width: 10em">dkasdkahsdashdhasjdkashkdhakjshdkjashdkjashdkas</p>
-                                                    </td>
-                                                    <td>
-                                                        <span class="badge">13</span>
-                                                    </td>
-                                                    <td>
-                                                        11-11-2016 11:50
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary btn-xs">
-                                                            <i class="fa fa-asterisk" aria-hidden="true"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        2
-                                                    </td>
-                                                    <td>
-                                                        <p style="word-wrap: break-word; width: 10em">dkasdkahsdashdhasjdkashkdhakjshdkjashdkjashdkasasdsadjashdjksahdkashdkjsahdjks</p>
-                                                        <img src="{{ asset('uploads/images/polleverywhere1.png') }}" alt="" width="50px" height="50px">
-                                                    </td>
-                                                    <td>
-                                                        <span class="badge">7</span>
-                                                    </td>
-                                                    <td>
-                                                        11-11-2016 11:50
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary btn-xs">
-                                                            <i class="fa fa-asterisk" aria-hidden="true"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        3
-                                                    </td>
-                                                    <td>
-                                                        <img src="{{ asset('uploads/images/polleverywhere1.png') }}" alt="" width="50px" height="50px">
-                                                    </td>
-                                                    <td>
-                                                        <span class="badge">5</span>
-                                                    </td>
-                                                    <td>
-                                                        11-11-2016 11:50
-                                                    </td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-primary btn-xs">
-                                                            <i class="fa fa-asterisk" aria-hidden="true"></i>
-                                                        </button>
-                                                    </td>
-                                                </tr>
+                                                    @foreach ($dataTableResult as $key => $data)
+                                                        <tr>
+                                                            <td>{{ $key }}</td>
+                                                            <td>
+                                                                <img src="{{ asset($data['image']) }}" width="50px" height="50px">
+                                                                {{ $data['name'] }}
+                                                            </td>
+                                                            <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
+                                                            <td>{{ $data['lastVoteDate'] }}</td>
+                                                            <td>
+                                                                <button type="button" class="btn btn-primary btn-xs">
+                                                                    <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-body scroll-result">
+                                                        @if ($mergedParticipantVotes->count())
+                                                            <table class="table table-bordered">
+                                                                <thead>
+                                                                <th><center>{{ trans('polls.no') }}</center></th>
+                                                                <th><center>{{ $isRequiredEmail ? trans('polls.email') : trans('polls.name')}}</center></th>
+                                                                @foreach ($poll->options as $option)
+                                                                    <th>
+                                                                        <center>
+                                                                            <img class="img-option" src="{{ $option->showImage() }}">
+                                                                            <br>
+                                                                            {{ $option->name }}
+                                                                        </center>
+                                                                    </th>
+                                                                @endforeach
+                                                                </thead>
+                                                                <tbody>
+                                                                @foreach ($mergedParticipantVotes as $vote)
+                                                                    <tr>
+                                                                        <td><center>{{ ++$numberOfVote }}</center></td>
+                                                                        @php
+                                                                            $isShowVoteName = false;
+                                                                        @endphp
+                                                                        @foreach ($poll->options as $option)
+                                                                            @php
+                                                                                $isShowOptionUserVote = false;
+                                                                            @endphp
+                                                                            @foreach ($vote as $item)
+                                                                                @if (! $isShowVoteName)
+                                                                                    <td>
+                                                                                        @if (isset($item->user_id))
+                                                                                            {{ Form::open(['route' => ['vote.destroy', $item->user->id], 'method' => 'delete']) }}
+                                                                                            {{ $isRequiredEmail ? $item->user->email : $item->user->name }}
+                                                                                        @else
+                                                                                            {{ Form::open(['route' => ['vote.destroy', $item->participant->id], 'method' => 'delete']) }}
+                                                                                            {{ $isRequiredEmail ? $item->participant->email : $item->participant->name }}
+                                                                                        @endif
+                                                                                        @if (Gate::allows('administer', $poll))
+                                                                                            {{ Form::hidden('poll_id', $poll->id) }}
+                                                                                        @endif
+                                                                                        {{ Form::close() }}
+                                                                                    </td>
+                                                                                    @php
+                                                                                        $isShowVoteName = true;
+                                                                                    @endphp
+                                                                                @endif
+                                                                                @if ($item->option_id == $option->id)
+                                                                                    <td>
+                                                                                        <center><label class="label label-default"><span class="glyphicon glyphicon-ok"> </span></label></center>
+                                                                                    </td>
+                                                                                    @php
+                                                                                        $isShowOptionUserVote = true;
+                                                                                    @endphp
+                                                                                @endif
+                                                                            @endforeach
+                                                                            @if (!$isShowOptionUserVote)
+                                                                                <td></td>
+                                                                            @endif
+                                                                        @endforeach
+                                                                    </tr>
+                                                                @endforeach
+                                                                </tbody>
+                                                            </table>
+                                                        @else
+                                                            <div class="alert alert-info">
+                                                                <p>{{ trans('polls.vote_empty') }}</p>
+                                                            </div>
+                                                        @endif
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('polls.close') }}</button>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -154,7 +202,24 @@
                                             BAR CHART
                                         </div>
                                         <div class="panel-body">
-
+                                            @if (collect($optionRateBarChart)->count())
+                                                <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+                                                <script type="text/javascript">
+                                                    google.load('visualization', '1', {'packages': ['columnchart']});
+                                                    google.setOnLoadCallback (createChart);
+                                                    function createChart() {
+                                                        var dataTable = new google.visualization.DataTable();
+                                                        dataTable.addColumn('string','Quarters 2009');
+                                                        dataTable.addColumn('number', 'Earnings');
+                                                        var optionRateBarChart = {!! $optionRateBarChart !!};
+                                                        dataTable.addRows(optionRateBarChart);
+                                                        var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
+                                                        var options = {width: 300, height: 440, is3D: false};
+                                                        chart.draw(dataTable, options);
+                                                    }
+                                                </script>
+                                                <div id="chart"></div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>
@@ -164,7 +229,26 @@
                                             PIE CHART
                                         </div>
                                         <div class="panel-body">
-
+                                            <!-- pie chart -->
+                                            @if (collect($optionRateBarChart)->count())
+                                                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                                <script type="text/javascript">
+                                                    google.charts.load('current', {'packages':['corechart']});
+                                                    google.charts.setOnLoadCallback(drawChart);
+                                                    function drawChart() {
+                                                        // Create the data table.
+                                                        var data = new google.visualization.DataTable();
+                                                        data.addColumn('string', 'Topping');
+                                                        data.addColumn('number', 'Slices');
+                                                        var optionRateBarChart = {!! $optionRateBarChart !!};
+                                                        data.addRows(optionRateBarChart);
+                                                        var options = {'width': 400, 'height': 400};
+                                                        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                                                        chart.draw(data, options);
+                                                    }
+                                                </script>
+                                                <div id="chart_div"></div>
+                                            @endif
                                         </div>
                                     </div>
                                 </div>

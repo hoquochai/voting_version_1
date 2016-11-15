@@ -168,8 +168,6 @@
 
     {!! Html::script('js/multipleLanguage.js') !!}
 
-    {!! Html::script('js/requiredPassword.js') !!}
-
     {!! Html::script('js/layout/master.js') !!}
 
     <!-- jQuery Datatable JavaScript -->

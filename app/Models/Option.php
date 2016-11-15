@@ -47,4 +47,52 @@ class Option extends Model
 
         return asset(config('settings.option.path_image_default'));
     }
+
+    public function getListOwnerVoted($isRequiredEmail)
+    {
+        $listOwnerVoted = [];
+
+        try {
+            if ($isRequiredEmail) {
+                if ($this->votes->count()) {
+                    foreach ($this->votes as $vote) {
+                        if ($vote->user->email) {
+                            $listOwnerVoted[] = $vote->user->email;
+                        }
+
+                    }
+                }
+
+                if ($this->participantVotes->count()) {
+                    foreach ($this->participantVotes as $participantVote) {
+                        if ($participantVote->participant->email) {
+                            $listOwnerVoted[] = $participantVote->participant->email;
+                        }
+                    }
+                }
+            } else {
+                if ($this->votes->count()) {
+                    foreach ($this->votes as $vote) {
+                        if ($vote->user->name) {
+                            $listOwnerVoted[] = $vote->user->name;
+                        }
+
+                    }
+                }
+
+                if ($this->participantVotes->count()) {
+                    foreach ($this->participantVotes as $participantVote) {
+                        if ($participantVote->participant->name) {
+                            $listOwnerVoted[] = $participantVote->participant->name;
+                        }
+                    }
+                }
+            }
+
+        } catch(\Exception $ex) {
+            return [];
+        }
+
+        return $listOwnerVoted;
+    }
 }
