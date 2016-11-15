@@ -33,7 +33,7 @@ body {
 /               AUTH.LOGIN                   /
 /-------------------------------------------*/
 .login {
-  margin-top: 100px;
+  margin-top: 20px;
 }
 
 .btn-login {
@@ -60,7 +60,7 @@ body {
 /               AUTH.REGISTER                /
 /-------------------------------------------*/
 .register {
-  margin-top: 100px;
+  margin-top: 20px;
 }
 
 .btn-register {
@@ -119,8 +119,8 @@ body {
 }
 
 #imageOfOptionPreview {
-  width: 1000px;
-  height:500px;
+  width: 350px;
+  height:350px;
 }
 
 /*-------------------------------------------/
@@ -331,4 +331,6 @@ span.round-tab:hover {
   color: green;
 }
 
-
+.btn-finish {
+  float: right;
+}
