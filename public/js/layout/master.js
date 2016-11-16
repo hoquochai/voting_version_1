@@ -272,14 +272,14 @@ function validateEmail(email) {
 }
 
 //validate link
-function validateLink() {
+function validateLink(token) {
     return $.ajax({
         url: $('.hide').data("routeLink"),
         type: 'post',
         async: false,
         dataType: 'json',
         data: {
-            'token': $('#link').val(),
+            'token': token,
             '_token': $('.hide').data("token")
         },
         success: function (data) {
@@ -422,6 +422,15 @@ $(document).ready(function() {
     $('#manager_poll_wizard').bootstrapWizard({
         'tabClass': 'nav nav-pills'
     });
+    $('#edit_poll_wizard').bootstrapWizard({
+        'tabClass': 'nav nav-pills'
+    });
+    $('#duplicate_poll_wizard').bootstrapWizard({
+        'tabClass': 'nav nav-pills',
+        onTabClick: function(tab, navigation, index) {
+            return false;
+        }
+    });
 });
 
 /*
@@ -448,7 +457,7 @@ function checkLink() {
         return false;
     }
 
-    if (validateLink().responseJSON.success) {
+    if (validateLink($('#link').val()).responseJSON.success) {
         $('#link').closest('.form-group').addClass('has-error');
         $('.error_link').closest('.form-group').addClass('has-error');
         $('.error_link').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
@@ -541,4 +550,17 @@ function checkMailExitsDatabase() {
             }
         }
     });
+}
+
+function changeLinkAdmin() {
+    $('#label_link_admin').html(pollData.config.link + $('#link_admin').val());
+    if (validateLink($('#link_admin').val()).responseJSON.success) {
+        $('#link_admin').closest('.form-group').addClass('has-error');
+        $('.error_link_admin').closest('.form-group').addClass('has-error');
+        $('.error_link_admin').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
+    } else {
+        $('#link_admin').closest('.form-group').removeClass('has-error');
+        $('.error_link_admin').closest('.form-group').removeClass('has-error');
+        $('.error_link_admin').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
+    }
 }

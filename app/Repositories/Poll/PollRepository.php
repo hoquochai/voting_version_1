@@ -184,6 +184,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             'config' => [
                 'length' => config('settings.length_poll'),
                 'setting' => config('settings.setting'),
+                'link' => url('/') . config('settings.email.link_vote'),
             ],
             'view' => [
                 'option' => view('layouts.poll_option')->render(),

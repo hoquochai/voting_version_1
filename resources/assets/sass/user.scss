@@ -129,8 +129,28 @@ li {
 
 .btn-administration {
     border-radius: 0 !important;
-
+    background: darkcyan;
+    color: white;
+    transition: all 1s;
+    -moz-transition: all 1s;
+    -webkit-transition: all 1s;
+    -o-transition: all 1s;
 }
+
+.btn-administration:hover {
+    box-shadow: 2px 2px 2px black;
+    background: orange;
+    color: white !important;
+}
+
+.btn-administration:active {
+    color: white !important;
+}
+
+.btn-administration:focus {
+    color: white !important;
+}
+
 
 .lastest-poll-message {
     color: green;
@@ -200,4 +220,8 @@ li {
 
 .required-password {
     margin: 10px;
+}
+
+.btn-right {
+    float: right;
 }
