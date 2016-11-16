@@ -21,9 +21,6 @@
         .vote .body {
             padding:15px;
         }
-        .dear {
-            font-size: 20px;
-        }
         .link-invite {
             background: green;
             color: white;
@@ -33,30 +30,9 @@
             margin: 0 auto;
 
         }
-        .link-admin {
-            background: orange;
-            color: white;
-            display: block;
-            width: 400px;
-            text-align: center;
-            margin: 0 auto;
-        }
         .hr-heading-body {
             width: 200px;
             border: 1px solid black;
-        }
-        .hr-body-footer {
-            border: 1px solid darkcyan;
-        }
-        .btn-login {
-            display: block;
-            font-size: 15px;
-            background: #337ab7;
-            color: white;
-            padding: 10px;
-            border-radius: 10px;
-            border: 1px solid #337ab7;
-            box-shadow: 1px 1px 1px black;
         }
         .password {
             background: darkcyan;
@@ -84,23 +60,18 @@
         </div>
         <hr class="hr-heading-body">
         <div class="body">
-            <p class="dear"><b>{{ trans('label.mail.create_poll.dear') }} {{ $poll->user->name }} </b></p>
-            <p> {!! trans('label.mail.create_poll.thank') !!}
+            <p>{{ trans('label.mail.participant_vote.invite') }}</p>
             <p>
                 <i class="link-invite">{{ trans('label.mail.create_poll.link_vote') }}</i><br>
                 <span>{{ trans('label.mail.create_poll.description_link_vote') }}</span>
                 <a href="{{ $linkVote }}" target="_blank">{{ $linkVote }}</a>
-            </p>
-            <p>
-                <i class="link-admin">{{ trans('label.mail.create_poll.link_admin') }}</i><br>
-                <span>{{ trans('label.mail.create_poll.description_link_admin') }}</span>
-                <a href="{{ $linkAdmin }}" target="_blank">{{ $linkAdmin }}</a>
             </p>
             @if ($password)
                 <p>{{ trans('label.mail.create_poll.password') }} <span class="password">{{ $password }}</span></p>
             @endif
             <div class="box-info">
                 <h4 class="head">{{ trans('polls.nav_tab_edit.info') }}</h4>
+                <p><b>{{ trans('polls.table.thead.creator') }}: </b> {{ $poll->user->name }}</p>
                 <p><b>{{ trans('polls.label.title') }}: </b> {{ $poll->title }}</p>
                 <p><b>{{ trans('polls.label.description') }}: </b> {{ ($poll->description) ? $poll->description : trans('polls.label.no_data') }}</p>
                 <p><b>{{ trans('polls.label.type') }}: </b> {{ $poll->multiple }}</p>
@@ -109,17 +80,7 @@
                 <p><b>{{ trans('polls.label.created_at') }}: </b> {{ ($poll->created_at) ? $poll->created_at : trans('polls.label.no_data') }}</p>
             </div>
         </div>
-        @if ($activeLink)
-            <hr class="hr-body-footer">
-            <div class="footer">
-                <p>{!! trans('label.mail.create_poll.note') !!} </p>
-                <a href="{{ $activeLink }}" target="_blank">
-                    <button class="btn-login">{{ trans('label.mail.create_poll.active_account') }}</button>
-                </a>
-            </div>
-        @else
-            <p class="end">{{ trans('label.mail.create_poll.end') }}</p>
-        @endif
+        <p class="end">{{ trans('label.mail.create_poll.end') }}</p>
     </div>
 </div>
 </body>

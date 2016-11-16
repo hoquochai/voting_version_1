@@ -549,18 +549,18 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             if (count($input['setting'])) {
                 $password = (in_array(config('settings.setting.set_password'), $input['setting'])) ? $input['value']['password'] : false;
             }
-//
-//            if ($input['member']) {
-//                $members = explode(",", $input['member']);
-//                $view = config('settings.view.poll_mail');
-//                $data = [
-//                    'link' => $links['participant'],
-//                    'administration' => false,
-//                    'password' => $password,
-//                ];
-//                $subject = trans('label.mail.subject');
-//                $this->sendEmail($members, $view, $data, $subject);
-//            }
+
+            if ($input['member']) {
+                $members = explode(",", $input['member']);
+                $view = config('settings.view.poll_mail');
+                $data = [
+                    'linkVote' => $links['participant'],
+                    'poll' => $poll,
+                    'password' => $password,
+                ];
+                $subject = trans('label.mail.subject');
+                $this->sendEmail($members, $view, $data, $subject);
+            }
             /*
              * send mail creator
              */
@@ -598,7 +598,11 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function editInfor($input, $id)
     {
         $poll = Poll::with('user')->find($id);
+        $users = User::where('email', $input['email'])->where('email', '<>', $poll->user->email)->count();
 
+        if ($users) {
+            return trans('polls.message.email_exists');
+        }
         //data changed
         $data = [];
         $old = [];
@@ -608,22 +612,8 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             DB::beginTransaction();
 
             foreach ($input as $key => $value) {
-                if ($key == 'status') {
-                    $status = $this->getStatus($poll->status, true);
-
-                    if ($value != $status) {
-                        $data[] = [
-                            $key => $this->getStatus($value, false),
-                        ];
-                        $old[] = [
-                            $key => $this->getStatus($poll->status, false),
-                        ];
-
-                        $poll->status = $value;
-                    }
-                } elseif ($key == 'type') {
+                if ($key == 'type') {
                     $type = $this->getType($poll->multiple, true);
-
                     if ($value != $type) {
                         $data[] = [
                             $key => $this->getType($poll->multiple, false),
@@ -662,9 +652,10 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             //If have change about poll, system will send a email to poll creator
             if ($data) {
                 $creatorMail = $poll->user->email;
+                $creatorName = $poll->user->name;
 
                 //send mail to creator
-                Mail::send('layouts.mail_notification', compact('data', 'old', 'now'),
+                Mail::send('layouts.mail_notification', compact('data', 'old', 'now', 'creatorName'),
                     function ($message) use ($creatorMail) {
                     $message->to($creatorMail)->subject(trans('label.mail.edit_poll.head'));
                 });
@@ -692,10 +683,12 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function editPollOption($input, $id)
     {
         $poll = Poll::with('options')->find($id);
+        $pollId = $id;
         $now = Carbon::now();
         $options = [];
 
         try {
+            $oldOptions = $poll->options;
             DB::beginTransaction();
 
             /*
@@ -866,6 +859,16 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             }
 
             DB::commit();
+            $newPoll = Poll::with('options', 'user')->findOrFail($pollId);
+            $newOptions = $newPoll->options;
+            $creatorName = $newPoll->user->name;
+            $creatorMail = $newPoll->user->email;
+
+            //send mail to creator
+            Mail::queue(config('settings.view.mail_edit_option'), compact('oldOptions', 'newOptions', 'now', 'creatorName'),
+                function ($message) use ($creatorMail) {
+                    $message->to($creatorMail)->subject(trans('label.mail.edit_poll.head'));
+            });
             $message = trans('polls.message.update_option_success');
         } catch (Exception $ex) {
             DB::rollBack();
@@ -878,9 +881,11 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function editPollSetting($input, $id)
     {
         $poll = Poll::with('settings')->find($id);
+        $pollId = $id;
         $now = Carbon::now();
 
         try {
+            $oldSettings = $this->showSetting($poll->settings);
             DB::beginTransaction();
 
             /* ---------------------------------
@@ -921,7 +926,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                         ];
                     }
                 }
-
                 if ($newData) {
                     Setting::insert($newData);
                 }
@@ -944,6 +948,17 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             }
 
             DB::commit();
+            $newPoll = Poll::with('user', 'settings')->findOrFail($pollId);
+            $newSettings = $this->showSetting($newPoll->settings);
+            $creatorName = $newPoll->user->name;
+            $creatorMail = $newPoll->user->email;
+
+            //send mail to creator
+            Mail::queue(config('settings.view.mail_edit_setting'), compact('newSettings', 'oldSettings', 'now', 'creatorName'),
+                function ($message) use ($creatorMail) {
+                    $message->to($creatorMail)->subject(trans('label.mail.edit_poll.head'));
+                });
+
             $message = trans('polls.message.update_setting_success');
         } catch (Exception $ex) {
             DB::rollBack();
@@ -1168,4 +1183,42 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         return $dataTableResult;
     }
 
+    public function showSetting($settings)
+    {
+        $dataRtn = [];
+        $trans = trans('polls.label.setting');
+        $config = config('settings.setting');
+
+        foreach ($settings as $setting) {
+            if ($setting->key == $config['required_email']) {
+                $dataRtn[] = [
+                    $trans['required_email'] => $setting->value
+                ];
+            }
+            if ($setting->key == $config['hide_result']) {
+                $dataRtn[] = [
+                    $trans['hide_result'] => $setting->value
+                ];
+            }
+            if ($setting->key == $config['custom_link']) {
+                $dataRtn[] = [
+                    $trans['custom_link'] => $setting->value
+                ];
+            }
+            if ($setting->key == $config['set_limit']) {
+                $dataRtn[] = [
+                    $trans['set_limit'] => $setting->value
+                ];
+            }
+            if ($setting->key == $config['set_password']) {
+                $dataRtn[] = [
+                    $trans['set_password'] => $setting->value
+                ];
+            }
+        }
+
+        return $dataRtn;
+    }
+
 }
+

@@ -69,7 +69,7 @@
 <!-- TYPE -->
     <div class="col-lg-4">
         <div class="form-group">
-            {{ Form::select('type', $data['viewData']['types'], null, ['class' => 'form-control']) }}
+            {{ Form::select('type', $data['viewData']['types'], (isset($poll) && $poll) ? ($poll->multiple == trans('polls.label.multiple_choice') ? config('settings.type_poll.multiple_choice') : config('settings.type_poll.single_choice')) : null, ['class' => 'form-control']) }}
         </div>
     </div>
 </div>

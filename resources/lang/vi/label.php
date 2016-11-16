@@ -48,11 +48,11 @@ return [
         'register_active_mail' => 'Bạn đã đăng ký thành công, hãy kích vào đường dẫn sau để kích hoạt tài khoản.',
         'edit_poll' => [
             'head' => 'Bầu chọn',
-            'summary' => 'Poll được thay đổi bởi admin!',
+            'summary' => 'Poll của bạn đã được thay đổi.',
             'thead' => [
-                'STT' => 'SỐ THỨ TỰ.',
+                'STT' => 'SỐ THỨ TỰ',
                 'info' => 'THÔNG TIN',
-                'old_data' => 'DỮ LIỆU CỦ',
+                'old_data' => 'DỮ LIỆU CŨ',
                 'new_data' => 'DỮ LIỆU MỚI',
                 'date' => 'NGÀY',
             ],
@@ -70,6 +70,20 @@ return [
             'note' => '*<u>Lưu ý</u>: Bạn có thể đăng nhập vào trang web của chúng tôi mà không phải đăng ký một tài khoản mới, hãy kích vào "Kích hoạt tài khoản" để mở tài khoản của bạn',
             'active_account' => 'Kích hoạt tài khoản',
             'end' => '-- Kết thúc --',
+        ],
+        'participant_vote' => [
+            'invite' => 'Bạn đã được mời tham gia bình chọn này, hãy kích vào đường dẫn dưới đây để tham gia bầu chọn',
+        ],
+        'edit_option' => [
+            'old_option' => 'TÙY CHỌN CŨ',
+            'new_option' => 'TÙY CHỌN MỚI',
+            'thank' => 'Cảm ơn bạn đã sử dụng website của chúng tôi',
+            'title' => 'Thay đổi tùy chọn',
+        ],
+        'edit_setting' => [
+            'old_setting' => 'CÀI ĐẶT CŨ',
+            'new_setting' => 'CÀI ĐẶT MỚI',
+            'title' => 'Thay đổi cài đặt',
         ],
     ],
     'paginations' => 'Hiển thị :start đến :finish của :numberOfRecords mục|Đang hiển thị :start đến :finish of :numberOfRecords mục',

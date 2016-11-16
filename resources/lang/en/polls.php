@@ -42,7 +42,6 @@ return [
             'set_password' => 'Set password',
             'show_password' => 'Show password',
             'password_poll' => 'Password of poll: ',
-
         ],
         'step_4' => 'Participant',
         'invite' => 'If you want send mail to participants, let enter email into below textbox!',
@@ -219,6 +218,7 @@ return [
         'on' => 'ON',
         'off' => 'OFF',
         'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email exists in database, you should be login to create poll.',
+        'confirm_delete_option' => 'Are you sure you want to delete this option. It\'s will remove all voting of this?',
     ],
     'mail' => [
         'label' => [
