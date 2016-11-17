@@ -20,7 +20,9 @@ class Poll extends Model
         'status',
         'multiple',
         'location',
-        'date_close'
+        'date_close',
+        'name',
+        'email',
     ];
 
     public function user()

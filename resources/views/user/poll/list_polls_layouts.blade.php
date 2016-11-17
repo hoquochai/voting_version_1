@@ -3,7 +3,7 @@
         <th>{{ trans('polls.subject') }}</th>
         <th>{{ trans('polls.participants') }}</th>
         <th>{{ trans('polls.latest_activity') }}</th>
-        <th></th>
+        <th>{{ trans('polls.action') }}</th>
     </thead>
     <tbody>
         @foreach ($polls as $poll)
@@ -23,7 +23,7 @@
                     @if (Gate::allows('ownerPoll', $poll))
                         <td>
                             <a href="{{ $poll->getAdminLink() }}">
-                                {{ trans('polls.administer') }}
+                                Link
                             </a>
                         </td>
                     @else

@@ -89,10 +89,23 @@ return [
         ],
     ],
     'update_profile_successfully' => 'You updated profile successfully',
-    'update_profile_successfully' => 'You updated profile successfully',
     'register_account_successfully' => 'You actived account successfully',
     'register_account_fail' => 'You actived account fail',
     'register_account' => 'You registered account, Please check mail to active account',
     'account_unactive' => 'Please check mail and active this account',
     'login_successfully' => 'Login successfully',
+    'login' => [
+        'placeholder' => [
+            'email' => 'Enter your email...',
+            'password' => 'Enter your password...',
+        ],
+    ],
+    'register' => [
+        'placeholder' => [
+            'name' => 'Enter your name...',
+            'email' => 'Enter your email...',
+            'password' => 'Enter your password...',
+            'password_confirm' => 'Enter confirm password...',
+        ],
+    ],
 ];

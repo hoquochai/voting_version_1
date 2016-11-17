@@ -17,7 +17,7 @@
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </span>
                 {{
-                    Form::text('email', (isset($poll) && $poll) ? $poll->user->email : (auth()->user() ? auth()->user()->email : null), [
+                    Form::text('email', (isset($poll) && $poll && $poll->user_id) ? $poll->user->email : (auth()->user() ? auth()->user()->email : null), [
                         'class' => 'form-control',
                         'id' => 'email',
                         'placeholder' => trans('polls.placeholder.email'),
@@ -38,7 +38,7 @@
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </span>
                 {{
-                    Form::text('name', (isset($poll) && $poll) ? $poll->user->name :  (auth()->user() ? auth()->user()->name : null), [
+                    Form::text('name', (isset($poll) && $poll && $poll->user_id) ? $poll->user->name :  (auth()->user() ? auth()->user()->name : null), [
                         'class' => 'form-control',
                         'id' => 'name',
                         'placeholder' => trans('polls.placeholder.full_name'),
@@ -69,7 +69,7 @@
 <!-- TYPE -->
     <div class="col-lg-4">
         <div class="form-group">
-            {{ Form::select('type', $data['viewData']['types'], (isset($poll) && $poll) ? ($poll->multiple == trans('polls.label.multiple_choice') ? config('settings.type_poll.multiple_choice') : config('settings.type_poll.single_choice')) : null, ['class' => 'form-control']) }}
+            {{ Form::select('type', $data['viewData']['types'], null, ['class' => 'form-control']) }}
         </div>
     </div>
 </div>

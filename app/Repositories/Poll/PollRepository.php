@@ -55,7 +55,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             }
         }
 
-        return $participantPolls;
+        return $participantPolls->unique();
     }
 
     public function getClosedPolls()

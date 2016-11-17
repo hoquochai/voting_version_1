@@ -70,6 +70,7 @@ return [
         'custom_link' => 3,
         'set_limit' => 4,
         'set_password' => 5,
+        'is_set_ip' => 6,
     ],
     'participant' => [
         'invite_all' => 0,

@@ -3,12 +3,12 @@
 @section('content')
 <div class="container">
     <div class="row">
+        @include('message')
+        @include('errors.errors')
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('label.password') }}</div>
                 <div class="modal-dialog-password">
-                    @include('message')
-                    @include('errors.errors')
                     <div class="modal-content-password">
                         <div class="modal-bodymodal-dialog-password">
                             <fieldset class="required-password">

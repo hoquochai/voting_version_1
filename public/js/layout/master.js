@@ -372,9 +372,8 @@ $(document).ready(function() {
             }
         });
 
-
         $('#create_poll_wizard').bootstrapWizard({
-            'tabClass': 'nav nav-pills',
+            'tabClass': 'nav nav-tabs',
             onNext: function(tab, navigation, index) {
 
                 //get index of tab current
@@ -390,9 +389,7 @@ $(document).ready(function() {
                 }
 
                 //check option of poll
-                if (wizard == 0) {
-                    return validateEmailExists().responseJSON.success;
-                } else if (wizard == 1) {
+                if (wizard == 1) {
                     return validateOption();
                 } else if (wizard == 2) {
                     var isValid = true;
@@ -411,22 +408,56 @@ $(document).ready(function() {
                 }
             },
             onTabClick: function(tab, navigation, index) {
-                return false;
+                //get validation of form
+                var valid = $("#form_create_poll").valid();
+
+                //get index of tab current
+                var wizard = $('#create_poll_wizard').bootstrapWizard('currentIndex');
+
+                if(! valid) {
+                    $validator.focusInvalid();
+                    return false;
+                }
+                //check option of poll
+                if (wizard == 1) {
+                    return validateOption();
+                } else if (wizard == 2) {
+                    var isValid = true;
+
+                    $('input[name^="setting"]:checked').each(function () {
+                        if ($(this).val() == pollData.config.setting.custom_link) {
+                            isValid = checkLink();
+                        } else if ($(this).val() == pollData.config.setting.set_limit) {
+                            isValid = checkLimit();
+                        } else if ($(this).val() == pollData.config.setting.set_password) {
+                            isValid = checkPassword();
+                        }
+                    });
+
+                    return isValid;
+                }
+
+            },
+            onTabShow: function(tab, navigation, index) {
+                var $total = navigation.find('li').length;
+                var $current = index+1;
+                var $percent = ($current/$total) * 100;
+                $('#create_poll_wizard').find('.bar').css({width:$percent+'%'});
             }
         });
     }
 
     $('#voting_wizard').bootstrapWizard({
-        'tabClass': 'nav nav-pills'
+        // 'tabClass': 'nav nav-pills'
     });
     $('#manager_poll_wizard').bootstrapWizard({
-        'tabClass': 'nav nav-pills'
+        // 'tabClass': 'nav nav-pills'
     });
     $('#edit_poll_wizard').bootstrapWizard({
-        'tabClass': 'nav nav-pills'
+        // 'tabClass': 'nav nav-pills'
     });
     $('#duplicate_poll_wizard').bootstrapWizard({
-        'tabClass': 'nav nav-pills',
+        // 'tabClass': 'nav nav-pills',
         onTabClick: function(tab, navigation, index) {
             return false;
         }
@@ -564,3 +595,48 @@ function changeLinkAdmin() {
         $('.error_link_admin').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
     }
 }
+
+/*
+Back to top button
+ */
+$(window).scroll(function(){
+    if ($(this).scrollTop() > 100) {
+        $('#scroll').fadeIn();
+    } else {
+        $('#scroll').fadeOut();
+    }
+});
+$('#scroll').click(function(){
+    $("html, body").animate({ scrollTop: 0 }, 600);
+    return false;
+});
+
+
+/*
+function auto add option
+ */
+function addAutoOption(idOption) {
+    if ($('#' + idOption).is(':last-child')) {
+        var viewOption = pollData.view.option;
+        var number = pollData.config.length.option;
+        createOption(viewOption);
+    }
+}
+
+
+/*
+function show add option advance
+ */
+$(".btn-show-advance-add-option").click(function(){
+    $('.addAdvance').slideToggle('slow');
+    var id = this.id;
+    console.log(id);
+    if (id == "show") {
+        $(".btn-show-advance-add-option").html('<span class="glyphicon glyphicon-upload"></span>');
+        this.id = "hide";
+    } else {
+        $(".btn-show-advance-add-option").html('<span class="glyphicon glyphicon-download"></span>');
+        this.id = "show";
+    }
+    console.log(this.id);
+});

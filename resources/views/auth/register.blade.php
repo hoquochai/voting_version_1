@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2 animated fadeInDown register">
+        <div class="col-md-6 col-md-offset-3 animated fadeInDown register">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('label.register') }}</div>
                 <div class="panel-body">
@@ -14,7 +14,7 @@
                                 <span class="input-group-addon" id="basic-addon1">
                                     <i class="fa fa-user" aria-hidden="true"></i>
                                 </span>
-                                {{ Form::text('name', null, ['id' => 'name', 'class' => 'form-control']) }}
+                                {{ Form::text('name', null, ['id' => 'name', 'class' => 'form-control', 'placeholder' => trans('user.register.placeholder.name')]) }}
                             </div>
                         </div>
 
@@ -23,7 +23,7 @@
                                 <span class="input-group-addon" id="basic-addon1">
                                     <i class="fa fa-envelope" aria-hidden="true"></i>
                                 </span>
-                                {{ Form::email('email', null, ['id' => 'email', 'class' => 'form-control']) }}
+                                {{ Form::email('email', null, ['id' => 'email', 'class' => 'form-control', 'placeholder' => trans('user.register.placeholder.email')]) }}
                             </div>
                         </div>
 
@@ -41,7 +41,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-key" aria-hidden="true"></i>
                                 </span>
-                                {{ Form::password('password', ['id' => 'password', 'class' => 'form-control']) }}
+                                {{ Form::password('password', ['id' => 'password', 'class' => 'form-control', 'placeholder' => trans('user.register.placeholder.password')]) }}
                             </div>
                         </div>
 
@@ -50,7 +50,7 @@
                                 <span class="input-group-addon">
                                     <i class="fa fa-key" aria-hidden="true"></i>
                                 </span>
-                                {{ Form::password('password_confirmation', ['id' => 'password-confirm', 'class' => 'form-control']) }}
+                                {{ Form::password('password_confirmation', ['id' => 'password-confirm', 'class' => 'form-control', 'placeholder' => trans('user.register.placeholder.password_confirm')]) }}
                             </div>
                         </div>
 

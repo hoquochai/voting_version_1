@@ -43,6 +43,7 @@ return [
             'password_poll' => 'Password of poll: ',
             'on' => 'ON',
             'off' => 'OFF',
+            'is_set_ip' => 'Set IP',
         ],
         'step_4' => 'Participant',
         'invite' => 'If you want send mail to participants, let enter email into below textbox!',
@@ -334,4 +335,5 @@ return [
     'number_vote' => 'Number of vote',
     'email_voted' => 'This email voted, Please chose another email to vote',
     'check' => 'Check',
+    'statistic' => 'STATISTIC',
 ];

@@ -3,10 +3,18 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-6 col-md-offset-3 animated fadeInUp login">
+        <div class="col-md-4 col-md-offset-4 animated fadeInUp login">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('label.login') }}</div>
                 <div class="panel-body">
+                    @if (Session::has('messages'))
+                        <div class="col-lg-12">
+                            <div class="col-lg-12 alert alert-success">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                {!! Session::get('messages') !!}
+                            </div>
+                        </div>
+                    @endif
                     <div class="row btn-social-login">
                         <div class="col-md-4">
                             <a class="btn btn-social btn-xs btn-facebook" href="{{ url('redirect/facebook') }}">
@@ -36,7 +44,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-envelope" aria-hidden="true"></i>
                                     </span>
-                                    {{ Form::email('email', old('email'), ['class' => 'form-control']) }}
+                                    {{ Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => trans('user.login.placeholder.email')]) }}
                                 </div>
                             </div>
                         </div>
@@ -46,7 +54,7 @@
                                     <span class="input-group-addon">
                                         <i class="fa fa-key" aria-hidden="true"></i>
                                     </span>
-                                    {{ Form::password('password', ['id' => 'password', 'class' => 'form-control']) }}
+                                    {{ Form::password('password', ['id' => 'password', 'class' => 'form-control', 'placeholder' => trans('user.login.placeholder.password')]) }}
                                 </div>
                             </div>
                         </div>

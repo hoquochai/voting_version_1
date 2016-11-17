@@ -43,7 +43,7 @@ class Link extends Model
             $emails = $this->poll->user->email;
 
             try {
-                Mail::queue('layouts.edit_link_mail', [
+                Mail::send('layouts.edit_link_mail', [
                     'link' => url('/link') . '/' . $tokenInput,
                 ], function ($message) use ($emails) {
                     $message->to($emails)->subject(trans('label.mail.subject'));

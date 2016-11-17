@@ -94,4 +94,18 @@ return [
     'register_account' => 'Bạn đã đăng ký tài khoản thành công, Vui lòng check mail để kích hoạt tài khoản',
     'account_unactive' => 'Vui lòng mở mail và kích hoạt tài khoản này',
     'login_successfully' => 'Đăng nhập thành công',
+    'login' => [
+        'placeholder' => [
+            'email' => 'Nhập địa chỉ emai...',
+            'password' => 'Nhập mật khẩu...',
+        ],
+    ],
+    'register' => [
+        'placeholder' => [
+            'name' => 'Nhập tên của bạn...',
+            'email' => 'Nhập địa chỉ email của bạn...',
+            'password' => 'Nhập mật khẩu...',
+            'password_confirm' => 'Xác nhận mật khẩu...',
+        ],
+    ],
 ];

@@ -4,7 +4,13 @@
 </head>
 <body>
     <h4> {{ $poll->title }} </h4>
-    <label> {{ trans('polls.poll_initiate') }} {{ $poll->user->name }}</label>
+    <label> {{ trans('polls.poll_initiate') }}
+        @if ($poll->user_id)
+            {{ $poll->user->name }}
+        @else
+            {{ $poll->name }}
+        @endif
+    </label>
     <i>
         </span>
             {{ $poll->created_at->diffForHumans() }}
@@ -26,7 +32,8 @@
     <table class="table table-bordered">
     <thead>
     <tr>
-        <th><center>{{ $isRequiredEmail ? trans('polls.email') : trans('polls.name')}}</center></th>
+        <th><center>{{ trans('polls.name') }}</center></th>
+        <th><center>{{ trans('polls.email') }}</center></th>
         @foreach ($poll->options as $option)
             <th>
                 <center>
@@ -48,15 +55,15 @@
                 @endphp
                 @foreach ($vote as $item)
                     @if (! $isShowVoteName)
-                        <td>
-                            <center>
-                                @if (isset($item->user_id))
-                                    {{ $isRequiredEmail ? $item->user->email : $item->user->name }}
-                                @else
-                                    {{ $isRequiredEmail ? $item->participant->email : $item->participant->name }}
-                                @endif
-                            </center>
-                        </td>
+                        <center>
+                            @if (isset($item->user_id))
+                                <td>{{ $item->user->name }}</td>
+                                <td>{{ $item->user->email }}</td>
+                            @else
+                                <td>{{ $item->participant->name }}</td>
+                                <td>{{ $item->participant->email }}</td>
+                            @endif
+                        </center>
                         @php
                             $isShowVoteName = true;
                         @endphp

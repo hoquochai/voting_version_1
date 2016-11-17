@@ -40,7 +40,6 @@ return [
         'link_vote' => 'Link bầu chọn vote:',
         'link_admin' => 'Link quản lý vote:',
         'subject' => 'Bầu chọn',
-        'edit_link' => 'Bạn đã chỉnh sửa link thành công, Link mới chỉnh sửa: ',
         'open_poll' => 'Quản trị poll đã mở lại poll',
         'close_poll' => 'Poll đã được đóng',
         'delete_all_participant' => 'Quản trị poll này đã xóa tất cả các bầu chọn của poll',
@@ -83,6 +82,14 @@ return [
             'old_setting' => 'CÀI ĐẶT CŨ',
             'new_setting' => 'CÀI ĐẶT MỚI',
             'title' => 'Thay đổi cài đặt',
+        ],
+        'register' => [
+            'thank' => 'Cảm ơn bạn đã sử dụng Website của chúng tôi. <br> Bạn đã đăng ký tài khoản THÀNH CÔNG. Bên dưới là link để kích hoạt tài khoản',
+            'link_active' => 'Click vào link bên dưới để kích hoạt tài khoản',
+        ],
+        'edit_link' => [
+            'thank' => 'Cảm ơn bạn đã sử dụng Website của chúng tôi. <br> Bạn đã chỉnh sửa link THÀNH CÔNG.',
+            'link_edit' => 'Click vào đường dẫn bên dưới để xem chi tiết',
         ],
     ],
     'paginations' => 'Hiển thị :start đến :finish của :numberOfRecords mục|Đang hiển thị :start đến :finish of :numberOfRecords mục',

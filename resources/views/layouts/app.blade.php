@@ -15,7 +15,7 @@
 
     {!! Html::style('css/user.css') !!}
 
-    {!! Html::style('css/layout/master.css') !!}
+
 
 {{--    {!! Html::style('css/layout/mail_notification.css') !!}--}}
 
@@ -24,6 +24,8 @@
 
     <!-- Bootstrap theme CSS -->
     {!! Html::style('bower/bootstrap/dist/css/bootstrap-theme.min.css') !!}
+
+{!! Html::style('css/layout/master.css') !!}
 
     <!-- Bootstrap datatable CSS -->
     {!! Html::style('bower/datatables.net-bs/css/dataTables.bootstrap.min.css') !!}
@@ -69,7 +71,7 @@
 
 </head>
 <body>
-        <nav class="navbar navbar-inverse navbar-app navbar-fixed-top">
+        <nav class="navbar navbar-default  animated fadeInDown">
             <div class="container-fluid">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#menu">
@@ -78,12 +80,14 @@
                         <span class="icon-bar"></span>
                     </button>
                     <a class="navbar-brand" href="{{ asset("/") }}">
-                        <b class="char-app">P</b>OLL
+                        <b class="char-app">F</b>POLL
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="nav navbar-nav">
-                        <li {!! Request::is('/') ? 'class="active"' : '' !!}><a href="{{ asset("/") }}">{{ trans('label.home') }}</a></li>
+                        <li {!! Request::is('/') ? 'class="active"' : '' !!}>
+                            <a href="{{ asset("/") }}"><span class="glyphicon glyphicon-home"></span> {{ trans('label.home') }}</a>
+                        </li>
                         @if (auth()->check())
                             <li {!! Request::is('user/poll') ? 'class="active"' : '' !!}>
                                 <a href="{{ URL::action('User\PollController@index') }}">{{ trans('polls.poll_history') }}</a>
@@ -133,44 +137,45 @@
                 </div>
             </div>
         </nav>
-        <div class="container">
+        <div class="content">
             @yield('content')
             <script src="//code.jquery.com/jquery.js"></script>
             @include('flashy::message')
+            <a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>
         </div>
-        <div class="footer">
-            <div class="col-lg-4">
-                <h3><b class="char-app">P</b>oll - <b class="char-app">V</b>ote</h3>
-                <p>{{ trans('label.footer.copyright') }}</p>
-            </div>
-            <div class="col-lg-4">
-                <div class="row">
-                    <h4><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</h4>
-                </div>
-                <div class="row">
-                    <h4><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>
-                </div>
-                <div class="row">
-                    <h4><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <h3>{{ trans('label.footer.about') }}</h3>
-                <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
-                <button class="btn btn-primary">
-                    <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
-                </button>
-                <button class="btn btn-success">
-                    <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
-                </button>
-                <button class="btn btn-warning">
-                    <span><i class="fa fa-github" aria-hidden="true"></i></span>
-                </button>
-                <button class="btn btn-default">
-                    <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
-                </button>
-            </div>
-        </div>
+        {{--<div class="footer">--}}
+            {{--<div class="col-lg-4">--}}
+                {{--<h3><b class="char-app">P</b>oll - <b class="char-app">V</b>ote</h3>--}}
+                {{--<p>{{ trans('label.footer.copyright') }}</p>--}}
+            {{--</div>--}}
+            {{--<div class="col-lg-4">--}}
+                {{--<div class="row">--}}
+                    {{--<h4><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</h4>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<h4><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>--}}
+                {{--</div>--}}
+                {{--<div class="row">--}}
+                    {{--<h4><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>--}}
+                {{--</div>--}}
+            {{--</div>--}}
+            {{--<div class="col-lg-4">--}}
+                {{--<h3>{{ trans('label.footer.about') }}</h3>--}}
+                {{--<p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>--}}
+                {{--<button class="btn btn-primary">--}}
+                    {{--<span><i class="fa fa-facebook" aria-hidden="true"></i></span>--}}
+                {{--</button>--}}
+                {{--<button class="btn btn-success">--}}
+                    {{--<span><i class="fa fa-twitter" aria-hidden="true"></i></span>--}}
+                {{--</button>--}}
+                {{--<button class="btn btn-warning">--}}
+                    {{--<span><i class="fa fa-github" aria-hidden="true"></i></span>--}}
+                {{--</button>--}}
+                {{--<button class="btn btn-default">--}}
+                    {{--<span><i class="fa fa-linkedin" aria-hidden="true"></i></span>--}}
+                {{--</button>--}}
+            {{--</div>--}}
+        {{--</div>--}}
 
     <!-- jQuery -->
     {!! Html::script('bower/jquery/dist/jquery.min.js') !!}

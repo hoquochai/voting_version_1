@@ -40,7 +40,6 @@ return [
         'link_vote' => 'Link to vote:',
         'link_admin' => 'Link manager vote:',
         'subject' => 'Voting',
-        'edit_link' => 'You edited link of poll successfully, New link: ',
         'open_poll' => 'Admin of poll reopened poll',
         'close_poll' => 'Admin closed poll',
         'delete_all_participant' => 'Admin of poll deleted all participant',
@@ -83,6 +82,14 @@ return [
             'old_setting' => 'OLD SETTING',
             'new_setting' => 'NEW SETTING',
             'title' => 'Change setting',
+        ],
+        'register' => [
+            'thank' => 'Thank you because you have used website our. <br> Your register account SUCCESS. Below, it\'s link to active account',
+            'link_active' => 'Click to this link to active account',
+        ],
+        'edit_link' => [
+            'thank' => 'Thank you because you have used website our. <br> You edit link SUCCESS.',
+            'link_edit' => 'Click to blow link to view detail',
         ],
     ],
     'footer' => [

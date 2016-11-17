@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Link;
-use App\Models\Option;
 use App\Models\ParticipantVote;
 use App\Models\User;
 use App\Models\Vote;
@@ -122,6 +121,7 @@ class LinkController extends Controller
         $isHideResult = false;
         $poll = $link->poll;
         $totalVote = config('settings.default_value');
+        $isSetIp = false;
 
         //check time close poll
         if (Carbon::now()->format('d/m/Y h:i') > Carbon::parse($poll->date_close)->format('d/m/Y h:i')) {
@@ -146,6 +146,9 @@ class LinkController extends Controller
                     $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
                 }
             }
+        } else {
+            $optionRatePieChart = null;
+            $optionRateBarChart = null;
         }
 
         $optionRateBarChart = json_encode($optionRateBarChart);
@@ -154,18 +157,27 @@ class LinkController extends Controller
 
         if ($poll->settings) {
             foreach ($poll->settings as $setting) {
-                if ($setting->key == config('settings.setting.set_limit')) {
-                    $voteLimit = $setting->value;
-                }
-
                 $isRequiredEmail = ($setting->key == config('settings.setting.required_email'));
-                $isHideResult = ($setting->key == config('settings.setting.hide_result'));
             }
         }
 
         if (! $link->link_admin) {
             if ($link->poll->isClosed()) {
                 return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
+            }
+
+            if ($poll->settings) {
+                foreach ($poll->settings as $setting) {
+                    if ($setting->key == config('settings.setting.set_limit')) {
+                        $voteLimit = $setting->value;
+                    }
+
+                    if ($setting->key == config('settings.setting.is_set_ip')) {
+                        $isSetIp = true;
+                    }
+
+                    $isHideResult = ($setting->key == config('settings.setting.hide_result'));
+                }
             }
 
             if ($voteLimit && $poll->countParticipants() >= $voteLimit) {
@@ -236,7 +248,7 @@ class LinkController extends Controller
 
             return view('user.poll.details', compact(
                 'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',
-                'optionRatePieChart', 'optionRateBarChart', 'isLimit', 'dataTableResult'
+                'optionRatePieChart', 'isSetIp', 'optionRateBarChart', 'isLimit', 'dataTableResult'
             ));
         } else {
             $poll = $link->poll;
@@ -280,26 +292,26 @@ class LinkController extends Controller
 
             //setting lists
             $settingDetail = [];
-            if (count($poll->settings)) {
-                $settingTrans = trans('polls.label.setting');
-                $settingConfig = config('settings.setting');
-
-                foreach ($poll->settings as $pollSetting) {
-                    $key = $pollSetting->key;
-                    $value = null;
-
-                    if ($key == $settingConfig['custom_link'] ||
-                        $key == $settingConfig['set_limit'] ||
-                        $key == $settingConfig['set_password']) {
-                        $value = $pollSetting->value;
-                    }
-
-                    $settingDetail[] = [
-                        'text' => $settingTrans[array_search($pollSetting->key, $settingConfig)],
-                        'value' => $value,
-                    ];
-                }
-            }
+//            if (count($poll->settings)) {
+//                $settingTrans = trans('polls.label.setting');
+//                $settingConfig = config('settings.setting');
+//
+//                foreach ($poll->settings as $pollSetting) {
+//                    $key = $pollSetting->key;
+//                    $value = null;
+//
+//                    if ($key == $settingConfig['custom_link'] ||
+//                        $key == $settingConfig['set_limit'] ||
+//                        $key == $settingConfig['set_password']) {
+//                        $value = $pollSetting->value;
+//                    }
+//
+//                    $settingDetail[] = [
+//                        'text' => $settingTrans[array_search($pollSetting->key, $settingConfig)],
+//                        'value' => $value,
+//                    ];
+//                }
+//            }
 
             //get data contain config or message return view and js
             $data = $this->pollRepository->getDataPollSystem();
@@ -332,6 +344,9 @@ class LinkController extends Controller
                         $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
                     }
                 }
+            } else {
+                $optionRatePieChart = null;
+                $optionRateBarChart = null;
             }
 
             $optionRateBarChart = json_encode($optionRateBarChart);
@@ -340,7 +355,7 @@ class LinkController extends Controller
                 'poll', 'tokenLinkUser', 'tokenLinkAdmin',
                 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote',
                 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted',
-                'settingDetail', 'data', 'page', 'statistic', 'dataTableResult', 'optionRateBarChart', 'optionRatePieChart'
+                'settingDetail', 'data', 'page', 'statistic', 'dataTableResult', 'optionRateBarChart', 'optionRatePieChart', 'isSetIp'
             ));
         }
     }

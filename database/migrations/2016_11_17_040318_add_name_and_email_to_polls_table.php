@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddVerificationToUsersTable extends Migration
+class AddNameAndEmailToPollsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class AddVerificationToUsersTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('token_verification')->nullable();
-            $table->boolean('is_active')->default(false);
+        Schema::table('polls', function (Blueprint $table) {
+            $table->string('name')->nullable();
+            $table->string('email')->nullable();
+            $table->string('user_id')->nullable()->change();
         });
     }
 
@@ -26,8 +27,8 @@ class AddVerificationToUsersTable extends Migration
      */
     public function down()
     {
-        Schema::table('users', function ($table) {
-            $table->dropColumn(['token_verification', 'is_active']);
+        Schema::table('polls', function ($table) {
+            $table->dropColumn(['name', 'email']);
         });
     }
 }
