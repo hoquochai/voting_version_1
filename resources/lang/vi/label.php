@@ -27,7 +27,6 @@ return [
     'placeholder_search' => 'BẮT ĐẦU NHẬP...',
     'name_admin_page' => 'QUẢN LÝ BẦU CHỌN',
     'main_menu' => 'MANU CHÍNH',
-    'footer' => 'Copyright &copy; 2016',
     'nav_menu' => [
         'user' => 'User',
         'poll' => 'Poll',
@@ -92,5 +91,13 @@ return [
         '0' => 'Nữ',
         '1' => 'Nam',
         '2' => 'Giới tính khác',
+    ],
+    'footer' => [
+        'location' => 'Hùng Vương, Đà Nẵng, Việt Nam',
+        'copyright' => 'Copyright &copy; 2016',
+        'email' => 'poll.voting.hv@gmail.com',
+        'phone' => '0988965135',
+        'about' => 'Giới thiệu website',
+        'description_website' => 'Website giúp bạn tạo một bầu chọn nhanh chóng và dễ dàng',
     ],
 ];

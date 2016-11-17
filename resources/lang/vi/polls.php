@@ -221,6 +221,7 @@ return [
         'link_exists' => 'Đường dẫn này đã tồn tại trong hệ thống, vui lòng thử lại!',
         'link_valid' => 'Đường dẫn hợp lệ, bạn có thể dùng đường dẫn này',
         'confirm_delete_option' => 'Bạn có chắc chắc muốn xóa option này không. Nó sẽ xóa tất cả các vote của option?',
+        'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email đã tồn tại trong hệ thống, bạn nên đăng nhập để tạo bình chọn',
     ],
     'mail' => [
         'label' => [
@@ -340,4 +341,5 @@ return [
     'number_vote' => 'Số lượng bầu chọn',
     'email_voted' => 'Địa chỉ email này đã bầu chọn poll này rồi',
     'check' => 'Kiểm tra',
+    'image_preview' => 'Xem hình ảnh',
 ];

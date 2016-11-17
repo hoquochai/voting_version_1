@@ -339,4 +339,5 @@ return [
     'number_vote' => 'Number of vote',
     'email_voted' => 'This email voted, Please chose another email to vote',
     'check' => 'Check',
+    'image_preview' => 'Image Preview',
 ];

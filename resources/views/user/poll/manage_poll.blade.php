@@ -9,7 +9,7 @@
         data-link="{{ url('link') }}">
     </div>
     <div class="row">
-        <div id="manager_poll_wizard" class="col-md-10 col-md-offset-1 well wrap-poll">
+        <div id="manager_poll_wizard" class="col-md-8 col-md-offset-2 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
                     <div class="col-md-10 col-md-offset-1 col-lg-12 panel-heading">
@@ -67,7 +67,7 @@
                                             <h4>Thoi gian binh chon cuoi cung <span class="label label-default">{{ $statistic['lastTime'] }}</span></h4>
                                             <h4>Option co luot vote cao nhat
                                                 @if (! empty($statistic['largestVote']['option']))
-                                                    <button type="button" class="btn btn-primary">{{ $statistic['largestVote']['option']->name }}
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#option_statistic">{{ $statistic['largestVote']['option']->name }}
                                                         <span class="badge">{{ $statistic['largestVote']['number'] }}</span>
                                                     </button>
                                                 @endif
@@ -81,6 +81,7 @@
                                             </h4>
                                         </div>
                                     </div>
+
                                 </div>
                                 <div class="tab-pane fade" id="menu1">
                                     <div class="panel panel-default animated fadeInRight">

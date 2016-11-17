@@ -69,7 +69,6 @@
 
 </head>
 <body>
-    <div id="app">
         <nav class="navbar navbar-inverse navbar-app navbar-fixed-top">
             <div class="container-fluid">
                 <div class="navbar-header">
@@ -134,12 +133,44 @@
                 </div>
             </div>
         </nav>
-        <div class="content">
+        <div class="container">
             @yield('content')
             <script src="//code.jquery.com/jquery.js"></script>
             @include('flashy::message')
         </div>
-    </div>
+        <div class="footer">
+            <div class="col-lg-4">
+                <h3><b class="char-app">P</b>oll - <b class="char-app">V</b>ote</h3>
+                <p>{{ trans('label.footer.copyright') }}</p>
+            </div>
+            <div class="col-lg-4">
+                <div class="row">
+                    <h4><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</h4>
+                </div>
+                <div class="row">
+                    <h4><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>
+                </div>
+                <div class="row">
+                    <h4><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <h3>{{ trans('label.footer.about') }}</h3>
+                <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
+                <button class="btn btn-primary">
+                    <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+                </button>
+                <button class="btn btn-success">
+                    <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
+                </button>
+                <button class="btn btn-warning">
+                    <span><i class="fa fa-github" aria-hidden="true"></i></span>
+                </button>
+                <button class="btn btn-default">
+                    <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                </button>
+            </div>
+        </div>
 
     <!-- jQuery -->
     {!! Html::script('bower/jquery/dist/jquery.min.js') !!}

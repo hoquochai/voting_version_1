@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div id="voting_wizard" class="col-lg-10 col-lg-offset-1 well wrap-poll">
+        <div id="voting_wizard" class="col-lg-8 col-lg-offset-2 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
                     <div class="col-lg-8 col-lg-offset-2 panel-heading">
@@ -143,13 +143,10 @@
                             <div class="modal-content">
                                 <div class="modal-header">
                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    <h4 class="modal-title">Image Preview</h4>
+                                    <h4 class="modal-title">{{ trans('polls.image_preview') }}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="#" id="imageOfOptionPreview">
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <img src="#" id="imageOfOptionPreview" style=" display: block; margin: 0 auto">
                                 </div>
                             </div>
 
@@ -164,15 +161,19 @@
                             {{ $poll->title }}
                             <span><a href="#" data-placement="right" data-toggle="tooltip" title="{{ $poll->description }}">
                                 <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                        </span>
+                            </span>
                         </label>
+                        <p style="float: right;">{{ trans('polls.label.created_at') }}: {{ $poll->created_at }}</p>
+                        <br>
                         <span>
                         <i class="fa fa-user" aria-hidden="true"></i>
                             @include('user.poll.user_details_layouts', ['user' => $poll->user])
-                    </span>
-                        <span style="float: right; cursor: pointer" data-placement="top" data-toggle="tooltip" title="{{ $poll->location }}">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
-                    </span>
+                        </span>
+                        @if ($poll->location)
+                            <span style="float: right; cursor: pointer" data-placement="top" data-toggle="tooltip" title="{{ $poll->location }}">
+                                <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
+                            </span>
+                        @endif
                     </div>
                     <div class="col-lg-12">
                         <hr style="border: 1px solid white">

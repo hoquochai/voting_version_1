@@ -27,7 +27,6 @@ return [
     'placeholder_search' => 'START TYPING...',
     'name_admin_page' => 'ADMIN - VOTING',
     'main_menu' => 'MAIN MENU',
-    'footer' => 'Copyright &copy; 2016',
     'nav_menu' => [
         'user' => 'User',
         'poll' => 'Poll',
@@ -85,6 +84,14 @@ return [
             'new_setting' => 'NEW SETTING',
             'title' => 'Change setting',
         ],
+    ],
+    'footer' => [
+        'location' => 'Hung Vuong, Da Nang, Viet Nam',
+        'copyright' => 'Copyright &copy; 2016',
+        'email' => 'poll.voting.hv@gmail.com',
+        'phone' => '0988965135',
+        'about' => 'About the website',
+        'description_website' => 'Website help you can create a poll fast and easy',
     ],
     'paginations' => 'Showing :start to :finish of :numberOfRecords entry|Showing :start to :finish of :numberOfRecords entries',
     'gender' => [

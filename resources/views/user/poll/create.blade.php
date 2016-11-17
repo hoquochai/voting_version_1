@@ -19,10 +19,10 @@
                'role' => 'form',
            ])
         }}
-            <div id="create_poll_wizard" class="col-lg-10 col-lg-offset-1 well wrap-poll">
+            <div id="create_poll_wizard" class="col-lg-8 col-lg-offset-2 well wrap-poll">
                 <div class="navbar panel">
                     <div class="navbar-inner">
-                        <div class="col-md-12 col-lg-10 col-lg-offset-1 panel-heading">
+                        <div class="col-lg-8 col-lg-offset-2 panel-heading">
                             <ul>
                                 <li><a href="#info" data-toggle="tab">{{ trans('polls.label.step_1') }}</a></li>
                                 <li><a href="#option" data-toggle="tab">{{ trans('polls.label.step_2') }}</a></li>

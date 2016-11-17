@@ -655,7 +655,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 $creatorName = $poll->user->name;
 
                 //send mail to creator
-                Mail::send('layouts.mail_notification', compact('data', 'old', 'now', 'creatorName'),
+                Mail::queue('layouts.mail_notification', compact('data', 'old', 'now', 'creatorName'),
                     function ($message) use ($creatorMail) {
                     $message->to($creatorMail)->subject(trans('label.mail.edit_poll.head'));
                 });
@@ -883,7 +883,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         $poll = Poll::with('settings')->find($id);
         $pollId = $id;
         $now = Carbon::now();
-
         try {
             $oldSettings = $this->showSetting($poll->settings);
             DB::beginTransaction();
@@ -926,25 +925,22 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                         ];
                     }
                 }
+
                 if ($newData) {
                     Setting::insert($newData);
                 }
 
                 // edit value of setting
                 $settingId = $poll->settings->pluck('id', 'key')->toArray();
-                foreach ($input['setting'] as $name => $key) {
-                    if (empty($input['value'][$name])) {
-                        continue;
-                    }
 
-                    $value = ($key == config('settings.setting.set_password')) ? bcrypt($input['value'][$name]) : $input['value'][$name];
-
-                    if ($oldSetting[$key] != $input['value'][$name]) {
+                foreach ($input['setting'] as $key) {
+                    if ($key == $settingConfig['custom_link'] || $key == $settingConfig['set_limit'] || $setting == $settingConfig['set_password']) {
                         Setting::find($settingId[$key])->update([
                             'value' => $value
                         ]);
                     }
                 }
+
             }
 
             DB::commit();
