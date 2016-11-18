@@ -22,6 +22,7 @@
                         'id' => 'email',
                         'placeholder' => trans('polls.placeholder.email'),
                         'onblur' => 'checkMailExitsDatabase()',
+                        'disabled' => auth()->user() ? true :false,
                     ])
                 }}
             </div>
@@ -42,6 +43,7 @@
                         'class' => 'form-control',
                         'id' => 'name',
                         'placeholder' => trans('polls.placeholder.full_name'),
+                        'disabled' => auth()->user() ? true :false,
                     ])
                 }}
             </div>

@@ -18,10 +18,10 @@
     @if ($settingKey == config('settings.setting.custom_link'))
         <div class="form-group {{ (isset($page) && ($page == 'edit' || $page == 'duplicate') && array_key_exists($settingKey, $setting)) ? "" : "setting-advance" }}" id="setting-link">
             <div class="row">
-                <div class="col-lg-7">
+                <div class="col-lg-10">
                     <div class="input-group">
                         <span class="input-group-addon">
-                            {{ url('/') . config('settings.email.link_vote') }}
+                            {{ str_limit(url('/') . config('settings.email.link_vote'), 20) }}
                         </span>
                         {{
                             Form::text('value[link]', (isset($page) && ($page == 'edit' || $page == 'duplicate') && array_key_exists($settingKey, $setting)) ? $setting[$settingKey] : str_random(config('settings.length_poll.link')), [
@@ -41,7 +41,7 @@
     @elseif ($settingKey == config('settings.setting.set_limit'))
         <div class="form-group {{ (isset($page) && ($page == 'edit' || $page == 'duplicate') && array_key_exists($settingKey, $setting)) ? "" : "setting-advance" }}" id="setting-limit">
             <div class="row">
-                <div class="col-lg-3">
+                <div class="col-lg-4">
                     <div class="input-group">
                         <span class="input-group-addon">
                             <i class="fa fa-list-ol" aria-hidden="true"></i>
@@ -81,7 +81,7 @@
                             ])
                         }}
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" onclick="showAndHidePassword()">
+                            <button class="btn btn-default show-password" type="button" id="show" onclick="showAndHidePassword()">
                                 <i class="fa fa-eye" aria-hidden="true"></i>
                             </button>
                         </span>

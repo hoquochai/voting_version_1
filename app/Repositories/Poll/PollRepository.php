@@ -205,6 +205,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 $settingText['custom_link'],
                 $settingText['set_limit'],
                 $settingText['set_password'],
+                $settingText['is_set_ip'],
             ]),
         ];
 
@@ -226,23 +227,13 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function addInfo($input)
     {
         $now = Carbon::now();
-        $tokenActive = '';
 
         try {
             $user = User::where('email', $input['email'])->first();
+            $userId = null;
 
             if ($user) {
                 $userId = $user->id;
-            } else {
-                $tokenActive = str_random(20);
-                $userId = User::insertGetId([
-                    'name' => $input['name'],
-                    'email' => $input['email'],
-                    'chatwork_id' => ($input['chatwork_id']) ? $input['chatwork_id'] : null,
-                    'created_at' => $now,
-                    'is_register' => config('settings.user.create_poll'),
-                    'token_verification' => $tokenActive,
-                ]);
             }
 
             $pollId = Poll::insertGetId([
@@ -253,12 +244,11 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'multiple' => $input['type'],
                 'created_at' => $now,
                 'date_close' => ($input['closingTime']) ? $input['closingTime'] : null,
+                'name' => ($userId) ? null : $input['name'],
+                'email' => ($userId) ? null : $input['email'],
             ]);
 
-            return [
-                'id' => $pollId,
-                'token' => $tokenActive,
-            ];
+            return $pollId;
         } catch (Exception $ex) {
             dd($ex);
             return false;
@@ -501,13 +491,20 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
      *
      * @throws Exception
      */
-    public function sendEmail($email, $view, $viewData, $subject)
+    public function sendEmail($email, $view, $viewData, $subject, $receive)
     {
         try {
-            Mail::queue($view, $viewData, function ($message) use ($email, $subject) {
-                $message->to($email)->subject($subject);
-            });
+            if ($receive == 'participant') {
+                Mail::queue($view, $viewData, function ($message) use ($email, $subject) {
+                    $message->to($email)->subject($subject);
+                });
+            } else {
+                Mail::queue($view, $viewData, function ($message) use ($email, $subject) {
+                    $message->to($email)->subject($subject);
+                });
+            }
         } catch (Exception $ex) {
+            dd($ex);
             throw new Exception(trans('polls.message.send_mail_fail'));
         }
     }
@@ -515,10 +512,8 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
     public function store($input)
     {
         try {
-
             DB::beginTransaction();
-            $data = $this->addInfo($input);
-            $pollId = $data['id'];
+            $pollId = $this->addInfo($input);
 
             if (! $pollId || ! ($this->addOption($input, $pollId) && $this->addSetting($input, $pollId))) {
                 DB::rollback();
@@ -536,10 +531,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             }
 
             $poll = Poll::with('user')->find($pollId);
-            $dataRtn = [
-                'poll' => $poll,
-                'link' => $links,
-            ];
 
             /*
              * send mail participant
@@ -550,6 +541,12 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 $password = (in_array(config('settings.setting.set_password'), $input['setting'])) ? $input['value']['password'] : false;
             }
 
+            $dataRtn = [
+                'poll' => $poll,
+                'link' => $links,
+                'password' => $password,
+            ];
+
             if ($input['member']) {
                 $members = explode(",", $input['member']);
                 $view = config('settings.view.poll_mail');
@@ -559,7 +556,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                     'password' => $password,
                 ];
                 $subject = trans('label.mail.subject');
-                $this->sendEmail($members, $view, $data, $subject);
+                $this->sendEmail($members, $view, $data, $subject, 'participant');
             }
             /*
              * send mail creator
@@ -571,12 +568,10 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'linkAdmin' => $links['administration'],
                 'poll' => $poll,
                 'password' => $password,
-                'activeLink' => ($data['token']) ? url('/link/verification') . '/' . $data['token'] : '',
             ];
             $subject = trans('label.mail.subject');
-            $this->sendEmail($email, $creatorView, $data, $subject);
+            $this->sendEmail($email, $creatorView, $data, $subject, 'creator');
             DB::commit();
-
 
             return $dataRtn;
         } catch (Exception $ex) {
@@ -1216,5 +1211,24 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         return $dataRtn;
     }
 
+    public function sendMailAgain($poll, $link, $password)
+    {
+        $creatorView = config('settings.view.poll_mail');
+        $email = ($poll['user_id']) ? $poll['user']['email'] : $poll['email'];
+        $data = [
+            'userName' => ($poll['user_id']) ? $poll['user']['name'] : $poll['name'],
+            'title' => $poll['title'],
+            'description' => $poll['description'],
+            'type' => $this->getType($poll['multiple'], false),
+            'location' => $poll['location'],
+            'closeDate' => $poll['date_close'],
+            'createdAt' => $poll['created_at'],
+            'linkVote' => $link['participant'],
+            'linkAdmin' => $link['administration'],
+            'password' => $password,
+        ];
+        $subject = trans('label.mail.subject');
+        $this->sendEmail($email, $creatorView, $data, $subject, 'creator');
+    }
 }
 

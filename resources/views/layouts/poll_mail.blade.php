@@ -84,7 +84,7 @@
                 </div>
                 <hr class="hr-heading-body">
                 <div class="body">
-                    <p class="dear"><b>{{ trans('label.mail.create_poll.dear') }} {{ $poll->user->name }} </b></p>
+                    <p class="dear"><b>{{ trans('label.mail.create_poll.dear') }} {{ (isset($userName) && $userName) ? $userName : $poll->user->name }} </b></p>
                     <p> {!! trans('label.mail.create_poll.thank') !!}
                     <p>
                         <i class="link-invite">{{ trans('label.mail.create_poll.link_vote') }}</i><br>
@@ -101,25 +101,15 @@
                     @endif
                     <div class="box-info">
                         <h4 class="head">{{ trans('polls.nav_tab_edit.info') }}</h4>
-                        <p><b>{{ trans('polls.label.title') }}: </b> {{ $poll->title }}</p>
-                        <p><b>{{ trans('polls.label.description') }}: </b> {{ ($poll->description) ? $poll->description : trans('polls.label.no_data') }}</p>
-                        <p><b>{{ trans('polls.label.type') }}: </b> {{ $poll->multiple }}</p>
-                        <p><b>{{ trans('polls.label.location') }}: </b> {{ ($poll->location) ? $poll->location : trans('polls.label.no_data') }}</p>
-                        <p><b>{{ trans('polls.label.time_close') }}: </b> {{ ($poll->date_close) ? $poll->date_close : trans('polls.label.no_data') }}</p>
-                        <p><b>{{ trans('polls.label.created_at') }}: </b> {{ ($poll->created_at) ? $poll->created_at : trans('polls.label.no_data') }}</p>
+                        <p><b>{{ trans('polls.label.title') }}: </b> {{ (isset($title) && $title) ? $title :  $poll->title }}</p>
+                        <p><b>{{ trans('polls.label.description') }}: </b> {{ (isset($description) && $description) ? $description : (($poll->description) ? $poll->description : trans('polls.label.no_data')) }}</p>
+                        <p><b>{{ trans('polls.label.type') }}: </b> {{ (isset($type) && $type) ? $type : $poll->multiple }}</p>
+                        <p><b>{{ trans('polls.label.location') }}: </b> {{ (isset($location) && $location) ? $location :  (($poll->location) ? $poll->location : trans('polls.label.no_data')) }}</p>
+                        <p><b>{{ trans('polls.label.time_close') }}: </b> {{ (isset($closeDate) && $closeDate) ? $closeDate : (($poll->date_close) ? $poll->date_close : trans('polls.label.no_data')) }}</p>
+                        <p><b>{{ trans('polls.label.created_at') }}: </b> {{ (isset($createdAt) && $createdAt) ? $createdAt : (($poll->created_at) ? $poll->created_at : trans('polls.label.no_data')) }}</p>
                     </div>
                 </div>
-                @if ($activeLink)
-                    <hr class="hr-body-footer">
-                    <div class="footer">
-                        <p>{!! trans('label.mail.create_poll.note') !!} </p>
-                        <a href="{{ $activeLink }}" target="_blank">
-                            <button class="btn-login">{{ trans('label.mail.create_poll.active_account') }}</button>
-                        </a>
-                    </div>
-                @else
-                    <p class="end">{{ trans('label.mail.create_poll.end') }}</p>
-                @endif
+                <p class="end">{{ trans('label.mail.create_poll.end') }}</p>
             </div>
         </div>
     </body>

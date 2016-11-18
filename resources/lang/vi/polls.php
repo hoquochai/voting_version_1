@@ -223,6 +223,8 @@ return [
         'link_valid' => 'Đường dẫn hợp lệ, bạn có thể dùng đường dẫn này',
         'confirm_delete_option' => 'Bạn có chắc chắc muốn xóa option này không. Nó sẽ xóa tất cả các vote của option?',
         'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email đã tồn tại trong hệ thống, bạn nên đăng nhập để tạo bình chọn',
+        'send_email_success' => 'Một email đã được gởi đến hộp thư của bạn, Vui lòng vào mail để kiểm tra lại.',
+        'send_email_fail' => 'Gởi mail thất bại, vui lòng kiểm tra lại địa chỉ email của bạn',
     ],
     'mail' => [
         'label' => [
@@ -352,4 +354,6 @@ return [
     'bar_chart' => 'BIỂU ĐỒ HÌNH CỘT',
     'pie_chart' => 'BIỂU ĐỒ HÌNH TRÒN',
     'statistic' => 'THỐNG KÊ',
+    'copy_link' => 'Sao chép link',
+    'send_mail_again' => 'Nếu bạn chưa nhận được email, hãy kích vào đây...',
 ];

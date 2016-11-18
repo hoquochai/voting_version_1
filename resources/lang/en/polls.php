@@ -220,6 +220,8 @@ return [
         'off' => 'OFF',
         'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email exists in database, you should be login to create poll.',
         'confirm_delete_option' => 'Are you sure you want to delete this option. It\'s will remove all voting of this?',
+        'send_email_success' => 'A new email have been sent mail box of you. Please check mail.',
+        'send_email_fail' => 'Send email fail, please check email address.'
     ],
     'mail' => [
         'label' => [
@@ -349,4 +351,6 @@ return [
     'bar_chart' => 'BAR CHART',
     'pie_chart' => 'PIE CHART',
     'statistic' => 'STATISTIC',
+    'copy_link' => 'Copy link',
+    'send_mail_again' => 'If you haven\'t receive email. Click me...',
 ];

@@ -68,24 +68,25 @@
                     <div class="tab-pane" id="option">
                         <div class="panel">
                             <div class="panel-heading" style="background: darkcyan; color: white">
-                                {{ trans('polls.label.step_2') }}
-                                <button class="btn btn-warning btn-xs btn-show-advance-add-option" type="button" id="show" style="float: right">
-                                    <span class="glyphicon glyphicon-download"></span>
-                                </button>
-                                <!-- BUTTON ADD OPTION -->
-                                <div class="addAdvance" style="display: none">
-                                    <div class="input-group col-lg-4 col-lg-offset-8">
-                                            {{
-                                                Form::number('number', null, [
-                                                    'class' => 'form-control',
-                                                    'placeholder' => trans('polls.placeholder.number_add'),
-                                                    'id' => 'number',
-                                                    'min' => 1,
-                                                    'max' => 99,
-                                                    'oninput' => "validity.valid||(value='1');",
-                                                ])
-                                            }}
-                                        <span class="input-group-btn">
+                                <div class="row">
+                                    <div class="col-lg-3">
+                                        {{ trans('polls.label.step_2') }}
+                                    </div>
+                                    <div class="col-lg-7">
+                                        <!-- BUTTON ADD OPTION -->
+                                        <div class="addAdvance" style="display: none">
+                                            <div class="input-group">
+                                                {{
+                                                    Form::number('number', null, [
+                                                        'class' => 'form-control',
+                                                        'placeholder' => trans('polls.placeholder.number_add'),
+                                                        'id' => 'number',
+                                                        'min' => 1,
+                                                        'max' => 99,
+                                                        'oninput' => "validity.valid||(value='1');",
+                                                    ])
+                                                }}
+                                                <span class="input-group-btn">
                                         {{
                                             Form::button('<span class="glyphicon glyphicon-plus"></span>', [
                                                 'class' => 'btn btn-default',
@@ -93,8 +94,18 @@
                                             ])
                                         }}
                                     </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <button class="btn btn-warning btn-xs btn-show-advance-add-option" type="button" id="show" style="float: right">
+                                            <span class="glyphicon glyphicon-hand-left"></span>
+                                        </button>
                                     </div>
                                 </div>
+
+
+
                             </div>
                             <div class="panel-body">
                                 @include('layouts.poll_options')
@@ -122,11 +133,46 @@
                         </div>
                     </div>
                     <ul class="pager wizard">
-                        <li class="next"><a href="#" class="btn-change-step btn btn-primary">Next</a></li>
-                        <li class="finish"><a href="#" class="btn btn-change-step btn-primary btn-finish">Finish</a></li>
+                        <li class="previous"><a href="#" class="btn-change-step btn btn-primary">{{ trans('polls.button.previous') }}</a></li>
+                        <li class="next"><a href="#" class="btn-change-step btn btn-primary">{{ trans('polls.button.continue') }}</a></li>
+                        <li class="finish"><a href="#" class="btn btn-change-step btn-primary btn-finish">{{ trans('polls.button.finish') }}</a></li>
                     </ul>
                 </div>
             </div>
+            {{--<div class="col-lg-2 col-lg-offset-1 animated fadeInRight explain" style="padding-right: 0; margin-top: 100px">--}}
+                {{--<div class="row info-explain" style="margin-top: 20px;">--}}
+                    {{--<div class="panel panel-default" style="border: none; position: fixed">--}}
+                        {{--<div class="panel-body" style="background: black; color: white">--}}
+                            {{--INFORMAITON Tooltips & popovers in button groups require special setting--}}
+                            {{--When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="row option-explain" style="margin-top: 20px; display: none">--}}
+                    {{--<div class="panel panel-default" style="border: none; position: fixed">--}}
+                        {{--<div class="panel-body" style="background: black; color: white">--}}
+                            {{--OPTION Tooltips & popovers in button groups require special setting--}}
+                            {{--When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="row setting-explain" style="margin-top: 20px; display: none">--}}
+                    {{--<div class="panel panel-default" style="border: none; position: fixed">--}}
+                        {{--<div class="panel-body" style="background: black; color: white">--}}
+                            {{--SETTING Tooltips & popovers in button groups require special setting--}}
+                            {{--When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+                {{--<div class="row participant-explain" style="margin-top: 20px; display: none">--}}
+                    {{--<div class="panel panel-default" style="border: none; position: fixed">--}}
+                        {{--<div class="panel-body" style="background: black; color: white">--}}
+                            {{--PARTICIPANT Tooltips & popovers in button groups require special setting--}}
+                            {{--When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
+            {{--</div>--}}
         {{ Form::close() }}
     </div>
 @endsection

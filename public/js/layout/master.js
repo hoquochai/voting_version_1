@@ -443,6 +443,25 @@ $(document).ready(function() {
                 var $current = index+1;
                 var $percent = ($current/$total) * 100;
                 $('#create_poll_wizard').find('.bar').css({width:$percent+'%'});
+                if($current == 1) {
+                    $('#create_poll_wizard').find('.pager .previous').hide();
+                    $('.info-explain').css('display', 'block');
+                    $('div[class=explain]').not('.info-explain').css('display', 'none !important');
+                } else {
+                    $('#create_poll_wizard').find('.pager .previous').show();
+                    if($current == 2) {
+                        $('div[class=explain]').not('.option-explain').css('display', 'none !important');
+                        $('.option-explain').css('display', 'block');
+                    }
+                    if($current == 3) {
+                        $(! '.setting-explain').hide('slow');
+                        $('.setting-explain').show('slow');
+                    }
+                    if($current == 4) {
+                        $(! '.participant-explain').hide('slow');
+                        $('.participant-explain').show('slow');
+                    }
+                }
             }
         });
     }
@@ -470,8 +489,10 @@ $(document).ready(function() {
 function showAndHidePassword() {
     if($('#password').attr("type") == "password"){
         $('#password').attr("type", "text");
+        $('.show-password').html('<i class="fa fa-eye-slash" aria-hidden="true"></i>');
     } else {
         $('#password').attr("type", "password");
+        $('.show-password').html('<i class="fa fa-eye" aria-hidden="true"></i>');
     }
 }
 
@@ -559,30 +580,6 @@ function showPanelImage(id) {
     $('#option_' + id).toggle('slow');
 }
 
-/*
-check if mail exist, get name
- */
-function checkMailExitsDatabase() {
-    $.ajax({
-        url: $('.hide').data("routeEmail"),
-        type: 'post',
-        data: {
-            'email': $('#email').val(),
-            'action': 'check_exists',
-            '_token': $('.hide').data("token")
-        },
-        success: function (data) {
-            if (data.success) {
-                $('#email').closest('.form-group').removeClass('has-error');
-                $('.error_email').closest('.form-group').removeClass('has-error');
-                $('.error_email').html('<span id="title-warning" class="help-block">' + pollData.message.email_exist_database + '</span>');
-                $('#name').val(data.name);
-                $('#name').prop('readonly', true);
-            }
-        }
-    });
-}
-
 function changeLinkAdmin() {
     $('#label_link_admin').html(pollData.config.link + $('#link_admin').val());
     if (validateLink($('#link_admin').val()).responseJSON.success) {
@@ -630,13 +627,49 @@ function show add option advance
 $(".btn-show-advance-add-option").click(function(){
     $('.addAdvance').slideToggle('slow');
     var id = this.id;
-    console.log(id);
     if (id == "show") {
-        $(".btn-show-advance-add-option").html('<span class="glyphicon glyphicon-upload"></span>');
+        $(".btn-show-advance-add-option").html('<span class="glyphicon glyphicon-hand-right"></span>');
         this.id = "hide";
     } else {
-        $(".btn-show-advance-add-option").html('<span class="glyphicon glyphicon-download"></span>');
+        $(".btn-show-advance-add-option").html('<span class="glyphicon glyphicon-hand-left"></span>');
         this.id = "show";
     }
-    console.log(this.id);
 });
+
+/*
+ sendMailAgain
+ */
+function sendMailAgain() {
+    var poll = $('.hide').data('emailPoll');
+    var link = $('.hide').data('emailLink');
+    var password = $('.hide').data('emailPassword');
+    var message = $('.hide').data('emailMessage');
+    $.ajax({
+        url: $('.hide').data("emailRoute"),
+        type: 'post',
+        data: {
+            'poll': poll,
+            'link': link,
+            'password': password,
+            '_token': $('.hide').data("token")
+        },
+        success: function (data) {
+            if (data.success) {
+                $('.message-send-mail').html("<div class='alert alert-success'>" + message.send_email_success + "</div>");
+            } else {
+                $('.message-send-mail').html("<div class='alert alert-danger'>" + message.send_email_fail + "</div>");
+            }
+        }
+    });
+}
+
+/*
+auto copy link
+ */
+function copyToClipboard(element) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val($(element).text()).select();
+    document.execCommand("copy");
+    $temp.remove();
+}
