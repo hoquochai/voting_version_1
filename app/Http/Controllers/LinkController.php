@@ -123,14 +123,6 @@ class LinkController extends Controller
         $totalVote = config('settings.default_value');
         $isSetIp = false;
 
-        //check time close poll
-        if (Carbon::now()->format('d/m/Y h:i') > Carbon::parse($poll->date_close)->format('d/m/Y h:i')) {
-            $poll->status = false;
-            $poll->save();
-
-            return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
-        }
-
         foreach ($poll->options as $option) {
             $totalVote += $option->countVotes();
         }
@@ -163,6 +155,14 @@ class LinkController extends Controller
 
         if (! $link->link_admin) {
             if ($link->poll->isClosed()) {
+                return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
+            }
+
+            //check time close poll
+            if (Carbon::now()->format('d/m/Y h:i') > Carbon::parse($poll->date_close)->format('d/m/Y h:i')) {
+                $poll->status = false;
+                $poll->save();
+
                 return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
             }
 

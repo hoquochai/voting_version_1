@@ -57,10 +57,11 @@ class PollController extends Controller
         $data = $this->pollRepository->store($input);
 
         if ($data) {
-
             $poll = $data['poll'];
             $link = $data['link'];
-            return view('user.poll.result_create_poll', compact('poll', 'link'));
+            $password = $data['password'];
+
+            return view('user.poll.result_create_poll', compact('poll', 'link', 'password'));
         } else {
             $message = trans('polls.message.create_fail');
 
@@ -107,38 +108,24 @@ class PollController extends Controller
     {
         $button = $request->btn_edit;
         $poll = Poll::with('options')->findOrFail($id);
-        $isVote = false;
 
-        /*
-         * check if poll have vote will can not edit
-         */
-        foreach ($poll->options as $option) {
-            if ($option->countVotes()) {
-                $isVote = true;
-                break;
-            }
-        }
+        if ($button == trans('polls.button.save_info')) {
+            $input = $request->only(
+                'name', 'email', 'chatwork_id', 'title', 'location', 'description', 'type'
+            );
+            $input['date_close'] = $request->closingTime;
 
-        if ($isVote) {
-            $message = "Poll is voted. You can't edit it.";
-        } else {
-            if ($button == trans('polls.button.save_info')) {
-                $input = $request->only(
-                    'name', 'email', 'chatwork_id', 'title', 'location', 'description', 'type'
-                );
-
-                $message = $this->pollRepository->editInfor($input, $id);
-            } elseif ($button == trans('polls.button.save_option')) {
-                $input = $request->only(
-                    'option', 'image', 'optionImage', 'optionText'
-                );
-                $message = $this->pollRepository->editPollOption($input, $id);
-            } elseif ($button == trans('polls.button.save_setting')) {
-                $input = $request->only(
-                    'setting', 'value'
-                );
-                $message = $this->pollRepository->editPollSetting($input, $id);
-            }
+            $message = $this->pollRepository->editInfor($input, $id);
+        } elseif ($button == trans('polls.button.save_option')) {
+            $input = $request->only(
+                'option', 'image', 'optionImage', 'optionText'
+            );
+            $message = $this->pollRepository->editPollOption($input, $id);
+        } elseif ($button == trans('polls.button.save_setting')) {
+            $input = $request->only(
+                'setting', 'value'
+            );
+            $message = $this->pollRepository->editPollSetting($input, $id);
         }
 
         return redirect()->to($poll->getAdminLink())->with('message', $message);
@@ -158,10 +145,14 @@ class PollController extends Controller
             return view('errors.show_errors')->with('message', trans('polls.close_poll_fail'));
         }
 
-        $emails = $poll->user->email;
+        $emails = $poll->email;
+
+        if ($poll->user_id) {
+            $emails = $poll->user->email;
+        }
 
         if ($emails) {
-            Mail::queue('layouts.close_poll_mail', [
+            Mail::send('layouts.close_poll_mail', [
                 'link' => $poll->getAdminLink(),
             ], function ($message) use ($emails) {
                 $message->to($emails)->subject(trans('label.mail.subject'));
@@ -173,11 +164,11 @@ class PollController extends Controller
             }
         }
 
-        Flashy::message(trans('polls.flashy_message'), 'https://mail.google.com/mail');
+        Flashy::message(trans('polls.flashy_message'), '#');
 
         $poll->status = false;
         $poll->save();
 
-        return redirect()->action('User\PollController@index');
+        return redirect()->to($poll->getAdminLink())->with('messages', trans('polls.close_poll_successfully'));
     }
 }

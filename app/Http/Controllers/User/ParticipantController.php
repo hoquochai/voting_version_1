@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Poll;
 use Flashy;
 use Mail;
 use Illuminate\Http\Request;
@@ -38,12 +39,18 @@ class ParticipantController extends Controller
     public function deleteAllParticipant(Request $request)
     {
         $inputs = $request->only('poll_id');
-        $poll = $this->pollRepository->find($inputs['poll_id']);
+        $poll = Poll::find($inputs['poll_id']);
+        $emails = $poll->email;
+
+        if ($poll->user_id) {
+            $emails = $poll->user->email;
+        }
+
         $this->participantRepository->deleteAllParticipants($inputs['poll_id'], $this->participantVoteRepository, $this->voteRepository);
-        $emails = $poll->user->email;
+
 
         if ($emails) {
-            Mail::queue('layouts.delete_all_participant_mail', [
+            Mail::send('layouts.delete_all_participant_mail', [
                 'link' => $poll->getAdminLink(),
             ], function ($message) use ($emails) {
                 $message->to($emails)->subject(trans('label.mail.subject'));
@@ -62,6 +69,6 @@ class ParticipantController extends Controller
 
         $this->activityRepository->create($activity);
 
-        return redirect()->to($poll->getUserLink())->with('message', trans('polls.delete_all_participants_successfully'));
+        return redirect()->to($poll->getAdminLink())->with('messages', trans('polls.delete_all_participants_successfully'));
     }
 }

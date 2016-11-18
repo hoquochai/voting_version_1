@@ -44,21 +44,21 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
   transition: width .5s ease, background-color .5s ease, left .5s ease;
 }
 
-.nav > li > a:hover::after {
+.nav-menu > li > a:hover::after {
   width: 100%;
   left: 0;
   background: #EE7600;
 }
 
-.nav > li > a:hover {
-  text-decoration: none;
-  color: white !important;
-}
-
-.nav>li>a:focus, .nav>li>a:hover {
+.voting>li>a:focus, .voting>li>a:hover {
   border-color: transparent !important;
   background: transparent !important;
 }
+
+.nav-menu>li>a:focus, .nav-menu>li>a:hover {
+  color: white !important;
+}
+
 
 .navbar-default .navbar-nav > li > a {
   color: white; /*Change active text color here*/
@@ -198,7 +198,7 @@ span.round-tabs.four{
 
 .nav-tabs > li a{
   width: 70px;
-  height: 70px;
+  height: 50px;
   border-radius: 100%;
   padding: 0;
 }
@@ -209,7 +209,6 @@ span.round-tabs.four{
 
 .tab-pane{
   position: relative;
-  padding-top: 50px;
 }
 
 .btn-outline-rounded{
@@ -291,7 +290,7 @@ span.round-tabs.four{
 /-------------------------------------------*/
 
 body {
-  background: darkcyan !important;
+  background: rgba(0, 139, 139, 0.65) !important
 }
 
 .navbar-app {
@@ -631,6 +630,7 @@ span.round-tab:hover {
 }
 
 .footer {
+  clear: both;
   margin-top: 10px;
   background: black;
   color: #9d9d9d;
@@ -639,11 +639,6 @@ span.round-tab:hover {
   width:100%;
   bottom: 0;;
   height: 100px;
-}
-
-
-body > .container {
-  padding: 200px 0;
 }
 
 .triangle {

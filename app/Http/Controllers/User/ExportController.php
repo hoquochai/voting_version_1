@@ -37,8 +37,12 @@ class ExportController extends Controller
         $poll = $this->pollRepository->find($pollId);
         $totalVote = config('settings.default_value');
 
-        foreach ($poll->options as $option) {
-            $totalVote += $option->countVotes();
+        try {
+            foreach ($poll->options as $option) {
+                $totalVote += $option->countVotes();
+            }
+        } catch(\Exception $ex) {
+            return;
         }
 
         $optionRate = [];

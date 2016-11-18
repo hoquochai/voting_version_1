@@ -19,7 +19,7 @@ return [
     'edit' => 'Edit',
     'home' => 'Home',
     'admin_page' => 'ADMIN PAGE',
-    'errors' => 'Error',
+    'errors' => 'Message',
 
     /**
      * MASTER ADMIN
@@ -40,8 +40,6 @@ return [
         'link_vote' => 'Link to vote:',
         'link_admin' => 'Link manager vote:',
         'subject' => 'Voting',
-        'open_poll' => 'Admin of poll reopened poll',
-        'close_poll' => 'Admin closed poll',
         'delete_all_participant' => 'Admin of poll deleted all participant',
         'register_active_mail' => 'You register successfully. Please click on link to active account. Link here: ',
         'edit_poll' => [
@@ -91,12 +89,24 @@ return [
             'thank' => 'Thank you because you have used website our. <br> You edit link SUCCESS.',
             'link_edit' => 'Click to blow link to view detail',
         ],
+        'close_poll' => [
+            'thank' => 'Thank you because you have used our website. <br> You close poll SUCCESS.',
+            'link_admin' => 'Click to blow link to manage poll',
+        ],
+        'open_poll' => [
+            'thank' => 'Thank you because you have used our website. <br> You open poll SUCCESS.',
+            'link_admin' => 'Click to blow link to manage poll',
+        ],
+        'delete_participant' => [
+            'thank' => 'Thank you because you have used our website. <br> You delete all vote of poll SUCCESS.',
+            'link_admin' => 'Click to blow link to manage poll',
+        ],
     ],
     'footer' => [
-        'location' => 'Hung Vuong, Da Nang, Viet Nam',
-        'copyright' => 'Copyright &copy; 2016',
-        'email' => 'poll.voting.hv@gmail.com',
-        'phone' => '0988965135',
+        'location' => '13F Keangnam Landmark 72 Tower, Plot E6, Pham Hung Road, Nam Tu Liem, Ha Noi, Viet Nam',
+        'copyright' => 'Copyright 2016 Framgia, Inc. All rights reserved.',
+        'email' => 'hr_team@framgia.com',
+        'phone' => ' 84-4-3795-5417',
         'about' => 'About the website',
         'description_website' => 'Website help you can create a poll fast and easy',
     ],

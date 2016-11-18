@@ -62,7 +62,7 @@ $(document).ready(function(){
         var linkInvalid = $('.hide').data('linkInvalid');
         var editLinkSuccess = $('.hide').data('editLinkSuccess');
         var tokenInput = $('.token-admin').val();
-
+        console.log(route);
         if (tokenInput == '') {
             $('.message-link-admin').html(linkInvalid);
 

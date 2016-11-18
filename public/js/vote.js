@@ -11,6 +11,8 @@ $(document).ready(function(){
         $('.btn-vote').attr('disabled', !($('.poll-option').is(':checked')));
     });
 
+    $('.loader').hide();
+
     $('.btn-vote').on('click', function() {
         var testEmail = /^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)+[A-Z]{2,4}$/i;
         divChangeAmount = $(this).parent();
@@ -26,6 +28,7 @@ $(document).ready(function(){
                     $('.message-validation').removeClass('alert alert-warning');
                     $('.message-validation').html('');
                     $('#form-vote').submit();
+                    $('.loader').show();
                 } else {
                     divChangeAmount = $(this).parent();
                     $('.message-validation').addClass('alert alert-warning');
@@ -37,6 +40,7 @@ $(document).ready(function(){
                 $('.message-validation').removeClass('alert alert-warning');
                 $('.message-validation').html('');
                 $('#form-vote').submit();
+                $('.loader').show();
             }
         } else {
             if (emailVote != '') {
@@ -45,6 +49,7 @@ $(document).ready(function(){
                     $('.message-validation').removeClass('alert alert-warning');
                     $('.message-validation').html('');
                     $('#form-vote').submit();
+                    $('.loader').show();
                 } else {
                     divChangeAmount = $(this).parent();
                     $('.message-validation').addClass('alert alert-warning');

@@ -3,8 +3,9 @@
        Form::open([
            'route' => ['user-poll.update', $poll->id],
            'method' => 'PUT',
-           'id' => 'form_update_poll',
+           'id' => 'form_update_poll_setting',
            'role' => 'form',
+           'onsubmit' => 'return updatePollSetting()',
        ])
     }}
 @endif

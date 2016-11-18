@@ -3,8 +3,9 @@
        Form::open([
            'route' => ['user-poll.update', $poll->id],
            'method' => 'PUT',
-           'id' => 'form_update_poll',
+           'id' => 'form_update_poll_info',
            'role' => 'form',
+           'onsubmit' => 'return updatePollInfo()',
        ])
     }}
 @endif
@@ -17,12 +18,11 @@
                     <i class="fa fa-envelope" aria-hidden="true"></i>
                 </span>
                 {{
-                    Form::text('email', (isset($poll) && $poll && $poll->user_id) ? $poll->user->email : (auth()->user() ? auth()->user()->email : null), [
+                    Form::text('email', (isset($poll) && $poll->user_id) ? $poll->user->email : ((isset($poll) && $poll->email) ? $poll->email : (auth()->user() ? auth()->user()->email : null)), [
                         'class' => 'form-control',
                         'id' => 'email',
                         'placeholder' => trans('polls.placeholder.email'),
-                        'onblur' => 'checkMailExitsDatabase()',
-                        'disabled' => auth()->user() ? true :false,
+                        'disabled' => (auth()->user()) ? true : null,
                     ])
                 }}
             </div>
@@ -39,11 +39,11 @@
                     <i class="fa fa-user" aria-hidden="true"></i>
                 </span>
                 {{
-                    Form::text('name', (isset($poll) && $poll && $poll->user_id) ? $poll->user->name :  (auth()->user() ? auth()->user()->name : null), [
+                    Form::text('name', (isset($poll) && $poll && $poll->user_id) ? $poll->user->name :  ((isset($poll) && $poll->name) ? $poll->name : (auth()->user() ? auth()->user()->name : null)), [
                         'class' => 'form-control',
                         'id' => 'name',
                         'placeholder' => trans('polls.placeholder.full_name'),
-                        'disabled' => auth()->user() ? true :false,
+                        'disabled' => auth()->user() ? true : null,
                     ])
                 }}
             </div>
@@ -71,7 +71,8 @@
 <!-- TYPE -->
     <div class="col-lg-4">
         <div class="form-group">
-            {{ Form::select('type', $data['viewData']['types'], null, ['class' => 'form-control']) }}
+            {{ Form::select('type', $data['viewData']['types'],
+                (isset($poll) && $poll) ? ($poll->multiple == trans('polls.label.multiple_choice') ? config('settings.type_poll.multiple_choice') : config('settings.type_poll.single_choice')): null, ['class' => 'form-control']) }}
         </div>
     </div>
 </div>

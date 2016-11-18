@@ -27,27 +27,33 @@
                 </div>
                 <div class="navbar panel">
                     <div class="navbar-inner board">
-                        <div class="col-lg-10 col-lg-offset-1 panel-heading board-inner">
-                            <ul class="nav nav-tabs">
+                        <div class="col-lg-10 col-lg-offset-1 panel-heading board-inner" style="padding: 5px">
+                            <ul class="nav nav-tabs voting">
                                 <div class="liner"></div>
                                 <li>
-                                    <a href="#info" data-toggle="tab" class="step">
+                                    <a href="#info" data-toggle="tab tooltip"  title="{{ trans('polls.label.step_1') }}" class="step">
                                         <span class="round-tabs one glyphicon glyphicon-info-sign">
                                         </span>
                                     </a>
                                 </li>
-                                <li><a href="#option" data-toggle="tab" class="step">
+                                <li>
+                                    <a href="#option" data-toggle="tab tooltip" title="{{ trans('polls.label.step_2') }}" class="step">
                                         <span class="round-tabs two glyphicon glyphicon-option-horizontal">
                                         </span>
-                                    </a></li>
-                                <li><a href="#setting" data-toggle="tab" class="step">
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#setting" data-toggle="tab tooltip" title="{{ trans('polls.label.step_3') }}" class="step">
                                         <span class="round-tabs three glyphicon glyphicon-cog">
                                         </span>
-                                    </a></li>
-                                <li><a href="#participant" data-toggle="tab" class="step">
+                                    </a>
+                                </li>
+                                <li data-toggle="tooltip" title="{{ trans('polls.label.step_4') }}">
+                                    <a href="#participant" data-toggle="tab tooltip" class="step">
                                         <span class="round-tabs four glyphicon glyphicon-user">
                                         </span>
-                                    </a></li>
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>

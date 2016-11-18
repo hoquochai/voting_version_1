@@ -3,10 +3,11 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <div class="loader"></div>
         <div id="voting_wizard" class="col-lg-10 col-lg-offset-1 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
-                    <div class="col-lg-8 col-lg-offset-2 panel-heading">
+                    <div class="col-lg-12 panel-heading">
                         <ul>
                             <li><a href="#info" data-toggle="tab">{{ trans('polls.nav_tab_edit.info') }}</a></li>
                             <li><a href="#vote" data-toggle="tab">{{ trans('polls.nav_tab_edit.voting') }}</a></li>
@@ -21,8 +22,8 @@
                 <div class="tab-pane" id="vote">
                 {!! Form::open(['route' => 'vote.store','id' => 'form-vote']) !!}
                 <!-- VOTE INFO -->
-                    @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) && ! $isLimit && ! $poll->isClosed() || ! $isSetIp)
-                        <div class="panel panel-default">
+                    @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
+                    <div class="panel panel-default">
                             <div class="panel-body">
                                 <div class="col-lg-12">
                                     <label class="message-validation"></label>
@@ -64,6 +65,12 @@
                             <div class="tab-content">
                                 <!-- VOTE OPTION VERTICAL-->
                                 <div id="vertical" class="tab-pane fade in active">
+                                    @if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))
+                                        <div class="alert alert-warning">
+                                            <span class='glyphicon glyphicon-warning-sign'></span>
+                                            {{ trans('polls.message_vote_one_time') }}
+                                        </div>
+                                    @endif
                                     <div class="col-lg-12">
                                         @foreach ($poll->options as $option)
                                             <div class="col-lg-4">
@@ -78,8 +85,8 @@
                                                         <img src="{{ $option->showImage() }}" onclick="showModelImage('{{ $option->showImage() }}')" width="60px" height="60px" style="display: block; margin: auto; cursor: pointer">
                                                     </div>
                                                     <div class="panel-footer">
-                                                        @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) && ! $isLimit && ! $poll->isClosed() || ! $isSetIp)
-                                                            <center>
+                                                        @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
+                                                        <center>
                                                                 @if ($poll->multiple == trans('polls.label.multiple_choice'))
                                                                     {!! Form::checkbox('option[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
                                                                 @else
@@ -118,9 +125,11 @@
                     {!! Form::close() !!}
                 </div>
                 <div class="tab-pane" id="info">
-                 @if ($isLimit)
-                    <label class="alert alert-warning col-lg-6 col-lg-offset-3"> <span class="glyphicon glyphicon-warning-sign"></span>{{ trans('polls.reach_limit') }}</label>
-                @endif
+                    @if ($isLimit)
+                        <label class="alert alert-danger col-lg-6 col-lg-offset-3"> <span class="glyphicon glyphicon-warning-sign"></span>
+                            {{ trans('polls.reach_limit') }}
+                        </label>
+                    @endif
                     <!-- POLL INFO -->
                     <div class="col-lg-12">
                         <label style="word-wrap: break-word">
@@ -129,16 +138,19 @@
                                 <i class="fa fa-info-circle" aria-hidden="true"></i></a>
                         </span>
                         </label>
+                        <br>
                         <span>
-                        <i class="fa fa-user" aria-hidden="true"></i>
-                        @if ($poll->user_id)
-                            <label style="color: blue;">{{ $poll->user->name }}</label>
-                        @else
-                            <label style="color: blue;">{{ $poll->name }}</label>
+                            <i class="fa fa-user" aria-hidden="true"></i>
+                            @if ($poll->user_id)
+                                <label style="color: blue;">{{ $poll->user->name }}</label>
+                            @else
+                                <label style="color: blue;">{{ $poll->name }}</label>
+                            @endif
+                        </span>
+                        @if ($poll->location)
+                            <span style="float: right; cursor: pointer" data-placement="top" data-toggle="tooltip" title="{{ $poll->location }}">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
                         @endif
-                    </span>
-                        <span style="float: right; cursor: pointer" data-placement="top" data-toggle="tooltip" title="{{ $poll->location }}">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
                     </span>
                     </div>
                     <div class="col-lg-12">
@@ -395,7 +407,8 @@
                             </div>
                         </div>
                     @else
-                        <div class="alert alert-info">
+                        <div class="alert alert-warning">
+                            <span class='glyphicon glyphicon-warning-sign'></span>
                             {{ trans('polls.hide_result_message') }}
                         </div>
                     @endif

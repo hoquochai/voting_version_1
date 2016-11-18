@@ -78,6 +78,7 @@ function createOption(viewOption, number, oldInput) {
 
 //Show option image
 function showOptionImage(idOption) {
+    addAutoOption(idOption);
     $('input[name = "optionImage[' + idOption + ']"]').click();
 }
 
@@ -314,7 +315,7 @@ $(document).ready(function() {
         });
 
         $('[data-toggle="tooltip"]').tooltip();
-        var $validator = $("#form_create_poll").validate({
+        var $validator = $("#form_create_poll, #form_update_poll_info").validate({
             rules: {
                 email: {
                     required: true,
@@ -332,9 +333,6 @@ $(document).ready(function() {
                 closingTime: {
                     time:true
                 },
-                member: {
-                    participant:true
-                }
             },
             messages: {
                 email: {
@@ -371,6 +369,7 @@ $(document).ready(function() {
                 }
             }
         });
+
 
         $('#create_poll_wizard').bootstrapWizard({
             'tabClass': 'nav nav-tabs',
@@ -481,7 +480,63 @@ $(document).ready(function() {
             return false;
         }
     });
+
 });
+
+function updatePollInfo()
+{
+    //get validation of form
+    var valid = $("#form_update_poll_info").valid();
+    if(! valid) {
+        $validator.focusInvalid();
+        return false;
+    }
+
+    return true;
+}
+
+/*
+ validate update poll setting
+ */
+function updatePollSetting() {
+    var isValid = true;
+
+    $('input[name^="setting"]:checked').each(function () {
+        if ($(this).val() == pollData.config.setting.custom_link) {
+            isValid = checkLink();
+        } else if ($(this).val() == pollData.config.setting.set_limit) {
+            isValid = checkLimit();
+        } else if ($(this).val() == pollData.config.setting.set_password) {
+            isValid = checkPassword();
+        }
+    });
+
+    return isValid;
+}
+
+function checkLimitUpdate() {
+    // var limit = $('#limit').val();
+    // var id = $('.hide').data('id');
+    // var message = $('.hide').data('emailMessage');
+    // $.ajax({
+    //     url: $('.hide').data("routeLimit"),
+    //     type: 'post',
+    //     data: {
+    //         'limit': limit,
+    //         'id': id,
+    //         '_token': $('.hide').data("token")
+    //     },
+    //     success: function (data) {
+    //         if (data.success) {
+    //             $('.message-send-mail').html("<div class='alert alert-success'>" + message.send_email_success + "</div>");
+    //         } else {
+    //             $('.message-send-mail').html("<div class='alert alert-danger'>" + message.send_email_fail + "</div>");
+    //         }
+    //     }
+    // });
+    return true;
+}
+
 
 /*
  show password
@@ -582,14 +637,40 @@ function showPanelImage(id) {
 
 function changeLinkAdmin() {
     $('#label_link_admin').html(pollData.config.link + $('#link_admin').val());
-    if (validateLink($('#link_admin').val()).responseJSON.success) {
+    if ($('#link_admin').val() == "") {
         $('#link_admin').closest('.form-group').addClass('has-error');
         $('.error_link_admin').closest('.form-group').addClass('has-error');
-        $('.error_link_admin').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
+        $('.error_link_admin').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
     } else {
-        $('#link_admin').closest('.form-group').removeClass('has-error');
-        $('.error_link_admin').closest('.form-group').removeClass('has-error');
-        $('.error_link_admin').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
+        if (validateLink($('#link_admin').val()).responseJSON.success) {
+            $('#link_admin').closest('.form-group').addClass('has-error');
+            $('.error_link_admin').closest('.form-group').addClass('has-error');
+            $('.error_link_admin').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
+        } else {
+            $('#link_admin').closest('.form-group').removeClass('has-error');
+            $('.error_link_admin').closest('.form-group').removeClass('has-error');
+            $('.error_link_admin').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
+        }
+    }
+
+}
+
+function changeLinkUser() {
+    $('#label_link_user').html(pollData.config.link + $('#link_user').val());
+    if ($('#link_user').val() == "") {
+        $('#link_user').closest('.form-group').addClass('has-error');
+        $('.error_link_user').closest('.form-group').addClass('has-error');
+        $('.error_link_user').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+    } else {
+        if (validateLink($('#link_user').val()).responseJSON.success) {
+            $('#link_user').closest('.form-group').addClass('has-error');
+            $('.error_link_user').closest('.form-group').addClass('has-error');
+            $('.error_link_user').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
+        } else {
+            $('#link_user').closest('.form-group').removeClass('has-error');
+            $('.error_link_user').closest('.form-group').removeClass('has-error');
+            $('.error_link_user').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
+        }
     }
 }
 
@@ -673,3 +754,4 @@ function copyToClipboard(element) {
     document.execCommand("copy");
     $temp.remove();
 }
+

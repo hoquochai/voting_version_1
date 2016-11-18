@@ -6,13 +6,19 @@
         data-poll-id="{{ $poll->id }}" data-route="{{ url('user/poll') }}"
         data-link-exist="{{ trans('polls.link_exist') }}" data-link-invalid="{{ trans('polls.link_invalid') }}"
         data-edit-link-success="{{ trans('polls.edit_link_successfully') }}"
-        data-link="{{ url('link') }}">
+        data-link="{{ url('link') }}"
+        data-route-link="{{ route('link-poll.store') }}"
+        data-delete-participant="{{ trans('polls.confirm_delete_all_participant') }}"
+        data-close-poll="{{ trans('polls.confirm_close_poll') }}"
+        data-reopen-poll="{{ trans('polls.confirm_reopen_poll') }}"
+        data-url-reopen-poll="{{ url('user/poll') }}">
     </div>
-    <div class="row">
-        <div id="manager_poll_wizard" class="col-md-10 col-md-offset-1 well wrap-poll">
+    <div class="col-lg-12">
+        <div class="loader"></div>
+        <div id="manager_poll_wizard" class="col-md-6 col-md-offset-3 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner">
-                    <div class="col-md-10 col-md-offset-1 col-lg-12 panel-heading">
+                    <div class="col-lg-6 col-lg-offset-3 panel-heading">
                         <ul>
                             <li><a href="#info" data-toggle="tab">{{ trans('polls.poll_info') }}</a></li>
                             <li><a href="#vote_detail" data-toggle="tab">{{ trans('polls.show_vote_details') }}</a></li>
@@ -32,11 +38,9 @@
                     </div>
                 @endif
                 <div class="tab-pane" id="info">
-                    <h4>
-                        {!! $poll->status !!}
-                        <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" target="_blank" style="float: right">{{ trans('polls.link_vote') }}
-                        </a>
-                    </h4>
+                    {!! $poll->status !!}
+                    <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" target="_blank" style="float: right">{{ trans('polls.link_vote') }}
+                    </a>
                     @include('layouts.poll_info')
                 </div>
                 <div class="tab-pane" id="vote_detail">
@@ -79,27 +83,37 @@
                                         </div>
                                         <div class="panel-body">
                                             <h4>{{ trans('polls.total_vote') }}:
-                                                    {{ $statistic['total'] }}
-                                                </h4>
+                                                {{ $statistic['total'] }}
+                                            </h4>
                                             @if ($statistic['total'] > config('settings.default_value'))
-                                                <h4>{{ trans('polls.vote_first_time') }}:{{ $statistic['firstTime'] }}</h4>
-                                                <h4>{{ trans('polls.vote_last_time') }}:{{ $statistic['lastTime'] }}</h4>
+                                                <h4>{{ trans('polls.vote_first_time') }}:
+                                                    {{ $statistic['firstTime'] }}</h4>
+                                                <h4>{{ trans('polls.vote_last_time') }}:
+                                                    {{ $statistic['lastTime'] }}</h4>
                                                 @if ($statistic['largestVote']['number'] > 0 && $statistic['largestVote']['option'])
                                                     <h4>{{ trans('polls.option_highest_vote') }}:
                                                         @if (! empty($statistic['largestVote']['option']))
-                                                            {{ $statistic['largestVote']['option']->name }}
-                                                            <span class="label label-default">{{ $statistic['largestVote']['number'] }}</span>
+                                                            @foreach ($statistic['largestVote']['option'] as $largestVote)
+                                                                {{ $largestVote->name }}
+                                                                @if (! $loop->last)
+                                                                    ,
+                                                                @endif
+                                                            @endforeach
+                                                            ({{ $statistic['largestVote']['number'] . ' ' . trans('polls.vote')}})
                                                         @endif
                                                     </h4>
                                                 @endif
-                                                @if ($statistic['leastVote']['number'] > 0 && $statistic['leastVote']['option'])
                                                 <h4>{{ trans('polls.option_lowest_vote') }}:
                                                     @if (! empty($statistic['leastVote']['option']))
-                                                        {{ $statistic['leastVote']['option']->name }}
-                                                        <span class="label label-default">{{ $statistic['leastVote']['number'] }}</span>
+                                                        @foreach ($statistic['leastVote']['option'] as $leastVote )
+                                                            {{ $leastVote->name }}
+                                                            @if (! $loop->last)
+                                                                ,
+                                                            @endif
+                                                        @endforeach
+                                                        ({{ $statistic['leastVote']['number'] . ' ' . trans('polls.vote')}})
                                                     @endif
                                                 </h4>
-                                                @endif
                                             @endif
                                         </div>
                                     </div>
@@ -113,7 +127,29 @@
                                             </button>
                                         </div>
                                         <div class="panel-body">
-                                            <table class="table table-hover table-responsive">
+                                            <div class="row">
+                                                <div class="col-lg-3 col-lg-offset-6">
+                                                    {{ Form::open(['route' => ['exportPDF', 'poll_id' => $poll->id]]) }}
+                                                    {{
+                                                        Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_pdf'), [
+                                                            'type' => 'submit',
+                                                            'class' => 'btn btn-administration btn-right'
+                                                        ])
+                                                    }}
+                                                    {{ Form::close() }}
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    {{ Form::open(['route' => ['exportExcel', 'poll_id' => $poll->id]]) }}
+                                                    {{
+                                                        Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_excel'), [
+                                                            'type' => 'submit',
+                                                            'class' => 'btn btn-administration btn-right'
+                                                        ])
+                                                    }}
+                                                    {{ Form::close() }}
+                                                </div>
+                                            </div>
+                                            <table class="table table-hover table-responsive" style="margin-top: 20px">
                                                 <thead>
                                                     <tr>
                                                         <th>{{ trans('polls.no') }}</th>
@@ -285,10 +321,13 @@
                 <div class="tab-pane" id="activity">
                     <div class="row">
                         <div class="col-lg-6">
+                            <label id="label_link_admin">{{ url('/') . config('settings.email.link_vote') . $tokenLinkAdmin }}</label>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <span class="input-group-addon" id="basic-addon3">administrator</span>
-                                    <input type="text" name="administer_link" class="form-control token-admin" value="{{ $tokenLinkAdmin }}" id="link_admin">
+                                    <span class="input-group-addon" id="basic-addon3">
+                                        <i class="fa fa-link" aria-hidden="true"></i>
+                                    </span>
+                                    <input type="text" name="administer_link" class="form-control token-admin" value="{{ $tokenLinkAdmin }}" id="link_admin" onkeyup="changeLinkAdmin()">
                                     <span class="input-group-btn" data-token-link-admin="{{ $tokenLinkAdmin }}">
                                         {{ Form::button('<i class="fa fa-check" aria-hidden="true"></i>', ['class' => 'btn btn-success edit-link-admin']) }}
                                     </span>
@@ -302,9 +341,12 @@
                             </div>
                         </div>
                         <div class="col-lg-6">
+                            <label id="label_link_user">{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}</label>
                             <div class="input-group">
-                                <span class="input-group-addon" id="basic-addon3">vote</span>
-                                <input type="text" name="participation_link" class="form-control token-user" value="{{ $tokenLinkUser }}" id="link_user">
+                                <span class="input-group-addon" id="basic-addon3">
+                                    <i class="fa fa-link" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" name="participation_link" class="form-control token-user" value="{{ $tokenLinkUser }}" id="link_user" onkeyup="changeLinkUser()">
                                 <span class="input-group-btn" data-token-link-user="{{ $tokenLinkUser }}">
                                     <button class="btn btn-success edit-link-user" type="button">
                                         <i class="fa fa-check" aria-hidden="true"></i>
@@ -319,76 +361,49 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12">
+                    <div class="row">
                         <hr style="border: 1px solid darkcyan">
                     </div>
                     <div class="row">
-                        <div class="col-lg-6" style="float: left">
-                            <p>
-                                <a href="{{ URL::action('User\ActivityController@show', $poll->id) }}" class="btn btn-administration">
+                        <div class="col-lg-3">
+
+                                <a href="{{ URL::action('User\ActivityController@show', $poll->id) }}" class="btn btn-administration btn-block">
                                     <span class="fa fa-history"></span>
                                     {{ trans('polls.view_history') }}
                                 </a>
-                            </p>
-                            @if (! $statistic['total'])
-                                <p><a href="{{ route('user-poll.edit', $poll->id) }}" class="btn btn-administration">
+                        </div>
+                        <div class="col-lg-3">
+                                <a href="{{ route('user-poll.edit', $poll->id) }}" class="btn btn-administration btn-block">
                                         <span class="fa fa-pencil"></span> {{ trans('polls.tooltip.edit') }}
-                                    </a></p>
-                            @endif
+                                    </a>
+                        </div>
+                        <div class="col-lg-3">
                             @if ($poll->isClosed())
-                                <a class="btn btn-administration" href="{{ URL::action('User\PollController@edit', ['id' => $poll->id]) }}">
+                                <a class="reopen-poll btn btn-administration btn-block" href="#">
                                     <i class="fa fa-external-link" aria-hidden="true"></i> {{ trans('polls.reopen_poll') }}
                                 </a>
                             @endif
-                            @if (! $poll->isClosed())
-                                <p>
-                                    {{ Form::open(['route' => ['poll.destroy', $poll->id], 'method' => 'delete']) }}
-                                    {{
-                                        Form::button('<span class="fa fa-times-circle"></span>' . ' ' . trans('polls.close_poll'), [
-                                            'type' => 'submit',
-                                            'class' => 'btn btn-administration',
-                                            'onclick' => 'return confirm("' . trans('polls.confirm_close_poll') . '")'
-                                        ])
-                                    }}
-                                    {{ Form::close() }}
-                                </p>
-                            @endif
-                            @if ($poll->countParticipants())
-                                <p>
-                                    {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id]]) !!}
-                                    {{
-                                        Form::button('<span class="fa fa-trash-o"></span>' . ' ' . trans('polls.delete_all_participants'), [
-                                            'type' => 'submit',
-                                            'class' => 'btn btn-administration',
-                                            'onclick' => 'return confirm("' . trans('polls.confirm_delete_all_participant') . '")'
-                                        ])
-                                    }}
-                                    {{ Form::close() }}
-                                </p>
 
+                            @if (! $poll->isClosed())
+                                {{ Form::open(['route' => ['poll.destroy', $poll->id], 'id' => 'close-poll', 'method' => 'delete']) }}
+                                {{
+                                    Form::button('<span class="fa fa-times-circle"></span>' . ' ' . trans('polls.close_poll'), [
+                                        'class' => 'close-poll btn btn-block btn-administration',
+                                    ])
+                                }}
+                                {{ Form::close() }}
                             @endif
                         </div>
-                        <div class="col-lg-6">
-                            <div class="btn-right">
-                                {{ Form::open(['route' => ['exportPDF', 'poll_id' => $poll->id]]) }}
+                        <div class="col-lg-3">
+                            @if ($poll->countParticipants())
+                                {!! Form::open(['route' => ['delete_all_participant', 'poll_id' => $poll->id], 'id' => 'form-delete-participant']) !!}
                                 {{
-                                    Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_pdf'), [
-                                        'type' => 'submit',
-                                        'class' => 'btn btn-administration btn-right'
+                                    Form::button('<span class="fa fa-trash-o"></span>' . ' ' . trans('polls.delete_all_participants'), [
+                                        'class' => 'btn-delete-participant btn btn-block btn-administration',
                                     ])
                                 }}
                                 {{ Form::close() }}
-                            <p style="clear: both">
-                            </p>
-                                {{ Form::open(['route' => ['exportExcel', 'poll_id' => $poll->id]]) }}
-                                {{
-                                    Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_excel'), [
-                                        'type' => 'submit',
-                                        'class' => 'btn btn-administration btn-right'
-                                    ])
-                                }}
-                                {{ Form::close() }}
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

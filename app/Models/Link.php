@@ -40,7 +40,11 @@ class Link extends Model
         if ($tokenInput != $this->token) {
             $this->token = $tokenInput;
             $result['success'] = true;
-            $emails = $this->poll->user->email;
+            $emails = $this->poll->email;
+
+            if ($this->poll->user_id) {
+                $emails = $this->poll->user->email;
+            }
 
             try {
                 Mail::send('layouts.edit_link_mail', [

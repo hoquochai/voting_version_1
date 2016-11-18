@@ -133,6 +133,10 @@ Route::resource('status', 'StatusController', ['only' => [
     'store'
 ]]);
 
-Route::get('test-email', function () {
-    return view('layouts.mail_edit_option');
-});
+/*
+ * Route check limit of poll
+ */
+Route::resource('limit', 'LimitController', ['only' => [
+    'store'
+]]);
+

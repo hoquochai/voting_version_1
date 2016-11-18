@@ -19,7 +19,7 @@ return [
     'edit' => 'Chỉnh sửa',
     'home' => 'Trang chủ',
     'admin_page' => 'TRANG CHỦ ADMIN',
-    'errors' => 'Lỗi',
+    'errors' => 'Thông tin',
 
     /**
      * MASTER ADMIN
@@ -40,8 +40,6 @@ return [
         'link_vote' => 'Link bầu chọn vote:',
         'link_admin' => 'Link quản lý vote:',
         'subject' => 'Bầu chọn',
-        'open_poll' => 'Quản trị poll đã mở lại poll',
-        'close_poll' => 'Poll đã được đóng',
         'delete_all_participant' => 'Quản trị poll này đã xóa tất cả các bầu chọn của poll',
         'register_active_mail' => 'Bạn đã đăng ký thành công, hãy kích vào đường dẫn sau để kích hoạt tài khoản.',
         'edit_poll' => [
@@ -91,6 +89,18 @@ return [
             'thank' => 'Cảm ơn bạn đã sử dụng Website của chúng tôi. <br> Bạn đã chỉnh sửa link THÀNH CÔNG.',
             'link_edit' => 'Click vào đường dẫn bên dưới để xem chi tiết',
         ],
+        'close_poll' => [
+            'thank' => 'Cảm ơn bạn đã sử dụng website của chúng tôi. <br> Bạn đã đóng poll THÀNH CÔNG.',
+            'link_admin' => 'Click vào đường dẫn bên dưới để quản lý poll',
+        ],
+        'open_poll' => [
+            'thank' => 'Cảm ơn bạn đã sử dụng website của chúng tôi. <br> Bạn đã mở poll THÀNH CÔNG.',
+            'link_admin' => 'Click vào đường dẫn bên dưới để quản lý poll',
+        ],
+        'delete_participant' => [
+            'thank' => 'Cảm ơn bạn đã sử dụng website của chúng tôi. <br> Bạn đã xóa tất cả bầu chọn THÀNH CÔNG.',
+            'link_admin' => 'Click vào đường dẫn bên dưới để quản lý poll',
+        ],
     ],
     'paginations' => 'Hiển thị :start đến :finish của :numberOfRecords mục|Đang hiển thị :start đến :finish of :numberOfRecords mục',
     'gender' => [
@@ -100,10 +110,10 @@ return [
         '2' => 'Giới tính khác',
     ],
     'footer' => [
-        'location' => 'Hùng Vương, Đà Nẵng, Việt Nam',
-        'copyright' => 'Copyright &copy; 2016',
-        'email' => 'poll.voting.hv@gmail.com',
-        'phone' => '0988965135',
+        'location' => 'Tầng 13, Keangnam Landmark 72, Đường Phạm Hùng, Nam Từ Liêm, Hà Nội, Việt Nam',
+        'copyright' => 'Copyright 2016 Framgia',
+        'email' => 'hr_team@framgia.com',
+        'phone' => ' 84-4-3795-5417',
         'about' => 'Giới thiệu website',
         'description_website' => 'Website giúp bạn tạo một bầu chọn nhanh chóng và dễ dàng',
     ],

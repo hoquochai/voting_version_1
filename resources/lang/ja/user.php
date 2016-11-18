@@ -1,111 +1,97 @@
 <?php
 
 return [
-    'title' => 'Admin - User',
+    'title' => '管理者 - ユーザー',
     'panel_head' => [
-        'index' => 'LIST ALL USERS',
-        'create' => 'CREATE A NEW USER',
-        'edit' => 'EDIT A USER',
+        'index' => 'ユーザーリスト',
+        'create' => '新しいユーザーを作成',
+        'edit' => 'ユーザーの編集',
     ],
     'button' => [
-        'create' => 'CREATE USER',
-        'reset_search' => 'RESET SEARCH',
-        'search' => 'SEARCH NOW',
-        'back' => 'BACK TO LIST USERS',
-        'edit' => 'EDIT USER',
+        'create' => 'ユーザーを作成',
+        'reset_search' => 'ビューリスト',
+        'search' => 'サーチ',
+        'back' => 'バック',
+        'edit' => 'ユーザーの編集',
     ],
     'label' => [
-        'search' => 'Search information of user...',
-        'STT' => 'No.',
-        'name' => 'Full name',
-        'email' => 'E-mail address',
-        'chatwork' => 'Chatwork ID',
+        'search' => 'ユーザー情報を検索する...',
+        'STT' => '数値順',
+        'name' => 'フルネーム',
+        'email' => 'メールアドレス',
+        'chatwork' => 'ID chatwork',//
         'gender' => [
-            'name' => 'Gender',
-            'male' => 'Male',
-            'female' => 'Female',
-            'other' => 'Other',
+            'name' => '性別',
+            'male' => '男性',
+            'female' => '女性',
+            'other' => '他の性別',
+            '' => null,
         ],
-        'avatar' => 'Avatar',
-        'password' => 'Password',
+        'avatar' => 'アバター',
+        'password' => 'パスワード',
         'required' => '*',
     ],
     'label_for' => [
-        'name' => 'name',
-        'email' => 'email',
-        'chatwork' => 'chatwork',
+        'name' => '名前',
+        'email' => 'メール',
+        'chatwork' => 'chatwork',//
         'gender' => [
-            'name' => 'gender',
-            'male' => 'male',
-            'female' => 'female',
-            'other' => 'other',
-            '' => null,
+            'name' => '性別',
+            'male' => '男性',
+            'female' => '女性',
+            'other' => '他の性別',
         ],
-        'avatar' => 'avatar',
-        'password' => 'password',
+        'avatar' => 'アバター',
+        'password' => 'パスワード',
     ],
     'message' => [
-        'confirm_delete' => 'Are you sure you want to delete this user?',
-        'not_found_users' => 'Can\'t found list of users in system',
-        'create_success' => ' Create user SUCCESS',
-        'create_fail' => ' Create user FAIL',
-        'update_success' => ' Update user SUCCESS',
-        'update_fail' => ' Update user FAIL',
-        'delete_success' => ' Delete user SUCCESS',
-        'delete_fail' => ' Delete user FAIL',
+        'confirm_delete' => 'Bạn có chắc chắn sẽ xóa người dùng này hay không',//
+        'not_found_users' => 'Không thể tìm thấy người dùng nào trong hệ thống',//
+        'create_success' => 'Tạo người dùng THÀNH CÔNG',//
+        'create_fail' => 'Tạo người dùng THẤT BẠI',//
+        'update_success' => 'Chỉnh sửa thông tin THÀNH CÔNG',//
+        'update_fail' => 'Chỉnh sửa thông tin THẤT BẠI',//
+        'delete_success' => 'Xóa người dùng THÀNH CÔNG',//
+        'delete_fail' => 'Xóa người dùng THẤT BẠI',//
     ],
     'tooltip' => [
-        'edit' => 'Edit this user',
-        'delete' => 'Delete this user',
+        'edit' => 'このユーザーを編集',
+        'delete' => 'このユーザーを削除',
     ],
     'placeholder' => [
-        'name' => 'Please enter full name of user...',
-        'email' => 'Please enter email address of user...',
-        'chatwork' => 'Please enter id chatwork of user...',
-        'password' => 'Please enter password of user...',
-        'gender' => 'Please choose gender...',
+        'name' => 'ユーザーの名前を入力してください...',
+        'email' => 'ユーザーのメールアドレスを入力してください...',
+        'chatwork' => 'ユーザーのchatwork_idを入力してください',//
+        'password' => 'ユーザーのパスワードを入力してください',
+        'gender' => '性別を選択してください',
     ],
     'validate' => [
         'name' => [
-            'required' => 'Please enter name!',
-            'max' => 'Please enter a value less than or equal to ' . config('common.length_user.name'),
+            'required' => '名前を入力してください！',
+            'max' => '値は ' . config('common.length_user.name') . ' 文字以下でなければなりません',
         ],
         'email' => [
-            'required' => 'Please enter email!',
-            'max' => 'Please enter a value less than or equal to ' . config('common.length_user.email'),
-            'email' => 'Email invalid',
-            'unique' => 'Email is exists in database. Please enter a new email',
+            'required' => 'メールアドレスを入力してください!',
+            'max' => '値は ' . config('common.length_user.email') . ' 文字以下でなければなりません',
+            'email' => '無効なメール',
+            'unique' => 'メールはシステムにすでに存在しています. 別のメールアドレスを入力してください!',
         ],
         'chatwork' => [
-            'max' => 'Please enter a value less than or equal to ' . config('common.length_user.chatwork'),
+            'max' => '値は ' . config('common.length_user.chatwork') . ' 文字以下でなければなりません',
         ],
         'avatar' => [
-            'image' => 'Please upload image!',
-            'max' => 'Please enter a image have size less than or equal to ' . config('common.length_user.name') . 'MB',
+            'image' => '画像をアップロードしてください',
+            'max' => '画像サイズは ' . config('common.length_user.name') . ' MB以下でなければなりません',
         ],
         'password' => [
-            'required' => 'Please enter password!',
-            'max' => 'Please enter a value less than or equal to ' . config('common.length_user.password'),
+            'required' => 'パスワードを入力してください',
+            'max' => '値は ' . config('common.length_user.password') . ' 文字以下でなければなりません',
         ],
     ],
-    'update_profile_successfully' => 'You updated profile successfully',
-    'register_account_successfully' => 'You actived account successfully',
-    'register_account_fail' => 'You actived account fail',
-    'register_account' => 'You registered account, Please check mail to active account',
-    'account_unactive' => 'Please check mail and active this account',
-    'login_successfully' => 'Login successfully',
-    'login' => [
-        'placeholder' => [
-            'email' => 'Enter your email...',
-            'password' => 'Enter your password...',
-        ],
-    ],
-    'register' => [
-        'placeholder' => [
-            'name' => 'Enter your name...',
-            'email' => 'Enter your email...',
-            'password' => 'Enter your password...',
-            'password_confirm' => 'Enter confirm password...',
-        ],
-    ],
+    'update_profile_successfully' => 'プロフィールが正常に更新されました',
+    'register_account_successfully' => 'アカウントが正常に有効にしました',
+    'register_account_fail' => 'アカウントを失敗有効にしました', //
+    'register_account' => 'アカウントを正常に登録しました, アカウントを有効にするためにメールをチェックしてください',
+    'account_unactive' => 'メールを開いてこのアカウントを有効にしてください',
+    'login_successfully' => 'ログインの成功',
 ];

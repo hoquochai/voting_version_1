@@ -16,7 +16,7 @@
                                     <div class="col-md-10 col-md-offset-2">
                                         {{ Form::open(['route' => 'set-password.store']) }}
                                         <div class="col-md-6">
-                                            {{ Form::password('password', ['id' => 'password', 'class' => 'form-control', 'placeholder' => trans('polls.placeholder.password_poll')]) }}
+                                            {{ Form::password('password', ['id' => 'password', 'class' => 'form-control', 'placeholder' => trans('polls.placeholder.password_poll'), 'autofocus' => 'true']) }}
                                             {{ Form::hidden('poll_id', $poll->id) }}
                                             {{ Form::hidden('token', $token) }}
                                         </div>
