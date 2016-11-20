@@ -4,13 +4,13 @@
 <div class="container">
     <div class="row">
         <div class="loader"></div>
-        <div id="voting_wizard" class="col-lg-10 col-lg-offset-1 well wrap-poll">
+        <div id="voting_wizard" class="col-lg-8 col-lg-offset-2 well wrap-poll">
             <div class="navbar panel">
-                <div class="navbar-inner">
-                    <div class="col-lg-12 panel-heading">
+                <div class="navbar-inner col-lg-12">
+                    <div class="col-lg-6 col-lg-offset-3 panel-heading">
                         <ul>
-                            <li><a href="#info" data-toggle="tab">{{ trans('polls.nav_tab_edit.info') }}</a></li>
                             <li><a href="#vote" data-toggle="tab">{{ trans('polls.nav_tab_edit.voting') }}</a></li>
+                            <li><a href="#info" data-toggle="tab">{{ trans('polls.nav_tab_edit.info') }}</a></li>
                             <li><a href="#result" data-toggle="tab">{{ trans('polls.nav_tab_edit.result') }}</a></li>
                         </ul>
                     </div>
@@ -21,50 +21,88 @@
                 @include('layouts.message')
                 <div class="tab-pane" id="vote">
                 {!! Form::open(['route' => 'vote.store','id' => 'form-vote']) !!}
-                <!-- VOTE INFO -->
-                    @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
-                    <div class="panel panel-default">
-                            <div class="panel-body">
-                                <div class="col-lg-12">
-                                    <label class="message-validation"></label>
-                                </div>
-                                <div class="col-lg-12">
-                                    {!! Form::hidden('pollId', $poll->id) !!}
-                                    {!! Form::hidden('isRequiredEmail', $isRequiredEmail) !!}
-                                    <div class="row">
-                                        <div class="col-lg-4">
-                                            <div class="input-group">
-                                                <span class="input-group-addon">
-                                                    <i class="fa fa-user" aria-hidden="true"></i>
-                                                </span>
-                                                {!! Form::text('nameVote', auth()->check() ? auth()->user()->name : null, ['class' => 'form-control nameVote', 'placeholder' => trans('polls.placeholder.enter_name')]) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <div class="input-group {{ ($isRequiredEmail) ? "required" : "" }}">
-                                                <span class="input-group-addon">
-                                                    <i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>
-                                                </span>
-                                                {!! Form::email('emailVote', auth()->check() ? auth()->user()->email : null, ['class' => 'form-control emailVote', 'placeholder' => trans('polls.placeholder.email')]) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-4">
-                                            <span class="input-group-btn" data-message-email="{{ trans('polls.message_email') }}" data-url="{{ url('/check-email') }}" data-message-required-email="{{ trans('polls.message_required_email') }}" data-message-validate-email="{{ trans('polls.message_validate_email') }}" data-is-required-email="{{ $isRequiredEmail ? 1 : 0 }}">
-                                            {{ Form::button(trans('polls.vote'), ['class' => 'btn btn-success btn-vote', !$isUserVoted ? 'disabled' : '']) }}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endif
-
                     <!-- VOTE OPTION -->
-                    <div class="panel panel-default">
+                    <div class="panel panel-default" style="border-radius: 0">
+                        <div class="panel-heading" style="border-radius: 0">
+                            <ul class="nav nav-pills">
+                                <li class="active">
+                                    <a data-toggle="tab" href="#horizontal">
+                                        <i class="fa fa-bars" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#vertical">
+                                        <i class="fa fa-th" aria-hidden="true"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                         <div class="panel-body">
+                            <label class="message-validation"></label>
+                            <div class="col-lg-12">
+                                <h3>{{ $poll->title }}</h3>
+                                @if ($poll->description)
+                                    <span>
+                                    <a href="#" data-placement="right" data-toggle="tooltip" title="{{ $poll->description }}">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                                @endif
+
+                                <label class="poll-count">
+                                            <span class="label label-primary glyphicon glyphicon-user poll-details">
+                                                {{ $mergedParticipantVotes->count() }}
+                                            </span>
+                                    <span class="label label-info glyphicon glyphicon-comment poll-details">
+                                                <span class="comment-count">{{ $poll->countComments() }}</span>
+                                            </span>
+                                    <span class="label label-success glyphicon glyphicon-time poll-details">
+                                                {{ $poll->created_at->diffForHumans() }}
+                                            </span>
+                                </label>
+                            </div>
+                            <div class="col-lg-12">
+                                <hr style="border: 1px solid darkcyan">
+                            </div>
                             <div class="tab-content">
+                                <!-- VOTE OPTION HORIZONTAL-->
+                                <div id="horizontal" class="tab-pane fade in active">
+                                    @if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))
+                                        <div class="alert alert-warning">
+                                            <span class='glyphicon glyphicon-warning-sign'></span>
+                                            {{ trans('polls.message_vote_one_time') }}
+                                        </div>
+                                    @endif
+                                    @foreach ($poll->options as $option)
+                                        <div class="col-lg-12">
+                                            <div class="panel panel-default panel-voted" id="{{ $option->id }}" onclick="voted('{{ $option->id }}')">
+                                                <div class="panel-body" id="option_{{ $option->id }}">
+                                                    <div class="col-lg-1">
+                                                        <div class="center">
+                                                            @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
+                                                                <center>
+                                                                    @if ($poll->multiple == trans('polls.label.multiple_choice'))
+                                                                        {!! Form::checkbox('option[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
+                                                                    @else
+                                                                        {!! Form::radio('option[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
+                                                                    @endif
+                                                                </center>
+                                                            @endif
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-11">
+                                                        <img class="img-thumbnail" src="{{ $option->showImage() }}" onmouseover="showModelImage('{{ $option->showImage() }}')" width="100px" height="100px" style="cursor: pointer; float: left">
+                                                        <label style="word-wrap: break-word; text-align: left; margin-left: 110px; display: block">
+                                                            {{ $option->name ? $option->name : " " }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
                                 <!-- VOTE OPTION VERTICAL-->
-                                <div id="vertical" class="tab-pane fade in active">
+                                <div id="vertical" class="tab-pane fade in">
                                     @if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))
                                         <div class="alert alert-warning">
                                             <span class='glyphicon glyphicon-warning-sign'></span>
@@ -86,13 +124,11 @@
                                                     </div>
                                                     <div class="panel-footer">
                                                         @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
-                                                        <center>
                                                                 @if ($poll->multiple == trans('polls.label.multiple_choice'))
-                                                                    {!! Form::checkbox('option[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
+                                                                    {!! Form::checkbox('option_vertical[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
                                                                 @else
-                                                                    {!! Form::radio('option[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
+                                                                    {!! Form::radio('option_vertical[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
                                                                 @endif
-                                                            </center>
                                                         @endif
                                                     </div>
                                                 </div>
@@ -102,7 +138,37 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="panel-footer">
+                            @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
+                                {!! Form::hidden('pollId', $poll->id) !!}
+                                {!! Form::hidden('isRequiredEmail', $isRequiredEmail) !!}
+                                <div class="row">
+                                    <div class="col-lg-5">
+                                        <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                    </span>
+                                            {!! Form::text('nameVote', auth()->check() ? auth()->user()->name : null, ['class' => 'form-control nameVote', 'placeholder' => trans('polls.placeholder.enter_name')]) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-5">
+                                        <div class="input-group {{ ($isRequiredEmail) ? "required" : "" }}">
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-envelope" aria-hidden="true"></i>
+                                    </span>
+                                            {!! Form::email('emailVote', auth()->check() ? auth()->user()->email : null, ['class' => 'form-control emailVote', 'placeholder' => trans('polls.placeholder.email')]) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <span class="input-group-btn" data-message-email="{{ trans('polls.message_email') }}" data-url="{{ url('/check-email') }}" data-message-required-email="{{ trans('polls.message_required_email') }}" data-message-validate-email="{{ trans('polls.message_validate_email') }}" data-is-required-email="{{ $isRequiredEmail ? 1 : 0 }}">
+                                        {{ Form::button(trans('polls.vote'), ['class' => 'btn btn-success btn-vote', !$isUserVoted ? 'disabled' : '']) }}
+                                        </span>
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
                     </div>
+
                     <!-- MODAL VIEW IMAGE-->
                     <div id="modalImageOption" class="modal fade" role="dialog">
                         <div class="modal-dialog">
@@ -134,9 +200,13 @@
                     <div class="col-lg-12">
                         <label style="word-wrap: break-word">
                             {{ $poll->title }}
-                            <span><a href="#" data-placement="right" data-toggle="tooltip" title="{{ $poll->description }}">
-                                <i class="fa fa-info-circle" aria-hidden="true"></i></a>
-                        </span>
+                            @if ($poll->description)
+                                <span>
+                                    <a href="#" data-placement="right" data-toggle="tooltip" title="{{ $poll->description }}">
+                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                    </a>
+                                </span>
+                            @endif
                         </label>
                         <br>
                         <span>

@@ -11,7 +11,7 @@
 @endif
 
 <!-- ERROR OPTION -->
-<div class="form-group">
+<div class="col-lg-12 form-group">
     <div class="error_option"></div>
 </div>
 

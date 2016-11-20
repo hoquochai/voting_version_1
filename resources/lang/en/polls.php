@@ -12,7 +12,7 @@ return [
         'edit' => 'EDIT A POLL',
     ],
     'label' => [
-        'step_1' => 'Poll Information',
+        'step_1' => 'information',
         'full_name' => 'Full-name',
         'email' => 'E-Mail Address',
         'chatwork' => 'Chatwork ID',
@@ -29,10 +29,10 @@ return [
         'closed' => 'Closed',
         'poll_opening' => '<span class="label label-success">opening</span>',
         'poll_closed' => '<span class="label label-danger">closed</span>',
-        'step_2' => 'Poll Option',
+        'step_2' => 'option',
         'option' => 'Option',
         'option_image' => 'Image',
-        'step_3' => 'Poll Setting',
+        'step_3' => 'setting',
         'setting' => [
             'required_email' => 'Required email to voting',
             'hide_result' => 'Hide voting result',
@@ -43,7 +43,7 @@ return [
             'password_poll' => 'Password of poll: ',
             'is_set_ip' => 'Only vote one time',
         ],
-        'step_4' => 'Participant',
+        'step_4' => 'participant',
         'invite' => 'If you want send mail to participants, let enter email into below textbox!',
         'search' => 'Search poll information...',
         'search_all' => 'All',
@@ -234,7 +234,7 @@ return [
     ],
 
     'result_create' => [
-        'head' => 'POLL - VOTING',
+        'head' => 'Fpoll',
         'thank' => 'Thank, ',
         'create_success' => 'Your poll has been created',
         'send_mail' => 'The following two links have been send to :email in one e-mail each.',

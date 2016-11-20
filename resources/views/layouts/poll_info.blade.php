@@ -10,8 +10,26 @@
     }}
 @endif
 <div class="row">
+<!-- NAME -->
+    <div class="col-lg-6">
+        <div class="form-group">
+            <div class="input-group required">
+                <span class="input-group-addon">
+                    <i class="fa fa-user" aria-hidden="true"></i>
+                </span>
+                {{
+                    Form::text('name', (isset($poll) && $poll && $poll->user_id) ? $poll->user->name :  ((isset($poll) && $poll->name) ? $poll->name : (auth()->user() ? auth()->user()->name : null)), [
+                        'class' => 'form-control',
+                        'id' => 'name',
+                        'placeholder' => trans('polls.placeholder.full_name'),
+                        'disabled' => auth()->user() ? true : null,
+                    ])
+                }}
+            </div>
+        </div>
+    </div>
 <!-- EMAIL -->
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="form-group">
             <div class="input-group required">
                 <span class="input-group-addon">
@@ -31,32 +49,14 @@
             </div>
         </div>
     </div>
-<!-- NAME -->
-    <div class="col-lg-4">
-        <div class="form-group">
-            <div class="input-group required">
-                <span class="input-group-addon">
-                    <i class="fa fa-user" aria-hidden="true"></i>
-                </span>
-                {{
-                    Form::text('name', (isset($poll) && $poll && $poll->user_id) ? $poll->user->name :  ((isset($poll) && $poll->name) ? $poll->name : (auth()->user() ? auth()->user()->name : null)), [
-                        'class' => 'form-control',
-                        'id' => 'name',
-                        'placeholder' => trans('polls.placeholder.full_name'),
-                        'disabled' => auth()->user() ? true : null,
-                    ])
-                }}
-            </div>
-        </div>
-    </div>
 </div>
 <div class="row">
 <!-- TITLE -->
-    <div class="col-lg-8">
+    <div class="col-lg-6">
         <div class="form-group">
             <div class="input-group required">
                 <span class="input-group-addon">
-                    <i class="fa fa-tag" aria-hidden="true"></i>
+                    <b>T</b>
                 </span>
                 {{
                     Form::text('title', (isset($poll) && $poll) ? $poll->title : null, [
@@ -69,7 +69,7 @@
         </div>
     </div>
 <!-- TYPE -->
-    <div class="col-lg-4">
+    <div class="col-lg-6">
         <div class="form-group">
             {{ Form::select('type', $data['viewData']['types'],
                 (isset($poll) && $poll) ? ($poll->multiple == trans('polls.label.multiple_choice') ? config('settings.type_poll.multiple_choice') : config('settings.type_poll.single_choice')): null, ['class' => 'form-control']) }}

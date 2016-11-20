@@ -23,9 +23,9 @@
                 <h4>{{ trans('polls.result_create.create_success') }}</h4>
                 <p>{{ trans('polls.result_create.send_mail', ['email' => ($poll->user_id) ? $poll->user->email : $poll->email]) }}</p>
                 <p><a href="#" onclick="sendMailAgain()">{{ trans('polls.send_mail_again') }}</a></p>
-                <p><i>{{ trans('polls.result_create.participant_link') }}</i></p>
-                <p>{{ trans('polls.result_create.help_participant') }}</p>
-                <a href="{{ $link['participant'] }}" target="_blank" id="linkVote">{{ $link['participant'] }}</a>
+                <p><b>{{ trans('polls.result_create.participant_link') }}</b></p>
+                <p><i>{{ trans('polls.result_create.help_participant') }}</i></p>
+                <a href="{{ $link['participant'] }}" target="_blank" id="linkVote">{{ str_limit($link['participant'], 30) }}</a>
                 <button class="btn btn-success btn-sm" onclick="copyToClipboard('#linkVote')">
                     <span class="glyphicon glyphicon-copy"></span> {{ trans('polls.copy_link') }}
                 </button>
@@ -33,9 +33,9 @@
                     <p>{{ trans('label.password') }}: {{ $password }}</p>
                 @endif
                 <hr>
-                <p><i>{{ trans('polls.result_create.link_admin') }}</i></p>
-                <p>{{ trans('polls.result_create.help_admin') }}</p>
-                <a href="{{ $link['administration'] }}" id="linkAdmin" target="_blank">{{ $link['administration'] }}</a>
+                <p><b>{{ trans('polls.result_create.link_admin') }}</b></p>
+                <p><i>{{ trans('polls.result_create.help_admin') }}</i></p>
+                <a href="{{ $link['administration'] }}" id="linkAdmin" target="_blank">{{ str_limit($link['administration'], 30) }}</a>
                 <button class="btn btn-success btn-sm" onclick="copyToClipboard('#linkAdmin')">
                     <span class="glyphicon glyphicon-copy"></span> {{ trans('polls.copy_link') }}
                 </button>

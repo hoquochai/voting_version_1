@@ -547,31 +547,31 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'password' => $password,
             ];
 
-            if ($input['member']) {
-                $members = explode(",", $input['member']);
-                $view = config('settings.view.poll_mail');
-                $data = [
-                    'linkVote' => $links['participant'],
-                    'poll' => $poll,
-                    'password' => $password,
-                ];
-                $subject = trans('label.mail.subject');
-                $this->sendEmail($members, $view, $data, $subject, 'participant');
-            }
-            /*
-             * send mail creator
-             */
-            $creatorView = config('settings.view.poll_mail');
-            $email = $input['email'];
-            $data = [
-                'userName' => $input['name'],
-                'linkVote' => $links['participant'],
-                'linkAdmin' => $links['administration'],
-                'poll' => $poll,
-                'password' => $password,
-            ];
-            $subject = trans('label.mail.subject');
-            $this->sendEmail($email, $creatorView, $data, $subject, 'creator');
+//            if ($input['member']) {
+//                $members = explode(",", $input['member']);
+//                $view = config('settings.view.poll_mail');
+//                $data = [
+//                    'linkVote' => $links['participant'],
+//                    'poll' => $poll,
+//                    'password' => $password,
+//                ];
+//                $subject = trans('label.mail.subject');
+//                $this->sendEmail($members, $view, $data, $subject, 'participant');
+//            }
+//            /*
+//             * send mail creator
+//             */
+//            $creatorView = config('settings.view.poll_mail');
+//            $email = $input['email'];
+//            $data = [
+//                'userName' => $input['name'],
+//                'linkVote' => $links['participant'],
+//                'linkAdmin' => $links['administration'],
+//                'poll' => $poll,
+//                'password' => $password,
+//            ];
+//            $subject = trans('label.mail.subject');
+//            $this->sendEmail($email, $creatorView, $data, $subject, 'creator');
             DB::commit();
 
             return $dataRtn;

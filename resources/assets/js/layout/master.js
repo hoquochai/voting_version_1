@@ -88,7 +88,9 @@ function readURL(input, idShow) {
         var reader = new FileReader();
         reader.onload = function (e) {
             $('#' + idShow).show().attr('src', e.target.result);
+            checkImageSame();
         };
+
         reader.readAsDataURL(input.files[0]);
     }
 }
@@ -389,7 +391,7 @@ $(document).ready(function() {
 
                 //check option of poll
                 if (wizard == 1) {
-                    return validateOption();
+                    return validateOption() && (! checkOptionSame() && (! checkImageSame()));
                 } else if (wizard == 2) {
                     var isValid = true;
 
@@ -419,7 +421,7 @@ $(document).ready(function() {
                 }
                 //check option of poll
                 if (wizard == 1) {
-                    return validateOption();
+                    return validateOption() && (! checkOptionSame()) && (! checkImageSame());
                 } else if (wizard == 2) {
                     var isValid = true;
 
@@ -434,6 +436,33 @@ $(document).ready(function() {
                     });
 
                     return isValid;
+                }
+
+                if (index == 0) {
+                    $('.info-explain').css('display', 'block');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'none');
+                } else if (index == 1) {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'block');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'none');
+                } else if (index == 2) {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'block');
+                    $('.participant-explain').css('display', 'none');
+                } else if (index == 3) {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'block');
+                } else {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'none');
                 }
 
             },
@@ -460,6 +489,33 @@ $(document).ready(function() {
                         $(! '.participant-explain').hide('slow');
                         $('.participant-explain').show('slow');
                     }
+                }
+
+                if (index == 0) {
+                    $('.info-explain').css('display', 'block');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'none');
+                } else if (index == 1) {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'block');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'none');
+                } else if (index == 2) {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'block');
+                    $('.participant-explain').css('display', 'none');
+                } else if (index == 3) {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'block');
+                } else {
+                    $('.info-explain').css('display', 'none');
+                    $('.option-explain').css('display', 'none');
+                    $('.setting-explain').css('display', 'none');
+                    $('.participant-explain').css('display', 'none');
                 }
             }
         });
@@ -755,3 +811,58 @@ function copyToClipboard(element) {
     $temp.remove();
 }
 
+function checkOptionSame() {
+    var valuesSoFar = [];
+    var isDuplicate = false;
+    $('input[name^="optionText"]').each(function () {
+        var value = $(this).val();
+        if (valuesSoFar.indexOf(value) !== -1 && value != "") {
+            isDuplicate = true;
+        }
+        valuesSoFar.push(value);
+    });
+
+    if (isDuplicate) {
+        $('.error_option').closest('.form-group').addClass('has-error');
+        $('.error_option').html('<span id="title-error" class="help-block"> Duplicate</span>');
+    } else {
+        $('.error_option').closest('.form-group').removeClass('has-error');
+        $('.error_option').html('');
+    }
+
+    return isDuplicate;
+}
+
+function checkImageSame() {
+    var srcs = [],
+        temp;
+    var  isDuplicate = false;
+    var images = $(".poll-option img").get();
+
+    $.each(images, function(key, image){
+        temp = $('#' + $(image).attr("id")).attr("src");
+        if (temp != "#") {
+            if($.inArray(temp, srcs) < 0){
+                srcs.push(temp);
+            } else {
+                isDuplicate = true;
+            }
+        }
+
+    });
+
+    if (isDuplicate) {
+        $('.error_option').closest('.form-group').addClass('has-error');
+        $('.error_option').html('<span id="title-error" class="help-block"> Duplicate</span>');
+    } else {
+        $('.error_option').closest('.form-group').removeClass('has-error');
+        $('.error_option').html('');
+    }
+
+    return isDuplicate;
+}
+
+function voted(id) {
+    $('input:radio[value=' + id + ']').prop('checked', true);
+    $('input:checkbox[value=' + id + ']').prop('checked', true);
+}
