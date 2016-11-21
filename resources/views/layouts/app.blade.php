@@ -8,16 +8,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @yield('meta')
+
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Styles -->
     {!! Html::style('css/app.css') !!}
 
     {!! Html::style('css/user.css') !!}
-
-
-
-{{--    {!! Html::style('css/layout/mail_notification.css') !!}--}}
 
     <!-- Bootstrap CSS -->
     {!! Html::style('bower/bootstrap/dist/css/bootstrap.min.css') !!}

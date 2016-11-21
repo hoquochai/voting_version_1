@@ -4,6 +4,7 @@
 @endsection
 @section('content')
     <div class="col-lg-12">
+        <div class="loader"></div>
         <div class="hide"
              data-poll="{{ $data['jsonData'] }}"
              data-route-email="{{ url('/check-email') }}"

@@ -36,14 +36,14 @@ return [
      * EMAIL
      */
     'mail' => [
-        'head' => 'POLL - VOTING',
+        'head' => 'Fpoll',
         'link_vote' => 'Link to vote:',
         'link_admin' => 'Link manager vote:',
         'subject' => 'Voting',
         'delete_all_participant' => 'Admin of poll deleted all participant',
         'register_active_mail' => 'You register successfully. Please click on link to active account. Link here: ',
         'edit_poll' => [
-            'head' => 'Voting - Change',
+            'head' => 'Fpoll',
             'summary' => 'Poll of you changed!',
             'thead' => [
                 'STT' => 'NO.',
@@ -55,7 +55,7 @@ return [
         ],
         'create_poll' => [
             'title' => 'Poll',
-            'head' => 'POLL - VOTE',
+            'head' => 'Fpoll',
             'dear' => 'Dear',
             'thank' => 'Thank you because you have used website our. <br> Your poll created SUCCESS. Below, it\'s two link which they send your mail.',
             'link_vote' => 'Link to vote for this poll',

@@ -49,9 +49,9 @@ class LinkController extends Controller
             $user->save();
 
             if (! Auth::login($user)) {
-                return redirect()->to(url('/'))->withMessages(trans('user.register_account_successfully'));
+                return redirect()->to(url('/'))->withMessage(trans('user.register_account_successfully'));
             } else {
-                return redirect()->to(url('/'))->withMessages(trans('user.register_account_fail'));
+                return redirect()->to(url('/'))->withMessage(trans('user.register_account_fail'));
             }
         } else {
             return view('errors.show_errors')->with('message', trans('polls.link_not_found'));
@@ -245,6 +245,8 @@ class LinkController extends Controller
             }
 
             $dataTableResult = $this->pollRepository->getDataTableResult($poll, $isRequiredEmail);
+
+//            foreach ($poll->options as )
 
             return view('user.poll.details', compact(
                 'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',

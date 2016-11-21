@@ -4,6 +4,7 @@
 @endsection
 @section('content')
     <div class="col-lg-12">
+        <div class="loader"></div>
         <div class="hide"
              data-poll="{{ $data['jsonData'] }}"
              data-route-email="{{ url('/check-email') }}"
@@ -64,7 +65,7 @@
                     <div class="tab-pane" id="info">
                         <div class="panel" style="margin: 0; border-radius: 0;border-color: darkcyan">
                             <div class="panel-heading" style="background: darkcyan; border-color: darkcyan; border-radius: 0; color: white">
-                                {{ strtoupper(trans('polls.label.step_1')) }}
+                                {{ trans('polls.label.step_1') }}
                             </div>
                             <div class="panel-body">
                                 @include('layouts.poll_info')
@@ -74,38 +75,7 @@
                     <div class="tab-pane" id="option">
                         <div class="panel" style="border-color: darkcyan; border-radius: 0">
                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0">
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        {{ strtoupper(trans('polls.label.step_2')) }}
-                                    </div>
-                                    <div class="col-lg-2 col-lg-offset-6">
-                                        <!-- BUTTON ADD OPTION -->
-                                        <div class="addAdvance">
-                                            <div class="input-group input-group-sm">
-                                                {{
-                                                    Form::number('number', null, [
-                                                        'class' => 'form-control',
-                                                        'id' => 'number',
-                                                        'min' => 1,
-                                                        'max' => 99,
-                                                        'oninput' => "validity.valid||(value='1');",
-                                                    ])
-                                                }}
-                                                <span class="input-group-btn">
-                                                    {{
-                                                        Form::button('<span class="glyphicon glyphicon-plus"></span>', [
-                                                            'class' => 'btn btn-default',
-                                                            'onclick' => 'addOption(' . $data['jsonData'] . ')'
-                                                        ])
-                                                    }}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-
+                                {{ trans('polls.label.step_2') }}
                             </div>
                             <div class="panel-body">
                                 @include('layouts.poll_options')
@@ -115,7 +85,7 @@
                     <div class="tab-pane" id="setting">
                         <div class="panel" style="border-color: darkcyan; border-radius: 0">
                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0">
-                                {{ strtoupper(trans('polls.label.step_3')) }}
+                                {{ trans('polls.label.step_3') }}
                             </div>
                             <div class="panel-body">
                                 @include('layouts.poll_setting')
@@ -125,7 +95,7 @@
                     <div class="tab-pane" id="participant">
                         <div class="panel" style="border-color: darkcyan; border-radius: 0">
                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0">
-                                {{ strtoupper(trans('polls.label.step_4')) }}
+                                {{ trans('polls.label.step_4') }}
                             </div>
                             <div class="panel-body">
                                 @include('layouts.poll_participant')
@@ -139,29 +109,25 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2 " style="padding-right: 0; margin-top: 100px">
-                    <div class="panel info-explain panel-default animated fadeInUp" style="border: none; position: fixed">
-                        <div class="panel-body" style="background: black; color: white">
-                            INFORMAITON Tooltips & popovers in button groups require special setting
-                            When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).
+            <div class="col-lg-2 " style="padding-right: 0; margin-top: 20px">
+                    <div class="panel info-explain panel-default animated fadeInRight" style="border: none; position: fixed">
+                        <div class="panel-body panel-body-explain">
+                            {!! trans('polls.tooltip.info')  !!}
                         </div>
                     </div>
-                    <div class="panel panel-default option-explain animated fadeInUp" style="border: none; position: fixed">
-                        <div class="panel-body" style="background: black; color: white">
-                            OPTION Tooltips & popovers in button groups require special setting
-                            When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).
+                    <div class="panel panel-default option-explain animated fadeInRight" style="border: none; position: fixed">
+                        <div class="panel-body panel-body-explain">
+                            {!! trans('polls.tooltip.option')  !!}
                         </div>
                     </div>
-                    <div class="panel panel-default setting-explain animated fadeInUp" style="border: none; position: fixed">
-                        <div class="panel-body" style="background: black; color: white">
-                            SETTING Tooltips & popovers in button groups require special setting
-                            When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).
+                    <div class="panel panel-default panel-setting-explain animated fadeInRight" style="border: none; position: fixed">
+                        <div class="panel-body panel-body-explain">
+                            {!! trans('polls.tooltip.setting')  !!}
                         </div>
                     </div>
-                    <div class="panel  participant-explain panel-default animated fadeInUp" style="border: none; position: fixed">
-                        <div class="panel-body" style="background: black; color: white">
-                            PARTICIPANT Tooltips & popovers in button groups require special setting
-                            When using tooltips or popovers on elements within a .btn-group, you'll have to specify the option container: 'body' to avoid unwanted side effects (such as the element growing wider and/or losing its rounded corners when the tooltip or popover is triggered).
+                    <div class="panel panel-participant-explain panel-default animated fadeInRight" style="border: none; position: fixed">
+                        <div class="panel-body panel-body-explain">
+                            {!! trans('polls.tooltip.participant') !!}
                         </div>
                     </div>
             </div>

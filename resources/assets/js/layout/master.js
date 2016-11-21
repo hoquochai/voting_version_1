@@ -29,6 +29,7 @@ $(document).ready(function () {
     $(".finish").click(function () {
         if (validateParticipant()) {
             $('#form_create_poll').submit();
+            $('.loader').show();
         }
     });
 });
@@ -103,6 +104,14 @@ function removeOpion(idOption, action) {
         }
     } else {
         $("#" + idOption).remove();
+        var optionLists = $('input[name^="optionText"]');
+        if (optionLists.length == 0) {
+            $('.error_option').closest('.form-group').addClass('has-error');
+            $('.error_option').html('<span id="title-error" class="help-block">' + pollData.message.option_minimum + '</span>');
+            var viewOption = pollData.view.option;
+            var number = pollData.config.length.option;
+            createOption(viewOption);
+        }
     }
 
 }
@@ -135,16 +144,17 @@ function settingAdvance(key) {
 function validateOption() {
     var optionLists = $('input[name^="optionText"]');
     var imageLists = $('input[name^="optionImage"]');
-    var isOption = false;
+    var isOption = true;
+    var isEmpty = false;
     $('#validateOption').html("");
 
-    if (typeof dataAction !== "undefined") {
-        if (dataAction == "edit") {
-            if ($('.old-option').text().trim() !== "") {
-                return true;
-            }
-        }
-    }
+    // if (typeof dataAction !== "undefined") {
+    //     if (dataAction == "edit") {
+    //         if ($('.old-option').text().trim() !== "") {
+    //             return true;
+    //         }
+    //     }
+    // }
 
     if (optionLists.length == 0 && imageLists.length == 0) {
         $('.error_option').closest('.form-group').addClass('has-error');
@@ -152,25 +162,36 @@ function validateOption() {
         return false;
     }
 
-    optionLists.each(function (key) {
+    optionLists.each(function () {
         if ($(this).val() != "") {
-            isOption = true;
-        } else {
-            imageLists.each(function () {
-                if ($(this).val() != "") {
-                    isOption = true;
-                }
-            });
+            isEmpty = true;
         }
     });
 
-    if (!isOption) {
+    if (! isEmpty) {
         $('.error_option').closest('.form-group').addClass('has-error');
         $('.error_option').html('<span id="title-error" class="help-block">' + pollData.message.option_required + '</span>');
         return false;
     }
 
-    return true;
+    optionLists.each(function (key) {
+        var id = $(this).attr('id');
+
+        if ($(this).val() == "") {
+            imageLists.each(function (keyImage) {
+                if (keyImage == key) {
+                    if ($(this).val() != "") {
+                        $('#' + id).addClass('error-input');
+                        $('.error_option').closest('.form-group').addClass('has-error');
+                        $('.error_option').html('<span id="title-error" class="help-block">' + pollData.message.option_required + '</span>');
+                        isOption = false;
+                    }
+                }
+            });
+        }
+    });
+
+    return isOption;
 }
 
 function validateParticipant() {
@@ -391,7 +412,7 @@ $(document).ready(function() {
 
                 //check option of poll
                 if (wizard == 1) {
-                    return validateOption() && (! checkOptionSame() && (! checkImageSame()));
+                    return validateOption() && (! checkOptionSame());
                 } else if (wizard == 2) {
                     var isValid = true;
 
@@ -407,6 +428,7 @@ $(document).ready(function() {
 
                     return isValid;
                 }
+
             },
             onTabClick: function(tab, navigation, index) {
                 //get validation of form
@@ -421,7 +443,7 @@ $(document).ready(function() {
                 }
                 //check option of poll
                 if (wizard == 1) {
-                    return validateOption() && (! checkOptionSame()) && (! checkImageSame());
+                    return validateOption() && (! checkOptionSame());
                 } else if (wizard == 2) {
                     var isValid = true;
 
@@ -437,34 +459,6 @@ $(document).ready(function() {
 
                     return isValid;
                 }
-
-                if (index == 0) {
-                    $('.info-explain').css('display', 'block');
-                    $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'none');
-                } else if (index == 1) {
-                    $('.info-explain').css('display', 'none');
-                    $('.option-explain').css('display', 'block');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'none');
-                } else if (index == 2) {
-                    $('.info-explain').css('display', 'none');
-                    $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'block');
-                    $('.participant-explain').css('display', 'none');
-                } else if (index == 3) {
-                    $('.info-explain').css('display', 'none');
-                    $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'block');
-                } else {
-                    $('.info-explain').css('display', 'none');
-                    $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'none');
-                }
-
             },
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
@@ -494,28 +488,23 @@ $(document).ready(function() {
                 if (index == 0) {
                     $('.info-explain').css('display', 'block');
                     $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'none');
+                    $('.panel-setting-explain').css('display', 'none');
+                    $('.panel-participant-explain').css('display', 'none');
                 } else if (index == 1) {
                     $('.info-explain').css('display', 'none');
                     $('.option-explain').css('display', 'block');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'none');
+                    $('.panel-setting-explain').css('display', 'none');
+                    $('.panel-participant-explain').css('display', 'none');
                 } else if (index == 2) {
                     $('.info-explain').css('display', 'none');
                     $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'block');
-                    $('.participant-explain').css('display', 'none');
+                    $('.panel-setting-explain').css('display', 'block');
+                    $('.panel-participant-explain').css('display', 'none');
                 } else if (index == 3) {
                     $('.info-explain').css('display', 'none');
                     $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'block');
-                } else {
-                    $('.info-explain').css('display', 'none');
-                    $('.option-explain').css('display', 'none');
-                    $('.setting-explain').css('display', 'none');
-                    $('.participant-explain').css('display', 'none');
+                    $('.panel-setting-explain').css('display', 'none');
+                    $('.panel-participant-explain').css('display', 'block');
                 }
             }
         });
@@ -692,7 +681,19 @@ function showPanelImage(id) {
 }
 
 function changeLinkAdmin() {
-    $('#label_link_admin').html(pollData.config.link + $('#link_admin').val());
+    var tokenLinkAdmin = $('.hide').data('tokenAdmin');
+    if (tokenLinkAdmin != $('#link_admin').val()) {
+        $('#label_link_admin').removeAttr('href');
+    } else {
+        $('#label_link_admin').attr('href', $('.token-admin').val());
+    }
+
+    if ((pollData.config.link + $('#link_admin').val()).length > 60) {
+        $('#label_link_admin').html((pollData.config.link + $('#link_admin').val()).substring(0, 60) + '...');
+    } else {
+        $('#label_link_admin').html(pollData.config.link + $('#link_admin').val());
+    }
+
     if ($('#link_admin').val() == "") {
         $('#link_admin').closest('.form-group').addClass('has-error');
         $('.error_link_admin').closest('.form-group').addClass('has-error');
@@ -712,7 +713,20 @@ function changeLinkAdmin() {
 }
 
 function changeLinkUser() {
-    $('#label_link_user').html(pollData.config.link + $('#link_user').val());
+    var tokenLinkUser = $('.hide').data('tokenUser');
+    if (tokenLinkUser != $('#link_user').val()) {
+        $('#label_link_user').removeAttr('href');
+    } else {
+        $('#label_link_user').attr('href', $('.token-user').val());
+    }
+
+    if ((pollData.config.link + $('#link_user').val()).length > 60) {
+        $('#label_link_user').html((pollData.config.link + $('#link_user').val()).substring(0, 60) + '...');
+    } else {
+        $('#label_link_user').html(pollData.config.link + $('#link_user').val());
+    }
+
+
     if ($('#link_user').val() == "") {
         $('#link_user').closest('.form-group').addClass('has-error');
         $('.error_link_user').closest('.form-group').addClass('has-error');
@@ -750,6 +764,7 @@ $('#scroll').click(function(){
 function auto add option
  */
 function addAutoOption(idOption) {
+    $('#optionText-' + idOption).removeClass('error-input');
     if ($('#' + idOption).is(':last-child')) {
         var viewOption = pollData.view.option;
         var number = pollData.config.length.option;
@@ -781,6 +796,7 @@ function sendMailAgain() {
     var link = $('.hide').data('emailLink');
     var password = $('.hide').data('emailPassword');
     var message = $('.hide').data('emailMessage');
+    $('.loader').show();
     $.ajax({
         url: $('.hide').data("emailRoute"),
         type: 'post',
@@ -791,6 +807,7 @@ function sendMailAgain() {
             '_token': $('.hide').data("token")
         },
         success: function (data) {
+            $('.loader').hide();
             if (data.success) {
                 $('.message-send-mail').html("<div class='alert alert-success'>" + message.send_email_success + "</div>");
             } else {
@@ -803,15 +820,15 @@ function sendMailAgain() {
 /*
 auto copy link
  */
-function copyToClipboard(element) {
+function copyToClipboard(element, link) {
     var $temp = $("<input>");
     $("body").append($temp);
-    $temp.val($(element).text()).select();
+    $temp.val(link).select();
     document.execCommand("copy");
     $temp.remove();
 }
 
-function checkOptionSame() {
+function checkOptionSame(input) {
     var valuesSoFar = [];
     var isDuplicate = false;
     $('input[name^="optionText"]').each(function () {
@@ -824,7 +841,7 @@ function checkOptionSame() {
 
     if (isDuplicate) {
         $('.error_option').closest('.form-group').addClass('has-error');
-        $('.error_option').html('<span id="title-error" class="help-block"> Duplicate</span>');
+        $('.error_option').html('<span id="title-error" class="help-block">' + pollData.message.option_duplicate + '</span>');
     } else {
         $('.error_option').closest('.form-group').removeClass('has-error');
         $('.error_option').html('');
@@ -852,10 +869,8 @@ function checkImageSame() {
     });
 
     if (isDuplicate) {
-        $('.error_option').closest('.form-group').addClass('has-error');
-        $('.error_option').html('<span id="title-error" class="help-block"> Duplicate</span>');
+        $('.error_option').html('<span id="title-warning" class="help-block">' + pollData.message.option_image_duplicate + '</span>');
     } else {
-        $('.error_option').closest('.form-group').removeClass('has-error');
         $('.error_option').html('');
     }
 
@@ -865,4 +880,10 @@ function checkImageSame() {
 function voted(id) {
     $('input:radio[value=' + id + ']').prop('checked', true);
     $('input:checkbox[value=' + id + ']').prop('checked', true);
+}
+
+function autoScrollToElement(id) {
+    $('html, body').animate({
+        scrollTop: $("#" + id).offset().top + 100
+    }, 2000);
 }

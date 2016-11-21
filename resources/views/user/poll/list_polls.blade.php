@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+    <div class="loader"></div>
         <div class="col-md-10 col-md-offset-1">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('polls.list_polls') }}</div>
@@ -38,18 +39,14 @@
                                     {{ trans('polls.list_all_polls') }}
                                 </button>
                                 <p class="message-initiated-poll lastest-poll-message"></p>
-                                <div class="panel panel-default">
-                                    <div class="panel-body">
-                                        <div class="polls-initiated">
-                                            @if ($initiatedPolls->count())
-                                                @include('user.poll.list_polls_layouts', ['polls' => $initiatedPolls])
-                                            @else
-                                                <div class="alert alert-info">
-                                                    {{ trans('polls.message.no_poll_create') }}
-                                                </div>
-                                            @endif
+                                <div class="polls-initiated">
+                                    @if ($initiatedPolls->count())
+                                        @include('user.poll.list_polls_layouts', ['polls' => $initiatedPolls])
+                                    @else
+                                        <div class="alert alert-info">
+                                            {{ trans('polls.message.no_poll_create') }}
                                         </div>
-                                    </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

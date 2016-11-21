@@ -36,7 +36,7 @@ return [
      * EMAIL
      */
     'mail' => [
-        'head' => 'HỆ THỐNG BẦU CHỌN',
+        'head' => 'Fpoll',
         'link_vote' => 'Link bầu chọn vote:',
         'link_admin' => 'Link quản lý vote:',
         'subject' => 'Bầu chọn',
@@ -55,7 +55,7 @@ return [
         ],
         'create_poll' => [
             'title' => 'Bình chọn',
-            'head' => 'HỆ THỐNG BÌNH CHỌN',
+            'head' => 'Fpoll',
             'dear' => 'Thân gởi ',
             'thank' => 'Cảm ơn bạn đã sử dụng trang web của chúng tôi. <br> Bình chọn của bạn đã được tạo thành công. Dưới đây là 2 liên kết được gởi đến tin nhắn của bạn',
             'link_vote' => 'Link để bầu chọn',

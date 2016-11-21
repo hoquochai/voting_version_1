@@ -1,17 +1,5 @@
 $(document).ready(function(){
 
-    /* $('.btn-link-user').click(function(e) {
-     e.preventDefault();
-     var link = $('.hide').data('link');
-     window.location.href = link + '/' + $('.token-user').val();
-     });
-
-     $('.btn-link-admin').click(function(e) {
-     e.preventDefault();
-     var link = $('.hide').data('link');
-     window.location.href = link + '/' + $('.token-admin').val();
-     });*/
-
     $('.loader').hide();
 
     $('.btn-delete-participant').on('click', function() {
@@ -41,5 +29,15 @@ $(document).ready(function(){
             window.location.href = urlReopenPoll + '/' + pollId + '/edit';
             $('.loader').show();
         }
+    });
+
+     $('#btn-register').on('click', function() {
+        $('#form-register').submit();
+        $('.loader').show();
+    });
+
+    $('.btn-reset-password').on('click', function() {
+        $('#form-reset-password').submit();
+        $('.loader').show();
     });
 });

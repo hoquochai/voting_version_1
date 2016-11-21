@@ -12,7 +12,7 @@ return [
         'edit' => 'CHỈNH SỬA POLL',
     ],
     'label' => [
-        'step_1' => 'thông tin',
+        'step_1' => 'Thông tin',
         'full_name' => 'Tên',
         'email' => 'Địa chỉ email',
         'chatwork' => 'Chatwork ID',
@@ -29,10 +29,10 @@ return [
         'closed' => 'Đóng',
         'poll_opening' => '<span class="label label-success">đang mở</span>',
         'poll_closed' => '<span class="label label-danger">đã đóng</span>',
-        'step_2' => 'tùy chọn',
+        'step_2' => 'Tùy chọn',
         'option' => 'Tùy chọn',
         'option_image' => 'Ảnh',
-        'step_3' => 'cài đặt',
+        'step_3' => 'Cài đặt',
         'setting' => [
             'required_email' => 'Yêu cầu email để bầu chọn',
             'hide_result' => 'Ẩn kết quả bầu chọn',
@@ -45,7 +45,7 @@ return [
             'off' => 'OFF',
             'is_set_ip' => 'Chỉ được bầu chọn một lần',
         ],
-        'step_4' => 'người tham gia',
+        'step_4' => 'Người tham gia',
         'invite' => 'Nếu bạn muốn gởi thư mời tham gia bầu chọn đến email cụ thể, hãy nhập vào ô dưới đây',
         'search' => 'Tìm kiếm thông tin poll',
         'search_all' => 'Tất cả',
@@ -81,21 +81,21 @@ return [
         'invite' => 'invite',
     ],
     'placeholder' => [
-        'full_name' => 'Nhập tên bạn',
-        'email' => 'Nhập địa chỉ email của bạn',
-        'chatwork' => 'Nhập chatwork id của bạn',
-        'title' => 'Nhập tiêu đề của poll',
-        'description' => 'Nhập mô tả cho poll này',
-        'time_close' => 'Chọn thời gian để đóng poll này',
-        'location' => 'Nhập vị trí',
-        'number_add' => 'Nhập số lượng cần thêm vào',
-        'number_limit' => 'Giới hạn số lượng',
-        'password_poll' => 'Nhập mật khẩu của poll',
-        'option' => 'Nhập tùy chọn của poll',
-        'email_participant' => 'Nhập email người tham gia',
-        'comment' => 'Nhập nội dung bình luận',
-        'enter_name' => 'Nhập tên của bạn',
-        'token_link' => 'Vui lòng nhập token',
+        'full_name' => 'Nhập tên bạn...',
+        'email' => 'Nhập địa chỉ email của bạn...',
+        'chatwork' => 'Nhập chatwork id của bạn...',
+        'title' => 'Nhập tiêu đề của poll...',
+        'description' => 'Nhập mô tả cho poll này...',
+        'time_close' => 'Chọn thời gian để đóng poll này...',
+        'location' => 'Nhập vị trí...',
+        'number_add' => 'Nhập số lượng cần thêm vào...',
+        'number_limit' => 'Giới hạn số lượng...',
+        'password_poll' => 'Nhập mật khẩu của poll...',
+        'option' => 'Nhập tùy chọn của poll...',
+        'email_participant' => 'Nhập email người tham gia...',
+        'comment' => 'Nhập nội dung bình luận...',
+        'enter_name' => 'Nhập tên của bạn...',
+        'token_link' => 'Vui lòng nhập token...',
     ],
     'button' => [
         'search_poll' => 'TÌM KIẾM',
@@ -196,6 +196,48 @@ return [
         'show' => 'Xem chi tiết poll này',
         'open' => 'Mở poll này',
         'close' => 'Đóng poll này',
+        'info' => '<p>Bạn cần cung cấp thông tin poll</p>
+                            <p>
+                                Thông tin cần phải nhập
+                                <ul>
+                                    <li><b>Tên và email</b> để xác định người tạo bình chọn</li>
+                                    <li><b>Tiêu đề</b> để xác định tiêu đề bình chọn</li>
+                                    <li><b>Kiểu bình chọn</b> để xác định loại bình chọn: 1 câu trả lời hay nhiều câu trả lời</li>
+                                </ul>
+                            </p>
+                            <p>
+                                Thông tin thêm(có thể nhập hoặc không)
+                                <ul>
+                                    <li><b>Mô tả</b> để cung cấp thêm thông tin cho bình chọn</li>
+                                    <li><b>Thời gian đóng bình chọn</b> để tự động đóng bình chọn theo thời gian cụ thể</li>
+                                    <li><b>Vị trí</b> để cung cấp thêm vị trí cho bình chọn</li>
+                                </ul>
+                            </p>',
+        'option' => '<p>Bạn cần nhập các câu trả lời để bình chọn</p>
+                            <p>*Lưu ý:
+                                <ul>
+                                    <li>Tối thiểu là một câu trả lời</li>
+                                    <li>Câu trả lời phải có nội dung</li>
+                                    <li>Câu trả lời không được trùng nhau</li>
+                                    <li>Câu trả lời có thể có hình ảnh</li>
+                                </ul>
+                            </p>',
+        'setting' => '<p>Cài đặt của bình chọn(Bạn có thể bỏ qua bước này)</p>
+                            <ul>
+                               <li><b>Yêu cầu email để bầu chọn</b></li> Muốn bầu chọn thì người tham gia phải nhập email
+                                <li><b>Ẩn kết quả bầu chọn</b></li> Người tham gia bầu chọn không thấy được kết quả của bình chọn đó.
+                                <li><b>Chỉnh sửa link</b></li> Nhằm giúp link bầu chọn dễ nhớ hơn.
+                                <li><b>Đặt số lượng bầu chọn tối đa</b></li> Bầu chọn sẽ kết thúc khi số lượng bầu chọn đạt đến số lượng được cài đặt
+                                <li><b>Đặt mật khẩu</b></li> Người tham gia bầu chọn phải nhập mật khẩu để bầu chọn
+                                <li><b>Chỉ được bầu chọn một lần</b></li> Nếu bật thì mỗi người bầu chọn một lần, nếu tắt thì một người được bầu chọn nhiều lần
+                            </ul>',
+        'participant' => '<p>Người tham gia bình chọn(Bạn có thể bỏ qua bước này)</p>
+                            <p>Nếu bạn muốn gời mail mời các người tham gia cụ thể, thì hãy nhập email của họ vào ô bên dưới</p>
+                            <p>*Lưu ý
+                                <ul>
+                                    <li>Khi nhập xong một email hãy nhấn ENTER để xác nhận</li>
+                                </ul>
+                            </p>',
     ],
     'nav_tab_edit' => [
         'info' => 'THÔNG TIN',
@@ -224,6 +266,9 @@ return [
         'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email đã tồn tại trong hệ thống, bạn nên đăng nhập để tạo bình chọn',
         'send_email_success' => 'Một email đã được gởi đến hộp thư của bạn, Vui lòng vào mail để kiểm tra lại.',
         'send_email_fail' => 'Gởi mail thất bại, vui lòng kiểm tra lại địa chỉ email của bạn',
+        'option_duplicate' => 'Tên tùy chọn đã bị trùng, hãy nhập một tên mới...',
+        'option_minimum' => 'Bạn không thể xóa tùy chọn này vì bình chọn phải có ít nhất một câu trả lời',
+        'option_image_duplicate' => 'Có hai hình ảnh giống nhau, bạn chắc chắn sử dụng nó?',
     ],
     'mail' => [
         'label' => [
@@ -257,7 +302,7 @@ return [
     'email' => 'Địa chỉ emai',
     'no' => 'Số thứ tự',
     'poll_history' => 'Lịch sử poll',
-    'show_vote_details' => 'Kết quả',
+    'show_vote_details' => 'Xem chi tiết bầu chọn',
     'poll_info' => 'Thông tin',
     'activity_poll' => 'Hoạt động',
     'next' => 'Tiếp',
@@ -301,7 +346,7 @@ return [
     'message_poll_limit' => 'Xin lỗi, bạn không thể xem poll này, poll đã bầu chọn đủ số lượng',
     'message_poll_closed' => 'Xin lỗi, poll đã đóng, bạn không thể xem poll này',
     'comment_name' => 'Vui lòng nhập tên của bạn',
-    'comment_content' => 'VUi lòng nhập nội dung comment',
+    'comment_content' => 'Vui lòng nhập bình luận',
     'confirmRemove' => 'Bạn có chắc không?',
     'load_latest_polls' => 'Đã cập nhật danh sách poll mới nhất',
     'edit_link_admin' => 'Chỉnh sửa link admin',
@@ -344,7 +389,7 @@ return [
     'email_voted' => 'Địa chỉ email này đã bầu chọn poll này rồi',
     'check' => 'Kiểm tra',
     'message_required_email' => 'Vui lòng nhập địa chỉ emai để bầu chọn poll này',
-    'no_name' => 'Một người ẩn danh',
+    'no_name' => 'Ẩn danh',
     'reach_limit' => 'Poll đã đủ số lượt bầu chọn',
     'action' => 'Xem trang quản trị',
     'required' => 'bắt buộc',
@@ -363,4 +408,5 @@ return [
     'message_vote_one_time' => 'Bạn đã bầu chọn poll này, Poll này chỉ được bầu chọn một lần',
     'confirm_reopen_poll' => 'Bạn có muốn mở lại poll này không?',
     'close_date' => 'thời gian đóng poll',
+    'show_result' => 'Kết quả',
 ];

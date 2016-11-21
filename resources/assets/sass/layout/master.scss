@@ -59,6 +59,14 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
   color: white !important;
 }
 
+.panel-body-explain {
+  background: -webkit-linear-gradient(#F9EFAF, #F7E98D);
+  background: -moz-linear-gradient(#F9EFAF, #F7E98D);
+  background: -o-linear-gradient(#F9EFAF, #F7E98D);
+  background: -ms-linear-gradient(#F9EFAF, #F7E98D);
+  background: linear-gradient(#F9EFAF, #F7E98D);
+  box-shadow:0 4px 6px rgba(0,0,0,0.1);
+}
 
 .navbar-default .navbar-nav > li > a {
   color: white; /*Change active text color here*/
@@ -683,4 +691,18 @@ span.round-tab:hover {
   background: darkcyan !important;
   color: white !important;
   border-color: darkcyan !important;
+}
+
+.addComment {
+  background: darkcyan;
+  margin-top: 10px;
+  border-color: darkcyan;
+  color: white;
+}
+
+.error-input {
+  border-color: red;
+}
+.title-warning {
+  color: orange;
 }

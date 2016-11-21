@@ -83,7 +83,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
             throw new Exception('message.create_error');
         }
 
-        return redirect()->to(url('/'))->withMessages(trans('user.register_account'));
+        return redirect()->to(url('/login'))->withMessages(trans('user.register_account'));
     }
 
     public function update($inputs, $id)

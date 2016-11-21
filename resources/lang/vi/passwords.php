@@ -18,5 +18,7 @@ return [
     'sent' => 'Chung tôi đã gửi email để reset mật khẩu',
     'token' => 'Token để reset mật khẩu không chính xác',
     'user' => "Không tìm thấy người dùng với địa chỉ email này",
+    'send_password_reset_link' => 'Gửi link để reset mật khẩu',
+    'reset_password' => 'Reset mật khẩu',
 
 ];

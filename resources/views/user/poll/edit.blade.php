@@ -12,7 +12,8 @@
         data-route-limit="{{ route('limit.store') }}"
         data-poll-return="{{ json_encode($poll) }}">
     </div>
-    <div id="edit_poll_wizard" class="col-lg-6 col-lg-offset-3 well wrap-poll">
+    <div class="loader"></div>
+    <div id="edit_poll_wizard" class="col-lg-10 col-lg-offset-1 well wrap-poll">
         <div class="navbar panel">
             <div class="navbar-inner">
                 <div class="col-md-12 col-lg-4 col-lg-offset-4 panel-heading">

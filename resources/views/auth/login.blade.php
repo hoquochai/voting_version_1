@@ -3,6 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row">
+        <div class="loader"></div>
         <div class="col-md-4 col-md-offset-4 animated fadeInUp login">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('label.login') }}</div>

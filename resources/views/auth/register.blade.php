@@ -3,12 +3,13 @@
 @section('content')
 <div class="container">
     <div class="row">
+    <div class="loader"></div>
         <div class="col-md-6 col-md-offset-3 animated fadeInDown register">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('label.register') }}</div>
                 <div class="panel-body">
                     @include('errors.errors')
-                    {{ Form::open(['route' => 'user-register', 'class' => 'form-horizontal', 'files' => true]) }}
+                    {{ Form::open(['route' => 'user-register', 'class' => 'form-horizontal', 'files' => true, 'id' => 'form-register']) }}
                         <div class="form-group">
                             <div class="input-group col-md-10 col-md-offset-1">
                                 <span class="input-group-addon" id="basic-addon1">
@@ -68,7 +69,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                {{ Form::button('<i class="fa fa-btn fa-user"></i> ' . trans('label.register'), ['type' => 'submit', 'class' => 'btn btn-success btn-block btn-register']) }}
+                                {{ Form::button('<i class="fa fa-btn fa-user"></i> ' . trans('label.register'), ['id' => 'btn-register', 'class' => 'btn btn-success btn-block btn-register']) }}
                             </div>
                         </div>
                         <hr>

@@ -12,7 +12,7 @@ return [
         'edit' => 'EDIT A POLL',
     ],
     'label' => [
-        'step_1' => 'information',
+        'step_1' => 'Information',
         'full_name' => 'Full-name',
         'email' => 'E-Mail Address',
         'chatwork' => 'Chatwork ID',
@@ -29,10 +29,10 @@ return [
         'closed' => 'Closed',
         'poll_opening' => '<span class="label label-success">opening</span>',
         'poll_closed' => '<span class="label label-danger">closed</span>',
-        'step_2' => 'option',
+        'step_2' => 'Option',
         'option' => 'Option',
         'option_image' => 'Image',
-        'step_3' => 'setting',
+        'step_3' => 'Setting',
         'setting' => [
             'required_email' => 'Required email to voting',
             'hide_result' => 'Hide voting result',
@@ -43,7 +43,7 @@ return [
             'password_poll' => 'Password of poll: ',
             'is_set_ip' => 'Only vote one time',
         ],
-        'step_4' => 'participant',
+        'step_4' => 'Participant',
         'invite' => 'If you want send mail to participants, let enter email into below textbox!',
         'search' => 'Search poll information...',
         'search_all' => 'All',
@@ -194,6 +194,48 @@ return [
         'show' => 'View detail this poll',
         'open' => 'Open this poll',
         'close' => 'Close this poll',
+        'info' => '<p>You need provider poll information</p>
+                            <p>
+                                Information must enter
+                                <ul>
+                                    <li><b>Enter name and email</b> to confirm poll creator</li>
+                                    <li><b>Enter title</b> to confirm poll title</li>
+                                    <li><b>Enter type</b> to confirm type of poll: single choice or multiple choice</li>
+                                </ul>
+                            </p>
+                            <p>
+                                More information(Optional)
+                                <ul>
+                                    <li><b>Enter description</b> to describe poll help participant easy to understand it</li>
+                                    <li><b>Enter time closed poll</b> to auto close poll by timer</li>
+                                    <li><b>Enter location</b> to provider location of poll</li>
+                                </ul>
+                            </p>',
+        'option' => '<p>You need enter answers to vote</p>
+                            <p>*Note:
+                                <ul>
+                                    <li>Minimum is one answer</li>
+                                    <li>The answer must have content</li>
+                                    <li>Content of answer don\'t same</li>
+                                    <li>Answer can contain image, image can same</li>
+                                </ul>
+                            </p>',
+        'setting' => '<p>Setting of poll(You can pretermit this step)</p>
+                            <ul>
+                               <li><b>Required email to voting</b></li> Participant want to vote, they must enter email of them.
+                                <li><b>Hide voting result</b></li> Participant can\'t see result of this poll.
+                                <li><b>Optimize poll link</b></li> Help creator and participant easy remember link to vote.
+                                <li><b>Set voting limit</b></li> The poll will auto close when number of vote reach to number input.
+                                <li><b>Set password</b></li> Participant must enter password if they want vote this poll.
+                                <li><b>Only vote one time</b></li> If ON, one everybody vote one time, if OFF, person vote many times.
+                            </ul>',
+        'participant' => '<p>Participant of poll(You can pretermit this step)</p>
+                            <p>If you want invite a specific participant, let\'s enter email of them into below textbox</p>
+                            <p>*Note
+                                <ul>
+                                    <li>When you complete a email, let\'s press ENTER to confirm</li>
+                                </ul>
+                            </p>',
     ],
     'nav_tab_edit' => [
         'info' => 'INFORMATION',
@@ -220,7 +262,10 @@ return [
         'email_exist_database' => '<i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Email exists in database, you should be login to create poll.',
         'confirm_delete_option' => 'Are you sure you want to delete this option. It\'s will remove all voting of this?',
         'send_email_success' => 'A new email have been sent mail box of you. Please check mail.',
-        'send_email_fail' => 'Send email fail, please check email address.'
+        'send_email_fail' => 'Send email fail, please check email address.',
+        'option_duplicate' => 'Option duplicate. Please enter another option',
+        'option_minimum' => 'You can\'t delete this option because a poll must have minimum one option.',
+        'option_image_duplicate' => 'Have two image same, are you sure use it',
     ],
     'mail' => [
         'label' => [
@@ -255,9 +300,10 @@ return [
     'email' => 'Email',
     'no' => 'No',
     'poll_history' => 'Poll History',
-    'show_vote_details' => 'Result',
+    'show_vote_details' => 'Show vote details',
     'poll_info' => 'Information',
     'activity_poll' => 'Activity',
+    'show_result' => 'Result',
     'next' => 'Next',
     'optional' => 'optional',
     'one_answer' => 'One answer',
@@ -298,8 +344,8 @@ return [
     'voted_poll' => 'You voted this poll, if you want to edit vote bofore, you need to vote one more time',
     'message_poll_limit' => 'Sorry, You can not vote this poll, poll reached limit',
     'message_poll_closed' => 'Sorry, Poll closed. You can not view and vote this poll',
-    'comment_name' => 'Please enter your name in the input field',
-    'comment_content' => 'Please enter a comment in the text area',
+    'comment_name' => 'Please enter your name',
+    'comment_content' => 'Please enter a comment',
     'confirmRemove' => 'Are you sure?',
     'load_latest_polls' => 'List latest polls only',
     'edit_link_admin' => 'Edit link Admin',

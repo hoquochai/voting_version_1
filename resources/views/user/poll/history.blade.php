@@ -8,7 +8,7 @@
                     <div class="panel-heading">{{ trans('history.history') }}</div>
                     <div class="panel-body">
                         <span class="poll-history">{{ $poll->created_at->format(config('settings.date_format')) }}</span>
-                        <h4> {{ trans('history.poll_created', ['name' => $poll->user->name]) }} </h4>
+                        <h4> {{ trans('history.poll_created', ['name' => ($poll->user_id) ? $poll->user->name : $poll->name]) }} </h4>
                         <br>
                         @if ($activities->count())
                             @foreach ($activities as $activity)
@@ -32,7 +32,7 @@
                             <h3 class="poll-history">{{ trans('history.history_empty') }}</h3>
                         @endif
                         <br>
-                        <a href="{{ URL::previous() }}" class="btn btn-default">
+                        <a href="{{ $poll->getAdminLink() }}" class="btn btn-default">
                             <span class="fa fa-backward"></span> {{ trans('history.back') }}
                         </a>
                     </div>

@@ -1,10 +1,33 @@
 @extends('layouts.app')
-
+@section('meta')
+    <meta property="fb:app_id" content="708640145978561"/>
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ $poll->getUserLink() }}" />
+    <meta property="og:title" content="{{ $poll->name }}" />
+    <meta property="og:description" content="{{ $poll->description }}" />
+    <meta property="og:image" content="{{ asset('/uploads/images/vote.png') }}" />
+@endsection
 @section('content')
-<div class="container">
+    <div class="container">
     <div class="row">
         <div class="loader"></div>
-        <div id="voting_wizard" class="col-lg-8 col-lg-offset-2 well wrap-poll">
+        <div class="extension" style="position: fixed; background: darkcyan; padding: 15px; left: 0; width: 150px">
+            <div class="input-group">
+                <select class="form-control" id="sel1">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                </select>
+                <span class="input-group-btn">
+                    <button class="btn btn-default">
+                        <i class="fa fa-hand-peace-o" aria-hidden="true"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <div id="voting_wizard" class="col-lg-10 col-lg-offset-1 well wrap-poll">
             <div class="navbar panel">
                 <div class="navbar-inner col-lg-12">
                     <div class="col-lg-6 col-lg-offset-3 panel-heading">
@@ -23,31 +46,32 @@
                 {!! Form::open(['route' => 'vote.store','id' => 'form-vote']) !!}
                     <!-- VOTE OPTION -->
                     <div class="panel panel-default" style="border-radius: 0">
-                        <div class="panel-heading" style="border-radius: 0">
-                            <ul class="nav nav-pills">
-                                <li class="active">
-                                    <a data-toggle="tab" href="#horizontal">
-                                        <i class="fa fa-bars" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a data-toggle="tab" href="#vertical">
-                                        <i class="fa fa-th" aria-hidden="true"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        {{--<div class="panel-heading" style="border-radius: 0">--}}
+                            {{--<ul class="nav nav-pills">--}}
+                                {{--<li class="active">--}}
+                                    {{--<a data-toggle="tab" href="#horizontal">--}}
+                                        {{--<i class="fa fa-bars" aria-hidden="true"></i>--}}
+                                    {{--</a>--}}
+                                {{--</li>--}}
+                                {{--<li>--}}
+                                    {{--<a data-toggle="tab" href="#vertical">--}}
+                                        {{--<i class="fa fa-th" aria-hidden="true"></i>--}}
+                                    {{--</a>--}}
+                                {{--</li>--}}
+                            {{--</ul>--}}
+                        {{--</div>--}}
                         <div class="panel-body">
                             <label class="message-validation"></label>
                             <div class="col-lg-12">
-                                <h3>{{ $poll->title }}</h3>
-                                @if ($poll->description)
-                                    <span>
-                                    <a href="#" data-placement="right" data-toggle="tooltip" title="{{ $poll->description }}">
-                                        <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                    </a>
-                                </span>
-                                @endif
+                                <h3>{{ $poll->title }}
+                                    @if ($poll->description)
+                                        <span>
+                                            <a href="#" data-placement="right" data-toggle="tooltip" title="{{ $poll->description }}">
+                                                <i class="fa fa-info-circle" aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    @endif
+                                </h3>
 
                                 <label class="poll-count">
                                             <span class="label label-primary glyphicon glyphicon-user poll-details">
@@ -68,14 +92,16 @@
                                 <!-- VOTE OPTION HORIZONTAL-->
                                 <div id="horizontal" class="tab-pane fade in active">
                                     @if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))
-                                        <div class="alert alert-warning">
-                                            <span class='glyphicon glyphicon-warning-sign'></span>
-                                            {{ trans('polls.message_vote_one_time') }}
+                                        <div class="col-lg-12">
+                                            <div class="alert alert-warning col-lg-10 col-lg-offset-1">
+                                                <span class='glyphicon glyphicon-warning-sign'></span>
+                                                {{ trans('polls.message_vote_one_time') }}
+                                            </div>
                                         </div>
                                     @endif
                                     @foreach ($poll->options as $option)
                                         <div class="col-lg-12">
-                                            <div class="panel panel-default panel-voted" id="{{ $option->id }}" onclick="voted('{{ $option->id }}')">
+                                            <div class="panel panel-default panel-voted" id="{{ $option->id }}">
                                                 <div class="panel-body" id="option_{{ $option->id }}">
                                                     <div class="col-lg-1">
                                                         <div class="center">
@@ -91,7 +117,7 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-11">
-                                                        <img class="img-thumbnail" src="{{ $option->showImage() }}" onmouseover="showModelImage('{{ $option->showImage() }}')" width="100px" height="100px" style="cursor: pointer; float: left">
+                                                        <img class="img-thumbnail" src="{{ $option->showImage() }}" onclick="showModelImage('{{ $option->showImage() }}')" width="100px" height="100px" style="cursor: pointer; float: left">
                                                         <label style="word-wrap: break-word; text-align: left; margin-left: 110px; display: block">
                                                             {{ $option->name ? $option->name : " " }}
                                                         </label>
@@ -102,40 +128,40 @@
                                     @endforeach
                                 </div>
                                 <!-- VOTE OPTION VERTICAL-->
-                                <div id="vertical" class="tab-pane fade in">
-                                    @if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))
-                                        <div class="alert alert-warning">
-                                            <span class='glyphicon glyphicon-warning-sign'></span>
-                                            {{ trans('polls.message_vote_one_time') }}
-                                        </div>
-                                    @endif
-                                    <div class="col-lg-12">
-                                        @foreach ($poll->options as $option)
-                                            <div class="col-lg-4">
-                                                <div class="panel panel-default" id="{{ $option->id }}">
-                                                    @if (!$isHideResult || Gate::allows('administer', $poll))
-                                                        <div class="panel-heading" style="text-align: center">
-                                                            <span class="badge">{{ $option->countVotes() }}</span>
-                                                        </div>
-                                                    @endif
-                                                    <div class="panel-body" style="text-align: center">
-                                                        <label style="word-wrap: break-word; text-align: center">{{ $option->name ? $option->name : " " }}</label>
-                                                        <img src="{{ $option->showImage() }}" onclick="showModelImage('{{ $option->showImage() }}')" width="60px" height="60px" style="display: block; margin: auto; cursor: pointer">
-                                                    </div>
-                                                    <div class="panel-footer">
-                                                        @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
-                                                                @if ($poll->multiple == trans('polls.label.multiple_choice'))
-                                                                    {!! Form::checkbox('option_vertical[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
-                                                                @else
-                                                                    {!! Form::radio('option_vertical[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}
-                                                                @endif
-                                                        @endif
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        @endforeach
-                                    </div>
-                                </div>
+                                {{--<div id="vertical" class="tab-pane fade in">--}}
+                                    {{--@if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))--}}
+                                        {{--<div class="alert alert-warning">--}}
+                                            {{--<span class='glyphicon glyphicon-warning-sign'></span>--}}
+                                            {{--{{ trans('polls.message_vote_one_time') }}--}}
+                                        {{--</div>--}}
+                                    {{--@endif--}}
+                                    {{--<div class="col-lg-12">--}}
+                                        {{--@foreach ($poll->options as $option)--}}
+                                            {{--<div class="col-lg-4">--}}
+                                                {{--<div class="panel panel-default" id="{{ $option->id }}">--}}
+                                                    {{--@if (!$isHideResult || Gate::allows('administer', $poll))--}}
+                                                        {{--<div class="panel-heading" style="text-align: center">--}}
+                                                            {{--<span class="badge">{{ $option->countVotes() }}</span>--}}
+                                                        {{--</div>--}}
+                                                    {{--@endif--}}
+                                                    {{--<div class="panel-body" style="text-align: center">--}}
+                                                        {{--<label style="word-wrap: break-word; text-align: center">{{ $option->name ? $option->name : " " }}</label>--}}
+                                                        {{--<img src="{{ $option->showImage() }}" onclick="showModelImage('{{ $option->showImage() }}')" width="60px" height="60px" style="display: block; margin: auto; cursor: pointer">--}}
+                                                    {{--</div>--}}
+                                                    {{--<div class="panel-footer">--}}
+                                                        {{--@if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)--}}
+                                                                {{--@if ($poll->multiple == trans('polls.label.multiple_choice'))--}}
+                                                                    {{--{!! Form::checkbox('option_vertical[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}--}}
+                                                                {{--@else--}}
+                                                                    {{--{!! Form::radio('option_vertical[]', $option->id, false, ['class' => 'poll-option', 'onClick' => 'voted("' . $option->id  .'")', 'id' => 'option-' . $option->id]) !!}--}}
+                                                                {{--@endif--}}
+                                                        {{--@endif--}}
+                                                    {{--</div>--}}
+                                                {{--</div>--}}
+                                            {{--</div>--}}
+                                        {{--@endforeach--}}
+                                    {{--</div>--}}
+                                {{--</div>--}}
                             </div>
                         </div>
                         <div class="panel-footer">
@@ -198,7 +224,7 @@
                     @endif
                     <!-- POLL INFO -->
                     <div class="col-lg-12">
-                        <label style="word-wrap: break-word">
+                        <h3 style="word-wrap: break-word">
                             {{ $poll->title }}
                             @if ($poll->description)
                                 <span>
@@ -207,7 +233,7 @@
                                     </a>
                                 </span>
                             @endif
-                        </label>
+                        </h3>
                         <br>
                         <span>
                             <i class="fa fa-user" aria-hidden="true"></i>
@@ -219,9 +245,17 @@
                         </span>
                         @if ($poll->location)
                             <span style="float: right; cursor: pointer" data-placement="top" data-toggle="tooltip" title="{{ $poll->location }}">
-                            <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
+                                <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
+                            </span>
                         @endif
-                    </span>
+                        <div class="form-group col-sm-12">
+                            <div class="fb-like"
+                                 data-href="{{ $poll->getUserLink() }}"
+                                 data-layout="standard" data-action="like"
+                                 data-size="small" data-show-faces="true"
+                                 data-share="true">
+                            </div>
+                        </div>
                     </div>
                     <div class="col-lg-12">
                         <hr style="border: 1px solid white">
@@ -279,7 +313,7 @@
                                     </div>
                                     <div class="col-md-10 comment" data-poll-id="{{ $poll->id }}" data-user="{{ auth()->check() ? auth()->user()->name : '' }}" data-comment-name="{{ trans('polls.comment_name') }}" data-comment-content="{{ trans('polls.comment_content') }}">
                                         {!! Form::textarea('content', null, ['class' => 'form-control', 'rows' => config('settings.poll.comment_row'), 'placeholder' => trans('polls.placeholder.comment'), 'id' => 'content' . $poll->id]) !!}
-                                        {{ Form::button(trans('polls.save_comment'), ['type' => 'submit', 'class' => 'btn btn-primary addComment']) }}
+                                        {{ Form::button(trans('polls.save_comment'), ['type' => 'submit', 'class' => 'btn addComment']) }}
                                     </div>
                                 </div>
                             </div>
@@ -315,41 +349,16 @@
                             </div>
                             <div class="panel-body">
                                 <div class="tab-content">
+
                                     <!-- TABLE RESULT -->
                                     <div id="table" class="tab-pane fade in active">
-                                        <table class="table table-hover table-responsive">
-                                            <thead>
-                                                <tr>
-                                                    <th>{{ trans('polls.no') }}</th>
-                                                    <th>{{ trans('polls.label.option') }}</th>
-                                                    <th>{{ trans('polls.number_vote') }}</th>
-                                                    <th>{{ trans('polls.date_last_vote') }}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                            @foreach ($dataTableResult as $key => $data)
-                                                <tr>
-                                                    <td>{{ $key + 1 }}</td>
-                                                    <td>
-                                                        <img src="{{ asset($data['image']) }}" width="50px" height="50px">
-                                                        {{ $data['name'] }}
-                                                    </td>
-                                                    <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
-                                                    <td>{{ $data['lastVoteDate'] }}</td>
-                                                </tr>
-                                            @endforeach
-                                            </tbody>
-                                        </table>
-
-                                        <div class="col-lg-12">
-                                        <!-- SHOW DETAIL VOTE -->
-                                            <div class="col-lg-10">
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                                    <span class="glyphicon glyphicon-eye-open"></span>
-                                                    {{ trans('polls.show_vote_details') }}
-                                                </button>
-                                            </div>
-                                         </div>
+                                        <div class="col-lg-12" style="padding: 0">
+                                            <!-- SHOW DETAIL VOTE -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" style="float: right">
+                                                <span class="glyphicon glyphicon-eye-open"></span>
+                                                {{ trans('polls.show_vote_details') }}
+                                            </button>
+                                        </div>
 
                                         <div class="modal fade" id="myModal" role="dialog">
                                             <div class="modal-dialog">
@@ -366,7 +375,7 @@
                                                                         <center>
                                                                             <img class="img-option" src="{{ $option->showImage() }}">
                                                                             <br>
-                                                                            {{ $option->name }}
+                                                                            <label style="max-width: 450px; word-wrap: break-word";>{{ $option->name }}</label>
                                                                         </center>
                                                                     </th>
                                                                 @endforeach
@@ -424,6 +433,29 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <table class="table table-hover table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <th>{{ trans('polls.no') }}</th>
+                                                    <th>{{ trans('polls.label.option') }}</th>
+                                                    <th>{{ trans('polls.number_vote') }}</th>
+                                                    <th>{{ trans('polls.date_last_vote') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                            @foreach ($dataTableResult as $key => $data)
+                                                <tr>
+                                                    <td>{{ $key + 1 }}</td>
+                                                    <td>
+                                                        <img src="{{ asset($data['image']) }}" width="50px" height="50px">
+                                                        {{ $data['name'] }}
+                                                    </td>
+                                                    <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
+                                                    <td>{{ $data['lastVoteDate'] }}</td>
+                                                </tr>
+                                            @endforeach
+                                            </tbody>
+                                        </table>
                                     </div>
                                     <!-- MODEL VOTE CHART-->
                                     @if ($optionRateBarChart)

@@ -102,4 +102,6 @@ return [
     ],
     'locale' => ['vi', 'en', 'ja'],
     'default_value' => 0,
+    'limit_link' => 60,
+    'limit_name' => 80,
 ];
