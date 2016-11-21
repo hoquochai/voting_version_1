@@ -246,8 +246,6 @@ class LinkController extends Controller
 
             $dataTableResult = $this->pollRepository->getDataTableResult($poll, $isRequiredEmail);
 
-//            foreach ($poll->options as )
-
             return view('user.poll.details', compact(
                 'poll', 'isRequiredEmail', 'isUserVoted', 'isHideResult', 'numberOfVote', 'linkUser', 'mergedParticipantVotes', 'isParticipantVoted', 'requiredPassword',
                 'optionRatePieChart', 'isSetIp', 'optionRateBarChart', 'isLimit', 'dataTableResult'

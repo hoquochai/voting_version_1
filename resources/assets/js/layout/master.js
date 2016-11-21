@@ -245,7 +245,7 @@ function checkLink(route, token) {
 }
 
 //Auto close message
-$(".alert-dismissable").delay(3000).fadeOut(100);
+$(".alert-dismissable").delay(3000).fadeOut(1000);
 
 //Datetime picker
 $(function () {
@@ -877,10 +877,10 @@ function checkImageSame() {
     return isDuplicate;
 }
 
-function voted(id) {
-    $('input:radio[value=' + id + ']').prop('checked', true);
-    $('input:checkbox[value=' + id + ']').prop('checked', true);
-}
+// function voted(id) {
+//     $('input:radio[value=' + id + ']').prop('checked', true);
+//     $('input:checkbox[value=' + id + ']').prop('checked', true);
+// }
 
 function autoScrollToElement(id) {
     $('html, body').animate({

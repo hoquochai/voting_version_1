@@ -2,7 +2,7 @@
     <div class="input-group" id="option-poll">
         <input type="file" class="file" name="optionImage[idOption]" onchange="readURL(this, 'preview-idOption')">
         <input type="text" name="optionText[idOption]" class="form-control" id="optionText-idOption"
-               placeholder="{{ trans('polls.placeholder.option') }}" onclick="addAutoOption('idOption')" onkeyup="checkOptionSame(this)">
+               placeholder="{{ trans('polls.placeholder.option') }}" onfocus="addAutoOption('idOption')" onclick="addAutoOption('idOption')" onkeyup="checkOptionSame(this)">
         <span class="input-group-btn">
             <button class="btn" type="button" onclick="showOptionImage('idOption')" style="background: darkcyan; border-color: darkcyan; color: white">
                 <span class="glyphicon glyphicon-picture"></span>

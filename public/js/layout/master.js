@@ -245,7 +245,7 @@ function checkLink(route, token) {
 }
 
 //Auto close message
-$(".alert-dismissable").delay(3000).fadeOut(100);
+$(".alert-dismissable").delay(3000).fadeOut(1000);
 
 //Datetime picker
 $(function () {
@@ -459,34 +459,6 @@ $(document).ready(function() {
 
                     return isValid;
                 }
-
-                // if (index == 0) {
-                //     $('.info-explain').css('display', 'block');
-                //     $('.option-explain').css('display', 'none');
-                //     $('.setting-explain').css('display', 'none');
-                //     $('.participant-explain').css('display', 'none');
-                // } else if (index == 1) {
-                //     $('.info-explain').css('display', 'none');
-                //     $('.option-explain').css('display', 'block');
-                //     $('.setting-explain').css('display', 'none');
-                //     $('.participant-explain').css('display', 'none');
-                // } else if (index == 2) {
-                //     $('.info-explain').css('display', 'none');
-                //     $('.option-explain').css('display', 'none');
-                //     $('.setting-explain').css('display', 'block');
-                //     $('.participant-explain').css('display', 'none');
-                // } else if (index == 3) {
-                //     $('.info-explain').css('display', 'none');
-                //     $('.option-explain').css('display', 'none');
-                //     $('.setting-explain').css('display', 'none');
-                //     $('.participant-explain').css('display', 'block');
-                // } else {
-                //     $('.info-explain').css('display', 'none');
-                //     $('.option-explain').css('display', 'none');
-                //     $('.setting-explain').css('display', 'none');
-                //     $('.participant-explain').css('display', 'none');
-                // }
-
             },
             onTabShow: function(tab, navigation, index) {
                 var $total = navigation.find('li').length;
@@ -905,7 +877,13 @@ function checkImageSame() {
     return isDuplicate;
 }
 
-function voted(id) {
-    $('input:radio[value=' + id + ']').prop('checked', true);
-    $('input:checkbox[value=' + id + ']').prop('checked', true);
+// function voted(id) {
+//     $('input:radio[value=' + id + ']').prop('checked', true);
+//     $('input:checkbox[value=' + id + ']').prop('checked', true);
+// }
+
+function autoScrollToElement(id) {
+    $('html, body').animate({
+        scrollTop: $("#" + id).offset().top + 100
+    }, 2000);
 }

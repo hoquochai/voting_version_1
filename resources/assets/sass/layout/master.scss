@@ -673,10 +673,6 @@ span.round-tab:hover {
   color: white !important;
 }
 
-.center {
-  margin-top: 30px;
-}
-
 .panel-voted {
   transition: all ease 0.5s;
   -moz-transition: all ease 0.5s;
@@ -700,9 +696,43 @@ span.round-tab:hover {
   color: white;
 }
 
+.addComment:hover, .addComment:focus, .addComment:active {
+  color: white;
+}
+
 .error-input {
   border-color: red;
 }
 .title-warning {
   color: orange;
+}
+
+@media (max-width: 1365px)
+ {
+  .info-explain {
+    display: none !important;
+  }
+  .option-explain {
+    display: none !important;
+  }
+  .panel-setting-explain {
+    display: none !important;
+  }
+  .panel-participant-explain {
+    display: none !important;
+  }
+}
+
+.btn-input-password {
+  background: darkcyan;
+  border-color: darkcyan;
+  color: white;
+  border-radius: 0;
+}
+
+.btn-input-password:hover, .btn-input-password:focus, .btn-input-password:active {
+  color: white;
+  background: darkcyan;
+  box-shadow: 2px 2px 2px black;
+  border-color: darkcyan;
 }

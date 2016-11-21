@@ -141,49 +141,47 @@
                 @include('flashy::message')
                 <a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>
         </div>
-        {{--<footer style="--}}
-    {{--position: absolute;--}}
-    {{--bottom: 0;--}}
-    {{--background: black;--}}
-    {{--color: white;--}}
-    {{--padding: 15px;--}}
-{{--">--}}
-                {{--<div class="col-lg-4">--}}
-                    {{--<p><b class="char-app">F</b><label>poll</label></p>--}}
-                    {{--<p>--}}
-                        {{--<img src="http://framgia.com/jp/images/logo_f.png" style="width: 30px; height: 30px;">--}}
-                        {{--{{ trans('label.footer.copyright') }}--}}
-                    {{--</p>--}}
-                {{--</div>--}}
-                {{--<div class="col-lg-4">--}}
-                    {{--<div class="row">--}}
-                        {{--<p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>--}}
-                    {{--</div>--}}
-                    {{--<div class="row">--}}
-                        {{--<p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.phone') }}</p>--}}
-                    {{--</div>--}}
-                    {{--<div class="row">--}}
-                        {{--<p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>--}}
-                    {{--</div>--}}
-                {{--</div>--}}
-                {{--<div class="col-lg-4">--}}
-                    {{--<p>{{ trans('label.footer.about') }}</p>--}}
-                    {{--<p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>--}}
-                    {{--<button class="btn btn-primary">--}}
-                        {{--<span><i class="fa fa-facebook" aria-hidden="true"></i></span>--}}
-                    {{--</button>--}}
-                    {{--<button class="btn btn-success">--}}
-                        {{--<span><i class="fa fa-twitter" aria-hidden="true"></i></span>--}}
-                    {{--</button>--}}
-                    {{--<button class="btn btn-warning">--}}
-                        {{--<span><i class="fa fa-github" aria-hidden="true"></i></span>--}}
-                    {{--</button>--}}
-                    {{--<button class="btn btn-default">--}}
-                        {{--<span><i class="fa fa-linkedin" aria-hidden="true"></i></span>--}}
-                    {{--</button>--}}
-                {{--</div>--}}
+        {{--<div class="col-lg-12 feature">--}}
+            {{--<h2>FEATURE</h2>--}}
+            {{--<p>Create a poll</p>--}}
+        {{--</div>--}}
+        <footer class="col-lg-12" style="background: black; color: white; padding: 15px">
+                <div class="col-lg-4">
+                    <p><b class="char-app">F</b><label>poll</label></p>
+                    <p>
+                        <img src="http://framgia.com/jp/images/logo_f.png" style="width: 30px; height: 30px;">
+                        {{ trans('label.footer.copyright') }}
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="row">
+                        <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>
+                    </div>
+                    <div class="row">
+                        <p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.phone') }}</p>
+                    </div>
+                    <div class="row">
+                        <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <p>{{ trans('label.footer.about') }}</p>
+                    <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
+                    <button class="btn btn-primary">
+                        <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-success">
+                        <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-warning">
+                        <span><i class="fa fa-github" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-default">
+                        <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                    </button>
+                </div>
 
-        {{--</footer>--}}
+        </footer>
         {{--<div class="footer">--}}
             {{--<div class="col-lg-4">--}}
                 {{--<h3><b class="char-app">P</b>oll - <b class="char-app">V</b>ote</h3>--}}
