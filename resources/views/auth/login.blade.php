@@ -16,6 +16,7 @@
                             </div>
                         </div>
                     @endif
+
                     <div class="row btn-social-login">
                         <div class="col-md-4">
                             <a class="btn btn-social btn-xs btn-facebook" href="{{ url('redirect/facebook') }}">

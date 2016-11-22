@@ -77,20 +77,24 @@
                 <thead>
                 <tr>
                     <th>{{ trans('label.mail.edit_setting.old_setting') }}</th>
-                    <th>{{ trans('label.mail.edit_option.new_setting') }}</th>
+                    <th>{{ trans('label.mail.edit_setting.new_setting') }}</th>
                     <th>{{ trans('label.mail.edit_poll.thead.date') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <td>
-                        @foreach ($oldSettings as $label => $value)
-                            <p>{{ $label }}</p><span>{{ $value }}</span>
+                        @foreach ($oldSettings as $setting)
+                            @foreach ($setting as $label => $value)
+                                <p>{{ $label }}</p><span>{{ $value }}</span>
+                            @endforeach
                         @endforeach
                     </td>
                     <td>
-                        @foreach ($newSettings as $label => $value)
-                            <p>{{ $label }}</p><span>{{ $value }}</span>
+                        @foreach ($newSettings as $setting)
+                            @foreach ($setting as $label => $value)
+                                <p>{{ $label }}</p><span>{{ $value }}</span>
+                            @endforeach
                         @endforeach
                     </td>
                     <td>

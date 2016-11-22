@@ -20,7 +20,7 @@ class LoginController extends Controller
                 return redirect()->route('admin.user.index');
             }
 
-            return redirect()->to(url('/login'))->withMessages(trans('user.login_successfully'));
+            return redirect()->to(url('/'))->withMessage(trans('user.login_successfully'));
         } else {
             return redirect()->to(url('/login'))->withMessages(trans('user.account_unactive'));
         }

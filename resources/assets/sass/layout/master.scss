@@ -94,7 +94,8 @@ a:hover, .navbar-default .navbar-nav > .active > a:focus {
   display:none;
   -webkit-border-radius:60px;
   -moz-border-radius:60px;
-  border-radius:60px
+  border-radius:60px;
+  z-index: 1000;
 }
 #scroll span {
   position:absolute;
@@ -707,7 +708,7 @@ span.round-tab:hover {
   color: orange;
 }
 
-@media (max-width: 1365px)
+@media (max-width: 1200px)
  {
   .info-explain {
     display: none !important;
@@ -723,6 +724,26 @@ span.round-tab:hover {
   }
 }
 
+@media (min-width: 1200px) and (max-width: 1365px)
+{
+  .info-explain {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  .option-explain {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  .panel-setting-explain {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+  .panel-participant-explain {
+    max-height: 400px;
+    overflow-y: scroll;
+  }
+}
+
 .btn-input-password {
   background: darkcyan;
   border-color: darkcyan;
@@ -735,4 +756,12 @@ span.round-tab:hover {
   background: darkcyan;
   box-shadow: 2px 2px 2px black;
   border-color: darkcyan;
+}
+
+.btn-edit-info {
+  background: darkcyan;
+  border-color: darkcyan;
+  border-radius: 0;
+  color: white;
+  box-shadow: 1px 1px 1px black;
 }

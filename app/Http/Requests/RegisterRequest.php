@@ -30,4 +30,27 @@ class RegisterRequest extends FormRequest
             'avatar' => 'mimes:jpg,jpeg,png,gif,svg',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        $trans = trans('user.validate');
+
+        return [
+            'name.required' => $trans['name']['required'],
+            'name.max' => $trans['name']['max'],
+            'email.required' => $trans['email']['required'],
+            'email.email' => $trans['email']['email'],
+            'email.max' => $trans['email']['max'],
+            'email.unique' => $trans['email']['unique'],
+            'avatar.mimes' => $trans['avatar']['image'],
+            'password.required' => $trans['password']['required'],
+            'password.min' => $trans['password']['min'],
+            'password.confirmed' => $trans['password']['confirmed'],
+        ];
+    }
 }

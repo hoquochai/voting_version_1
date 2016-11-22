@@ -26,4 +26,21 @@ class LoginRequest extends FormRequest
             'password' => 'required|max:255',
         ];
     }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        $trans = trans('user.validate');
+
+        return [
+            'email.required' => $trans['email']['required'],
+            'email.email' => $trans['email']['email'],
+            'password.required' => $trans['password']['required'],
+            'password.max' => $trans['password']['max'],
+        ];
+    }
 }

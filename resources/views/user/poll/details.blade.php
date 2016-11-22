@@ -27,6 +27,19 @@
             <div class="tab-content">
                 @include('layouts.message')
                 <div class="tab-pane" id="vote">
+                @if ($isLimit)
+                    <label class="alert alert-danger col-lg-6 col-lg-offset-3"> <span class="glyphicon glyphicon-warning-sign"></span>
+                        {{ trans('polls.reach_limit') }}
+                    </label>
+                @endif
+                @if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))
+                    <div class="col-lg-12">
+                        <div class="alert alert-warning col-lg-10 col-lg-offset-1">
+                            <span class='glyphicon glyphicon-warning-sign'></span>
+                            {{ trans('polls.message_vote_one_time') }}
+                        </div>
+                    </div>
+                @endif
                 {!! Form::open(['route' => 'vote.store','id' => 'form-vote']) !!}
                     <!-- VOTE OPTION -->
                     <div class="panel panel-default" style="border-radius: 0">
@@ -57,26 +70,24 @@
                                     @endif
                                 </h4>
 
-                                <label class="poll-count">
-                                            <span class="label label-primary glyphicon glyphicon-user poll-details">
-                                                {{ $mergedParticipantVotes->count() }}
-                                            </span>
+                                <label class="poll-count" style="width: 100%;">
+                                    <span class="label label-primary glyphicon glyphicon-user poll-details">
+                                        {{ $mergedParticipantVotes->count() }}
+                                    </span>
                                     <span class="label label-info glyphicon glyphicon-comment poll-details">
-                                                <span class="comment-count">{{ $poll->countComments() }}</span>
-                                            </span>
+                                        <span class="comment-count">{{ $poll->countComments() }}</span>
+                                    </span>
                                     <span class="label label-success glyphicon glyphicon-time poll-details">
-                                                {{ $poll->created_at->diffForHumans() }}
-                                            </span>
+                                        {{ $poll->created_at->diffForHumans() }}
+                                    </span>
+                                    @if ($poll->date_close)
+                                        <span style="float: right; margin-left: 20px" data-placement="top" data-toggle="tooltip" title="{{ trans('polls.label.time_close') }}">
+                                            {{ trans('polls.label.time_close') }}: <i>{{ $poll->date_close }}</i>
+                                        </span>
+                                    @endif
                                 </label>
                             </div>
-                            @if ($isSetIp && (auth()->check() && $isUserVoted || $isSetIp && !auth()->check() && $isParticipantVoted))
-                                <div class="col-lg-12">
-                                    <div class="alert alert-warning col-lg-10 col-lg-offset-1">
-                                        <span class='glyphicon glyphicon-warning-sign'></span>
-                                        {{ trans('polls.message_vote_one_time') }}
-                                    </div>
-                                </div>
-                            @endif
+
                             <div class="col-lg-12">
                                 <hr style="border: 1px solid darkcyan">
                             </div>
@@ -86,7 +97,7 @@
                                 <div class="col-lg-12" style="max-height: 220px; overflow-y: scroll; overflow-x: hidden">
                                     @foreach ($poll->options as $option)
                                         <div class="col-lg-12">
-                                            <div class="panel panel-default panel-voted" id="{{ $option->id }}">
+                                            <div class="panel panel-default panel-voted" id="{{ $option->id }}" >
                                                 <div class="panel-body" id="option_{{ $option->id }}">
                                                     <div class="col-lg-1">
                                                         <div class="center">
@@ -190,7 +201,7 @@
                                     <h4 class="modal-title">{{ trans('polls.image_preview') }}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    <img src="#" id="imageOfOptionPreview">
+                                    <img src="#" id="imageOfOptionPreview" style="display: block; margin: 0 auto">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">{{ trans('polls.close') }}</button>
@@ -202,11 +213,6 @@
                     {!! Form::close() !!}
                 </div>
                 <div class="tab-pane" id="info">
-                    @if ($isLimit)
-                        <label class="alert alert-danger col-lg-6 col-lg-offset-3"> <span class="glyphicon glyphicon-warning-sign"></span>
-                            {{ trans('polls.reach_limit') }}
-                        </label>
-                    @endif
                     <!-- POLL INFO -->
                     <div class="col-lg-12">
                         <h4 style="word-wrap: break-word">
@@ -219,27 +225,24 @@
                                 </span>
                             @endif
                         </h4>
-                        <span style="margin-right: 20px">
-                            <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $poll->created_at }}
-                        </span>
-                        <span>
-                            <i class="fa fa-user" aria-hidden="true"></i>
-                            @if ($poll->user_id)
-                                <label style="color: blue;">{{ $poll->user->name }}</label>
-                            @else
-                                <label style="color: blue;">{{ $poll->name }}</label>
+                        <p>
+                            <span style="margin-right: 20px">
+                                <i class="fa fa-clock-o" aria-hidden="true"></i> {{ $poll->created_at }}
+                            </span>
+                            <span>
+                                <i class="fa fa-user" aria-hidden="true"></i>
+                                @if ($poll->user_id)
+                                    <label style="color: blue;">{{ $poll->user->name }}</label>
+                                @else
+                                    <label style="color: blue;">{{ $poll->name }}</label>
+                                @endif
+                            </span>
+                            @if ($poll->location)
+                                <span style="float: right; cursor: pointer" data-placement="top" data-toggle="tooltip" title="{{ $poll->location }}">
+                                    <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
+                                </span>
                             @endif
-                        </span>
-                        @if ($poll->date_close)
-                            <span style="float: right; margin-left: 20px" data-placement="top" data-toggle="tooltip" title="{{ trans('polls.label.time_close') }}">
-                                <i class="fa fa-ban" aria-hidden="true"></i> {{ $poll->date_close }}
-                            </span>
-                        @endif
-                        @if ($poll->location)
-                            <span style="float: right; cursor: pointer" data-placement="top" data-toggle="tooltip" title="{{ $poll->location }}">
-                                <i class="fa fa-map-marker" aria-hidden="true"></i> {{ str_limit($poll->location, 20) }}
-                            </span>
-                        @endif
+                        </p>
                         <div class="form-group col-lg-12" style="padding: 0">
                             <div class="fb-like"
                                  data-href="{{ $poll->getUserLink() }}"

@@ -19,7 +19,7 @@ return [
         'title' => 'Title',
         'description' => 'Description',
         'location' => 'Location',
-        'time_close' => 'Timer closed',
+        'time_close' => 'Time for close poll',
         'created_at' => 'Created at',
         'type' => 'Type',
         'status' => 'Status',
@@ -87,7 +87,7 @@ return [
         'time_close' => 'Set time to close poll',
         'location' => 'Enter a location... ',
         'number_add' => 'Enter a number to add option',
-        'number_limit' => 'Number limit...',
+        'number_limit' => 'Number limit',
         'password_poll' => 'Enter password of poll...',
         'option' => 'Enter option of poll...',
         'email_participant' => 'Enter email of participant...',
@@ -266,6 +266,7 @@ return [
         'option_duplicate' => 'Option duplicate. Please enter another option',
         'option_minimum' => 'You can\'t delete this option because a poll must have minimum one option.',
         'option_image_duplicate' => 'Have two image same, are you sure use it',
+        'number_edit' => 'Number limit must lager than total vote of poll. Number vote of poll is ',
     ],
     'mail' => [
         'label' => [
@@ -406,5 +407,6 @@ return [
     'message_vote_one_time' => 'You voted, This poll only vote one time',
     'confirm_reopen_poll' => 'Are you sure reopen this poll?',
     'close_date' => 'date close poll',
-
+    'view_option' => 'View option',
+    'view_setting' => 'View setting',
 ];

@@ -135,86 +135,88 @@
                 </div>
             </div>
         </nav>
-        <div class="content">
+        <div class="content" style="min-height: 800px">
                 @yield('content')
                 <script src="//code.jquery.com/jquery.js"></script>
                 @include('flashy::message')
-                <a href="javascript:void(0);" id="scroll" title="Scroll to Top" style="display: none;">Top<span></span></a>
+                <a href="javascript:void(0);" id="scroll" style="display: none;">Top<span></span></a>
         </div>
-        {{--<div class="col-lg-12 feature">--}}
-            {{--<h2>FEATURE</h2>--}}
-            {{--<p>Create a poll</p>--}}
-        {{--</div>--}}
-        <footer class="col-lg-12" style="background: black; color: white; padding: 15px">
-                <div class="col-lg-4">
-                    <p><b class="char-app">F</b><label>poll</label></p>
-                    <p>
-                        <img src="http://framgia.com/jp/images/logo_f.png" style="width: 30px; height: 30px;">
-                        {{ trans('label.footer.copyright') }}
-                    </p>
-                </div>
-                <div class="col-lg-4">
-                    <div class="row">
-                        <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>
-                    </div>
-                    <div class="row">
-                        <p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.phone') }}</p>
-                    </div>
-                    <div class="row">
-                        <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <p>{{ trans('label.footer.about') }}</p>
-                    <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
-                    <button class="btn btn-primary">
-                        <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
-                    </button>
-                    <button class="btn btn-success">
-                        <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
-                    </button>
-                    <button class="btn btn-warning">
-                        <span><i class="fa fa-github" aria-hidden="true"></i></span>
-                    </button>
-                    <button class="btn btn-default">
-                        <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
-                    </button>
-                </div>
-
-        </footer>
-        {{--<div class="footer">--}}
+        <div class="col-lg-12" style="background: #f3f4f4">
+            <div class="col-lg-4">
+                <h2 style="text-align: center">FEATURE</h2>
+                <img class="animated fadeInLeft img-responsive" src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">
+            </div>
+            <div class="col-lg-4">
+                <h2 style="text-align: center">ACCESSIBLE</h2>
+                <img class="img-responsive animated fadeInUp" src="http://brolik.com/blog/wp-content/uploads/2013/05/BRO_ResponsiveDesign_Main2.png" style="height: 200px; display: block; margin: 0 auto;">
+            </div>
+            <div class="col-lg-4">
+                <h2 style="text-align: center">SECURITY</h2>
+                <img class="animated fadeInRight img-responsive" src="http://standardsinsight.com/wp-content/uploads/2015/07/internet-security.jpg" height="200px" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">
+            </div>
+        </div>
+        <div class="col-lg-12" style="background: antiquewhite">
+            <div class="col-lg-6 animated fadeInLeft">
+                <h2 style="text-align: center">TUTORIAL</h2>
+                <p>
+                    This isn't much of an answer, but I highly recommend Ariel Flesler's "scrollTo" plugin; it has a lot of features for panning about a page, and a few extensions to the plugin for common cases (for instance, you might find his "LocalScroll" plugin useful for scrolling to a link's href if it's on the same page). You can get the plugin here: flesler.blogspot.com/2007/10/jqueryscrollto.html – Faisal
+                </p>
+            </div>
+            <div class="col-lg-6 animated fadeInRight">
+                <h2>VIDEO</h2>
+                <iframe width="560" height="315" src="https://www.youtube.com/embed/5jOGtIqBtdw" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        {{--<div class="col-lg-12" style="background: rgba(0, 139, 139, 0.65)">--}}
             {{--<div class="col-lg-4">--}}
-                {{--<h3><b class="char-app">P</b>oll - <b class="char-app">V</b>ote</h3>--}}
-                {{--<p>{{ trans('label.footer.copyright') }}</p>--}}
+                {{--<h2 style="text-align: center">ILLUSTRATIVE </h2>--}}
+                {{--<img src="http://www.sliderocket.com/_media/blog_chart.jpg" height="200px" style="display: block; margin: 0 auto;">--}}
             {{--</div>--}}
             {{--<div class="col-lg-4">--}}
-                {{--<div class="row">--}}
-                    {{--<h4><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</h4>--}}
-                {{--</div>--}}
-                {{--<div class="row">--}}
-                    {{--<h4><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>--}}
-                {{--</div>--}}
-                {{--<div class="row">--}}
-                    {{--<h4><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</h4>--}}
-                {{--</div>--}}
+                {{--<h2 style="text-align: center">EXPORT</h2>--}}
+                {{--<img src="http://www.neat.com/wp-content/uploads/2015/04/pdf-csv-excel-icons.jpg" height="200px" style="display: block; margin: 0 auto;">--}}
             {{--</div>--}}
             {{--<div class="col-lg-4">--}}
-                {{--<h3>{{ trans('label.footer.about') }}</h3>--}}
-                {{--<p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>--}}
-                {{--<button class="btn btn-primary">--}}
-                    {{--<span><i class="fa fa-facebook" aria-hidden="true"></i></span>--}}
-                {{--</button>--}}
-                {{--<button class="btn btn-success">--}}
-                    {{--<span><i class="fa fa-twitter" aria-hidden="true"></i></span>--}}
-                {{--</button>--}}
-                {{--<button class="btn btn-warning">--}}
-                    {{--<span><i class="fa fa-github" aria-hidden="true"></i></span>--}}
-                {{--</button>--}}
-                {{--<button class="btn btn-default">--}}
-                    {{--<span><i class="fa fa-linkedin" aria-hidden="true"></i></span>--}}
-                {{--</button>--}}
+                {{--<h2 style="text-align: center">SHAREABLE</h2>--}}
+                {{--<img src="http://pctechmag.com/wp-content/uploads/2016/09/google-facebook-twitter.jpg" height="200px" style="display: block; margin: 0 auto;">--}}
             {{--</div>--}}
         {{--</div>--}}
+        <div class="col-lg-12" style="background: black; color: white; padding: 15px;">
+            <div class="col-lg-3">
+                <p><b class="char-app">F</b><label>poll</label></p>
+                <p>
+                    <img src="{{ asset('uploads/images/logo.png') }}" style="width: 30px; height: 30px;">
+                    {{ trans('label.footer.copyright') }}
+                </p>
+            </div>
+            <div class="col-lg-5" style="padding: 15px">
+                <div class="row">
+                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>
+                </div>
+                <div class="row">
+                    <p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.phone') }}</p>
+                </div>
+                <div class="row">
+                    <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
+                </div>
+            </div>
+            <div class="col-lg-4" style="padding: 15px">
+                <p>{{ trans('label.footer.about') }}</p>
+                <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
+                <button class="btn btn-primary">
+                    <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+                </button>
+                <button class="btn btn-success">
+                    <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
+                </button>
+                <button class="btn btn-warning">
+                    <span><i class="fa fa-github" aria-hidden="true"></i></span>
+                </button>
+                <button class="btn btn-default">
+                    <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                </button>
+            </div>
+        </div>
 
     <!-- jQuery -->
     {!! Html::script('bower/jquery/dist/jquery.min.js') !!}

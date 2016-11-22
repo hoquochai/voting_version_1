@@ -86,6 +86,8 @@ return [
         'password' => [
             'required' => 'Please enter password!',
             'max' => 'Please enter a value less than or equal to ' . config('common.length_user.password'),
+            'min' => 'Please enter a value larger than or equal to 6 characters',
+            'confirmed' => 'Password confirm incorrect, please check again!',
         ],
     ],
     'update_profile_successfully' => 'You updated profile successfully',

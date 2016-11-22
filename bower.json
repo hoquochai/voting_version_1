@@ -30,6 +30,6 @@
     "eonasdan-bootstrap-datetimepicker": "^4.17.43",
     "twitter-bootstrap-wizard": "1.3.2",
     "bootstrap-switch": "https://github.com/nostalgiaz/bootstrap-switch.git#^3.3.2",
-    "jquery-validation": "https://github.com/jzaefferer/jquery-validation.git#^1.15.1"
+    "jquery-validation": "https://github.com/jzaefferer/jquery-validation.git#^1.15.1",
   }
 }

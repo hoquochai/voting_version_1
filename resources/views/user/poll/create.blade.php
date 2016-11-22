@@ -21,6 +21,8 @@
            ])
         }}
             <div id="create_poll_wizard" class="col-lg-8 col-lg-offset-2 well wrap-poll animated fadeInLeft">
+                @include('layouts.error')
+                @include('layouts.message')
                 <div class="progress">
                     <div class="progress-bar progress-bar-success progress-bar-striped bar" role="progressbar"
                          aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="background: darkcyan">
@@ -59,8 +61,7 @@
                         </div>
                     </div>
                 </div>
-                @include('layouts.error')
-                @include('layouts.message')
+
                 <div class="tab-content">
                     <div class="tab-pane" id="info">
                         <div class="panel" style="margin: 0; border-radius: 0;border-color: darkcyan">
@@ -77,7 +78,7 @@
                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0">
                                 {{ trans('polls.label.step_2') }}
                             </div>
-                            <div class="panel-body">
+                            <div class="panel-body" style="max-height: 500px; overflow-y: scroll">
                                 @include('layouts.poll_options')
                             </div>
                         </div>
@@ -109,23 +110,23 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2" style="padding-right: 0; margin-top: 20px">
-                    <div class="panel info-explain panel-default animated fadeInRight" style="border: none; position: fixed">
+            <div class="col-lg-2" style="padding-right: 0; margin-top: 20px; position: absolute; right: 0">
+                    <div class="panel info-explain panel-default animated fadeInRight" style="border: none">
                         <div class="panel-body panel-body-explain">
                             {!! trans('polls.tooltip.info')  !!}
                         </div>
                     </div>
-                    <div class="panel panel-default option-explain animated fadeInRight" style="border: none; position: fixed">
+                    <div class="panel panel-default option-explain animated fadeInRight" style="border: none;">
                         <div class="panel-body panel-body-explain">
                             {!! trans('polls.tooltip.option')  !!}
                         </div>
                     </div>
-                    <div class="panel panel-default panel-setting-explain animated fadeInRight" style="border: none; position: fixed">
+                    <div class="panel panel-default panel-setting-explain animated fadeInRight" style="border: none;">
                         <div class="panel-body panel-body-explain">
                             {!! trans('polls.tooltip.setting')  !!}
                         </div>
                     </div>
-                    <div class="panel panel-participant-explain panel-default animated fadeInRight" style="border: none; position: fixed">
+                    <div class="panel panel-participant-explain panel-default animated fadeInRight" style="border: none;">
                         <div class="panel-body panel-body-explain">
                             {!! trans('polls.tooltip.participant') !!}
                         </div>

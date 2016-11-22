@@ -93,8 +93,9 @@ class PollController extends Controller
         $poll = Poll::with('user', 'options', 'settings')->find($id);
         $setting = $poll->settings->pluck('value', 'key')->toArray();
         $page = 'edit';
+        $totalVote = $this->pollRepository->getTotalVotePoll($poll);
 
-        return view('user.poll.edit', compact('poll', 'data', 'setting', 'page'));
+        return view('user.poll.edit', compact('poll', 'data', 'setting', 'page', 'totalVote'));
     }
 
     /**

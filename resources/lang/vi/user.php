@@ -67,11 +67,11 @@ return [
     ],
     'validate' => [
         'name' => [
-            'required' => 'Hãy nhập tên!',
+            'required' => 'Hãy nhập tên của bạn',
             'max' => 'Giá trị phải nhỏ hơn hoặc bằng ' . config('common.length_user.name') . ' ký tự',
         ],
         'email' => [
-            'required' => 'Hãy nhập email!',
+            'required' => 'Hãy nhập email của bạn',
             'max' => 'Giá trị phải nhỏ hơn hoặc bằng ' . config('common.length_user.email') . ' ký tự',
             'email' => 'Email không hợp lệ',
             'unique' => 'Email đã tồn tại trong hệ thống. Hãy nhập một email khác!',
@@ -84,8 +84,10 @@ return [
             'max' => 'Kích thước hình ảnh phải nhỏ hơn hoặc bằng ' . config('common.length_user.name') . ' MB',
         ],
         'password' => [
-            'required' => 'Hãy nhập mật khẩu',
+            'required' => 'Hãy nhập mật khẩu của bạn',
             'max' => 'Giá trị phải nhỏ hơn hoặc bằng ' . config('common.length_user.password') . ' ký tự',
+            'min' => 'Nhập mật khẩu lớn hơn hoặc bằng 6 ký tự',
+            'confirmed' => 'Mật khẩu xác nhận chưa chính xác, hãy kiểm tra lại!',
         ],
     ],
     'update_profile_successfully' => 'Bạn đã cập nhật thông tin cá nhân thành công',

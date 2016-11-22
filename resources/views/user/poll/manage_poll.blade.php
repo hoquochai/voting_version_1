@@ -40,11 +40,72 @@
                         </div>
                     @endif
                     <div class="tab-pane" id="info">
-                        {!! $poll->status !!}
-                        <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" target="_blank" style="float: right">{{ trans('polls.link_vote') }}
+                        <a href="{{ url('/') . config('settings.email.link_vote') . $tokenLinkUser }}" target="_blank" style="margin-left: 20px">
+                            <i class="fa fa-link" aria-hidden="true"></i> {{ trans('polls.link_vote') }}
                         </a>
+                        <a href="#" style="margin-left: 20px" data-toggle="modal" data-target="#showOptionModal">
+                            <i class="fa fa-list" aria-hidden="true"></i> {{ trans('polls.view_option') }}
+                        </a>
+                        <a href="#" style="margin-left: 20px" data-toggle="modal" data-target="#showSettingModal">
+                            <i class="fa fa-cog" aria-hidden="true"></i> {{ trans('polls.view_setting') }}
+                        </a>
+                        <p style="float: right">{!! $poll->status !!}</p>
+                        <hr style="border: 1px solid darkcyan">
                         @include('layouts.poll_info')
                     </div>
+                    <!-- Modal Option-->
+                    <div id="showOptionModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{ trans('polls.label.step_2') }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row" style="max-height: 300px; overflow-y: scroll">
+                                        @foreach ($poll->options as $option)
+                                            <div class="col-lg-12" style="margin-top: 10px;">
+                                                <img src="{{ $option->showImage() }}" style="width: 32px; height: 32px; float: left">
+                                                <p style="display: block; margin-left: 50px">{{ $option->name }}</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Modal Setting-->
+                    <div id="showSettingModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title">{{ trans('polls.label.step_3') }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @foreach ($settings as $setting)
+                                        @foreach($setting as $text => $value )
+                                            <h4>{{ $text }}
+                                                @if ($text == trans('polls.label.setting.custom_link'))
+                                                    <span class="label label-default">
+                                                        <a href="{{ url('/') . config('settings.email.link_vote') . $value }}" style="color: white" target="_blank">
+                                                            {{ url('/') . config('settings.email.link_vote') . $value }}
+                                                        </a>
+                                                    </span>
+                                                @elseif($value)
+                                                    <span class="label label-default">{{ $value }}</span>
+                                                @endif
+                                            </h4>
+                                        @endforeach
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="tab-pane" id="vote_detail">
                         <div class="row">
                             <div class="col-md-2">
@@ -78,13 +139,13 @@
                             <div class="col-md-10">
                                 <div class="tab-content">
                                     <div class="tab-pane fade in active" id="home">
-                                        <div class="panel panel-default animated fadeInRight">
-                                            <div class="panel-heading">
+                                        <div class="panel panel-default animated fadeInRight" style="border-color: darkcyan; border-radius: 0">
+                                            <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
                                                 {{ trans('polls.statistic') }}
                                             </div>
                                             <div class="panel-body">
                                                 <h4>{{ trans('polls.total_vote') }}:
-                                                    <span style="font-family:courier">
+                                                    <span style="font-family:courier" class="badge">
                                                     {{ $statistic['total'] }}
                                                 </span>
                                                 </h4>
@@ -124,8 +185,8 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="menu1">
-                                        <div class="panel panel-default animated fadeInRight">
-                                            <div class="panel-heading">
+                                        <div class="panel panel-default animated fadeInRight" style="border-color: darkcyan; border-radius: 0">
+                                            <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
                                                 {{ trans('polls.table_result') }}
                                                 <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal" style="float: right; font-size: 10px">
                                                     <i class="fa fa-list" aria-hidden="true"></i>
@@ -154,35 +215,37 @@
                                                         {{ Form::close() }}
                                                     </div>
                                                 </div>
-                                                <table class="table table-hover table-responsive" style="margin-top: 20px">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>{{ trans('polls.no') }}</th>
-                                                        <th>{{ trans('polls.label.option') }}</th>
-                                                        <th>{{ trans('polls.number_vote') }}</th>
-                                                        <th>{{ trans('polls.date_last_vote') }}</th>
-                                                    <!-- <th>{{ trans('polls.poll_details') }}</th> -->
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    @foreach ($dataTableResult as $key => $data)
+                                                <div class="col-lg-12" style="clear: both; max-height: 300px; overflow-x: hidden; overflow-y: scroll">
+                                                    <table class="table table-hover table-responsive" style="margin-top: 20px">
+                                                        <thead>
                                                         <tr>
-                                                            <td>{{ $key + 1 }}</td>
-                                                            <td style="max-width: 450px; word-wrap: break-word;">
-                                                                <img src="{{ asset($data['image']) }}" width="50px" height="50px">
-                                                                {{ $data['name'] }}
-                                                            </td>
-                                                            <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
-                                                            <td>{{ $data['lastVoteDate'] }}</td>
-                                                            <!--  <td>
-                                                                 <button type="button" class="btn btn-primary btn-xs">
-                                                                     <i class="fa fa-asterisk" aria-hidden="true"></i>
-                                                                 </button>
-                                                             </td> -->
+                                                            <th>{{ trans('polls.no') }}</th>
+                                                            <th>{{ trans('polls.label.option') }}</th>
+                                                            <th>{{ trans('polls.number_vote') }}</th>
+                                                            <th>{{ trans('polls.date_last_vote') }}</th>
+                                                        <!-- <th>{{ trans('polls.poll_details') }}</th> -->
                                                         </tr>
-                                                    @endforeach
-                                                    </tbody>
-                                                </table>
+                                                        </thead>
+                                                        <tbody>
+                                                        @foreach ($dataTableResult as $key => $data)
+                                                            <tr>
+                                                                <td>{{ $key + 1 }}</td>
+                                                                <td style="max-width: 450px; word-wrap: break-word;">
+                                                                    <img src="{{ asset($data['image']) }}" width="50px" height="50px">
+                                                                    {{ $data['name'] }}
+                                                                </td>
+                                                                <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
+                                                                <td>{{ $data['lastVoteDate'] }}</td>
+                                                                <!--  <td>
+                                                                     <button type="button" class="btn btn-primary btn-xs">
+                                                                         <i class="fa fa-asterisk" aria-hidden="true"></i>
+                                                                     </button>
+                                                                 </td> -->
+                                                            </tr>
+                                                        @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
@@ -262,8 +325,8 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="menu2">
-                                        <div class="panel panel-default animated fadeInRight">
-                                            <div class="panel-heading">
+                                        <div class="panel panel-default animated fadeInRight" style="border-color: darkcyan; border-radius: 0">
+                                            <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
                                                 {{ trans('polls.bar_chart') }}
                                             </div>
                                             <div class="panel-body">
@@ -289,8 +352,8 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="menu3">
-                                        <div class="panel panel-default animated fadeInRight">
-                                            <div class="panel-heading">
+                                        <div class="panel panel-default animated fadeInRight" style="border-color: darkcyan; border-radius: 0">
+                                            <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
                                                 {{ trans('polls.pie_chart') }}
                                             </div>
                                             <div class="panel-body">

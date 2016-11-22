@@ -89,7 +89,7 @@ return [
         'time_close' => 'Chọn thời gian để đóng poll này...',
         'location' => 'Nhập vị trí...',
         'number_add' => 'Nhập số lượng cần thêm vào...',
-        'number_limit' => 'Giới hạn số lượng...',
+        'number_limit' => 'Số lượng',
         'password_poll' => 'Nhập mật khẩu của poll...',
         'option' => 'Nhập tùy chọn của poll...',
         'email_participant' => 'Nhập email người tham gia...',
@@ -269,6 +269,7 @@ return [
         'option_duplicate' => 'Tên tùy chọn đã bị trùng, hãy nhập một tên mới...',
         'option_minimum' => 'Bạn không thể xóa tùy chọn này vì bình chọn phải có ít nhất một câu trả lời',
         'option_image_duplicate' => 'Có hai hình ảnh giống nhau, bạn chắc chắn sử dụng nó?',
+        'number_edit' => 'Số lượng bầu chọn tối đa phải lớn hơn tổng số lượt bình chọn, tổng số lượt bình chọn hiện tại là ',
     ],
     'mail' => [
         'label' => [
@@ -409,4 +410,6 @@ return [
     'confirm_reopen_poll' => 'Bạn có muốn mở lại poll này không?',
     'close_date' => 'thời gian đóng poll',
     'show_result' => 'Kết quả',
+    'view_option' => 'Xem tùy chọn',
+    'view_setting' => 'Xem cài đặt',
 ];
