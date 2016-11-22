@@ -662,7 +662,8 @@ span.round-tab:hover {
 .btn-darkcyan {
   background: darkcyan !important;
   border-color: darkcyan !important;
-  box-shadow: 2px 2px 2px black;
+  box-shadow: 1px 1px 1px black;
+  border-radius: 0;
 }
 
 .bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-primary, .bootstrap-switch .bootstrap-switch-handle-off.bootstrap-switch-primary {

@@ -11,7 +11,8 @@
          data-token="{{ csrf_token() }}"
         data-route-limit="{{ route('limit.store') }}"
         data-poll-return="{{ json_encode($poll) }}"
-        data-total-vote="{{ $totalVote }}">
+        data-total-vote="{{ $totalVote }}"
+        data-link-poll="{{ $poll->getUserLink() }}">
     </div>
     <div class="loader"></div>
     <div class="container">

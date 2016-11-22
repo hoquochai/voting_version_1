@@ -34,8 +34,8 @@
 
                     <div class="tab-content">
                         <div id="home" class="tab-pane fade in active">
-                            <div class="well">
-                                <button id="list-all-polls-initiated" class="btn btn-primary btn-initiated all-poll-user">
+                            <div class="well" style="max-height: 500px; overflow-y: scroll">
+                                <button id="list-all-polls-initiated" class="btn btn-primary btn-initiated all-poll-user btn-darkcyan">
                                     {{ trans('polls.list_all_polls') }}
                                 </button>
                                 <p class="message-initiated-poll lastest-poll-message"></p>
@@ -51,8 +51,8 @@
                             </div>
                         </div>
                         <div id="menu1" class="tab-pane fade">
-                            <div class="well">
-                                <button id="list-all-polls-participated" class="btn btn-primary btn-participanted-in all-poll-user">
+                            <div class="well" style="max-height: 500px; overflow-y: scroll">
+                                <button id="list-all-polls-participated" class="btn btn-primary btn-participanted-in all-poll-user btn-darkcyan">
                                     {{ trans('polls.list_all_polls') }}
                                 </button>
                                 <p class="message-participanted-in-poll lastest-poll-message"></p>
@@ -69,8 +69,8 @@
 
                         </div>
                         <div id="menu2" class="tab-pane fade">
-                            <div class="well">
-                                <button id="list-all-polls-participated" class="btn btn-primary btn-closed all-poll-user">
+                            <div class="well" style="max-height: 500px; overflow-y: scroll">
+                                <button id="list-all-polls-participated" class="btn btn-primary btn-closed all-poll-user btn-darkcyan">
                                     {{ trans('polls.list_all_polls') }}
                                 </button>
                                 <p class="message-closed-poll lastest-poll-message"></p>

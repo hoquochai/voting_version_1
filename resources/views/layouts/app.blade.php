@@ -88,7 +88,9 @@
                         </li>
                         @if (auth()->check())
                             <li {!! Request::is('user/poll') ? 'class="active"' : '' !!}>
-                                <a href="{{ URL::action('User\PollController@index') }}">{{ trans('polls.poll_history') }}</a>
+                                <a href="{{ URL::action('User\PollController@index') }}">
+                                    <i class="fa fa-history" aria-hidden="true"></i> {{ trans('polls.poll_history') }}
+                                </a>
                             </li>
                         @endif
                     </ul>

@@ -1225,12 +1225,12 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         foreach ($settings as $setting) {
             if ($setting->key == $config['required_email']) {
                 $dataRtn[] = [
-                    $trans['required_email'] => $setting->value
+                    $trans['required_email'] => null
                 ];
             }
             if ($setting->key == $config['hide_result']) {
                 $dataRtn[] = [
-                    $trans['hide_result'] => $setting->value
+                    $trans['hide_result'] => null
                 ];
             }
             if ($setting->key == $config['custom_link']) {
@@ -1246,6 +1246,11 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             if ($setting->key == $config['set_password']) {
                 $dataRtn[] = [
                     $trans['set_password'] => $setting->value
+                ];
+            }
+            if ($setting->key == $config['is_set_ip']) {
+                $dataRtn[] = [
+                    $trans['is_set_ip'] => null
                 ];
             }
         }
