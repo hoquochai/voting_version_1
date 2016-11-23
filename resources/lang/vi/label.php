@@ -117,4 +117,13 @@ return [
         'about' => 'Giới thiệu website',
         'description_website' => 'Website giúp bạn tạo một bầu chọn nhanh chóng và dễ dàng',
     ],
+
+    /*
+     * home page
+     */
+    'feature' => 'TÍNH NĂNG',
+    'accessible' => 'TRUY CẬP',
+    'security' => 'BẢO MẬT',
+    'introduction' => 'GIỚI THIỆU',
+    'tutorial' => 'HƯỚNG DẪN',
 ];

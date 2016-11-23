@@ -175,15 +175,17 @@ li {
 }
 
 /*CHART*/
-#piechart_3d {
-    width: 1200px;
-    height: 700px;
+#chart_div {
+    max-width: 900px;
+    height: 500px;
+    overflow: scroll;
     //float: left;
 }
 
 #chart {
-    width: 900px;
+    max-width: 900px;
     height: 500px;
+    overflow: scroll;
     //float: right;
 }
 

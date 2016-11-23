@@ -324,6 +324,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                     <div class="tab-pane fade" id="menu2">
                                         <div class="panel panel-default animated fadeInRight" style="border-color: darkcyan; border-radius: 0">
                                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
@@ -331,21 +332,22 @@
                                             </div>
                                             <div class="panel-body">
                                                 @if ($optionRateBarChart)
-                                                    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
                                                     <script type="text/javascript">
-                                                        google.load('visualization', '1', {'packages': ['columnchart']});
-                                                        google.setOnLoadCallback (createChart);
-                                                        function createChart() {
-                                                            var dataTable = new google.visualization.DataTable();
-                                                            dataTable.addColumn('string','Quarters 2009');
-                                                            dataTable.addColumn('number', 'Earnings');
+                                                        google.charts.load('current', {'packages':['corechart']});
+                                                        google.charts.setOnLoadCallback(drawChart);
+                                                        function drawChart() {
+                                                            // Create the data table.
+                                                            var data = new google.visualization.DataTable();
+                                                            data.addColumn('string', 'Topping');
+                                                            data.addColumn('number', '');
                                                             var optionRateBarChart = {!! $optionRateBarChart !!};
-                                                            dataTable.addRows(optionRateBarChart);
-                                                            var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
-                                                            var options = {width: 300, height: 440, is3D: false};
-                                                            chart.draw(dataTable, options);
+                                                            data.addRows(optionRateBarChart);
+                                                            var options = {'width': 700, 'height': 500};
+                                                            var chart = new google.visualization.BarChart(document.getElementById('chart'));
+                                                            chart.draw(data, options);
                                                         }
                                                     </script>
+
                                                     <div id="chart"></div>
                                                 @endif
                                             </div>
@@ -359,7 +361,6 @@
                                             <div class="panel-body">
                                                 <!-- pie chart -->
                                                 @if ($optionRateBarChart)
-                                                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                                     <script type="text/javascript">
                                                         google.charts.load('current', {'packages':['corechart']});
                                                         google.charts.setOnLoadCallback(drawChart);
@@ -370,7 +371,7 @@
                                                             data.addColumn('number', 'Slices');
                                                             var optionRateBarChart = {!! $optionRateBarChart !!};
                                                             data.addRows(optionRateBarChart);
-                                                            var options = {'width': 400, 'height': 400};
+                                                            var options = {'width': 700, 'height': 500};
                                                             var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
                                                             chart.draw(data, options);
                                                         }

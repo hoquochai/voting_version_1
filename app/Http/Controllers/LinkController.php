@@ -135,7 +135,7 @@ class LinkController extends Controller
                 $countOption = $option->countVotes();
                 $optionRatePieChart[$option->name] = (int) ($countOption * 100 / $totalVote);
                 if ($countOption > 0) {
-                    $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
+                    $optionRateBarChart[] = [str_limit($option->name, 40), $countOption];
                 }
             }
         } else {
@@ -310,23 +310,6 @@ class LinkController extends Controller
                 $totalVote += $option->countVotes();
             }
 
-            $optionRatePieChart = [];
-            $optionRateBarChart = [];
-
-            if ($totalVote) {
-                foreach ($poll->options as $option) {
-                    $countOption = $option->countVotes();
-                    $optionRatePieChart[$option->name] = (int) ($countOption * 100 / $totalVote);
-                    if ($countOption > 0) {
-                        $optionRateBarChart[] = [str_limit($option->name, 15), $countOption];
-                    }
-                }
-            } else {
-                $optionRatePieChart = null;
-                $optionRateBarChart = null;
-            }
-
-            $optionRateBarChart = json_encode($optionRateBarChart);
             $settings = $this->pollRepository->showSetting($poll->settings);
 
             return view('user.poll.manage_poll', compact(

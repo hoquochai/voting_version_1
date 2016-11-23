@@ -89,4 +89,12 @@ return [
         'about' => 'About the website',
         'description_website' => 'Website help you can create a poll fast and easy',
     ],
+    /*
+     * Home page
+     */
+    'feature' => 'FEATURE',
+    'accessible' => 'ACCESSIBLE',
+    'security' => 'SECURITY',
+    'introduction' => 'INTRODUCTION',
+    'tutorial' => 'TUTORIAL',
 ];

@@ -514,8 +514,10 @@ function updatePollInfo()
         $validator.focusInvalid();
         return false;
     }
-    return true;
+
     $('.loader').show();
+    return true;
+
 }
 
 /*
@@ -536,8 +538,12 @@ function updatePollSetting() {
         }
     });
 
-    return isValidLink && isValidLimit && isValidPassword;
-    $('.loader').show();
+    if (isValidLink && isValidLimit && isValidPassword) {
+        $('.loader').show();
+        return true;
+    }
+
+    return false;
 }
 
 function checkLinkUpdate(link) {

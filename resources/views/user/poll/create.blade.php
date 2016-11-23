@@ -110,7 +110,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2" style="padding-right: 0; margin-top: 20px; position: absolute; right: 0">
+            <div class="col-lg-2" style="padding: 0; margin-top: 20px; position: absolute; right: 0">
                     <div class="panel info-explain panel-default animated fadeInRight" style="border: none">
                         <div class="panel-body panel-body-explain">
                             {!! trans('polls.tooltip.info')  !!}

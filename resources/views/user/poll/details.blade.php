@@ -458,34 +458,36 @@
                                         </div>
                                     </div>
                                     <!-- MODEL VOTE CHART-->
+                                    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                                    @if ($optionRateBarChart)
+                                        <div class="tab-pane fade" id="pieChart" role="dialog">
+                                            <div class="col-lg-12">
+                                                <!-- pie chart -->
+
+                                                <script type="text/javascript">
+                                                    google.charts.load('current', {'packages':['corechart']});
+                                                    google.charts.setOnLoadCallback(drawChart);
+                                                    function drawChart() {
+                                                        // Create the data table.
+                                                        var data = new google.visualization.DataTable();
+                                                        data.addColumn('string', 'Topping');
+                                                        data.addColumn('number', 'Slices');
+                                                        var optionRateBarChart = {!! $optionRateBarChart !!};
+                                                        data.addRows(optionRateBarChart);
+                                                        var options = {'width': 900, 'height': 500};
+                                                        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                                                        chart.draw(data, options);
+                                                    }
+                                                </script>
+                                                <div id="chart_div"></div>
+                                            </div>
+                                        </div>
+                                    @endif
+
                                     @if ($optionRateBarChart)
                                     <div class="tab-pane fade" id="barChart" role="dialog">
                                         <div class="col-lg-12">
                                             <!-- bar chart -->
-                                            <script type="text/javascript" src="http://www.google.com/jsapi"></script>
-                                            <script type="text/javascript">
-                                                google.load('visualization', '1', {'packages': ['columnchart']});
-                                                google.setOnLoadCallback (createChart);
-                                                function createChart() {
-                                                    var dataTable = new google.visualization.DataTable();
-                                                    dataTable.addColumn('string','Quarters 2009');
-                                                    dataTable.addColumn('number', 'Earnings');
-                                                    var optionRateBarChart = {!! $optionRateBarChart !!};
-                                                    dataTable.addRows(optionRateBarChart);
-                                                    var chart = new google.visualization.ColumnChart (document.getElementById('chart'));
-                                                    var options = {width: 300, height: 440, is3D: false};
-                                                    chart.draw(dataTable, options);
-                                                }
-                                            </script>
-                                            <div id="chart"></div>
-                                        </div>
-                                    </div>
-                                    @endif
-                                    @if ($optionRateBarChart)
-                                    <div class="tab-pane fade" id="pieChart" role="dialog">
-                                        <div class="col-lg-12">
-                                            <!-- pie chart -->
-                                            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                             <script type="text/javascript">
                                                 google.charts.load('current', {'packages':['corechart']});
                                                 google.charts.setOnLoadCallback(drawChart);
@@ -493,18 +495,19 @@
                                                     // Create the data table.
                                                     var data = new google.visualization.DataTable();
                                                     data.addColumn('string', 'Topping');
-                                                    data.addColumn('number', 'Slices');
+                                                    data.addColumn('number', '');
                                                     var optionRateBarChart = {!! $optionRateBarChart !!};
                                                     data.addRows(optionRateBarChart);
-                                                    var options = {'width': 500, 'height': 500};
-                                                    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+                                                    var options = {'width': 900, 'height': 500, 'is3D': true};
+                                                    var chart = new google.visualization.BarChart(document.getElementById('chart'));
                                                     chart.draw(data, options);
                                                 }
                                             </script>
-                                            <div id="chart_div"></div>
+                                            <div id="chart"></div>
                                         </div>
                                     </div>
                                     @endif
+
                                 </div>
                             </div>
                         </div>

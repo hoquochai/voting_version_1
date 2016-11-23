@@ -117,4 +117,13 @@ return [
         '1' => 'Male',
         '2' => 'Other',
     ],
+
+    /*
+     * Home page
+     */
+    'feature' => 'FEATURE',
+    'accessible' => 'ACCESSIBLE',
+    'security' => 'SECURITY',
+    'introduction' => 'INTRODUCTION',
+    'tutorial' => 'TUTORIAL',
 ];

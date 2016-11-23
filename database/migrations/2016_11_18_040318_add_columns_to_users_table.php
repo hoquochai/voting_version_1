@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddVerificationToUsersTable extends Migration
+class AddColumnsToUsersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ class AddVerificationToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('token_verification')->nullable();
-            $table->boolean('is_active')->default(false);
+            $table->string('token_verification')->nullable()->change();
+            $table->boolean('is_active')->nullable()->change();
         });
     }
 
