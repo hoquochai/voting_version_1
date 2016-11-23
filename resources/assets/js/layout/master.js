@@ -903,3 +903,10 @@ function autoScrollToElement(id) {
         scrollTop: $("#" + id).offset().top + 100
     }, 2000);
 }
+
+$('a[rel=popover]').popover({
+    html: true,
+    trigger: 'hover',
+    placement: 'top',
+    content: function(){return '<img width="300px" height="300px" src="'+$(this).data('img') + '" />';}
+});

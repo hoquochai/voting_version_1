@@ -323,6 +323,7 @@ body {
 
 .content {
   margin-top: 20px;
+  min-height: 900px
 }
 
 /*-------------------------------------------/
@@ -765,4 +766,13 @@ span.round-tab:hover {
   border-radius: 0;
   color: white;
   box-shadow: 1px 1px 1px black;
+}
+
+body > .container {
+  padding-top: 60px;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
 }

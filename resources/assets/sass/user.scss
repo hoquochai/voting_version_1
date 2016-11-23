@@ -24,11 +24,17 @@
 }
 
 .poll-details {
-    margin-left: 10px;
+    margin-right: 10px;
 }
 
 .poll-option {
-    padding: 5px;
+    margin-top: 20px !important;
+    float: left;
+}
+
+.option-name {
+    display: block;
+    margin-left: 20px;
 }
 
 .img-comment {

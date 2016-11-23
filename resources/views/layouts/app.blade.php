@@ -137,26 +137,26 @@
                 </div>
             </div>
         </nav>
-        <div class="content" style="min-height: 600px">
+        <div class="content">
                 @yield('content')
                 <script src="//code.jquery.com/jquery.js"></script>
                 @include('flashy::message')
                 <a href="javascript:void(0);" id="scroll" style="display: none;">Top<span></span></a>
         </div>
-        <div class="col-lg-12" style="background: #f3f4f4">
-            <div class="col-lg-4">
-                <h2 style="text-align: center">{{ trans('label.feature') }}</h2>
-                <img class="animated fadeInLeft img-responsive" src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">
-            </div>
-            <div class="col-lg-4">
-                <h2 style="text-align: center">{{ trans('label.accessible') }}</h2>
-                <img class="img-responsive animated fadeInUp" src="http://brolik.com/blog/wp-content/uploads/2013/05/BRO_ResponsiveDesign_Main2.png" style="height: 200px; display: block; margin: 0 auto;">
-            </div>
-            <div class="col-lg-4">
-                <h2 style="text-align: center">{{ trans('label.security') }}</h2>
-                <img class="animated fadeInRight img-responsive" src="http://standardsinsight.com/wp-content/uploads/2015/07/internet-security.jpg" height="200px" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">
-            </div>
-        </div>
+        {{--<div class="col-lg-12" style="background: #f3f4f4">--}}
+            {{--<div class="col-lg-4">--}}
+                {{--<h2 style="text-align: center">{{ trans('label.feature') }}</h2>--}}
+                {{--<img class="animated fadeInLeft img-responsive" src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">--}}
+            {{--</div>--}}
+            {{--<div class="col-lg-4">--}}
+                {{--<h2 style="text-align: center">{{ trans('label.accessible') }}</h2>--}}
+                {{--<img class="img-responsive animated fadeInUp" src="http://brolik.com/blog/wp-content/uploads/2013/05/BRO_ResponsiveDesign_Main2.png" style="height: 200px; display: block; margin: 0 auto;">--}}
+            {{--</div>--}}
+            {{--<div class="col-lg-4">--}}
+                {{--<h2 style="text-align: center">{{ trans('label.security') }}</h2>--}}
+                {{--<img class="animated fadeInRight img-responsive" src="http://standardsinsight.com/wp-content/uploads/2015/07/internet-security.jpg" height="200px" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">--}}
+            {{--</div>--}}
+        {{--</div>--}}
         {{--<div class="col-lg-12" style="background: antiquewhite">--}}
             {{--<div class="col-lg-6 animated fadeInLeft">--}}
                 {{--<h2 style="text-align: center">{{ trans('label.introduction') }}</h2>--}}
@@ -169,7 +169,7 @@
                 {{--<iframe width="560" height="315" src="https://www.youtube.com/embed/5jOGtIqBtdw" frameborder="0" allowfullscreen></iframe>--}}
             {{--</div>--}}
         {{--</div>--}}
-        <div class="col-lg-12" style="background: black; color: white; padding: 15px;">
+        <div class="col-lg-12" style="background: black; color: white; position: absolute; bottom: 0">
             <div class="col-lg-3">
                 <p><b class="char-app">F</b><label>poll</label></p>
                 <p>
@@ -178,13 +178,13 @@
                 </p>
             </div>
             <div class="col-lg-5" style="padding: 15px">
-                <div class="row">
+                <div class="col-lg-12">
                     <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>
                 </div>
-                <div class="row">
+                <div class="col-lg-12">
                     <p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.phone') }}</p>
                 </div>
-                <div class="row">
+                <div class="col-lg-12">
                     <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
                 </div>
             </div>

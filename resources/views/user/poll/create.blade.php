@@ -3,7 +3,7 @@
     {{ trans('polls.title') }}
 @endsection
 @section('content')
-    <div class="col-lg-12">
+    {{--<div class="col-lg-12">--}}
         <div class="loader"></div>
         <div class="hide"
              data-poll="{{ $data['jsonData'] }}"
@@ -78,7 +78,7 @@
                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0">
                                 {{ trans('polls.label.step_2') }}
                             </div>
-                            <div class="panel-body" style="max-height: 500px; overflow-y: scroll">
+                            <div class="panel-body">
                                 @include('layouts.poll_options')
                             </div>
                         </div>
@@ -110,28 +110,28 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-lg-2" style="padding: 0; margin-top: 20px; position: absolute; right: 0">
-                    <div class="panel info-explain panel-default animated fadeInRight" style="border: none">
-                        <div class="panel-body panel-body-explain">
-                            {!! trans('polls.tooltip.info')  !!}
-                        </div>
-                    </div>
-                    <div class="panel panel-default option-explain animated fadeInRight" style="border: none;">
-                        <div class="panel-body panel-body-explain">
-                            {!! trans('polls.tooltip.option')  !!}
-                        </div>
-                    </div>
-                    <div class="panel panel-default panel-setting-explain animated fadeInRight" style="border: none;">
-                        <div class="panel-body panel-body-explain">
-                            {!! trans('polls.tooltip.setting')  !!}
-                        </div>
-                    </div>
-                    <div class="panel panel-participant-explain panel-default animated fadeInRight" style="border: none;">
-                        <div class="panel-body panel-body-explain">
-                            {!! trans('polls.tooltip.participant') !!}
-                        </div>
-                    </div>
-            </div>
+            {{--<div class="col-lg-2" style="padding: 0; margin-top: 20px; position: absolute; right: 0">--}}
+                    {{--<div class="panel info-explain panel-default animated fadeInRight" style="border: none">--}}
+                        {{--<div class="panel-body panel-body-explain">--}}
+                            {{--{!! trans('polls.tooltip.info')  !!}--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="panel panel-default option-explain animated fadeInRight" style="border: none;">--}}
+                        {{--<div class="panel-body panel-body-explain">--}}
+                            {{--{!! trans('polls.tooltip.option')  !!}--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="panel panel-default panel-setting-explain animated fadeInRight" style="border: none;">--}}
+                        {{--<div class="panel-body panel-body-explain">--}}
+                            {{--{!! trans('polls.tooltip.setting')  !!}--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                    {{--<div class="panel panel-participant-explain panel-default animated fadeInRight" style="border: none;">--}}
+                        {{--<div class="panel-body panel-body-explain">--}}
+                            {{--{!! trans('polls.tooltip.participant') !!}--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+            {{--</div>--}}
         {{ Form::close() }}
-    </div>
+    {{--</div>--}}
 @endsection
