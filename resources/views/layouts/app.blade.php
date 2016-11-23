@@ -137,7 +137,7 @@
                 </div>
             </div>
         </nav>
-        <div class="content">
+        <div class="container-fluid">
                 @yield('content')
                 <script src="//code.jquery.com/jquery.js"></script>
                 @include('flashy::message')
@@ -169,42 +169,45 @@
                 {{--<iframe width="560" height="315" src="https://www.youtube.com/embed/5jOGtIqBtdw" frameborder="0" allowfullscreen></iframe>--}}
             {{--</div>--}}
         {{--</div>--}}
-        <div class="col-lg-12" style="background: black; color: white; position: absolute; bottom: 0">
-            <div class="col-lg-3">
-                <p><b class="char-app">F</b><label>poll</label></p>
-                <p>
-                    <img src="{{ asset('uploads/images/logo.png') }}" style="width: 30px; height: 30px;">
-                    {{ trans('label.footer.copyright') }}
-                </p>
-            </div>
-            <div class="col-lg-5" style="padding: 15px">
-                <div class="col-lg-12">
-                    <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>
+        <footer style="background: black; color: white; position: absolute; bottom: 0; height: 140px; width: 100%">
+            {{--<div class="container">--}}
+                <div class="col-lg-3">
+                    <p><b class="char-app">F</b><label>poll</label></p>
+                    <p>
+                        <img src="{{ asset('uploads/images/logo.png') }}" style="width: 30px; height: 30px;">
+                        {{ trans('label.footer.copyright') }}
+                    </p>
                 </div>
-                <div class="col-lg-12">
-                    <p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.phone') }}</p>
+                <div class="col-lg-5" style="padding: 15px">
+                    <div class="col-lg-12">
+                        <p><i class="fa fa-map-marker" aria-hidden="true"></i> {{ trans('label.footer.location') }}</p>
+                    </div>
+                    <div class="col-lg-12">
+                        <p><i class="fa fa-phone" aria-hidden="true"></i> {{ trans('label.footer.phone') }}</p>
+                    </div>
+                    <div class="col-lg-12">
+                        <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
+                    </div>
                 </div>
-                <div class="col-lg-12">
-                    <p><i class="fa fa-envelope" aria-hidden="true"></i> {{ trans('label.footer.email') }}</p>
+                <div class="col-lg-4" style="padding: 15px">
+                    <p>{{ trans('label.footer.about') }}</p>
+                    <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
+                    <button class="btn btn-primary">
+                        <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-success">
+                        <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-warning">
+                        <span><i class="fa fa-github" aria-hidden="true"></i></span>
+                    </button>
+                    <button class="btn btn-default">
+                        <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+                    </button>
                 </div>
-            </div>
-            <div class="col-lg-4" style="padding: 15px">
-                <p>{{ trans('label.footer.about') }}</p>
-                <p style="word-wrap: break-word">{{ trans('label.footer.description_website') }}</p>
-                <button class="btn btn-primary">
-                    <span><i class="fa fa-facebook" aria-hidden="true"></i></span>
-                </button>
-                <button class="btn btn-success">
-                    <span><i class="fa fa-twitter" aria-hidden="true"></i></span>
-                </button>
-                <button class="btn btn-warning">
-                    <span><i class="fa fa-github" aria-hidden="true"></i></span>
-                </button>
-                <button class="btn btn-default">
-                    <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
-                </button>
-            </div>
-        </div>
+            {{--</div>--}}
+
+        </footer>
 
     <!-- jQuery -->
     {!! Html::script('bower/jquery/dist/jquery.min.js') !!}

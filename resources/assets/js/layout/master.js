@@ -893,10 +893,13 @@ function checkImageSame() {
     return isDuplicate;
 }
 
-// function voted(id) {
-//     $('input:radio[value=' + id + ']').prop('checked', true);
-//     $('input:checkbox[value=' + id + ']').prop('checked', true);
-// }
+function voted(id, type) {
+    if (type == 'horizontal') {
+        $('#vertical-' +id).prop('checked', $('#horizontal-' + id).prop('checked'));
+    } else {
+        $('#horizontal-' +id).prop('checked', $('#vertical-' + id).prop('checked'));
+    }
+}
 
 function autoScrollToElement(id) {
     $('html, body').animate({
@@ -904,9 +907,19 @@ function autoScrollToElement(id) {
     }, 2000);
 }
 
-$('a[rel=popover]').popover({
-    html: true,
-    trigger: 'hover',
-    placement: 'top',
-    content: function(){return '<img width="300px" height="300px" src="'+$(this).data('img') + '" />';}
-});
+
+function showResultPoll() {
+    $('.result-poll').toggle();
+
+    if ($('.btn-show-result-poll').attr('id') == 'show') {
+        $('.li-show-result-poll').removeClass('fa-eye').addClass('fa-eye-slash');
+        $('.btn-show-result-poll').attr('id', 'hide');
+    } else {
+        $('.li-show-result-poll').removeClass('fa-eye-slash').addClass('fa-eye');
+        $('.btn-show-result-poll').attr('id', 'show');
+    }
+}
+
+// $(document).ready(function() {
+//     $("#content #image-option-poll").tooltip({ content: '<img src="http://icdn.pro/images/fr/a/v/avatar-barbe-brun-homme-utilisateur-icone-9665-128.png" />' });
+// });
