@@ -16,6 +16,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ asset('bower/ms-Dropdown/css/msdropdown/flags.css') }}" />
 
+    <link href="{{ asset('bower/css3-animate-it/css/animations.css') }}" rel="stylesheet">
 
     {!! Html::style('bower/sweetalert/dist/sweetalert.css') !!}
 
@@ -50,6 +51,8 @@
 
     <!-- Datetime picker -->
     <link href="{{ asset('bower/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet">
+
+
 
     <!-- Scripts -->
     <script>
@@ -155,10 +158,19 @@
                 @include('flashy::message')
                 <a href="javascript:void(0);" id="scroll" style="display: none;">Top<span></span></a>
         </div>
-        {{--<div class="col-lg-12" style="background: #f3f4f4">--}}
-            {{--<div class="col-lg-4">--}}
+        <div class="container-fluid animatedParent" style="background: #f3f4f4">
+            <div class="col-lg-8 col-lg-offset-2 animated growIn slowest">
+                <h2 style="text-align: center">{{ trans('label.feature') }}</h2>
+                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
+                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
+                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
+                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
+            </div>
+        </div>
+        {{--<div class="col-lg-12 animatedParent" style="background: #f3f4f4">--}}
+            {{--<div class="col-lg-4  animated fadeInRight slowest">--}}
                 {{--<h2 style="text-align: center">{{ trans('label.feature') }}</h2>--}}
-                {{--<img class="animated fadeInLeft img-responsive" src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">--}}
+
             {{--</div>--}}
             {{--<div class="col-lg-4">--}}
                 {{--<h2 style="text-align: center">{{ trans('label.accessible') }}</h2>--}}
@@ -269,6 +281,8 @@
     {!! Html::script('bower/sweetalert/dist/sweetalert.min.js') !!}
 
     <script src="{{ asset('bower/ms-Dropdown/js/msdropdown/jquery.dd.min.js') }}"></script>
+
+    <script src="{{ asset('bower/css3-animate-it/js/css3-animate-it.js') }}"></script>
 
 </body>
 </html>

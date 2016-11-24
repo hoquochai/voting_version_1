@@ -107,7 +107,7 @@
                                 <div id="horizontal" class="tab-pane fade in active" style="clear: both">
                                     <div class="col-lg-12" style="max-height: 400px; overflow-y: scroll;">
                                         @foreach ($poll->options as $option)
-                                            <li class="list-group-item" style="min-height: 70px; border-radius: 0" onclick="voted('{{ $option->id }}', 'horizontal')">
+                                            <li class="list-group-item parent-vote" style="min-height: 70px; border-radius: 0"  onclick="voted('{{ $option->id }}', 'horizontal')">
                                                 @if (!$isHideResult || Gate::allows('administer', $poll))
                                                     <span class="badge float-xs-right result-poll">{{ $option->countVotes() }}</span>
                                                 @endif
@@ -140,7 +140,7 @@
                                         @foreach ($poll->options as $option)
                                             <div class="col-lg-4" style="padding-left: 5px; padding-right: 5px">
                                                 <div class="panel panel-default" id="{{ $option->id }}">
-                                                    <div class="panel-heading div-option-vertical" onclick="voted('{{ $option->id }}', 'vertical')">
+                                                    <div class="panel-heading parent-vote"  onclick="voted('{{ $option->id }}', 'horizontal')">
                                                         @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
                                                             @if ($poll->multiple == trans('polls.label.multiple_choice'))
                                                                 {!! Form::checkbox('option_vertical[]', $option->id, false, ['onClick' => 'voted("' . $option->id  .'","vertical")', 'class' => 'poll-option', 'id' => 'vertical-' . $option->id]) !!}

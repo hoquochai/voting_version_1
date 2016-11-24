@@ -8,8 +8,10 @@ $(document).ready(function(){
 
     $('.btn-vote').attr('disabled', true);
     $('.poll-option').on('click', function() {
-        console.log($('.poll-option').is(':checked'));
-        $('.btn-vote').attr('disabled', ($('.poll-option').is(':checked')));
+        $('.btn-vote').attr('disabled', !($('.poll-option').is(':checked')));
+    });
+    $('.parent-vote').on('click', function() {
+        $('.btn-vote').attr('disabled', !($('.poll-option').is(':checked')));
     });
 
     $('.loader').hide();
