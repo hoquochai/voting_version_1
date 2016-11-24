@@ -98,7 +98,7 @@ return [
     'language' => [
         'en' => 'English',
         'vi' => 'Tiếng Việt',
-        'ja' => 'Japanese',
+        'ja' => '日本語',
     ],
     'locale' => ['vi', 'en', 'ja'],
     'default_value' => 0,

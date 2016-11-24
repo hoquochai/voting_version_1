@@ -153,7 +153,7 @@ class PollController extends Controller
         }
 
         if ($emails) {
-            Mail::send('layouts.close_poll_mail', [
+            Mail::queue('layouts.close_poll_mail', [
                 'link' => $poll->getAdminLink(),
             ], function ($message) use ($emails) {
                 $message->to($emails)->subject(trans('label.mail.subject'));
@@ -164,8 +164,6 @@ class PollController extends Controller
                 $poll->save();
             }
         }
-
-        Flashy::message(trans('polls.flashy_message'), '#');
 
         $poll->status = false;
         $poll->save();

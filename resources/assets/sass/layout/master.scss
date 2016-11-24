@@ -779,9 +779,14 @@ html {
 
 ::-webkit-scrollbar {
   width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+
+.table-detail-result th, .table-detail-result td{
+  text-align: center;
 }

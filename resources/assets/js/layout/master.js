@@ -27,7 +27,7 @@ var dataSettingEdit = $('.hide').data("settingEdit");
 $(document).ready(function () {
 
     $(".finish").click(function () {
-        if (validateParticipant()) {
+        if (validateParticipant() & validateOption() && ! checkOptionSame()) {
             $('#form_create_poll').submit();
             $('.loader').show();
         }
@@ -895,8 +895,10 @@ function checkImageSame() {
 
 function voted(id, type) {
     if (type == 'horizontal') {
+        $('#horizontal-' +id).prop('checked',! $('#horizontal-' + id).prop('checked'));
         $('#vertical-' +id).prop('checked', $('#horizontal-' + id).prop('checked'));
     } else {
+        $('#vertical-' + id).prop('checked',! $('#vertical-' + id).prop('checked'));
         $('#horizontal-' +id).prop('checked', $('#vertical-' + id).prop('checked'));
     }
 }
@@ -920,6 +922,13 @@ function showResultPoll() {
     }
 }
 
-// $(document).ready(function() {
-//     $("#content #image-option-poll").tooltip({ content: '<img src="http://icdn.pro/images/fr/a/v/avatar-barbe-brun-homme-utilisateur-icone-9665-128.png" />' });
-// });
+$('a[data-toggle="tooltip"]').tooltip({
+    animated: 'fade',
+    placement: 'bottom',
+    html: true
+});
+
+
+$(document).ready(function() {
+    $("#countries").msDropdown();
+})

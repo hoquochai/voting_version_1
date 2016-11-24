@@ -14,6 +14,7 @@ use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
 use App\Repositories\Participant\ParticipantRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
 use App\Models\Option;
+use Session;
 
 class VoteController extends Controller
 {
@@ -201,7 +202,7 @@ class VoteController extends Controller
                 throw $e;
             }
         }
-
+        Session::put('isVotedSuccess', true);
         return redirect()->to($poll->getUserLink())->with('message', trans('polls.vote_successfully'));
     }
 

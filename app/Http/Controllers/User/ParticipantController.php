@@ -50,14 +50,12 @@ class ParticipantController extends Controller
 
 
         if ($emails) {
-            Mail::send('layouts.delete_all_participant_mail', [
+            Mail::queue('layouts.delete_all_participant_mail', [
                 'link' => $poll->getAdminLink(),
             ], function ($message) use ($emails) {
                 $message->to($emails)->subject(trans('label.mail.subject'));
             });
         }
-
-        Flashy::message(trans('polls.flashy_message'), 'https://mail.google.com/mail');
         $activity = [
             'poll_id' => $inputs['poll_id'],
             'type' => config('settings.activity.all_participants_deleted'),

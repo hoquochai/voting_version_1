@@ -8,7 +8,8 @@ $(document).ready(function(){
 
     $('.btn-vote').attr('disabled', true);
     $('.poll-option').on('click', function() {
-        $('.btn-vote').attr('disabled', !($('.poll-option').is(':checked')));
+        console.log($('.poll-option').is(':checked'));
+        $('.btn-vote').attr('disabled', ($('.poll-option').is(':checked')));
     });
 
     $('.loader').hide();

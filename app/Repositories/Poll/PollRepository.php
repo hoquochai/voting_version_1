@@ -499,7 +499,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                     $message->to($email)->subject($subject);
                 });
             } else {
-                Mail::send($view, $viewData, function ($message) use ($email, $subject) {
+                Mail::queue($view, $viewData, function ($message) use ($email, $subject) {
                     $message->to($email)->subject($subject);
                 });
             }
@@ -547,31 +547,31 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'password' => $password,
             ];
 
-//            if ($input['member']) {
-//                $members = explode(",", $input['member']);
-//                $view = config('settings.view.participant_mail');
-//                $data = [
-//                    'linkVote' => $links['participant'],
-//                    'poll' => $poll,
-//                    'password' => $password,
-//                ];
-//                $subject = trans('label.mail.subject');
-//                $this->sendEmail($members, $view, $data, $subject, 'participant');
-//            }
-//            /*
-//             * send mail creator
-//             */
-//            $creatorView = config('settings.view.poll_mail');
-//            $email = $input['email'];
-//            $data = [
-//                'userName' => $input['name'],
-//                'linkVote' => $links['participant'],
-//                'linkAdmin' => $links['administration'],
-//                'poll' => $poll,
-//                'password' => $password,
-//            ];
-//            $subject = trans('label.mail.subject');
-//            $this->sendEmail($email, $creatorView, $data, $subject, 'creator');
+            if ($input['member']) {
+                $members = explode(",", $input['member']);
+                $view = config('settings.view.participant_mail');
+                $data = [
+                    'linkVote' => $links['participant'],
+                    'poll' => $poll,
+                    'password' => $password,
+                ];
+                $subject = trans('label.mail.subject');
+                $this->sendEmail($members, $view, $data, $subject, 'participant');
+            }
+            /*
+             * send mail creator
+             */
+            $creatorView = config('settings.view.poll_mail');
+            $email = $input['email'];
+            $data = [
+                'userName' => $input['name'],
+                'linkVote' => $links['participant'],
+                'linkAdmin' => $links['administration'],
+                'poll' => $poll,
+                'password' => $password,
+            ];
+            $subject = trans('label.mail.subject');
+            $this->sendEmail($email, $creatorView, $data, $subject, 'creator');
             DB::commit();
 
             return $dataRtn;
@@ -659,7 +659,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 $creatorName = ($poll->user_id) ? $poll->user->name : $poll->name;
 
                 //send mail to creator
-                Mail::send('layouts.mail_notification', compact('data', 'old', 'now', 'creatorName'),
+                Mail::queue('layouts.mail_notification', compact('data', 'old', 'now', 'creatorName'),
                     function ($message) use ($creatorMail) {
                     $message->to($creatorMail)->subject(trans('label.mail.edit_poll.head'));
                 });

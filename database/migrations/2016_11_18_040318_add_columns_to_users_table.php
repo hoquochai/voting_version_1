@@ -14,8 +14,8 @@ class AddColumnsToUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('token_verification')->nullable()->change();
-            $table->boolean('is_active')->nullable()->change();
+            $table->string('token_verification')->nullable();
+            $table->boolean('is_active')->nullable();
         });
     }
 

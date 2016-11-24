@@ -67,7 +67,7 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         //check email exist
         $emails = $data['email'];
         try {
-            Mail::send('layouts.register_mail', [
+            Mail::queue('layouts.register_mail', [
                 'name' => $data['name'],
                 'link' => url('/link/verification') . '/' . $user['token_verification'],
             ], function ($message) use ($emails) {
@@ -76,8 +76,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
         } catch(Exception $ex) {
             return view('errors.show_errors')->with('message', trans('polls.register_with_mail_not_exist'));
         }
-
-        Flashy::message(trans('user.register_account'), '#');
 
         if (!$createUser) {
             throw new Exception('message.create_error');

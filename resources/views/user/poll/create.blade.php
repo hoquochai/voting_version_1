@@ -82,6 +82,9 @@
                                 @include('layouts.poll_options')
                             </div>
                         </div>
+                        <li class="finish">
+                            <a href="#" class="btn btn-change-step btn-darkcyan btn-finish" style="border-radius: 15px">{{ trans('polls.button.finish') }}</a>
+                        </li>
                     </div>
                     <div class="tab-pane" id="setting">
                         <div class="panel" style="border-color: darkcyan; border-radius: 0">
