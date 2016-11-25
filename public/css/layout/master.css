@@ -372,11 +372,6 @@ body {
   font-size: 20px;
 }
 
-#preview-avatar {
-  height: 100px;
-  width: 200px;
-}
-
 /*-------------------------------------------/
 /               USER.POLL.DETAIL             /
 /-------------------------------------------*/
@@ -710,39 +705,21 @@ span.round-tab:hover {
   color: orange;
 }
 
-@media (max-width: 1200px)
- {
-  .info-explain {
-    display: none !important;
+@media (max-width: 1200px) {
+  body > .container-fluid {
+    margin-bottom: 400px ;
   }
-  .option-explain {
-    display: none !important;
-  }
-  .panel-setting-explain {
-    display: none !important;
-  }
-  .panel-participant-explain {
-    display: none !important;
+  footer {
+    height: 400px;
   }
 }
 
-@media (min-width: 1200px) and (max-width: 1365px)
-{
-  .info-explain {
-    max-height: 400px;
-    overflow-y: scroll;
+@media (min-width: 1200px) {
+  body > .container-fluid {
+    margin-bottom: 140px;
   }
-  .option-explain {
-    max-height: 400px;
-    overflow-y: scroll;
-  }
-  .panel-setting-explain {
-    max-height: 400px;
-    overflow-y: scroll;
-  }
-  .panel-participant-explain {
-    max-height: 400px;
-    overflow-y: scroll;
+  footer {
+    height: 140px;
   }
 }
 
@@ -768,9 +745,7 @@ span.round-tab:hover {
   box-shadow: 1px 1px 1px black;
 }
 
-body > .container-fluid {
-  margin-bottom: 140px;
-}
+
 
 html {
   position: relative;
@@ -789,4 +764,13 @@ html {
 
 .table-detail-result th, .table-detail-result td{
   text-align: center;
+}
+
+#preview-avatar {
+  width: 200px !important;
+  height: 150px !important;
+}
+
+.btn-center {
+  float: none !important;
 }

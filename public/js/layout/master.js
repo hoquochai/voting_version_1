@@ -85,15 +85,18 @@ function showOptionImage(idOption) {
 
 // Preview image
 function readURL(input, idShow) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function (e) {
-            $('#' + idShow).show().attr('src', e.target.result);
-            checkImageSame();
-        };
+    if (ValidateSingleInput(input.files[0].name)) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#' + idShow).show().attr('src', e.target.result);
+                checkImageSame();
+            };
 
-        reader.readAsDataURL(input.files[0]);
+            reader.readAsDataURL(input.files[0]);
+        }
     }
+
 }
 
 //remove option
@@ -148,7 +151,27 @@ function settingAdvance(key) {
         $("#setting-password").slideToggle();
     }
 }
+var _validFileExtensions = [".jpg", ".jpeg", ".bmp", ".gif", ".png"];
+function ValidateSingleInput(oInput) {
+        var sFileName = oInput;
+        if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions.length; j++) {
+                var sCurExtension = _validFileExtensions[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
 
+            if (!blnValid) {
+                $('.error_option').closest('.form-group').addClass('has-error');
+                $('.error_option').html('<span id="title-error" class="help-block">' + pollData.message.image + '</span>');
+                return false;
+            }
+        }
+    return true;
+}
 
 function validateOption() {
     var optionLists = $('input[name^="optionText"]');
@@ -294,11 +317,26 @@ function validateLink(token) {
 if (typeof pollData !== "undefined") {
     jQuery.validator.addMethod("time", function(value, element) {
         if (value) {
-            var currentDate = new Date();
-            var current = moment(currentDate.toISOString()).format('DD-MM-YYYY HH:mm');
-            var timeClosedPoll = $('#time_close_poll').val();
+            var routeCheckDate = $('.hide').data('linkCheckDate');
+            var dateClosePoll = $('#time_close_poll').val();
+            var result = $.ajax({
+                type: 'GET',
+                url: routeCheckDate,
+                dataType: 'JSON',
+                async: false,
+                data: {
+                    'date_close_poll': dateClosePoll,
+                },
+                success: function(data){
+                    if (data.success) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
 
-            return (current < timeClosedPoll)
+            return result.responseJSON.success;
         }
 
         return true;
@@ -452,6 +490,8 @@ $(document).ready(function() {
                     if($current == 2) {
                         $('div[class=explain]').not('.option-explain').css('display', 'none !important');
                         $('.option-explain').css('display', 'block');
+                        $('.finish').removeClass('hidden');
+                        $('.btn-finish').addClass('btn-center');
                     }
                     if($current == 3) {
                         $(! '.setting-explain').hide('slow');
@@ -460,6 +500,7 @@ $(document).ready(function() {
                     if($current == 4) {
                         $(! '.participant-explain').hide('slow');
                         $('.participant-explain').show('slow');
+                        $('.btn-finish').removeClass('btn-center');
                     }
                 }
 
@@ -508,6 +549,7 @@ $(document).ready(function() {
 
 function updatePollInfo()
 {
+    console.log("update");
     //get validation of form
     var valid = $("#form_update_poll_info").valid();
     if(! valid) {

@@ -194,48 +194,6 @@ return [
         'show' => 'View detail this poll',
         'open' => 'Open this poll',
         'close' => 'Close this poll',
-        'info' => '<p>You need provider poll information</p>
-                            <p>
-                                Information must enter
-                                <ul>
-                                    <li><b>Enter name and email</b> to confirm poll creator</li>
-                                    <li><b>Enter title</b> to confirm poll title</li>
-                                    <li><b>Enter type</b> to confirm type of poll: single choice or multiple choice</li>
-                                </ul>
-                            </p>
-                            <p>
-                                More information(Optional)
-                                <ul>
-                                    <li><b>Enter description</b> to describe poll help participant easy to understand it</li>
-                                    <li><b>Enter time closed poll</b> to auto close poll by timer</li>
-                                    <li><b>Enter location</b> to provider location of poll</li>
-                                </ul>
-                            </p>',
-        'option' => '<p>You need enter answers to vote</p>
-                            <p>*Note:
-                                <ul>
-                                    <li>Minimum is one answer</li>
-                                    <li>The answer must have content</li>
-                                    <li>Content of answer don\'t same</li>
-                                    <li>Answer can contain image, image can same</li>
-                                </ul>
-                            </p>',
-        'setting' => '<p>Setting of poll(You can pretermit this step)</p>
-                            <ul>
-                               <li><b>Required email to voting</b></li> Participant want to vote, they must enter email of them.
-                                <li><b>Hide voting result</b></li> Participant can\'t see result of this poll.
-                                <li><b>Optimize poll link</b></li> Help creator and participant easy remember link to vote.
-                                <li><b>Set voting limit</b></li> The poll will auto close when number of vote reach to number input.
-                                <li><b>Set password</b></li> Participant must enter password if they want vote this poll.
-                                <li><b>Only vote one time</b></li> If ON, one everybody vote one time, if OFF, person vote many times.
-                            </ul>',
-        'participant' => '<p>Participant of poll(You can pretermit this step)</p>
-                            <p>If you want invite a specific participant, let\'s enter email of them into below textbox</p>
-                            <p>*Note
-                                <ul>
-                                    <li>When you complete a email, let\'s press ENTER to confirm</li>
-                                </ul>
-                            </p>',
     ],
     'nav_tab_edit' => [
         'info' => 'INFORMATION',
@@ -267,6 +225,7 @@ return [
         'option_minimum' => 'You can\'t delete this option because a poll must have minimum one option.',
         'option_image_duplicate' => 'Have two image same, are you sure use it',
         'number_edit' => 'Number limit must lager than total vote of poll. Number vote of poll is ',
+        'image' => 'Image invalid, please check again!',
     ],
     'mail' => [
         'label' => [

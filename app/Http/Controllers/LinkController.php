@@ -159,7 +159,7 @@ class LinkController extends Controller
             }
 
             //check time close poll
-            if (Carbon::now()->format('d/m/Y h:i') > Carbon::parse($poll->date_close)->format('d/m/Y h:i')) {
+            if (Carbon::now()->format('y/m/d h:i') > Carbon::parse($poll->date_close)->format('y/m/d h:i')) {
                 $poll->status = false;
                 $poll->save();
 

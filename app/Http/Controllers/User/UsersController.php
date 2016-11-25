@@ -49,6 +49,6 @@ class UsersController extends Controller
             return view('home')->withError(trans('message.update_error'));
         }
 
-        return redirect()->to(url('/'))->withMessages(trans('user.update_profile_successfully'));
+        return redirect()->to(url('/'))->withMessage(trans('user.update_profile_successfully'));
     }
 }

@@ -12,6 +12,7 @@ use App\Repositories\Link\LinkRepositoryInterface;
 use App\Repositories\Poll\PollRepositoryInterface;
 use App\Repositories\Vote\VoteRepositoryInterface;
 use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
+use App\Models\Poll;
 
 class ExportController extends Controller
 {
@@ -34,7 +35,7 @@ class ExportController extends Controller
 
     public function getDataRender($pollId)
     {
-        $poll = $this->pollRepository->find($pollId);
+        $poll = Poll::find($pollId);
         $totalVote = config('settings.default_value');
 
         try {
@@ -42,7 +43,11 @@ class ExportController extends Controller
                 $totalVote += $option->countVotes();
             }
         } catch(\Exception $ex) {
-            return;
+            return false;
+        }
+
+        if ($totalVote == 0) {
+            return false;
         }
 
         $optionRate = [];
@@ -99,9 +104,13 @@ class ExportController extends Controller
     public function exportPDF(Request $request)
     {
         $inputs = $request->only('poll_id');
-        $html = view('user.poll.details_layouts', $this->getDataRender($inputs['poll_id']));
+        $view = $this->getDataRender($inputs['poll_id']);
 
-        return PDF::load($html)->filename(trans('polls.vote') . '.pdf')->download();
+        if($view) {
+            $html = view('user.poll.details_layouts', $view);
+            return PDF::load($html)->filename(trans('polls.vote') . '.pdf')->download();
+        }
+
     }
 
     public function exportExcel(Request $request)

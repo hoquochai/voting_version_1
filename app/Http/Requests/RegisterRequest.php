@@ -47,7 +47,6 @@ class RegisterRequest extends FormRequest
             'email.email' => $trans['email']['email'],
             'email.max' => $trans['email']['max'],
             'email.unique' => $trans['email']['unique'],
-            'avatar.mimes' => $trans['avatar']['image'],
             'password.required' => $trans['password']['required'],
             'password.min' => $trans['password']['min'],
             'password.confirmed' => $trans['password']['confirmed'],

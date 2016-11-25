@@ -229,11 +229,16 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         $now = Carbon::now();
 
         try {
-            $user = User::where('email', $input['email'])->first();
             $userId = null;
 
-            if ($user) {
-                $userId = $user->id;
+            if (auth()->user() && ! auth()->user()->email) {
+                User::where('id', auth()->user()->id)->update(['email' => $input['email'], 'is_active' => true]);
+                $userId = auth()->user()->id;
+            } else {
+                $user = User::where('email', $input['email'])->first();
+                if ($user) {
+                    $userId = $user->id;
+                }
             }
 
             $pollId = Poll::insertGetId([

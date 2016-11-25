@@ -11,15 +11,52 @@
 |
 */
 
-Route::post('user-register', [
-    'as' => 'user-register',
-    'uses' => 'User\UsersController@store'
-]);
+Route::group(['middleware' => 'XSS'], function() {
+    Route::post('user-register', [
+        'as' => 'user-register',
+        'uses' => 'User\UsersController@store'
+    ]);
 
-Route::post('user-login', [
-    'as' => 'user-login',
-    'uses' => 'User\LoginController@store'
-]);
+    Route::post('user-login', [
+        'as' => 'user-login',
+        'uses' => 'User\LoginController@store'
+    ]);
+
+    Route::resource('user-poll', 'PollController');
+    Route::resource('duplicate', 'DuplicateController');
+
+    /*
+     * Route check token of link
+     */
+    Route::resource('link-poll', 'LinkController', ['only' => [
+        'store'
+    ]]);
+
+
+    /*
+     * Route change status of poll
+     */
+    Route::resource('status', 'StatusController', ['only' => [
+        'store'
+    ]]);
+
+    /*
+     * Route check limit of poll
+     */
+    Route::resource('limit', 'LimitController', ['only' => [
+        'store'
+    ]]);
+
+    Route::get('/', 'PollController@create');
+
+    Route::resource('result-poll', 'ResultCreatePollController', ['only' => [
+        'show'
+    ]]);
+
+    Route::get('check-date-close-poll', 'User\CheckDateController@checkDateClosePoll');
+});
+
+
 
 Route::post('link/{token?}', [
     'as' => 'link',
@@ -27,8 +64,6 @@ Route::post('link/{token?}', [
 ]);
 
 Route::get('link/verification/{tokenRegister?}', 'LinkController@index');
-
-Route::get('/', 'PollController@create');
 
 Route::post('check-email', 'CheckEmailController@store');
 
@@ -115,28 +150,13 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'as' => 'admin.','mid
     ]]);
 });
 
-Route::resource('user-poll', 'PollController');
-Route::resource('duplicate', 'DuplicateController');
+Route::get('tutorial', function () {
+    $filename = 'Fpoll.pdf';
+    $path = public_path(). '/file/'.$filename;
 
-/*
- * Route check token of link
- */
-Route::resource('link-poll', 'LinkController', ['only' => [
-    'store'
-]]);
-
-
-/*
- * Route change status of poll
- */
-Route::resource('status', 'StatusController', ['only' => [
-    'store'
-]]);
-
-/*
- * Route check limit of poll
- */
-Route::resource('limit', 'LimitController', ['only' => [
-    'store'
-]]);
+    return Response::make(file_get_contents($path), 200, [
+        'Content-Type' => 'application/pdf',
+        'Content-Disposition' => 'inline; filename="'.$filename.'"'
+    ]);
+});
 

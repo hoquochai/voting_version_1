@@ -60,6 +60,7 @@ class PollController extends Controller
 
             if (count(Mail::failures()) == config('settings.default_value')) {
                 $poll->status = true;
+                $poll->date_close = null;
                 $poll->save();
             }
         }

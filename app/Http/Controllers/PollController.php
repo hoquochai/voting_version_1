@@ -43,10 +43,10 @@ class PollController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  PollRequest $request
+     * @param  Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PollRequest $request)
+    public function store(Request $request)
     {
         $input = $request->only(
             'title', 'location', 'description', 'name', 'email', 'chatwork_id', 'type', 'closingTime',
@@ -58,10 +58,8 @@ class PollController extends Controller
 
         if ($data) {
             $poll = $data['poll'];
-            $link = $data['link'];
-            $password = $data['password'];
 
-            return view('user.poll.result_create_poll', compact('poll', 'link', 'password'));
+            return redirect()->route('result-poll.show', ['id' => $poll->id]);
         } else {
             $message = trans('polls.message.create_fail');
 
