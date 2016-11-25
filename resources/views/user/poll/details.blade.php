@@ -453,7 +453,7 @@
                                                 @foreach ($dataTableResult as $key => $data)
                                                     <tr>
                                                         <td>{{ $key + 1 }}</td>
-                                                        <td style="width: 740px">
+                                                        <td style="width: 720px">
                                                             <img src="{{ asset($data['image']) }}" width="50px" height="50px" style="float: left">
                                                             <p style="margin-left: 60px; display: block">{{ $data['name'] }}</p>
                                                         </td>

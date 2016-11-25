@@ -229,11 +229,16 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         $now = Carbon::now();
 
         try {
-            $user = User::where('email', $input['email'])->first();
             $userId = null;
 
-            if ($user) {
-                $userId = $user->id;
+            if (auth()->user() && ! auth()->user()->email) {
+                User::where('id', auth()->user()->id)->update(['email' => $input['email'], 'is_active' => true]);
+                $userId = auth()->user()->id;
+            } else {
+                $user = User::where('email', $input['email'])->first();
+                if ($user) {
+                    $userId = $user->id;
+                }
             }
 
             $pollId = Poll::insertGetId([
@@ -499,7 +504,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                     $message->to($email)->subject($subject);
                 });
             } else {
-                Mail::queue($view, $viewData, function ($message) use ($email, $subject) {
+                Mail::send($view, $viewData, function ($message) use ($email, $subject) {
                     $message->to($email)->subject($subject);
                 });
             }

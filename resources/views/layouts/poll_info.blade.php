@@ -1,4 +1,4 @@
-@if (isset($page) && $page == "edit")
+@if (isset($page) && ($page == "edit" || $page == "manager"))
     {{
        Form::open([
            'route' => ['user-poll.update', $poll->id],
@@ -40,7 +40,7 @@
                         'class' => 'form-control',
                         'id' => 'email',
                         'placeholder' => trans('polls.placeholder.email'),
-                        'disabled' => (auth()->user()) ? true : null,
+                        'disabled' => (auth()->user() && auth()->user()->email) ? true : null,
                     ])
                 }}
             </div>

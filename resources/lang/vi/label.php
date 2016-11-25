@@ -121,9 +121,17 @@ return [
     /*
      * home page
      */
-    'feature' => 'TÍNH NĂNG',
+    'feature' => [
+        'name' => 'TÍNH NĂNG',
+        'vote' => 'Tạo bình chọn nhanh chóng và dễ dàng',
+        'chart' => 'Minh họa kết quả qua các biểu đồ',
+        'security' => 'Đảm bảo tính bảo mật thông qua mật khẩu bình chọn',
+        'export' => 'Truy xuất kết quả dưới dạng PDF, EXCEL',
+        'share' => 'Chia sẻ bình chọn thông qua Facebook',
+        'responsive' => 'Truy cập mọi lúc mọi nơi và hỗ trợ trên nhiều loại thiết bị',
+    ],
     'accessible' => 'TRUY CẬP',
     'security' => 'BẢO MẬT',
     'introduction' => 'GIỚI THIỆU',
-    'tutorial' => 'HƯỚNG DẪN',
+    'tutorial' => 'Hướng dẫn',
 ];

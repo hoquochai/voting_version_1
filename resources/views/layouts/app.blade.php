@@ -8,6 +8,8 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <link rel="shortcut icon" href="{{ asset('uploads/images/fpoll_logo.png') }}"/>
+
     @yield('meta')
 
     <title>{{ config('app.name', 'Laravel') }}</title>
@@ -87,14 +89,17 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ asset("/") }}">
-                        <b class="char-app">F</b>POLL
+                    <a class="navbar-brand" href="{{ asset("/") }}"  style="padding-top: 0">
+                        <img src="{{ asset('uploads/images/fpoll_logo.png') }}" >
                     </a>
                 </div>
                 <div class="collapse navbar-collapse" id="menu">
                     <ul class="nav-menu nav navbar-nav">
                         <li {!! Request::is('/') ? 'class="active"' : '' !!}>
                             <a href="{{ asset("/") }}"><span class="glyphicon glyphicon-home"></span> {{ trans('label.home') }}</a>
+                        </li>
+                        <li>
+                            <a href="{{ url('/tutorial') }}" target="_blank"><span class="glyphicon glyphicon-file"></span> {{ trans('label.tutorial') }}</a>
                         </li>
                         @if (auth()->check())
                             <li {!! Request::is('user/poll') ? 'class="active"' : '' !!}>
@@ -144,7 +149,7 @@
                                 <select name="lang" id="countries" class="form-control btn-multiple-language" style="min-width: 120px;">
                                     <option value='en' {{ Session::get('locale') == 'en' ? 'selected' : '' }} data-image="{{ asset('bower/ms-Dropdown/images/msdropdown/icons/blank.gif') }} " data-imagecss="flag england" data-title="English">English</option>
                                     <option value='vi' {{ Session::get('locale') == 'vi' ? 'selected' : '' }} data-image="{{ asset('bower/ms-Dropdown/images/msdropdown/icons/blank.gif') }}" data-imagecss="flag vn" data-title="Tiếng Việt">Tiếng Việt</option>
-                                    <option value='ja' {{ Session::get('locale') == 'ja' ? 'selected' : '' }} data-image="{{ asset('bower/ms-Dropdown/images/msdropdown/icons/blank.gif') }}" data-imagecss="flag jp" data-title="日本語">日本語</option>
+                                    {{--<option value='ja' {{ Session::get('locale') == 'ja' ? 'selected' : '' }} data-image="{{ asset('bower/ms-Dropdown/images/msdropdown/icons/blank.gif') }}" data-imagecss="flag jp" data-title="日本語">日本語</option>--}}
                                 </select>
                             </div>
                         </li>
@@ -158,43 +163,8 @@
                 @include('flashy::message')
                 <a href="javascript:void(0);" id="scroll" style="display: none;">Top<span></span></a>
         </div>
-        <div class="container-fluid animatedParent" style="background: #f3f4f4">
-            <div class="col-lg-8 col-lg-offset-2 animated growIn slowest">
-                <h2 style="text-align: center">{{ trans('label.feature') }}</h2>
-                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
-                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
-                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
-                <img src="https://cdn.elegantthemes.com/blog/wp-content/uploads/2015/12/poll-plugins-thumbnail.jpg" style="width: 100px; height: 100px; border-radius: 50%">
-            </div>
-        </div>
-        {{--<div class="col-lg-12 animatedParent" style="background: #f3f4f4">--}}
-            {{--<div class="col-lg-4  animated fadeInRight slowest">--}}
-                {{--<h2 style="text-align: center">{{ trans('label.feature') }}</h2>--}}
 
-            {{--</div>--}}
-            {{--<div class="col-lg-4">--}}
-                {{--<h2 style="text-align: center">{{ trans('label.accessible') }}</h2>--}}
-                {{--<img class="img-responsive animated fadeInUp" src="http://brolik.com/blog/wp-content/uploads/2013/05/BRO_ResponsiveDesign_Main2.png" style="height: 200px; display: block; margin: 0 auto;">--}}
-            {{--</div>--}}
-            {{--<div class="col-lg-4">--}}
-                {{--<h2 style="text-align: center">{{ trans('label.security') }}</h2>--}}
-                {{--<img class="animated fadeInRight img-responsive" src="http://standardsinsight.com/wp-content/uploads/2015/07/internet-security.jpg" height="200px" style="display: block; margin: 0 auto; width: 200px; height: 200px; border-radius: 50%">--}}
-            {{--</div>--}}
-        {{--</div>--}}
-        {{--<div class="col-lg-12" style="background: antiquewhite">--}}
-            {{--<div class="col-lg-6 animated fadeInLeft">--}}
-                {{--<h2 style="text-align: center">{{ trans('label.introduction') }}</h2>--}}
-                {{--<p>--}}
-                    {{--Website Fpoll là một website tạo bình chọn--}}
-                {{--</p>--}}
-            {{--</div>--}}
-            {{--<div class="col-lg-6 animated fadeInRight" style="max-width: 600px; overflow-x: scroll; overflow-y: hidden">--}}
-                {{--<h2>{{ trans('label.tutorial') }}</h2>--}}
-                {{--<iframe width="560" height="315" src="https://www.youtube.com/embed/5jOGtIqBtdw" frameborder="0" allowfullscreen></iframe>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-        <footer style="background: black; color: white; position: absolute; bottom: 0; height: 140px; width: 100%">
-            {{--<div class="container">--}}
+        <footer style="background: black; color: white; position: absolute; bottom: 0; width: 100%">
                 <div class="col-lg-3">
                     <p><b class="char-app">F</b><label>poll</label></p>
                     <p>
@@ -229,8 +199,6 @@
                         <span><i class="fa fa-linkedin" aria-hidden="true"></i></span>
                     </button>
                 </div>
-            {{--</div>--}}
-
         </footer>
 
     <!-- jQuery -->

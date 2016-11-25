@@ -4,12 +4,12 @@
 <div class="container">
     <div class="row">
     <div class="loader"></div>
-        <div class="col-md-6 col-md-offset-3 animated fadeInDown register">
+        <div class="col-md-4 col-md-offset-4 animated fadeInDown register">
             <div class="panel panel-default">
                 <div class="panel-heading">{{ trans('label.register') }}</div>
                 <div class="panel-body">
                     @include('errors.errors')
-                    {{ Form::open(['route' => 'user-register', 'class' => 'form-horizontal', 'files' => true, 'id' => 'form-register']) }}
+                    {{ Form::open(['route' => 'user-register', 'class' => 'form-horizontal', 'files' => true, 'id' => 'form-register', 'enctype' => 'multipart/form-data']) }}
                         <div class="form-group">
                             <div class="input-group col-md-10 col-md-offset-1">
                                 <span class="input-group-addon" id="basic-addon1">
@@ -64,7 +64,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <img id="preview-avatar" src="#" class="col-md-8 col-md-offset-2 preview-image" />
+                            <img id="preview-avatar" src="#" class="col-md-4 col-md-offset-3 preview-image"  />
                         </div>
 
                         <div class="form-group">

@@ -270,6 +270,7 @@ return [
         'option_minimum' => 'Bạn không thể xóa tùy chọn này vì bình chọn phải có ít nhất một câu trả lời',
         'option_image_duplicate' => 'Có hai hình ảnh giống nhau, bạn chắc chắn sử dụng nó?',
         'number_edit' => 'Số lượng bầu chọn tối đa phải lớn hơn tổng số lượt bình chọn, tổng số lượt bình chọn hiện tại là ',
+        'image' => 'Hình ảnh không hợp lệ, vui lòng kiểm tra lại',
     ],
     'mail' => [
         'label' => [

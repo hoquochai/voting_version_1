@@ -3,13 +3,14 @@
     {{ trans('polls.title') }}
 @endsection
 @section('content')
-    {{--<div class="col-lg-12">--}}
+    <div class="row" style="margin-bottom: 100px">
         <div class="loader"></div>
         <div class="hide"
              data-poll="{{ $data['jsonData'] }}"
              data-route-email="{{ url('/check-email') }}"
              data-route-link="{{ route('link-poll.store') }}"
-             data-token="{{ csrf_token() }}">
+             data-token="{{ csrf_token() }}"
+             data-link-check-date="{{ url('/check-date-close-poll') }}">
         </div>
         {{
            Form::open([
@@ -82,9 +83,6 @@
                                 @include('layouts.poll_options')
                             </div>
                         </div>
-                        <li class="finish">
-                            <a href="#" class="btn btn-change-step btn-darkcyan btn-finish" style="border-radius: 15px">{{ trans('polls.button.finish') }}</a>
-                        </li>
                     </div>
                     <div class="tab-pane" id="setting">
                         <div class="panel" style="border-color: darkcyan; border-radius: 0">
@@ -107,34 +105,40 @@
                         </div>
                     </div>
                     <ul class="pager wizard">
+                        <li class="finish"><a href="#" class="btn btn-change-step btn-darkcyan btn-finish">{{ trans('polls.button.finish') }}</a></li>
                         <li class="previous"><a href="#" class="btn-change-step btn btn-darkcyan">{{ trans('polls.button.previous') }}</a></li>
                         <li class="next"><a href="#" class="btn-change-step btn btn-darkcyan">{{ trans('polls.button.continue') }}</a></li>
-                        <li class="finish"><a href="#" class="btn btn-change-step btn-darkcyan btn-finish">{{ trans('polls.button.finish') }}</a></li>
                     </ul>
                 </div>
             </div>
-            {{--<div class="col-lg-2" style="padding: 0; margin-top: 20px; position: absolute; right: 0">--}}
-                    {{--<div class="panel info-explain panel-default animated fadeInRight" style="border: none">--}}
-                        {{--<div class="panel-body panel-body-explain">--}}
-                            {{--{!! trans('polls.tooltip.info')  !!}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="panel panel-default option-explain animated fadeInRight" style="border: none;">--}}
-                        {{--<div class="panel-body panel-body-explain">--}}
-                            {{--{!! trans('polls.tooltip.option')  !!}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="panel panel-default panel-setting-explain animated fadeInRight" style="border: none;">--}}
-                        {{--<div class="panel-body panel-body-explain">--}}
-                            {{--{!! trans('polls.tooltip.setting')  !!}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-                    {{--<div class="panel panel-participant-explain panel-default animated fadeInRight" style="border: none;">--}}
-                        {{--<div class="panel-body panel-body-explain">--}}
-                            {{--{!! trans('polls.tooltip.participant') !!}--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
-            {{--</div>--}}
         {{ Form::close() }}
-    {{--</div>--}}
+        </div>
+
+    <div class="row" style="background: #f3f4f4; min-height: 300px; padding-top: 20px">
+        <h2 style="text-align: center; margin-bottom: 50px">{{ trans('label.feature.name') }}</h2>
+        <div class="col-lg-2 animatedParent">
+            <img class="animated growIn slowest" src="{{ asset('uploads/images/Fpoll-vote.jpg') }}" style="display: block; margin: 0 auto; width: 100px; height: 100px; border-radius: 50%">
+            <p class="animated fadeInLeft" style="text-align: center">{{ trans('label.feature.vote') }}</p>
+        </div>
+        <div class="col-lg-2 animatedParent">
+            <img class="animated growIn slowest" src="{{ asset('uploads/images/Fpoll-chart.png') }}" style="display: block; margin: 0 auto; width: 100px; height: 100px; border-radius: 50%">
+            <p class="animated fadeInUp" style="text-align: center">{{ trans('label.feature.chart') }}</p>
+        </div>
+        <div class="col-lg-2 animatedParent">
+            <img class="animated growIn slowest" src="{{ asset('uploads/images/Fpoll-security.jpg') }}" style="display: block; margin: 0 auto; width: 100px; height: 100px; border-radius: 50%">
+            <p class="animated fadeInUp" style="text-align: center">{{ trans('label.feature.security') }}</p>
+        </div>
+        <div class="col-lg-2 animatedParent">
+            <img class="animated growIn slowest" src="{{ asset('uploads/images/Fpoll-export.png') }}" style="display: block; margin: 0 auto; width: 100px; height: 100px; border-radius: 50%">
+            <p class="animated fadeInRight" style="text-align: center">{{ trans('label.feature.export') }}</p>
+        </div>
+        <div class="col-lg-2 animatedParent">
+            <img class="animated growIn slowest" src="{{ asset('uploads/images/Fpoll-responsive.jpg') }}" style="display: block; margin: 0 auto; width: 100px; height: 100px; border-radius: 50%">
+            <p class="animated fadeInRight" style="text-align: center">{{ trans('label.feature.responsive') }}</p>
+        </div>
+        <div class="col-lg-2 animatedParent">
+            <img class="animated growIn slowest" src="{{ asset('uploads/images/Fpoll-like-share.jpg') }}" style="display: block; margin: 0 auto; width: 100px; height: 100px; border-radius: 50%">
+            <p class="animated fadeInRight" style="text-align: center">{{ trans('label.feature.share') }}</p>
+        </div>
+    </div>
 @endsection

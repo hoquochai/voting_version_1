@@ -121,9 +121,15 @@ return [
     /*
      * Home page
      */
-    'feature' => 'FEATURE',
-    'accessible' => 'ACCESSIBLE',
-    'security' => 'SECURITY',
-    'introduction' => 'INTRODUCTION',
-    'tutorial' => 'TUTORIAL',
+    'feature' => [
+        'name' => 'FEATURE',
+        'vote' => 'Create a poll fast and easy',
+        'chart' => 'Result illustrated by bar chart and pie chart ',
+        'security' => 'Guaranteed security by password of poll',
+        'export' => 'Can export result to PDF file or EXCEL file',
+        'share' => 'Share poll by facebook',
+        'responsive' => 'Support multiple deceive: laptop or mobie',
+    ],
+    'tutorial' => 'Tutorial',
+
 ];

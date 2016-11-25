@@ -86,21 +86,27 @@
                                     <h4 class="modal-title">{{ trans('polls.label.step_3') }}</h4>
                                 </div>
                                 <div class="modal-body">
-                                    @foreach ($settings as $setting)
-                                        @foreach($setting as $text => $value )
-                                            <h4>{{ $text }}
-                                                @if ($text == trans('polls.label.setting.custom_link'))
-                                                    <span class="label label-default">
-                                                        <a href="{{ url('/') . config('settings.email.link_vote') . $value }}" style="color: white" target="_blank">
-                                                            {{ url('/') . config('settings.email.link_vote') . $value }}
-                                                        </a>
-                                                    </span>
-                                                @elseif($value)
-                                                    <span class="label label-default">{{ $value }}</span>
-                                                @endif
-                                            </h4>
+                                    @if ($settings)
+                                        @foreach ($settings as $setting)
+                                            @foreach($setting as $text => $value )
+                                                <h4>{{ $text }}
+                                                    @if ($text == trans('polls.label.setting.custom_link'))
+                                                        <span class="label label-default">
+                                                            <a href="{{ url('/') . config('settings.email.link_vote') . $value }}" style="color: white" target="_blank">
+                                                                {{ url('/') . config('settings.email.link_vote') . $value }}
+                                                            </a>
+                                                        </span>
+                                                    @elseif($value)
+                                                        <span class="label label-default">{{ $value }}</span>
+                                                    @endif
+                                                </h4>
+                                            @endforeach
                                         @endforeach
-                                    @endforeach
+                                    @else
+                                        <div class="alert alert-info">
+                                            {{ trans('polls.message.no_setting') }}
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -193,28 +199,30 @@
                                                 </button>
                                             </div>
                                             <div class="panel-body">
-                                                <div class="row">
-                                                    <div class="col-lg-3 col-lg-offset-6">
-                                                        {{ Form::open(['route' => ['exportPDF', 'poll_id' => $poll->id]]) }}
-                                                        {{
-                                                            Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_pdf'), [
-                                                                'type' => 'submit',
-                                                                'class' => 'btn btn-administration btn-right'
-                                                            ])
-                                                        }}
-                                                        {{ Form::close() }}
+                                                @if ($poll->countParticipants())
+                                                    <div class="row">
+                                                        <div class="col-lg-3 col-lg-offset-6">
+                                                            {{ Form::open(['route' => ['exportPDF', 'poll_id' => $poll->id]]) }}
+                                                            {{
+                                                                Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_pdf'), [
+                                                                    'type' => 'submit',
+                                                                    'class' => 'btn btn-administration btn-right'
+                                                                ])
+                                                            }}
+                                                            {{ Form::close() }}
+                                                        </div>
+                                                        <div class="col-lg-3">
+                                                            {{ Form::open(['route' => ['exportExcel', 'poll_id' => $poll->id]]) }}
+                                                            {{
+                                                                Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_excel'), [
+                                                                    'type' => 'submit',
+                                                                    'class' => 'btn btn-administration btn-right'
+                                                                ])
+                                                            }}
+                                                            {{ Form::close() }}
+                                                        </div>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        {{ Form::open(['route' => ['exportExcel', 'poll_id' => $poll->id]]) }}
-                                                        {{
-                                                            Form::button('<span class="glyphicon glyphicon-export"></span>' . ' ' . trans('polls.export_excel'), [
-                                                                'type' => 'submit',
-                                                                'class' => 'btn btn-administration btn-right'
-                                                            ])
-                                                        }}
-                                                        {{ Form::close() }}
-                                                    </div>
-                                                </div>
+                                                @endif
                                                 <div class="col-lg-12" style="clear: both; max-height: 300px; overflow-x: hidden; overflow-y: scroll">
                                                     <table class="table table-hover table-responsive" style="margin-top: 20px">
                                                         <thead>
