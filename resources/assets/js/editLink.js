@@ -91,7 +91,7 @@ $(document).ready(function(){
                 $('.loader').hide();
 
                 if (data.success) {
-                     $('#label_link_admin').attr('href', $('.token-admin').val());
+                    $('#label_link_admin').attr('href', $('.token-admin').val());
                     $('.message-link-admin').html(editLinkSuccess);
                 }
             }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use Excel;
 use PDF;
+use App\Models\Poll;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -12,7 +13,6 @@ use App\Repositories\Link\LinkRepositoryInterface;
 use App\Repositories\Poll\PollRepositoryInterface;
 use App\Repositories\Vote\VoteRepositoryInterface;
 use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
-use App\Models\Poll;
 
 class ExportController extends Controller
 {
@@ -46,10 +46,6 @@ class ExportController extends Controller
             return false;
         }
 
-        if ($totalVote == 0) {
-            return false;
-        }
-
         $optionRate = [];
 
         if ($totalVote) {
@@ -70,6 +66,7 @@ class ExportController extends Controller
         $participantVoteIds = $this->pollRepository->getParticipantVoteIds($poll->id);
         $participantVotes = $this->participantVoteRepository->getVoteWithOptionsByVoteId($participantVoteIds);
         $mergedParticipantVotes = $votes->toBase()->merge($participantVotes->toBase());
+
         if ($mergedParticipantVotes->count()) {
             foreach ($mergedParticipantVotes as $mergedParticipantVote) {
                 $createdAt[] = $mergedParticipantVote->first()->created_at;

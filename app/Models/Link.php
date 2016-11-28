@@ -46,6 +46,7 @@ class Link extends Model
                 $emails = $this->poll->user->email;
             }
 
+            //send email when edit token of link
             try {
                 Mail::send('layouts.edit_link_mail', [
                     'link' => url('/link') . '/' . $tokenInput,
@@ -53,6 +54,7 @@ class Link extends Model
                     $message->to($emails)->subject(trans('label.mail.subject'));
                 });
 
+                //send email fail
                 if (count(Mail::failures()) > config('settings.default_value')) {
                     return response()->json([
                         'success' => false,

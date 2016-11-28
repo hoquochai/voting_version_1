@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\User;
 
 use DB;
+use Session;
 use Carbon\Carbon;
+use App\Models\Option;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -13,8 +15,6 @@ use App\Repositories\Poll\PollRepositoryInterface;
 use App\Repositories\ParticipantVote\ParticipantVoteRepositoryInterface;
 use App\Repositories\Participant\ParticipantRepositoryInterface;
 use App\Repositories\User\UserRepositoryInterface;
-use App\Models\Option;
-use Session;
 
 class VoteController extends Controller
 {
@@ -44,16 +44,16 @@ class VoteController extends Controller
 
     public function store(Request $request)
     {
-        //get MAC address
+        //get MAC address of Client
         $client  = @$_SERVER['HTTP_CLIENT_IP'];
         $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
         $remote  = $_SERVER['REMOTE_ADDR'];
 
-        if(filter_var($client, FILTER_VALIDATE_IP)){
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
             $ip = $client;
-        }elseif(filter_var($forward, FILTER_VALIDATE_IP)){
+        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
             $ip = $forward;
-        }else{
+        } else {
             $ip = $remote;
         }
 
@@ -70,6 +70,7 @@ class VoteController extends Controller
             return view('errors.show_errors')->with('message', trans('polls.message_poll_closed'));
         }
 
+        //user vote poll
         if (auth()->check()) {
             $currentUser = auth()->user();
             $participantInformation = [
@@ -202,7 +203,9 @@ class VoteController extends Controller
                 throw $e;
             }
         }
+
         Session::put('isVotedSuccess', true);
+
         return redirect()->to($poll->getUserLink())->with('message', trans('polls.vote_successfully'));
     }
 

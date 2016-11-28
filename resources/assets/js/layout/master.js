@@ -423,6 +423,7 @@ $(document).ready(function() {
                 //check if form valid, it will be return TRUE
                 if(! valid) {
                     $validator.focusInvalid();
+
                     return false;
                 }
 
@@ -455,6 +456,7 @@ $(document).ready(function() {
 
                 if(! valid) {
                     $validator.focusInvalid();
+
                     return false;
                 }
                 //check option of poll
@@ -541,6 +543,7 @@ $(document).ready(function() {
     $('#duplicate_poll_wizard').bootstrapWizard({
         // 'tabClass': 'nav nav-pills',
         onTabClick: function(tab, navigation, index) {
+
             return false;
         }
     });
@@ -582,6 +585,7 @@ function updatePollSetting() {
 
     if (isValidLink && isValidLimit && isValidPassword) {
         $('.loader').show();
+
         return true;
     }
 
@@ -596,6 +600,7 @@ function checkLinkUpdate(link) {
         $('#link').closest('.form-group').addClass('has-error');
         $('.error_link').closest('.form-group').addClass('has-error');
         $('.error_link').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+
         return false;
     }
 
@@ -604,6 +609,7 @@ function checkLinkUpdate(link) {
             $('#link').closest('.form-group').addClass('has-error');
             $('.error_link').closest('.form-group').addClass('has-error');
             $('.error_link').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
+
             return false;
         }
     }
@@ -611,28 +617,9 @@ function checkLinkUpdate(link) {
     $('#link').closest('.form-group').removeClass('has-error');
     $('.error_link').closest('.form-group').removeClass('has-error');
     $('.error_link').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
+
     return true;
 }
-function checkLimitUpdate() {
-    // var limit = $('#limit').val();
-    // var id = $('.hide').data('id');
-    // var message = $('.hide').data('emailMessage');
-    // $.ajax({
-    //     url: $('.hide').data("routeLimit"),
-    //     type: 'post',
-    //     data: {
-    //         'limit': limit,
-    //         'id': id,
-    //         '_token': $('.hide').data("token")
-    //     },
-    //     success: function (data) {
-
-    //     }
-    // });
-    return true;
-}
-
-
 /*
  show password
  */
@@ -656,6 +643,7 @@ function checkLink() {
         $('#link').closest('.form-group').addClass('has-error');
         $('.error_link').closest('.form-group').addClass('has-error');
         $('.error_link').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+
         return false;
     }
 
@@ -663,12 +651,14 @@ function checkLink() {
         $('#link').closest('.form-group').addClass('has-error');
         $('.error_link').closest('.form-group').addClass('has-error');
         $('.error_link').html('<span id="title-error" class="help-block">' + pollData.message.link_exists + '</span>');
+
         return false;
     }
 
     $('#link').closest('.form-group').removeClass('has-error');
     $('.error_link').closest('.form-group').removeClass('has-error');
     $('.error_link').html('<span id="title-success" class="help-block">' + pollData.message.link_valid + '</span>');
+
     return true;
 }
 
@@ -682,6 +672,7 @@ function checkLimit() {
         $('#limit').closest('.form-group').addClass('has-error');
         $('.error_limit').closest('.form-group').addClass('has-error');
         $('.error_limit').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+
         return false;
     }
 
@@ -689,6 +680,7 @@ function checkLimit() {
         $('#limit').closest('.form-group').addClass('has-error');
         $('.error_limit').closest('.form-group').addClass('has-error');
         $('.error_limit').html('<span id="title-error" class="help-block">' + pollData.message.number + '</span>');
+
         return false;
     }
 
@@ -696,12 +688,14 @@ function checkLimit() {
         $('#limit').closest('.form-group').addClass('has-error');
         $('.error_limit').closest('.form-group').addClass('has-error');
         $('.error_limit').html('<span id="title-error" class="help-block">' + pollData.message.number_edit + $('.hide').data("totalVote") + '</span>');
+
         return false;
     }
 
     $('#limit').closest('.form-group').removeClass('has-error');
     $('.error_limit').closest('.form-group').removeClass('has-error');
     $('.error_limit').html('');
+
     return true;
 }
 
@@ -715,11 +709,13 @@ function checkPassword() {
         $('#password').closest('.form-group').addClass('has-error');
         $('.error_password').closest('.form-group').addClass('has-error');
         $('.error_password').html('<span id="title-error" class="help-block">' + pollData.message.required + '</span>');
+
         return false;
     }
 
     $('#password').closest('.form-group').removeClass('has-error');
     $('.error_password').closest('.form-group').removeClass('has-error');
+
     return true;
 }
 

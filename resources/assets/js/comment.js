@@ -10,7 +10,7 @@ $(document).ready(function(){
     $('#add-comment').on('click', function() {
         divChangeAmount = $(this).parent();
 
-        if ( $('#form-comment').css('display') == 'none' ) {
+        if ($('#form-comment').css('display') == 'none') {
             $('#form-comment').show();
             var labelHide = divChangeAmount.data('labelHide');
             $('#add-comment').html(labelHide);
@@ -25,7 +25,7 @@ $(document).ready(function(){
     $('#show-hide-list-comment').on('click', function() {
         divChangeAmount = $(this).parent();
 
-        if ( $('.comments').css('display') == 'none' ) {
+        if ($('.comments').css('display') == 'none') {
             $('.comments').show();
             var labelHide = divChangeAmount.data('labelHide');
             $('#show-hide-list-comment').html(labelHide);

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\User;
 
+use Session;
 use App\Models\Setting;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Repositories\Poll\PollRepositoryInterface;
-use Session;
 
 class SetPasswordController extends Controller
 {

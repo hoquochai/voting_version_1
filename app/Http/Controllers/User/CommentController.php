@@ -40,7 +40,6 @@ class CommentController extends Controller
                 'poll_id' => $inputs['poll_id'],
                 'type' => config('settings.activity.added_a_comment'),
             ];
-
             $imageComment = asset(config('settings.image_default_path'));
 
             if (isset($inputs['user_id'])) {
@@ -53,7 +52,6 @@ class CommentController extends Controller
             }
 
             $this->activityRepository->create($activity);
-
             $html = view('user.poll.comment_layouts', [
                 'commentId' => $comment->id,
                 'content' => $inputs['content'],

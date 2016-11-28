@@ -13,7 +13,7 @@ class LoginController extends Controller
     public function store(LoginRequest $request)
     {
         $input = $request->only('email', 'password', 'remember');
-        $user = User::where('email', $input['email'])->where('is_active', 1)->first();
+        $user = User::where('email', $input['email'])->where('is_active', config('settings.is_active'))->first();
 
         if ($user && Auth::attempt(['email' => $input['email'], 'password' => $input['password']], $input['remember'])) {
             if ($user->isAdmin()) {
@@ -21,8 +21,8 @@ class LoginController extends Controller
             }
 
             return redirect()->to(url('/'))->withMessage(trans('user.login_successfully'));
-        } else {
-            return redirect()->to(url('/login'))->withMessages(trans('user.account_unactive'));
         }
+
+        return redirect()->to(url('/login'))->withMessages(trans('user.account_unactive'));
     }
 }

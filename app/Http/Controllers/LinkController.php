@@ -43,18 +43,19 @@ class LinkController extends Controller
     public function index($tokenRegister)
     {
         $user = User::where('token_verification', $tokenRegister)->first();
-        if ($user) {
-            $user->is_active = true;
-            $user->token_verification = '';
-            $user->save();
 
-            if (! Auth::login($user)) {
-                return redirect()->to(url('/'))->withMessage(trans('user.register_account_successfully'));
-            } else {
-                return redirect()->to(url('/'))->withMessage(trans('user.register_account_fail'));
-            }
-        } else {
+        if (! $user) {
             return view('errors.show_errors')->with('message', trans('polls.link_not_found'));
+        }
+
+        $user->is_active = true;
+        $user->token_verification = '';
+        $user->save();
+
+        if (! Auth::login($user)) {
+            return redirect()->to(url('/'))->withMessage(trans('user.register_account_successfully'));
+        } else {
+            return redirect()->to(url('/'))->withMessage(trans('user.register_account_fail'));
         }
     }
 
@@ -252,7 +253,6 @@ class LinkController extends Controller
             ));
         } else {
             $poll = $link->poll;
-
             $voteIds = $this->pollRepository->getVoteIds($poll->id);
             $votes = $this->voteRepository->getVoteWithOptionsByVoteId($voteIds);
             $participantVoteIds = $this->pollRepository->getParticipantVoteIds($poll->id);

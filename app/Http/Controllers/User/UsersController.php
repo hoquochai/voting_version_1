@@ -46,7 +46,7 @@ class UsersController extends Controller
             $data = $request->only(['email', 'name', 'password', 'avatar', 'gender']);
             $this->userRepository->update($data, $id);
         } catch (Exception $e) {
-            return view('home')->withError(trans('message.update_error'));
+            return view('user.poll.create')->withErrors(trans('message.update_error'));
         }
 
         return redirect()->to(url('/'))->withMessage(trans('user.update_profile_successfully'));

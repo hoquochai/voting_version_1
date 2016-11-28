@@ -87,7 +87,6 @@ class PollController extends Controller
     public function edit($id)
     {
         $data = $this->pollRepository->getDataPollSystem();
-
         $poll = Poll::with('user', 'options', 'settings')->find($id);
         $setting = $poll->settings->pluck('value', 'key')->toArray();
         $page = 'edit';

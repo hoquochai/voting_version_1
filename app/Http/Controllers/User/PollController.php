@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers\User;
 
+use Mail;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Requests\PollGeneralRequest;
 use App\Http\Controllers\Controller;
 use App\Repositories\Poll\PollRepositoryInterface;
 use App\Repositories\Vote\VoteRepositoryInterface;
-use Flashy;
-use Mail;
 
 class PollController extends Controller
 {

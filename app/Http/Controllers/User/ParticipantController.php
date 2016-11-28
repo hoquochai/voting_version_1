@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers\User;
 
-use App\Models\Poll;
-use Flashy;
 use Mail;
+use App\Models\Poll;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -48,7 +47,7 @@ class ParticipantController extends Controller
 
         $this->participantRepository->deleteAllParticipants($inputs['poll_id'], $this->participantVoteRepository, $this->voteRepository);
 
-
+        //send email when admin delete all participant
         if ($emails) {
             Mail::queue('layouts.delete_all_participant_mail', [
                 'link' => $poll->getAdminLink(),
@@ -56,6 +55,7 @@ class ParticipantController extends Controller
                 $message->to($emails)->subject(trans('label.mail.subject'));
             });
         }
+
         $activity = [
             'poll_id' => $inputs['poll_id'],
             'type' => config('settings.activity.all_participants_deleted'),
