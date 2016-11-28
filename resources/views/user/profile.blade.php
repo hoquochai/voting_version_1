@@ -8,12 +8,19 @@
                 <div class="panel-heading">{{ trans('label.profile') }}</div>
                 <div class="panel-body">
                     @include('errors.errors')
-
-                    {{ Form::model($currentUser, ['method' => 'PATCH', 'route' => ['profile.update', $currentUser->id], 'class' => 'form-horizontal', 'role' => 'form', 'files' => true]) }}
+                    {{
+                        Form::model($currentUser, [
+                            'method' => 'PATCH',
+                            'route' => ['profile.update', $currentUser->id],
+                            'class' => 'form-horizontal',
+                            'role' => 'form',
+                            'files' => true
+                        ])
+                    }}
                         <div class="form-group">
-                        <div class="col-md-12 col-md-offset-4">
-                            <img class="img-profile" id="output" src="{{ asset($currentUser->getAvatarPath()) }}"/>
-                        </div>
+                            <div class="col-md-12 col-md-offset-4">
+                                <img class="img-profile" id="output" src="{{ asset($currentUser->getAvatarPath()) }}"/>
+                            </div>
                         </div>
 
                         <div class="form-group">

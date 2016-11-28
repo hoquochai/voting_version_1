@@ -85,7 +85,7 @@ class VoteController extends Controller
             }
 
             if (! $inputs['nameVote'] && ! $inputs['emailVote']) {
-                $participantInformation['name'] = trans('polls.no_name');
+                $participantInformation['name'] = config('settings.no_name');
             }
 
             if (! $isChanged) {
@@ -135,7 +135,7 @@ class VoteController extends Controller
                         } elseif ($inputs['nameVote'] && ! $inputs['emailVote']){
                             $activity['name'] = $inputs['nameVote'];
                         } else {
-                            $activity['name'] = trans('polls.no_name');
+                            $activity['name'] = config('settings.no_name');
                         }
                     }
                 } else {
@@ -154,7 +154,7 @@ class VoteController extends Controller
             ];
 
             if (! $inputs['nameVote'] && ! $inputs['emailVote']) {
-                $participantInformation['name'] = trans('polls.no_name');
+                $participantInformation['name'] = config('settings.no_name');
             } else {
                 $participantInformation['email'] = $inputs['emailVote'];
                 $participantInformation['name'] = $inputs['nameVote'];
@@ -191,7 +191,7 @@ class VoteController extends Controller
                     } elseif ($inputs['nameVote'] && ! $inputs['emailVote']){
                         $activity['name'] = $inputs['nameVote'];
                     } else {
-                        $activity['name'] = trans('polls.no_name');
+                        $activity['name'] = config('settings.no_name');
                     }
                 }
 

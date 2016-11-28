@@ -48,7 +48,7 @@ $(document).ready(function(){
         var commentContent = divChangeAmount.data('commentContent');
         var isInputCorrect = true;
 
-        if (name == '') {
+        if (name.trim() == '') {
             $('.comment-name-validate').addClass('alert alert-warning');
             var message = "<span class='glyphicon glyphicon-warning-sign'></span>" + ' ' + commentName;
             $('.comment-name-validate').html(message);
@@ -58,7 +58,7 @@ $(document).ready(function(){
             $('.comment-name-validate').html('');
         }
 
-        if (content == '') {
+        if (content.trim() == '') {
             $('.comment-content-validate').addClass('alert alert-warning');
             var message = "<span class='glyphicon glyphicon-warning-sign'></span>" + ' ' + commentContent;
             $('.comment-content-validate').html(message);
