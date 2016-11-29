@@ -11,6 +11,14 @@
 |
 */
 
+//searchable
+Route::get('find', 'SearchController@find');
+
+Route::get('search/{pollId?}/{createdAt?}', [
+    'as' => 'link-search',
+    'uses' => 'LinkController@create'
+]);
+
 Route::group(['middleware' => 'XSS'], function() {
     Route::post('user-register', [
         'as' => 'user-register',

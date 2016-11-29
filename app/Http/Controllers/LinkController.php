@@ -64,9 +64,9 @@ class LinkController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($pollId, $createdAt)
     {
-        //
+        return redirect()->to($this->pollRepository->getLinkByCreatedAt($pollId, $createdAt));
     }
 
     /**

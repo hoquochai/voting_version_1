@@ -33,7 +33,7 @@
     <!-- Bootstrap theme CSS -->
     {!! Html::style('bower/bootstrap/dist/css/bootstrap-theme.min.css') !!}
 
-{!! Html::style('css/layout/master.css') !!}
+    {!! Html::style('css/layout/master.css') !!}
 
     <!-- Bootstrap datatable CSS -->
     {!! Html::style('bower/datatables.net-bs/css/dataTables.bootstrap.min.css') !!}
@@ -78,7 +78,6 @@
         </script>
     @endif
 
-
 </head>
 <body>
         <nav class="navbar navbar-default  animated fadeInDown">
@@ -108,8 +107,19 @@
                                 </a>
                             </li>
                         @endif
+
+                        <li style="margin-top: 10px;">
+                            <form class="typeahead" role="search">
+                                <div class="form-group">
+                                    <input type="search" name="q" class="form-control search-input" placeholder="Search poll..." autocomplete="off">
+                                </div>
+                            </form>
+                        </li>
                     </ul>
+
+
                     <ul class="nav-menu nav navbar-nav navbar-right">
+
                         @if (Auth::guest())
                             <li {!! Request::is('login') ? 'class="active"' : '' !!}>
                                 <a href="{{ url('/login') }}">
@@ -153,10 +163,12 @@
                                 </select>
                             </div>
                         </li>
+
                     </ul>
                 </div>
             </div>
         </nav>
+        <div class="hide-search" data-url-search="{{ url('/') }}"></div>
         <div class="container-fluid">
                 @yield('content')
                 <script src="//code.jquery.com/jquery.js"></script>
@@ -252,5 +264,7 @@
 
     <script src="{{ asset('bower/css3-animate-it/js/css3-animate-it.js') }}"></script>
 
+    <!-- Typeahead.js Bundle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
 </body>
 </html>

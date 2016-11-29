@@ -31,6 +31,13 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
         return $this->model->where('status', true)->with('user', 'settings', 'comments.user', 'options')->find($id);
     }
 
+    public function getLinkByCreatedAt($pollId, $createdAt)
+    {
+        $poll = $this->model->find($pollId)->where('created_at', $createdAt)->first();
+
+        return $poll->getUserLink();
+    }
+
     public function getInitiatedPolls()
     {
         $currentUserId = auth()->user()->id;
@@ -1214,7 +1221,6 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
                 'image' => $option->showImage(),
                 'numberOfVote' => $option->countVotes(),
                 'lastVoteDate' => (strcmp($userVoteLast, $participantVoteLast) < 0) ? $participantVoteLast : $userVoteLast,
-                'vote' => $option->getListOwnerVoted($isRequiredEmail),
             ];
         }
 

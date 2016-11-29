@@ -3,16 +3,19 @@
 namespace App\Models;
 
 use App\QueryFilter;
-use Illuminate\Database\Eloquent\Model;
 use App\Models\User;
 use App\Models\Option;
 use App\Models\Setting;
 use App\Models\Link;
 use App\Models\Activity;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Model;
+use Nicolaslopezj\Searchable\SearchableTrait;
 
 class Poll extends Model
 {
+    use SearchableTrait;
+
     protected $fillable = [
         'user_id',
         'title',
@@ -24,6 +27,15 @@ class Poll extends Model
         'name',
         'email',
     ];
+
+    protected $searchable = [
+        'columns' => [
+            'polls.id' => 6,
+            'polls.title' => 6,
+            'polls.created_at' => 6,
+        ],
+    ];
+
 
     public function user()
     {
