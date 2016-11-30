@@ -1217,6 +1217,7 @@ class PollRepository extends BaseRepository implements PollRepositoryInterface
             $participantVoteLast = ($participantLast) ? $participantLast->created_at : '';
 
             $dataTableResult[] = [
+                'option_id' => $option->id,
                 'name' => $option->name,
                 'image' => $option->showImage(),
                 'numberOfVote' => $option->countVotes(),

@@ -7,6 +7,7 @@
     <meta property="og:description" content="{{ $poll->description }}" />
     <meta property="og:image" content="{{ asset('/uploads/images/vote.png') }}" />
 @endsection
+    <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
 @section('content')
     <div class="container">
     <div class="row">
@@ -28,6 +29,7 @@
                 </div>
             </div>
 
+            <div class="hide-vote" data-poll-id="{{ $poll->id }}"></div>
             <div class="tab-content">
                 @include('layouts.message')
                 <div class="tab-pane" id="vote">
@@ -78,7 +80,6 @@
                                 </label>
                             </div>
 
-
                             <div class="tab-content">
                                 <div class="col-lg-12">
                                     <div class="col-lg-2 col-lg-offset-10" style="padding-right: 4px; clear: both">
@@ -109,7 +110,7 @@
                                         @foreach ($poll->options as $option)
                                             <li class="list-group-item parent-vote" style="min-height: 70px; border-radius: 0"  onclick="voted('{{ $option->id }}', 'horizontal')">
                                                 @if (!$isHideResult || Gate::allows('administer', $poll))
-                                                    <span class="badge float-xs-right result-poll">{{ $option->countVotes() }}</span>
+                                                    <span id="id1{{ $option->id }}" class="badge float-xs-right result-poll">{{ $option->countVotes() }}</span>
                                                 @endif
 
                                                 @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
@@ -149,7 +150,7 @@
                                                             @endif
                                                         @endif
                                                         @if (!$isHideResult || Gate::allows('administer', $poll))
-                                                            <span class="badge result-poll" style="float: right; display: none">{{ $option->countVotes() }}</span>
+                                                            <span id="id2{{ $option->id }}" class="badge result-poll" style="float: right; display: none">{{ $option->countVotes() }}</span>
                                                         @endif
                                                     </div>
                                                     <div class="panel-body" style="height:120px; overflow-y: scroll">
@@ -163,6 +164,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="panel-footer">
                             @if ($isSetIp && (auth()->check() && ! $isUserVoted || $isSetIp && !auth()->check() && ! $isParticipantVoted) || ! $isLimit && ! $poll->isClosed() && ! $isSetIp)
                                 {!! Form::hidden('pollId', $poll->id) !!}
@@ -268,7 +271,8 @@
                                 </h4>
                             </div>
                             <div class="panel-body">
-                                <div class="hide" data-route="{{ url('user/comment') }}" data-confirm-remove="{{ trans('polls.confirmRemove') }}">
+                                <div class="hide" data-route="{{ url('user/comment') }}" data-confirm-remove="{{ trans('polls.confirmRemove') }}"
+                                data-poll-id="{{ $poll->id }}">
                                 </div>
                                 <div class="comments">
                                     @foreach ($poll->comments as $comment)
@@ -318,6 +322,7 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- POLL RESULT -->
                 @if (Session::has('isVotedSuccess') && Session::get('isVotedSuccess'))
                     @php
@@ -366,7 +371,7 @@
                                             </button>
                                         </div>
 
-                                        <div class="modal fade" id="myModal" role="dialog">
+                                        <div class="modal fade model-show-details" id="myModal" role="dialog">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-body scroll-result">
@@ -457,7 +462,7 @@
                                                             <img src="{{ asset($data['image']) }}" width="50px" height="50px" style="float: left">
                                                             <p style="margin-left: 60px; display: block">{{ $data['name'] }}</p>
                                                         </td>
-                                                        <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
+                                                        <td><span id="id3{{ $data['option_id'] }}" class="badge">{{ $data['numberOfVote'] }}</span></td>
                                                     </tr>
                                                 @endforeach
                                                 </tbody>
@@ -467,10 +472,9 @@
                                     <!-- MODEL VOTE CHART-->
                                     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                                     @if ($optionRateBarChart)
-                                        <div class="tab-pane fade" id="pieChart" role="dialog">
+                                        <div class="show-piechart tab-pane fade" id="pieChart" role="dialog">
                                             <div class="col-lg-12">
                                                 <!-- pie chart -->
-
                                                 <script type="text/javascript">
                                                     google.charts.load('current', {'packages':['corechart']});
                                                     google.charts.setOnLoadCallback(drawChart);
@@ -492,7 +496,7 @@
                                     @endif
 
                                     @if ($optionRateBarChart)
-                                    <div class="tab-pane fade" id="barChart" role="dialog">
+                                    <div class="show-barchart tab-pane fade" id="barChart" role="dialog">
                                         <div class="col-lg-12">
                                             <!-- bar chart -->
                                             <script type="text/javascript">
@@ -514,7 +518,6 @@
                                         </div>
                                     </div>
                                     @endif
-
                                 </div>
                             </div>
                         </div>
@@ -528,6 +531,5 @@
             </div>
         </div>
     </div>
-
 </div>
 @endsection

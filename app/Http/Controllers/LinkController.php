@@ -145,6 +145,7 @@ class LinkController extends Controller
         }
 
         $optionRateBarChart = json_encode($optionRateBarChart);
+
         $requiredPassword = null;
         $passwordSetting = $poll->settings->whereIn('key', [config('settings.setting.set_password')])->first();
 

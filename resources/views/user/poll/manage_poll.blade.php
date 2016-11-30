@@ -1,21 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="hide"
-        data-poll="{{ $data['jsonData'] }}"
-        data-poll-id="{{ $poll->id }}" data-route="{{ url('user/poll') }}"
-        data-edit-link-success="{{ trans('polls.edit_link_successfully') }}"
-        data-link="{{ url('link') }}"
-        data-route-link="{{ route('link-poll.store') }}"
-        data-delete-participant="{{ trans('polls.confirm_delete_all_participant') }}"
-        data-close-poll="{{ trans('polls.confirm_close_poll') }}"
-        data-reopen-poll="{{ trans('polls.confirm_reopen_poll') }}"
-        data-url-reopen-poll="{{ url('user/poll') }}"
-        data-token-admin="{{ $tokenLinkAdmin }}"
-        data-token-user="{{ $tokenLinkUser }}">
-    </div>
+<div class="hide"
+    data-poll="{{ $data['jsonData'] }}"
+    data-poll-id="{{ $poll->id }}" data-route="{{ url('user/poll') }}"
+    data-edit-link-success="{{ trans('polls.edit_link_successfully') }}"
+    data-link="{{ url('link') }}"
+    data-route-link="{{ route('link-poll.store') }}"
+    data-delete-participant="{{ trans('polls.confirm_delete_all_participant') }}"
+    data-close-poll="{{ trans('polls.confirm_close_poll') }}"
+    data-reopen-poll="{{ trans('polls.confirm_reopen_poll') }}"
+    data-url-reopen-poll="{{ url('user/poll') }}"
+    data-token-admin="{{ $tokenLinkAdmin }}"
+    data-token-user="{{ $tokenLinkUser }}">
+</div>
+    <script src="https://cdn.socket.io/socket.io-1.3.4.js"></script>
     <div class="container">
         <div class="row">
+        <div class="hide-vote" data-poll-id="{{ $poll->id }}"></div>
             <div class="loader"></div>
             <div id="manager_poll_wizard" class="col-md-10 col-md-offset-1 well wrap-poll">
                 <div class="navbar panel">
@@ -118,11 +120,7 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                         <ul class="nav nav-pills nav-stacked">
-                                            <li class="active"><a data-toggle="tab" href="#home">
-                                                    <i class="fa fa-calculator" aria-hidden="true"></i>
-                                                </a>
-                                            </li>
-                                            <li><a data-toggle="tab" href="#menu1">
+                                            <li class="active"><a data-toggle="tab" href="#menu1">
                                                     <i class="fa fa-table" aria-hidden="true"></i>
                                                 </a>
                                             </li>
@@ -144,53 +142,7 @@
                             </div>
                             <div class="col-md-10">
                                 <div class="tab-content">
-                                    <div class="tab-pane fade in active" id="home">
-                                        <div class="panel panel-default animated fadeInRight" style="border-color: darkcyan; border-radius: 0">
-                                            <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
-                                                {{ trans('polls.statistic') }}
-                                            </div>
-                                            <div class="panel-body">
-                                                <h4>{{ trans('polls.total_vote') }}:
-                                                    <span style="font-family:courier" class="badge">
-                                                    {{ $statistic['total'] }}
-                                                </span>
-                                                </h4>
-                                                @if ($statistic['total'] > config('settings.default_value'))
-                                                    <h4>{{ trans('polls.vote_first_time') }}:
-                                                        <span style="font-family:courier">{{ $statistic['firstTime'] }}</span>
-                                                    </h4>
-                                                    <h4>{{ trans('polls.vote_last_time') }}:
-                                                        <span style="font-family:courier">{{ $statistic['lastTime'] }}</span>
-                                                    </h4>
-                                                    @if ($statistic['largestVote']['number'] > 0 && $statistic['largestVote']['option'])
-                                                        <h4>{{ trans('polls.option_highest_vote') }}:
-                                                            @if (! empty($statistic['largestVote']['option']))
-                                                                @foreach ($statistic['largestVote']['option'] as $largestVote)
-                                                                    <span style="font-family:courier;word-wrap: break-word;">[{{ $largestVote->name }}]</span>
-                                                                    @if (! $loop->last)
-                                                                        ,
-                                                                    @endif
-                                                                @endforeach
-                                                                <span style="font-family:courier;word-wrap: break-word;">({{ $statistic['largestVote']['number'] . ' ' . trans('polls.vote')}})</span>
-                                                            @endif
-                                                        </h4>
-                                                    @endif
-                                                    <h4>{{ trans('polls.option_lowest_vote') }}:
-                                                        @if (! empty($statistic['leastVote']['option']))
-                                                            @foreach ($statistic['leastVote']['option'] as $leastVote )
-                                                                <span style="font-family:courier;word-wrap: break-word;">[{{ $leastVote->name }}]</span>
-                                                                @if (! $loop->last)
-                                                                    ,
-                                                                @endif
-                                                            @endforeach
-                                                            <span style="font-family:courier;word-wrap: break-word;">({{ $statistic['leastVote']['number'] . ' ' . trans('polls.vote')}})</span>
-                                                        @endif
-                                                    </h4>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="menu1">
+                                    <div class="tab-pane fade in active" id="menu1">
                                         <div class="panel panel-default animated fadeInRight" style="border-color: darkcyan; border-radius: 0">
                                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
                                                 {{ trans('polls.table_result') }}
@@ -242,7 +194,7 @@
                                                                     <img src="{{ asset($data['image']) }}" width="50px" height="50px">
                                                                     {{ $data['name'] }}
                                                                 </td>
-                                                                <td><span class="badge">{{ $data['numberOfVote'] }}</span></td>
+                                                                <td><span id="id4{{ $data['option_id'] }}" class="badge">{{ $data['numberOfVote'] }}</span></td>
                                                                 <td>{{ $data['lastVoteDate'] }}</td>
                                                                 <!--  <td>
                                                                      <button type="button" class="btn btn-primary btn-xs">
@@ -257,7 +209,7 @@
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <div class="modal fade" id="myModal" role="dialog">
+                                            <div class="modal fade model-show-details" id="myModal" role="dialog">
                                                 <div class="modal-dialog">
                                                     <div class="modal-content">
                                                         <div class="modal-body scroll-result">
@@ -338,7 +290,7 @@
                                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
                                                 {{ trans('polls.bar_chart') }}
                                             </div>
-                                            <div class="panel-body">
+                                            <div class="show-barchart panel-body">
                                                 @if ($optionRateBarChart)
                                                     <script type="text/javascript">
                                                         google.charts.load('current', {'packages':['corechart']});
@@ -366,7 +318,7 @@
                                             <div class="panel-heading" style="background: darkcyan; color: white; border-radius: 0; border-color: darkcyan">
                                                 {{ trans('polls.pie_chart') }}
                                             </div>
-                                            <div class="panel-body">
+                                            <div class="show-piechart panel-body">
                                                 <!-- pie chart -->
                                                 @if ($optionRateBarChart)
                                                     <script type="text/javascript">

@@ -28,6 +28,7 @@ $(document).ready(function(){
             if (emailVote != '') {
                 if (testEmail.test(emailVote)) {
                     this.disabled = true;
+
                     $('.message-validation').removeClass('alert alert-warning');
                     $('.message-validation').html('');
                     $('#form-vote').submit();

@@ -10,6 +10,10 @@
 | to using a Closure or controller method. Build something great!
 |
 */
+//socket.io demo
+Route::get('socket', 'SocketController@index');
+Route::post('sendmessage', 'SocketController@sendMessage');
+Route::get('writemessage', 'SocketController@writemessage');
 
 //searchable
 Route::get('find', 'SearchController@find');

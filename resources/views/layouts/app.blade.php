@@ -242,6 +242,8 @@
 
     {!! Html::script('js/layout/master.js') !!}
 
+    {!! Html::script('js/voteSocket.js') !!}
+
     <!-- jQuery Datatable JavaScript -->
     {!! Html::script('/bower/datatables.net/js/jquery.dataTables.min.js') !!}
 

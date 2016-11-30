@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\User;
 
 use DB;
+use LRedis;
 use Session;
 use Carbon\Carbon;
 use App\Models\Option;
@@ -59,6 +60,7 @@ class VoteController extends Controller
 
         $inputs = $request->only('option', 'nameVote', 'emailVote', 'pollId', 'isRequiredEmail');
         $poll = $this->pollRepository->findPollById($inputs['pollId']);
+
         $isRequiredEmail = $inputs['isRequiredEmail'];
         $now = Carbon::now();
 
@@ -204,6 +206,97 @@ class VoteController extends Controller
             }
         }
 
+        //use socket.io
+        $redis = LRedis::connection();
+        $redis->publish('message', json_encode([
+            'result' => $poll->countVotesWithOption(),
+            'poll_id' => $poll->id,
+        ]));
+
+        //get data of poll
+        $voteIds = $this->pollRepository->getVoteIds($poll->id);
+        $votes = $this->voteRepository->getVoteWithOptionsByVoteId($voteIds);
+        $participantVoteIds = $this->pollRepository->getParticipantVoteIds($poll->id);
+        $participantVotes = $this->participantVoteRepository->getVoteWithOptionsByVoteId($participantVoteIds);
+        $mergedParticipantVotes = $votes->toBase()->merge($participantVotes->toBase());
+
+        if ($mergedParticipantVotes->count()) {
+            foreach ($mergedParticipantVotes as $mergedParticipantVote) {
+                $createdAt[] = $mergedParticipantVote->first()->created_at;
+            }
+
+            $sortedParticipantVotes = collect($createdAt)->sort();
+            $resultParticipantVotes = collect();
+            foreach ($sortedParticipantVotes as $sortedParticipantVote) {
+                foreach ($mergedParticipantVotes as $mergedParticipantVote) {
+                    foreach ($mergedParticipantVote as $participantVote) {
+                        if ($participantVote->created_at == $sortedParticipantVote) {
+                            $resultParticipantVotes->push($mergedParticipantVote);
+                            break;
+                        }
+
+                    }
+                }
+            }
+            $mergedParticipantVotes = $resultParticipantVotes;
+        }
+
+        $numberOfVote = config('settings.default_value');
+        $html = view('user.poll.vote_details_layouts', [
+            'mergedParticipantVotes' => $mergedParticipantVotes,
+            'numberOfVote' => $numberOfVote,
+            'poll' => $poll,
+        ])->render();
+
+        $result = [
+            'success' => true,
+            'html' => $html,
+            'poll_id' => $poll->id,
+        ];
+
+        //load all vote of this poll
+        $redis = LRedis::connection();
+        $redis->publish('votes', json_encode($result));
+
+        //data for draw chart
+        $optionRatePieChart = [];
+        $optionRateBarChart = [];
+        $totalVote = config('settings.default_value');
+
+        foreach ($poll->options as $option) {
+            $totalVote += $option->countVotes();
+        }
+
+        if ($totalVote) {
+            foreach ($poll->options as $option) {
+                $countOption = $option->countVotes();
+                $optionRatePieChart[$option->name] = (int) ($countOption * 100 / $totalVote);
+                if ($countOption > 0) {
+                    $optionRateBarChart[] = [str_limit($option->name, 40), $countOption];
+                }
+            }
+        } else {
+            $optionRatePieChart = null;
+            $optionRateBarChart = null;
+        }
+
+        $optionRateBarChart = json_encode($optionRateBarChart);
+        $chartResult = [
+            'success' => true,
+            'htmlPieChart' => view('user.poll.piechart_layouts', [
+                'optionRateBarChart' => $optionRateBarChart,
+            ])->render(),
+            'htmlBarChart' => view('user.poll.barchart_layouts', [
+                'optionRateBarChart' => $optionRateBarChart,
+            ])->render(),
+            'poll_id' => $poll->id,
+        ];
+
+        $redis = LRedis::connection();
+        $redis->publish('charts', json_encode($chartResult));
+
+
+        //use for poll with password
         Session::put('isVotedSuccess', true);
 
         return redirect()->to($poll->getUserLink())->with('message', trans('polls.vote_successfully'));
